@@ -84,40 +84,26 @@ namespace AtosFMCG.DatabaseObjects.Documents
                 }
             }
 
-        ///// <summary>Водій</summary>
-        //[DataField(Description = "Водій", ShowInList = true)]
-        //public Drivers Driver
-        //    {
-        //    get
-        //        {
-        //        return (Drivers)GetValueForObjectProperty("Driver");
-        //        }
-        //    set
-        //        {
-        //        SetValueForObjectProperty("Driver", value);
-        //        }
-        //    }
+        /// <summary>Водій</summary>
+        [DataField(Description = "Водій", ShowInList = true)]
+        public Drivers Driver
+            {
+            get
+                {
+                return (Drivers)GetValueForObjectProperty("Driver");
+                }
+            set
+                {
+                SetValueForObjectProperty("Driver", value);
+                }
+            }
 
         /// <summary>Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)</summary>
         [DataField(Description = "Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)", ShowInList = true, StorageType = StorageTypes.Local)]
         public string Info
             {
-            get
-                {
-                return z_Info;
-                }
-            set
-                {
-                if (z_Info == value)
-                    {
-                    return;
-                    }
-
-                z_Info = value;
-                NotifyPropertyChanged("Info");
-                }
+            get { return string.Concat(Responsible.Description, ' ', Date.ToShortDateString()); }
             }
-        private string z_Info = string.Empty;
 
         #region Table Nomeclature
         /// <summary>Номенлатура</summary>

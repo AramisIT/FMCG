@@ -41,20 +41,13 @@ namespace AtosFMCG
         private void AramisMainWindow_Load(object sender, EventArgs e)
             {
             openByAdmnin = SystemAramis.CurrentUser.Ref == CatalogUsers.Admin;
-            UpdateGroup.Visible = openByAdmnin;
+            
+            //Приховати системні (тестові та інш.) групи 
+            updGroup.Visible = openByAdmnin;
+            favGroup.Visible = openByAdmnin;
+            testGroup.Visible = openByAdmnin;
             }
         #endregion
-
-        /// <summary>Відкрити довідник "Користувачі"</summary>
-        private void openUsers_ItemClick(object sender, ItemClickEventArgs e)
-            {
-            UserInterface.Current.ShowList(typeof(Users));
-            }
-
-        private void openRoles_ItemClick(object sender, ItemClickEventArgs e)
-            {
-            UserInterface.Current.ShowList(typeof(Users));
-            }
 
         #region Головна панель
         #region Объекты системы
@@ -69,6 +62,18 @@ namespace AtosFMCG
             {
             UserInterface.Current.ShowObjectSelectingView(AramisObjectType.Document);
             }
+        #endregion
+
+        #region Обране
+        private void openUsers_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(Users));
+            }
+
+        private void openReportsSetting_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(MatrixReports));
+            } 
         #endregion
 
         #region Оновлення

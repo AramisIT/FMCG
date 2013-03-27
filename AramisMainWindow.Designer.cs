@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AramisMainWindow));
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
-            this.openUsers = new DevExpress.XtraBars.BarButtonItem();
             this.smallImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.openCatalogs = new DevExpress.XtraBars.BarButtonItem();
             this.openDocuments = new DevExpress.XtraBars.BarButtonItem();
@@ -44,11 +43,15 @@
             this.barButtonItem11 = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
-            this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.UpdateGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.sysObjects = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.updGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
+            this.favGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.openUsers = new DevExpress.XtraBars.BarButtonItem();
+            this.openReportsSetting = new DevExpress.XtraBars.BarButtonItem();
+            this.testGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).BeginInit();
@@ -73,30 +76,22 @@
             this.barButtonItem8,
             this.FastDBUpdateButton,
             this.barButtonItem11,
-            this.openUsers});
+            this.openUsers,
+            this.openReportsSetting});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 25;
+            this.ribbon.MaxItemId = 27;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.ribbonPage1});
-            this.ribbon.Size = new System.Drawing.Size(970, 147);
+            this.ribbon.Size = new System.Drawing.Size(970, 144);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // applicationMenu1
             // 
-            this.applicationMenu1.ItemLinks.Add(this.openUsers);
             this.applicationMenu1.Name = "applicationMenu1";
             this.applicationMenu1.Ribbon = this.ribbon;
-            // 
-            // openUsers
-            // 
-            this.openUsers.Caption = "Користувачі системи";
-            this.openUsers.Id = 22;
-            this.openUsers.LargeImageIndex = 10;
-            this.openUsers.Name = "openUsers";
-            this.openUsers.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openUsers_ItemClick);
             // 
             // smallImagesCollection
             // 
@@ -183,35 +178,37 @@
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.ribbonPageGroup1,
-            this.UpdateGroup});
+            this.sysObjects,
+            this.favGroup,
+            this.updGroup,
+            this.testGroup});
             this.ribbonPage1.Name = "ribbonPage1";
             this.ribbonPage1.Text = "Головна панель";
             // 
-            // ribbonPageGroup1
+            // sysObjects
             // 
-            this.ribbonPageGroup1.ItemLinks.Add(this.openCatalogs);
-            this.ribbonPageGroup1.ItemLinks.Add(this.openDocuments);
-            this.ribbonPageGroup1.Name = "ribbonPageGroup1";
-            this.ribbonPageGroup1.Text = "Об\'єкти системи";
+            this.sysObjects.ItemLinks.Add(this.openCatalogs);
+            this.sysObjects.ItemLinks.Add(this.openDocuments);
+            this.sysObjects.Name = "sysObjects";
+            this.sysObjects.Text = "Об\'єкти системи";
             // 
-            // UpdateGroup
+            // updGroup
             // 
-            this.UpdateGroup.ItemLinks.Add(this.UpdateDBStructureButton);
-            this.UpdateGroup.ItemLinks.Add(this.FastDBUpdateButton);
-            this.UpdateGroup.ItemLinks.Add(this.barButtonItem5);
-            this.UpdateGroup.ItemLinks.Add(this.barButtonItem8);
-            this.UpdateGroup.ItemLinks.Add(this.barButtonItem11);
-            this.UpdateGroup.Name = "UpdateGroup";
-            this.UpdateGroup.ShowCaptionButton = false;
-            this.UpdateGroup.Text = "Оновлення";
+            this.updGroup.ItemLinks.Add(this.UpdateDBStructureButton);
+            this.updGroup.ItemLinks.Add(this.FastDBUpdateButton);
+            this.updGroup.ItemLinks.Add(this.barButtonItem5);
+            this.updGroup.ItemLinks.Add(this.barButtonItem8);
+            this.updGroup.ItemLinks.Add(this.barButtonItem11);
+            this.updGroup.Name = "updGroup";
+            this.updGroup.ShowCaptionButton = false;
+            this.updGroup.Text = "Оновлення";
             // 
             // ribbonStatusBar
             // 
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 426);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 522);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(970, 23);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(970, 31);
             // 
             // defaultLookAndFeel
             // 
@@ -225,11 +222,39 @@
             this.barButtonItem4.LargeImageIndex = 0;
             this.barButtonItem4.Name = "barButtonItem4";
             // 
+            // favGroup
+            // 
+            this.favGroup.ItemLinks.Add(this.openUsers);
+            this.favGroup.ItemLinks.Add(this.openReportsSetting);
+            this.favGroup.Name = "favGroup";
+            this.favGroup.Text = "Обране";
+            // 
+            // openUsers
+            // 
+            this.openUsers.Caption = "Користувачі системи";
+            this.openUsers.Id = 25;
+            this.openUsers.LargeImageIndex = 10;
+            this.openUsers.Name = "openUsers";
+            this.openUsers.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openUsers_ItemClick);
+            // 
+            // openReportsSetting
+            // 
+            this.openReportsSetting.Caption = "Звіти (налаштування)";
+            this.openReportsSetting.Id = 26;
+            this.openReportsSetting.LargeImageIndex = 31;
+            this.openReportsSetting.Name = "openReportsSetting";
+            this.openReportsSetting.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openReportsSetting_ItemClick);
+            // 
+            // testGroup
+            // 
+            this.testGroup.Name = "testGroup";
+            this.testGroup.Text = "Для тестів";
+            // 
             // AramisMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(970, 449);
+            this.ClientSize = new System.Drawing.Size(970, 553);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -252,7 +277,7 @@
 
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup sysObjects;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar;
         private DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel;
         private DevExpress.Utils.ImageCollection largeImagesCollection;
@@ -263,11 +288,14 @@
         private DevExpress.XtraBars.Ribbon.ApplicationMenu applicationMenu1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
         private DevExpress.XtraBars.BarButtonItem UpdateDBStructureButton;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup UpdateGroup;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup updGroup;
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
         private DevExpress.XtraBars.BarButtonItem barButtonItem8;
         private DevExpress.XtraBars.BarButtonItem FastDBUpdateButton;
         private DevExpress.XtraBars.BarButtonItem barButtonItem11;
         private DevExpress.XtraBars.BarButtonItem openUsers;
+        private DevExpress.XtraBars.BarButtonItem openReportsSetting;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup favGroup;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup testGroup;
         }
     }
