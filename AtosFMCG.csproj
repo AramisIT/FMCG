@@ -30,7 +30,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -81,6 +81,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Aramis.NET\Aramis\bin\Release\Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="Storekeeper Management Server">
+      <HintPath>..\..\GreenHouse\SMS for Lamps\Storekeeper Management Server\bin\Release\Storekeeper Management Server.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -104,16 +107,32 @@
     <Compile Include="DatabaseObjects\Catalogs\Contractors\ContractorsItemsForm.Designer.cs">
       <DependentUpon>ContractorsItemsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseObjects\Catalogs\Cars.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Countries.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Drivers.cs" />
-    <Compile Include="DatabaseObjects\Catalogs\Meaures.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\FilledCell.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\Measures.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Nomenclature.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\TypesOfCell\TypesOfCellItemsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseObjects\Catalogs\TypesOfCell\TypesOfCellItemsForm.Designer.cs">
+      <DependentUpon>TypesOfCellItemsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseObjects\Catalogs\TypesOfCell\TypesOfCell.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Users\Users.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Users\UsersItemForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DatabaseObjects\Catalogs\Users\UsersItemForm.Designer.cs">
       <DependentUpon>UsersItemForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseObjects\Documents\AcceptanceOfGoods\AcceptanceOfGoods.cs" />
+    <Compile Include="DatabaseObjects\Documents\AcceptanceOfGoods\AcceptanceOfGoodsItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseObjects\Documents\AcceptanceOfGoods\AcceptanceOfGoodsItemForm.designer.cs">
+      <DependentUpon>AcceptanceOfGoodsItemForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Documents\PlannedArrival\PlannedArrival.cs" />
     <Compile Include="DatabaseObjects\Documents\PlannedArrival\PlannedArrivalItemForm.cs">
@@ -123,7 +142,15 @@
       <DependentUpon>PlannedArrivalItemForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Interfaces\ISyncWith1C.cs" />
-    <Compile Include="Enums\TypesOfArrival.cs" />
+    <Compile Include="HelperClasses\BarcodeWorker.cs" />
+    <Compile Include="HelperClasses\DCT\ReceiveMessages.cs" />
+    <Compile Include="HelperClasses\DCT\SendToTCD.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperClasses\DCT\SendToTCD.Designer.cs">
+      <DependentUpon>SendToTCD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseObjects\Enums\TypesOfArrival.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIConfigurator.cs" />
@@ -134,12 +161,21 @@
     <EmbeddedResource Include="DatabaseObjects\Catalogs\Contractors\ContractorsItemsForm.resx">
       <DependentUpon>ContractorsItemsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseObjects\Catalogs\TypesOfCell\TypesOfCellItemsForm.resx">
+      <DependentUpon>TypesOfCellItemsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DatabaseObjects\Catalogs\Users\UsersItemForm.resx">
       <DependentUpon>UsersItemForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="DatabaseObjects\Documents\AcceptanceOfGoods\AcceptanceOfGoodsItemForm.resx">
+      <DependentUpon>AcceptanceOfGoodsItemForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DatabaseObjects\Documents\PlannedArrival\PlannedArrivalItemForm.resx">
       <DependentUpon>PlannedArrivalItemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperClasses\DCT\SendToTCD.resx">
+      <DependentUpon>SendToTCD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -171,6 +207,15 @@
   <ItemGroup>
     <None Include="Resources\TrayIcon.ico" />
     <None Include="Resources\1317825614_information-balloon.png" />
+    <None Include="Resources\smallImageCollection\attach.png" />
+    <None Include="Resources\smallImageCollection\battery.png" />
+    <None Include="Resources\smallImageCollection\bug.png" />
+    <None Include="Resources\smallImageCollection\flag_green.png" />
+    <None Include="Resources\smallImageCollection\mail.png" />
+    <None Include="Resources\smallImageCollection\on.png" />
+    <None Include="Resources\smallImageCollection\rights.png" />
+    <None Include="Resources\smallImageCollection\star.png" />
+    <None Include="Resources\smallImageCollection\updDB.png" />
     <Content Include="TraceAramis.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

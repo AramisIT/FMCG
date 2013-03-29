@@ -117,41 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Delete filter" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Delete filter.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TrayIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\TrayIcon.ico;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="1317825614_information-balloon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\1317825614_information-balloon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="attach" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\smallImageCollection\attach.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="battery" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\smallImageCollection\battery.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="bug" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\smallImageCollection\bug.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="flag_green" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\smallImageCollection\flag_green.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="mail" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\smallImageCollection\mail.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="on" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\smallImageCollection\on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="rights" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\smallImageCollection\rights.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="star" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\smallImageCollection\star.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="updDB" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\smallImageCollection\updDB.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="RefreshMapsInfoButton.Glyph" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAAtFJREFUOE+ljG1I
+        01EUxq/DpJJqor1MfJmiKasP5WYww7SGJIIDSchoZab0oTaURFmKfjAtNbUNZmSWgtKappk2TZemRkrS
+        X41S0aVkON+gzGXqrOnp3P8MCoM+dOF37/Oc89yHAMB/wV6hZbMlCPMX6JyP+CK8kHszDsF3Jon41kcS
+        qB5lYQuCS6dkuGA04wCFI2ss6jEAOisyroWkv7ZEn3s6Lz1WPi3BGW9DAR0gOQhTNLwKWcwK5A9agfq8
+        AWvotTc/5Nn93xVFw1aFpMwUKy4e9/6jQHTT6CrWjLVn9y1D2ouvkD+wAlSLVO8ZRCi9b1Je6V5QZ3R9
+        U+W9taiCiseU+IcrLBqxFRzIG5CfqjZNpLZ+hsxuM6Bn8t8ts29A4TA5mD8YgDo3pWOuATP6mCqTFn0k
+        YisQZPVq5U0zi0mNMxBeahxFr0GYdcj+7D6y72pfxPFSowEzQ5jtx3kB3bEFvmldTGLzLMj1U0C1X2YP
+        2ZveLUNKvFI7iWfyc+KX8YrmOjFjxqyZasRWgIHOC/ppc9zjSTPV7knPiFdKB+EjHpfbShCZW6KB5hjM
+        AGaBalrMFvAuNRVEPfjQL9VNDImu9xh4FxsjXBLq6JzCrKPB3ShmIEo3voheS/dsAYYjhTcY7WHdjD5M
+        Z2pAn+sc/yjAKa6G7hhZ2zzQN7z+E2AGRIW9E+jliK1gx9kqrnNCrVLSvKASPPyiOqSbVvPT2pXbz+iE
+        CCN+YgZJywL46OaAau752nb848qNrbYVbDutJY4xld7c+JpYkcGicKtbUnjWL8v9Gi2hW09WMIImC7jU
+        LEGgwQLUIzkIsd8tsBXQw9nlT+yDU3mbYyokezJfSt3KTdH8FmvIpqi7jH/rKrg3W1mEHatAZ4iM/fir
+        AI8jwrfb4iS08xAfsROckHB8wo5ygpK1nMjbzAaCkisx7/l7gQPCRXiI6z+gmZ2EEO5PemQNknGaG1kA
+        AAAASUVORK5CYII=
+</value>
   </data>
 </root>

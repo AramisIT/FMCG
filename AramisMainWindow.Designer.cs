@@ -30,6 +30,9 @@
             {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AramisMainWindow));
+            DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
             this.smallImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
@@ -37,21 +40,23 @@
             this.openDocuments = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             this.UpdateDBStructureButton = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem8 = new DevExpress.XtraBars.BarButtonItem();
+            this.delMarked = new DevExpress.XtraBars.BarButtonItem();
+            this.updateSystem = new DevExpress.XtraBars.BarButtonItem();
             this.FastDBUpdateButton = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem11 = new DevExpress.XtraBars.BarButtonItem();
+            this.openRights = new DevExpress.XtraBars.BarButtonItem();
+            this.openUsers = new DevExpress.XtraBars.BarButtonItem();
+            this.openReportsSetting = new DevExpress.XtraBars.BarButtonItem();
+            this.serverState = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
-            this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
-            this.sysObjects = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.mainPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.sysObjectsGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.favGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.updGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.testGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.dctServerGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
-            this.favGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.openUsers = new DevExpress.XtraBars.BarButtonItem();
-            this.openReportsSetting = new DevExpress.XtraBars.BarButtonItem();
-            this.testGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).BeginInit();
@@ -72,19 +77,20 @@
             this.openDocuments,
             this.barButtonItem2,
             this.UpdateDBStructureButton,
-            this.barButtonItem5,
-            this.barButtonItem8,
+            this.delMarked,
+            this.updateSystem,
             this.FastDBUpdateButton,
-            this.barButtonItem11,
+            this.openRights,
             this.openUsers,
-            this.openReportsSetting});
+            this.openReportsSetting,
+            this.serverState});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 27;
+            this.ribbon.MaxItemId = 29;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
-            this.ribbonPage1});
+            this.mainPage});
             this.ribbon.Size = new System.Drawing.Size(970, 144);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
@@ -96,6 +102,17 @@
             // smallImagesCollection
             // 
             this.smallImagesCollection.ImageStream = ((DevExpress.Utils.ImageCollectionStreamer)(resources.GetObject("smallImagesCollection.ImageStream")));
+            this.smallImagesCollection.Images.SetKeyName(25, "DB.png");
+            this.smallImagesCollection.Images.SetKeyName(26, "updDB.png");
+            this.smallImagesCollection.Images.SetKeyName(27, "attach.png");
+            this.smallImagesCollection.Images.SetKeyName(28, "battery.png");
+            this.smallImagesCollection.Images.SetKeyName(29, "bug.png");
+            this.smallImagesCollection.Images.SetKeyName(30, "flag_green.png");
+            this.smallImagesCollection.Images.SetKeyName(31, "mail.png");
+            this.smallImagesCollection.Images.SetKeyName(32, "on.png");
+            this.smallImagesCollection.Images.SetKeyName(33, "star.png");
+            this.smallImagesCollection.InsertImage(global::AtosFMCG.Properties.Resources.rights, "rights", typeof(global::AtosFMCG.Properties.Resources), 34);
+            this.smallImagesCollection.Images.SetKeyName(34, "rights");
             // 
             // openCatalogs
             // 
@@ -123,36 +140,74 @@
             // 
             this.UpdateDBStructureButton.Caption = "Оновлення БД з формою";
             this.UpdateDBStructureButton.Id = 5;
+            this.UpdateDBStructureButton.ImageIndex = 25;
             this.UpdateDBStructureButton.Name = "UpdateDBStructureButton";
             this.UpdateDBStructureButton.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.UpdateDBStructureButton_ItemClick);
             // 
-            // barButtonItem5
+            // delMarked
             // 
-            this.barButtonItem5.Caption = "Видалення помічених";
-            this.barButtonItem5.Id = 6;
-            this.barButtonItem5.Name = "barButtonItem5";
-            this.barButtonItem5.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openDeleteMarked_ItemClick);
+            this.delMarked.Caption = "Видалення помічених";
+            this.delMarked.Id = 6;
+            this.delMarked.ImageIndex = 4;
+            this.delMarked.Name = "delMarked";
+            this.delMarked.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openDeleteMarked_ItemClick);
             // 
-            // barButtonItem8
+            // updateSystem
             // 
-            this.barButtonItem8.Caption = "Повне оновлення";
-            this.barButtonItem8.Id = 10;
-            this.barButtonItem8.Name = "barButtonItem8";
-            this.barButtonItem8.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openFullUpdate_ItemClick);
+            this.updateSystem.Caption = "Оновлення системи";
+            this.updateSystem.Id = 10;
+            this.updateSystem.ImageIndex = 13;
+            this.updateSystem.Name = "updateSystem";
+            this.updateSystem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openFullUpdate_ItemClick);
             // 
             // FastDBUpdateButton
             // 
-            this.FastDBUpdateButton.Caption = "Онивлення БД без форми";
+            this.FastDBUpdateButton.Caption = "Оновлення БД без форми";
             this.FastDBUpdateButton.Id = 13;
+            this.FastDBUpdateButton.ImageIndex = 25;
             this.FastDBUpdateButton.Name = "FastDBUpdateButton";
             this.FastDBUpdateButton.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.FastDBUpdateButton_ItemClick);
             // 
-            // barButtonItem11
+            // openRights
             // 
-            this.barButtonItem11.Caption = "Права";
-            this.barButtonItem11.Id = 16;
-            this.barButtonItem11.Name = "barButtonItem11";
-            this.barButtonItem11.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openRights_ItemClick);
+            this.openRights.Caption = "Обмеження доступу";
+            this.openRights.Id = 16;
+            this.openRights.ImageIndex = 34;
+            this.openRights.Name = "openRights";
+            this.openRights.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openRights_ItemClick);
+            // 
+            // openUsers
+            // 
+            this.openUsers.Caption = "Користувачі системи";
+            this.openUsers.Id = 25;
+            this.openUsers.LargeImageIndex = 10;
+            this.openUsers.Name = "openUsers";
+            this.openUsers.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openUsers_ItemClick);
+            // 
+            // openReportsSetting
+            // 
+            this.openReportsSetting.Caption = "Звіти (налаштування)";
+            this.openReportsSetting.Id = 26;
+            this.openReportsSetting.LargeImageIndex = 31;
+            this.openReportsSetting.Name = "openReportsSetting";
+            this.openReportsSetting.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openReportsSetting_ItemClick);
+            // 
+            // serverState
+            // 
+            this.serverState.Caption = "Не запущено";
+            this.serverState.Id = 28;
+            this.serverState.LargeImageIndex = 4;
+            this.serverState.Name = "serverState";
+            toolTipTitleItem2.Text = "Сервер не запущено!";
+            toolTipItem2.Appearance.Image = global::AtosFMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem2.Appearance.Options.UseImage = true;
+            toolTipItem2.Image = global::AtosFMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem2.LeftIndent = 6;
+            toolTipItem2.Text = "Сервер роботи з ТЗД не запущено...";
+            superToolTip2.Items.Add(toolTipTitleItem2);
+            superToolTip2.Items.Add(toolTipItem2);
+            this.serverState.SuperTip = superToolTip2;
+            this.serverState.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem1_ItemClick);
             // 
             // largeImagesCollection
             // 
@@ -175,33 +230,52 @@
             this.largeImagesCollection.Images.SetKeyName(31, "stock_task.png");
             this.largeImagesCollection.Images.SetKeyName(32, "1311149276_3d bar chart.png");
             // 
-            // ribbonPage1
+            // mainPage
             // 
-            this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.sysObjects,
+            this.mainPage.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.sysObjectsGroup,
             this.favGroup,
             this.updGroup,
+            this.dctServerGroup,
             this.testGroup});
-            this.ribbonPage1.Name = "ribbonPage1";
-            this.ribbonPage1.Text = "Головна панель";
+            this.mainPage.Name = "mainPage";
+            this.mainPage.Text = "Головна панель";
             // 
-            // sysObjects
+            // sysObjectsGroup
             // 
-            this.sysObjects.ItemLinks.Add(this.openCatalogs);
-            this.sysObjects.ItemLinks.Add(this.openDocuments);
-            this.sysObjects.Name = "sysObjects";
-            this.sysObjects.Text = "Об\'єкти системи";
+            this.sysObjectsGroup.ItemLinks.Add(this.openCatalogs);
+            this.sysObjectsGroup.ItemLinks.Add(this.openDocuments);
+            this.sysObjectsGroup.Name = "sysObjectsGroup";
+            this.sysObjectsGroup.Text = "Об\'єкти системи";
+            // 
+            // favGroup
+            // 
+            this.favGroup.ItemLinks.Add(this.openUsers);
+            this.favGroup.ItemLinks.Add(this.openReportsSetting);
+            this.favGroup.Name = "favGroup";
+            this.favGroup.Text = "Обране";
             // 
             // updGroup
             // 
             this.updGroup.ItemLinks.Add(this.UpdateDBStructureButton);
             this.updGroup.ItemLinks.Add(this.FastDBUpdateButton);
-            this.updGroup.ItemLinks.Add(this.barButtonItem5);
-            this.updGroup.ItemLinks.Add(this.barButtonItem8);
-            this.updGroup.ItemLinks.Add(this.barButtonItem11);
+            this.updGroup.ItemLinks.Add(this.updateSystem);
+            this.updGroup.ItemLinks.Add(this.delMarked);
+            this.updGroup.ItemLinks.Add(this.openRights);
             this.updGroup.Name = "updGroup";
             this.updGroup.ShowCaptionButton = false;
             this.updGroup.Text = "Оновлення";
+            // 
+            // testGroup
+            // 
+            this.testGroup.Name = "testGroup";
+            this.testGroup.Text = "Для тестів";
+            // 
+            // dctServerGroup
+            // 
+            this.dctServerGroup.ItemLinks.Add(this.serverState);
+            this.dctServerGroup.Name = "dctServerGroup";
+            this.dctServerGroup.Text = "ТЗД сервер";
             // 
             // ribbonStatusBar
             // 
@@ -221,34 +295,6 @@
             this.barButtonItem4.ImageIndex = 1;
             this.barButtonItem4.LargeImageIndex = 0;
             this.barButtonItem4.Name = "barButtonItem4";
-            // 
-            // favGroup
-            // 
-            this.favGroup.ItemLinks.Add(this.openUsers);
-            this.favGroup.ItemLinks.Add(this.openReportsSetting);
-            this.favGroup.Name = "favGroup";
-            this.favGroup.Text = "Обране";
-            // 
-            // openUsers
-            // 
-            this.openUsers.Caption = "Користувачі системи";
-            this.openUsers.Id = 25;
-            this.openUsers.LargeImageIndex = 10;
-            this.openUsers.Name = "openUsers";
-            this.openUsers.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openUsers_ItemClick);
-            // 
-            // openReportsSetting
-            // 
-            this.openReportsSetting.Caption = "Звіти (налаштування)";
-            this.openReportsSetting.Id = 26;
-            this.openReportsSetting.LargeImageIndex = 31;
-            this.openReportsSetting.Name = "openReportsSetting";
-            this.openReportsSetting.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openReportsSetting_ItemClick);
-            // 
-            // testGroup
-            // 
-            this.testGroup.Name = "testGroup";
-            this.testGroup.Text = "Для тестів";
             // 
             // AramisMainWindow
             // 
@@ -276,8 +322,8 @@
         #endregion
 
         private DevExpress.XtraBars.Ribbon.RibbonControl ribbon;
-        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup sysObjects;
+        private DevExpress.XtraBars.Ribbon.RibbonPage mainPage;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup sysObjectsGroup;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar ribbonStatusBar;
         private DevExpress.LookAndFeel.DefaultLookAndFeel defaultLookAndFeel;
         private DevExpress.Utils.ImageCollection largeImagesCollection;
@@ -289,13 +335,15 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
         private DevExpress.XtraBars.BarButtonItem UpdateDBStructureButton;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup updGroup;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem5;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem8;
+        private DevExpress.XtraBars.BarButtonItem delMarked;
+        private DevExpress.XtraBars.BarButtonItem updateSystem;
         private DevExpress.XtraBars.BarButtonItem FastDBUpdateButton;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem11;
+        private DevExpress.XtraBars.BarButtonItem openRights;
         private DevExpress.XtraBars.BarButtonItem openUsers;
         private DevExpress.XtraBars.BarButtonItem openReportsSetting;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup favGroup;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup testGroup;
+        private DevExpress.XtraBars.BarButtonItem serverState;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup dctServerGroup;
         }
     }

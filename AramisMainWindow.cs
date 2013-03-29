@@ -1,4 +1,5 @@
 ﻿using System;
+using AtosFMCG.HelperClasses.DCT;
 using Catalogs;
 using DevExpress.XtraBars;
 using Aramis.Platform;
@@ -8,6 +9,7 @@ using DevExpress.LookAndFeel;
 using Aramis.SystemConfigurations;
 using Aramis.UI;
 using Aramis;
+using StorekeeperManagementServer;
 
 namespace AtosFMCG
     {
@@ -16,7 +18,7 @@ namespace AtosFMCG
         {
         #region Властивості
         public Action ShowConnectionTroublesForm { get; set; }
-        public bool AutoStartMode{get;set;}
+        public bool AutoStartMode { get; set; }
         public ImageCollection SmallImagesCollection { get { return smallImagesCollection; } }
         public ImageCollection LargeImagesCollection { get { return largeImagesCollection; } }
         new public UserLookAndFeel LookAndFeel { get { return defaultLookAndFeel.LookAndFeel; } }
@@ -41,11 +43,17 @@ namespace AtosFMCG
         private void AramisMainWindow_Load(object sender, EventArgs e)
             {
             openByAdmnin = SystemAramis.CurrentUser.Ref == CatalogUsers.Admin;
-            
+
             //Приховати системні (тестові та інш.) групи 
             updGroup.Visible = openByAdmnin;
             favGroup.Visible = openByAdmnin;
             testGroup.Visible = openByAdmnin;
+            dctServerGroup.Visible = openByAdmnin;
+
+            if (openByAdmnin)
+                {
+                runSMServer();
+                }
             }
         #endregion
 
@@ -73,7 +81,7 @@ namespace AtosFMCG
         private void openReportsSetting_ItemClick(object sender, ItemClickEventArgs e)
             {
             UserInterface.Current.ShowList(typeof(MatrixReports));
-            } 
+            }
         #endregion
 
         #region Оновлення
@@ -106,7 +114,56 @@ namespace AtosFMCG
             {
             PlatformMethods.ObjectsPermissions();
             }
-        #endregion 
+        #endregion
+        #endregion
+
+        #region Термінал Збіру Даних
+        private InfoForm smServer;
+
+        private void barButtonItem1_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            runSMServer();
+            }
+
+        private void runSMServer()
+            {
+            try
+                {
+                if (smServer == null || !smServer.IsRun)
+                    {
+                    smServer = new InfoForm(ReceiveMessages.ReceiveMessage);
+
+                    if (smServer.IsRun)
+                        {
+                        serverState.Caption = "Запущено!";
+                        serverState.LargeImageIndex = 24;
+                        serverState.SuperTip.Items.Clear();
+                        serverState.SuperTip.Items.Add("Сервер запущено!");
+                        }
+                    else
+                        {
+                        serverState.LargeImageIndex = 22;
+                        serverState.Caption = "Помилка!";
+                        serverState.SuperTip.Items.Clear();
+                        serverState.SuperTip.Items.Add("Сервер не зміг запуститись!");
+                        }
+                    }
+                else if (SystemAramis.CurrentUser.Id == CatalogUsers.Admin.Id)
+                    {
+                    SendToTCD sendForm = new SendToTCD(smServer);
+                    sendForm.Show();
+                    }
+                }
+            catch (Exception exc)
+                {
+                smServer = null;
+                exc.Message.WarningBox();
+                serverState.Caption = "Помилка!";
+                serverState.LargeImageIndex = 22;
+                serverState.SuperTip.Items.Clear();
+                serverState.SuperTip.Items.Add(exc.Message);
+                }
+            }
         #endregion
         }
     }

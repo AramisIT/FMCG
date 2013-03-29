@@ -5,7 +5,7 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
     {
     /// <summary>Одиниці виміру</summary>
     [Catalog(Description = "Одиниці виміру", GUID = "AAA9608E-2F23-4BB5-98C6-78BC782AE4DD")]
-    public class Meaures : CatalogTable
+    public class Measures : CatalogTable
         {
         /// <summary>Номенклатура</summary>
         [DataField(Description = "Номенклатура", ShowInList = true)]

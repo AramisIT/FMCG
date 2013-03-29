@@ -14,8 +14,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
     public class PlannedArrival : DocumentTable
         {
         #region Properties
-        /// <summary>Вхідний номер</summary>
-        [DataField(Description = "Вхідний номер", ShowInList = true)]
+        /// <summary>Вхідний номер/Номер накладної</summary>
+        [DataField(Description = "№ накладної", ShowInList = true, NotEmpty = true)]
         public string IncomeNumber
             {
             get
@@ -57,7 +57,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private TypesOfArrival z_TypeOfArrival;
 
         /// <summary>Контрагент</summary>
-        [DataField(Description = "Контрагент", ShowInList = true)]
+        [DataField(Description = "Контрагент", ShowInList = true, NotEmpty = true, AllowOpenItem = true)]
         public Contractors Contractor
             {
             get
@@ -71,7 +71,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             }
 
         /// <summary>Перевізник</summary>
-        [DataField(Description = "Перевізник", ShowInList = true)]
+        [DataField(Description = "Перевізник", ShowInList = true, AllowOpenItem = true)]
         public Contractors Carrier
             {
             get
@@ -85,7 +85,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             }
 
         /// <summary>Водій</summary>
-        [DataField(Description = "Водій", ShowInList = true)]
+        [DataField(Description = "Водій", ShowInList = true, AllowOpenItem = true)]
         public Drivers Driver
             {
             get
@@ -98,11 +98,25 @@ namespace AtosFMCG.DatabaseObjects.Documents
                 }
             }
 
+        /// <summary>Машина</summary>
+        [DataField(Description = "Машина", ShowInList = true, AllowOpenItem = true)]
+        public Cars Car
+            {
+            get
+                {
+                return (Cars)GetValueForObjectProperty("Car");
+                }
+            set
+                {
+                SetValueForObjectProperty("Car", value);
+                }
+            }
+
         /// <summary>Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)</summary>
         [DataField(Description = "Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)", ShowInList = true, StorageType = StorageTypes.Local)]
         public string Info
             {
-            get { return string.Concat(Responsible.Description, ' ', Date.ToShortDateString()); }
+            get { return string.Concat(Responsible.Description, ' ', Date.ToString()); }
             }
 
         #region Table Nomeclature
@@ -119,7 +133,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         public DataColumn Nomenclature { get; set; }
 
         /// <summary>Од.вим.</summary>
-        [SubTableField(Description = "Од.вим.", PropertyType = typeof(Meaures))]
+        [SubTableField(Description = "Од.вим.", PropertyType = typeof(Measures))]
         public DataColumn NomenclatureMeasure { get; set; }
 
         /// <summary>Дата виробництва</summary>
@@ -153,7 +167,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         public DataColumn Tare { get; set; }
 
         /// <summary>Од.вим.</summary>
-        [SubTableField(Description = "Од.вим.", PropertyType = typeof(Meaures))]
+        [SubTableField(Description = "Од.вим.", PropertyType = typeof(Measures))]
         public DataColumn TareMeasure { get; set; }
 
         /// <summary>Дата виробництва</summary>
@@ -221,7 +235,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             {
             row[TareSum] = (double)row[TareCount] * (double)row[TarePrice];
             }
+        #endregion
 
+        #region Changed
         void PlannedArrival_TableRowChanged(DataTable dataTable, DataColumn currentColumn, DataRow currentRow)
             {
             if (dataTable.Equals(NomenclatureInfo))
@@ -238,7 +254,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
                     fillTareRowData(currentRow);
                     }
                 }
-            }
+            } 
         #endregion
         }
     }
