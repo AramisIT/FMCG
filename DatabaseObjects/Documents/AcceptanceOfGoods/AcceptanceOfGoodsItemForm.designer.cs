@@ -36,8 +36,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.cancel = new DevExpress.XtraBars.BarButtonItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.NomenclatureInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
-            this.TareInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.panelControl = new DevExpress.XtraEditors.PanelControl();
+            this.IncomeDate = new DevExpress.XtraEditors.LabelControl();
+            this.IncomeNumber = new DevExpress.XtraEditors.LabelControl();
             this.Source = new Aramis.AramisSearchLookUpEdit();
             this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
             this.Car = new DevExpress.XtraEditors.LabelControl();
@@ -52,37 +53,32 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.label = new DevExpress.XtraEditors.LabelControl();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.tabControl1 = new DevExpress.XtraTab.XtraTabControl();
-            this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.NomenclatureInfo = new DevExpress.XtraGrid.GridControl();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
-            this.TareInfo = new DevExpress.XtraGrid.GridControl();
-            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.nomenclatureView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.pictureEdit1 = new DevExpress.XtraEditors.PictureEdit();
             this.Info = new DevExpress.XtraEditors.LabelControl();
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
-            this.IncomeNumber = new DevExpress.XtraEditors.LabelControl();
-            this.IncomeDate = new DevExpress.XtraEditors.LabelControl();
+            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.showNomenclature = new DevExpress.XtraEditors.CheckButton();
+            this.showTare = new DevExpress.XtraEditors.CheckButton();
+            this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
             this.panelControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Source.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.State.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tabControl1)).BeginInit();
-            this.tabControl1.SuspendLayout();
-            this.xtraTabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NomenclatureInfo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
-            this.xtraTabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TareInfo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nomenclatureView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
+            this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
+            this.panelControl2.SuspendLayout();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -135,24 +131,16 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.MaxItemId = 18;
             this.ribbon.Name = "ribbon";
             this.ribbon.Size = new System.Drawing.Size(742, 49);
-            this.ribbon.StatusBar = this.TareInfoButtonsBar;
+            this.ribbon.StatusBar = this.ribbonStatusBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
             // 
             // NomenclatureInfoButtonsBar
             // 
-            this.NomenclatureInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.NomenclatureInfoButtonsBar.Location = new System.Drawing.Point(0, 0);
+            this.NomenclatureInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.NomenclatureInfoButtonsBar.Location = new System.Drawing.Point(0, -4);
             this.NomenclatureInfoButtonsBar.Name = "NomenclatureInfoButtonsBar";
             this.NomenclatureInfoButtonsBar.Ribbon = this.ribbon;
-            this.NomenclatureInfoButtonsBar.Size = new System.Drawing.Size(736, 27);
-            // 
-            // TareInfoButtonsBar
-            // 
-            this.TareInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TareInfoButtonsBar.Location = new System.Drawing.Point(0, 0);
-            this.TareInfoButtonsBar.Name = "TareInfoButtonsBar";
-            this.TareInfoButtonsBar.Ribbon = this.ribbon;
-            this.TareInfoButtonsBar.Size = new System.Drawing.Size(832, 27);
+            this.NomenclatureInfoButtonsBar.Size = new System.Drawing.Size(738, 27);
             // 
             // panelControl
             // 
@@ -178,6 +166,24 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl.Name = "panelControl";
             this.panelControl.Size = new System.Drawing.Size(742, 94);
             this.panelControl.TabIndex = 2;
+            // 
+            // IncomeDate
+            // 
+            this.IncomeDate.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.IncomeDate.Location = new System.Drawing.Point(366, 34);
+            this.IncomeDate.Name = "IncomeDate";
+            this.IncomeDate.Size = new System.Drawing.Size(21, 13);
+            this.IncomeDate.TabIndex = 20;
+            this.IncomeDate.Text = "{0}";
+            // 
+            // IncomeNumber
+            // 
+            this.IncomeNumber.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.IncomeNumber.Location = new System.Drawing.Point(99, 34);
+            this.IncomeNumber.Name = "IncomeNumber";
+            this.IncomeNumber.Size = new System.Drawing.Size(21, 13);
+            this.IncomeNumber.TabIndex = 19;
+            this.IncomeNumber.Text = "{0}";
             // 
             // Source
             // 
@@ -304,67 +310,22 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.labelControl1.TabIndex = 0;
             this.labelControl1.Text = "№ накладної";
             // 
-            // tabControl1
-            // 
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 143);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.tabControl1.Size = new System.Drawing.Size(742, 409);
-            this.tabControl1.TabIndex = 3;
-            this.tabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
-            this.xtraTabPage1,
-            this.xtraTabPage2});
-            // 
-            // xtraTabPage1
-            // 
-            this.xtraTabPage1.Controls.Add(this.NomenclatureInfo);
-            this.xtraTabPage1.Controls.Add(this.NomenclatureInfoButtonsBar);
-            this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(736, 381);
-            this.xtraTabPage1.Text = "Номенклатура";
-            // 
             // NomenclatureInfo
             // 
             this.NomenclatureInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NomenclatureInfo.Location = new System.Drawing.Point(0, 27);
-            this.NomenclatureInfo.MainView = this.gridView1;
+            this.NomenclatureInfo.Location = new System.Drawing.Point(2, 44);
+            this.NomenclatureInfo.MainView = this.nomenclatureView;
             this.NomenclatureInfo.MenuManager = this.ribbon;
             this.NomenclatureInfo.Name = "NomenclatureInfo";
-            this.NomenclatureInfo.Size = new System.Drawing.Size(736, 354);
+            this.NomenclatureInfo.Size = new System.Drawing.Size(738, 363);
             this.NomenclatureInfo.TabIndex = 1;
             this.NomenclatureInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1});
+            this.nomenclatureView});
             // 
-            // gridView1
+            // nomenclatureView
             // 
-            this.gridView1.GridControl = this.NomenclatureInfo;
-            this.gridView1.Name = "gridView1";
-            // 
-            // xtraTabPage2
-            // 
-            this.xtraTabPage2.Controls.Add(this.TareInfo);
-            this.xtraTabPage2.Controls.Add(this.TareInfoButtonsBar);
-            this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(832, 341);
-            this.xtraTabPage2.Text = "Тара";
-            // 
-            // TareInfo
-            // 
-            this.TareInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TareInfo.Location = new System.Drawing.Point(0, 27);
-            this.TareInfo.MainView = this.gridView2;
-            this.TareInfo.MenuManager = this.ribbon;
-            this.TareInfo.Name = "TareInfo";
-            this.TareInfo.Size = new System.Drawing.Size(832, 314);
-            this.TareInfo.TabIndex = 3;
-            this.TareInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView2});
-            // 
-            // gridView2
-            // 
-            this.gridView2.GridControl = this.TareInfo;
-            this.gridView2.Name = "gridView2";
+            this.nomenclatureView.GridControl = this.NomenclatureInfo;
+            this.nomenclatureView.Name = "nomenclatureView";
             // 
             // panelControl1
             // 
@@ -425,30 +386,57 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem4.ImageIndex = 1;
             this.barButtonItem4.Name = "barButtonItem4";
             // 
-            // IncomeNumber
+            // groupControl1
             // 
-            this.IncomeNumber.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.IncomeNumber.Location = new System.Drawing.Point(99, 34);
-            this.IncomeNumber.Name = "IncomeNumber";
-            this.IncomeNumber.Size = new System.Drawing.Size(21, 13);
-            this.IncomeNumber.TabIndex = 19;
-            this.IncomeNumber.Text = "{0}";
+            this.groupControl1.Controls.Add(this.NomenclatureInfo);
+            this.groupControl1.Controls.Add(this.panelControl2);
+            this.groupControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupControl1.Location = new System.Drawing.Point(0, 143);
+            this.groupControl1.Name = "groupControl1";
+            this.groupControl1.Size = new System.Drawing.Size(742, 409);
+            this.groupControl1.TabIndex = 21;
+            this.groupControl1.Text = "Номенклатура";
             // 
-            // IncomeDate
+            // showNomenclature
             // 
-            this.IncomeDate.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.IncomeDate.Location = new System.Drawing.Point(366, 34);
-            this.IncomeDate.Name = "IncomeDate";
-            this.IncomeDate.Size = new System.Drawing.Size(21, 13);
-            this.IncomeDate.TabIndex = 20;
-            this.IncomeDate.Text = "{0}";
+            this.showNomenclature.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.showNomenclature.Location = new System.Drawing.Point(562, 0);
+            this.showNomenclature.Name = "showNomenclature";
+            this.showNomenclature.Size = new System.Drawing.Size(88, 23);
+            this.showNomenclature.TabIndex = 4;
+            this.showNomenclature.Text = "Номенклатура";
+            this.showNomenclature.CheckedChanged += new System.EventHandler(this.showNomenclature_CheckedChanged);
+            // 
+            // showTare
+            // 
+            this.showTare.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.showTare.Location = new System.Drawing.Point(658, 0);
+            this.showTare.Name = "showTare";
+            this.showTare.Size = new System.Drawing.Size(75, 23);
+            this.showTare.TabIndex = 3;
+            this.showTare.Text = "Тара";
+            this.showTare.CheckedChanged += new System.EventHandler(this.showTare_CheckedChanged);
+            // 
+            // panelControl2
+            // 
+            this.panelControl2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.panelControl2.Controls.Add(this.showNomenclature);
+            this.panelControl2.Controls.Add(this.showTare);
+            this.panelControl2.Controls.Add(this.NomenclatureInfoButtonsBar);
+            this.panelControl2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelControl2.Location = new System.Drawing.Point(2, 21);
+            this.panelControl2.Name = "panelControl2";
+            this.panelControl2.Size = new System.Drawing.Size(738, 23);
+            this.panelControl2.TabIndex = 6;
             // 
             // AcceptanceOfGoodsItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(742, 603);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.groupControl1);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.panelControl);
             this.Controls.Add(this.ribbonStatusBar);
@@ -465,18 +453,16 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Source.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.State.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tabControl1)).EndInit();
-            this.tabControl1.ResumeLayout(false);
-            this.xtraTabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NomenclatureInfo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
-            this.xtraTabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.TareInfo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nomenclatureView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureEdit1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
+            this.groupControl1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
+            this.panelControl2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -489,17 +475,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
         private DevExpress.XtraBars.BarButtonItem cancel;
         private DevExpress.XtraEditors.PanelControl panelControl;
-        private DevExpress.XtraTab.XtraTabControl tabControl1;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage1;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.LabelControl Info;
-        private DevExpress.XtraBars.Ribbon.RibbonStatusBar TareInfoButtonsBar;
         private DevExpress.XtraGrid.GridControl NomenclatureInfo;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.Views.Grid.GridView nomenclatureView;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar NomenclatureInfoButtonsBar;
-        private DevExpress.XtraGrid.GridControl TareInfo;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem3;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
@@ -520,5 +500,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private DevExpress.XtraEditors.LabelControl labelControl8;
         private DevExpress.XtraEditors.LabelControl IncomeNumber;
         private DevExpress.XtraEditors.LabelControl IncomeDate;
+        private DevExpress.XtraEditors.GroupControl groupControl1;
+        private DevExpress.XtraEditors.CheckButton showNomenclature;
+        private DevExpress.XtraEditors.CheckButton showTare;
+        private DevExpress.XtraEditors.PanelControl panelControl2;
     }
 }

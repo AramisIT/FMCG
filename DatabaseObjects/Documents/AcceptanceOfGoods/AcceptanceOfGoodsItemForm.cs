@@ -4,6 +4,7 @@ using Aramis.Core;
 using Aramis.Enums;
 using Aramis.Attributes;
 using DevExpress.XtraBars;
+using DevExpress.XtraGrid.Columns;
 
 namespace AtosFMCG.DatabaseObjects.Documents
     {
@@ -26,6 +27,24 @@ namespace AtosFMCG.DatabaseObjects.Documents
         public AcceptanceOfGoodsItemForm()
             {
             InitializeComponent();
+            Load += AcceptanceOfGoodsItemForm_Load;
+            }
+
+        void AcceptanceOfGoodsItemForm_Load(object sender, System.EventArgs e)
+            {
+            Document.TableRowAdded += Document_TableRowAdded;
+            }
+
+        void Document_TableRowAdded(System.Data.DataTable dataTable, System.Data.DataRow currentRow)
+            {
+            if(showNomenclature.Checked || showTare.Checked)
+                {
+                skip = true;
+                showTare.Checked = false;
+                showNomenclature.Checked = false;
+                showTareRows(ShownModes.All);
+                skip = false;
+                }
             }
 
         #region Result
@@ -71,6 +90,46 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private void cancel_ItemClick(object sender, ItemClickEventArgs e)
             {
             TryCancel();
+            }
+        #endregion
+
+        #region Change show modes
+        private enum ShownModes{All, Tare, Nomenclature}
+        private bool skip;
+
+        private void showNomenclature_CheckedChanged(object sender, System.EventArgs e)
+            {
+            if (!skip)
+                {
+                skip = true;
+                showTare.Checked = false;
+                showTareRows(showNomenclature.Checked ? ShownModes.Nomenclature : ShownModes.All);
+                skip = false;
+                }
+            }
+
+        private void showTare_CheckedChanged(object sender, System.EventArgs e)
+            {
+            if(!skip)
+                {
+                skip = true;
+                showNomenclature.Checked = false;
+                showTareRows(showTare.Checked ? ShownModes.Tare : ShownModes.All);
+                skip = false;
+                }
+            }
+
+        private void showTareRows(ShownModes mode)
+            {
+            if(mode == ShownModes.All)
+                {
+                nomenclatureView.Columns[Document.IsTare.ColumnName].FilterInfo = new ColumnFilterInfo();
+                }
+            else
+                {
+                string filterExpression = string.Format("[{0}]={1}", Document.IsTare.ColumnName, mode == ShownModes.Tare);
+                nomenclatureView.Columns[Document.IsTare.ColumnName].FilterInfo = new ColumnFilterInfo(filterExpression);
+                }
             }
         #endregion
         }

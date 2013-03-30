@@ -21,6 +21,11 @@ namespace AtosFMCG.HelperClasses.DCT
                         return CheckBarcodeForExistGoods(parameters);
                     case "GetAdditionalInfoAboutAccepnedGoods":
                         return GetAdditionalInfoAboutAccepnedGoods(parameters);
+                case "GetPlaceDataFromCode":
+                        return GetPlaceDataFromCode(parameters);
+                case "SetAcceptanceData":
+                        SetAcceptanceData(parameters);
+                        break;
                 }
 
             return new object[0];
@@ -41,44 +46,38 @@ WHERE a.MarkForDeleting=0 AND a.State=0");
             return new object[] { table };
             }
 
+        private static object[] GetPlaceDataFromCode(IList<object> parameters)
+            {
+            string barcode = parameters[0].ToString();
+            Type type = BarcodeWorker.GetTypeOfData(barcode);
+            long id;
+            bool result = BarcodeWorker.GetPartsFromBarcode(barcode, out id);
+
+            return new object[] {result, type, id};
+            }
+
         #region GetAdditionalInfoAboutAccepnedGoods
-        private static object[] GetAdditionalInfoAboutAccepnedGoods(object[] parameters)
+        /// <summary>Отримати додаткову інформацію по прийманню товару</summary>
+        private static object[] GetAdditionalInfoAboutAccepnedGoods(IList<object> parameters)
             {
             double count = Convert.ToDouble(parameters[0]);
             long goods = Convert.ToInt64(parameters[1]);
             long car = Convert.ToInt64(parameters[2]);
+            long party = Convert.ToInt64(parameters[3]);
             long incomeDoc = getIncomeDoc(count, goods, car);
-            string date = getIncomeDate(incomeDoc, goods);
-            KeyValuePair<long, string> cell = Cells.GetNewCellForGoods(goods);
+            long palett;
+            DateTime date = Party.GetDateOfManufactureById(party);
+            KeyValuePair<long, string> cell;
+            Cells.GetNewCellForGoods(goods, date, out cell, out palett);
 
-            return new object[] { incomeDoc, date, cell.Key, cell.Value };
+            return new object[] {incomeDoc, date, cell.Key, cell.Value, palett};
             }
 
-        private static string getIncomeDate(long incomeDoc, long goods)
-            {
-            if (incomeDoc != 0)
-                {
-                Query query = DB.NewQuery(@"
---DECLARE @Goods	BIGINT=1
---DECLARE @Id		BIGINT=1
-
-SELECT CONVERT(VARCHAR(10),s.NomenclatureDate,104)
-FROM AcceptanceOfGoods a
-JOIN SubAcceptanceOfGoodsNomenclatureInfo s ON s.IdDoc=a.Id
-WHERE Id=@Id AND s.Nomenclature=@Goods");
-                query.AddInputParameter("Id", incomeDoc);
-                query.AddInputParameter("Goods", goods);
-                object o = query.SelectScalar();
-
-                if (o != null)
-                    {
-                    return o.ToString();
-                    }
-                }
-
-            return string.Empty;
-            }
-
+        /// <summary>ІД документу плану приймання</summary>
+        /// <param name="count">Кількість товару</param>
+        /// <param name="goods">ІД товару</param>
+        /// <param name="car">ІД машини</param>
+        /// <returns>ІД документу плану приймання</returns>
         private static long getIncomeDoc(double count, long goods, long car)
             {
             Query query = DB.NewQuery(@"--DECLARE @Goods	BIGINT=1
@@ -143,12 +142,37 @@ LEFT JOIN FactData f ON f.Id=a.Id
         #endregion
         #endregion
 
+        #region Set
+        /// <summary>Зберегти дані по прийманню товару</summary>
+        private static void SetAcceptanceData(IList<object> parameters)
+            {
+            long nomenclature = Convert.ToInt64(parameters[0]);
+            long party = Convert.ToInt64(parameters[1]);
+            long measure = Convert.ToInt64(parameters[2]);
+            //DateTime date = Convert.ToDateTime(parameters[3]);
+            double count = Convert.ToDouble(parameters[4]);
+            long cell = Convert.ToInt64(parameters[5]);
+            long planId = Convert.ToInt64(parameters[6]);
+
+            Query query = DB.NewQuery("EXEC AddRowIntoAcceptanceOfGoods @PlanId,@Nomenclature,@Cell,@Count,@Measure,@Party");
+            query.AddInputParameter("PlanId",planId);
+            query.AddInputParameter("Nomenclature", nomenclature);
+            query.AddInputParameter("Cell",cell);
+            query.AddInputParameter("Count",count);
+            query.AddInputParameter("Measure",measure);
+            query.AddInputParameter("Party",party);
+            query.Execute();
+            }
+        #endregion
+
         #region Check
+        /// <summary>Перевірити чи існує користувач з таким штрих-кодом</summary>
         private static object[] CheckBarcodeForExistUser(IList<object> parameters)
             {
             return new object[] { BarcodeWorker.CheckMatchingBarcodeAndType<Users>(parameters[0]) };
             }
 
+        /// <summary>Перевірити чи існує товар з таким штрих-кодом</summary>
         private static object[] CheckBarcodeForExistGoods(IList<object> parameters)
             {
             long id;

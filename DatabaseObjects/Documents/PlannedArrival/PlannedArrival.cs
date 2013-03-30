@@ -121,7 +121,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
         #region Table Nomeclature
         /// <summary>Номенлатура</summary>
-        [Table(Columns = "Nomenclature, NomenclatureMeasure, NomenclatureDate, NomenclatureCount, NomenclaturePrice, NomenclatureSum", ShowLineNumberColumn = true)]
+        [Table(Columns = "Nomenclature, NomenclatureMeasure, NomenclatureDate, NomenclatureCount, NomenclaturePrice, NomenclatureSum, NomenclatureParty", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенлатура")]
         public DataTable NomenclatureInfo
             {
@@ -151,11 +151,15 @@ namespace AtosFMCG.DatabaseObjects.Documents
         /// <summary>Сума</summary>
         [SubTableField(Description = "Сума", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2, StorageType = StorageTypes.Local)]
         public DataColumn NomenclatureSum { get; set; }
+
+        /// <summary>Партія</summary>
+        [SubTableField(Description = "Партія", PropertyType = typeof(Party))]
+        public DataColumn NomenclatureParty { get; set; }
         #endregion
 
         #region Table Tare
         /// <summary>Номенлатура</summary>
-        [Table(Columns = "Tare, TareMeasure, TareDate, TareCount, TarePrice, TareSum", ShowLineNumberColumn = true)]
+        [Table(Columns = "Tare, TareMeasure, TareDate, TareCount, TarePrice, TareSum, TareParty", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенлатура")]
         public DataTable TareInfo
             {
@@ -185,6 +189,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
         /// <summary>Сума</summary>
         [SubTableField(Description = "Сума", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2, StorageType = StorageTypes.Local)]
         public DataColumn TareSum { get; set; }
+
+        /// <summary>Партія</summary>
+        [SubTableField(Description = "Партія", PropertyType = typeof(Party))]
+        public DataColumn TareParty { get; set; }
         #endregion
         #endregion
 

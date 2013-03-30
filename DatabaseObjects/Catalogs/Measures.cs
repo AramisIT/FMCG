@@ -4,11 +4,11 @@ using Aramis.Core;
 namespace AtosFMCG.DatabaseObjects.Catalogs
     {
     /// <summary>Одиниці виміру</summary>
-    [Catalog(Description = "Одиниці виміру", GUID = "AAA9608E-2F23-4BB5-98C6-78BC782AE4DD")]
+    [Catalog(Description = "Одиниці виміру", GUID = "AAA9608E-2F23-4BB5-98C6-78BC782AE4DD", ShowCodeFieldInForm = false)]
     public class Measures : CatalogTable
         {
-        /// <summary>Номенклатура</summary>
-        [DataField(Description = "Номенклатура", ShowInList = true)]
+        /// <summary>Власник</summary>
+        [DataField(Description = "Власник", ShowInList = true)]
         public Nomenclature Nomenclature
             {
             get
@@ -18,6 +18,20 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
             set
                 {
                 SetValueForObjectProperty("Nomenclature", value);
+                }
+            }
+
+        /// <summary>Номенклатура (тари)</summary>
+        [DataField(Description = "Номенклатура (тари)", ShowInList = true)]
+        public Nomenclature Tare
+            {
+            get
+                {
+                return (Nomenclature)GetValueForObjectProperty("Tare");
+                }
+            set
+                {
+                SetValueForObjectProperty("Tare", value);
                 }
             }
 

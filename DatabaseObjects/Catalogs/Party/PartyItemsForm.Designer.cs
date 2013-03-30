@@ -1,6 +1,6 @@
 ﻿namespace AtosFMCG.DatabaseObjects.Catalogs
 {
-    partial class TypesOfCellItemsForm
+    partial class PartyItemsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TypesOfCellItemsForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PartyItemsForm));
             DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
             DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
             DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
@@ -41,7 +41,6 @@
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.FillProductivity = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
-            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
@@ -52,32 +51,26 @@
             this.barButtonItem10 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem11 = new DevExpress.XtraBars.BarButtonItem();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
-            this.IsVirtual = new DevExpress.XtraEditors.CheckEdit();
-            this.AllowableWeight = new DevExpress.XtraEditors.CalcEdit();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
-            this.Description = new DevExpress.XtraEditors.TextEdit();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
-            this.Width = new DevExpress.XtraEditors.CalcEdit();
-            this.Height = new DevExpress.XtraEditors.CalcEdit();
-            this.Depth = new DevExpress.XtraEditors.CalcEdit();
-            this.labelControl17 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl16 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl15 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl14 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl12 = new DevExpress.XtraEditors.LabelControl();
+            this.Nomenclature = new Aramis.AramisSearchLookUpEdit();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.DateOfManufacture = new DevExpress.XtraEditors.DateEdit();
+            this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
+            this.ShelfLife50P = new DevExpress.XtraEditors.DateEdit();
+            this.TheDeadlineSuitability = new DevExpress.XtraEditors.DateEdit();
+            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
+            this.Description = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.IsVirtual.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AllowableWeight.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Description.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
-            this.groupControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Width.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Height.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Depth.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Nomenclature.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DateOfManufacture.Properties.VistaTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DateOfManufacture.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ShelfLife50P.Properties.VistaTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ShelfLife50P.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TheDeadlineSuitability.Properties.VistaTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TheDeadlineSuitability.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbon
@@ -93,7 +86,7 @@
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 10;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(265, 27);
+            this.ribbon.Size = new System.Drawing.Size(398, 27);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // Ok
@@ -127,10 +120,10 @@
             this.ribbonStatusBar.ItemLinks.Add(this.Ok);
             this.ribbonStatusBar.ItemLinks.Add(this.Write);
             this.ribbonStatusBar.ItemLinks.Add(this.Cancel);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 226);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 173);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(265, 31);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(398, 31);
             // 
             // RefreshMapsInfoButton
             // 
@@ -162,14 +155,6 @@
             this.barButtonItem2.Caption = "barButtonItem2";
             this.barButtonItem2.Id = 3;
             this.barButtonItem2.Name = "barButtonItem2";
-            // 
-            // labelControl4
-            // 
-            this.labelControl4.Location = new System.Drawing.Point(8, 27);
-            this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(40, 13);
-            this.labelControl4.TabIndex = 8;
-            this.labelControl4.Text = "Ширина";
             // 
             // barButtonItem3
             // 
@@ -241,62 +226,21 @@
             // 
             // panelControl1
             // 
+            this.panelControl1.Controls.Add(this.TheDeadlineSuitability);
             this.panelControl1.Controls.Add(this.labelControl3);
-            this.panelControl1.Controls.Add(this.IsVirtual);
-            this.panelControl1.Controls.Add(this.AllowableWeight);
-            this.panelControl1.Controls.Add(this.labelControl2);
+            this.panelControl1.Controls.Add(this.labelControl4);
+            this.panelControl1.Controls.Add(this.labelControl5);
+            this.panelControl1.Controls.Add(this.DateOfManufacture);
+            this.panelControl1.Controls.Add(this.ShelfLife50P);
             this.panelControl1.Controls.Add(this.Description);
+            this.panelControl1.Controls.Add(this.labelControl2);
+            this.panelControl1.Controls.Add(this.Nomenclature);
             this.panelControl1.Controls.Add(this.labelControl1);
-            this.panelControl1.Controls.Add(this.groupControl1);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelControl1.Location = new System.Drawing.Point(0, 27);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(265, 199);
+            this.panelControl1.Size = new System.Drawing.Size(398, 146);
             this.panelControl1.TabIndex = 35;
-            // 
-            // labelControl3
-            // 
-            this.labelControl3.Appearance.ForeColor = System.Drawing.Color.Gray;
-            this.labelControl3.Location = new System.Drawing.Point(236, 37);
-            this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(11, 13);
-            this.labelControl3.TabIndex = 39;
-            this.labelControl3.Text = "гр";
-            // 
-            // IsVirtual
-            // 
-            this.IsVirtual.Location = new System.Drawing.Point(10, 169);
-            this.IsVirtual.MenuManager = this.ribbon;
-            this.IsVirtual.Name = "IsVirtual";
-            this.IsVirtual.Properties.Caption = "Віртуальна комірка";
-            this.IsVirtual.Size = new System.Drawing.Size(241, 19);
-            this.IsVirtual.TabIndex = 41;
-            // 
-            // AllowableWeight
-            // 
-            this.AllowableWeight.Location = new System.Drawing.Point(99, 34);
-            this.AllowableWeight.MenuManager = this.ribbon;
-            this.AllowableWeight.Name = "AllowableWeight";
-            this.AllowableWeight.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.AllowableWeight.Size = new System.Drawing.Size(131, 20);
-            this.AllowableWeight.TabIndex = 40;
-            // 
-            // labelControl2
-            // 
-            this.labelControl2.Location = new System.Drawing.Point(12, 37);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(81, 13);
-            this.labelControl2.TabIndex = 39;
-            this.labelControl2.Text = "Допустима вага";
-            // 
-            // Description
-            // 
-            this.Description.Location = new System.Drawing.Point(99, 8);
-            this.Description.MenuManager = this.ribbon;
-            this.Description.Name = "Description";
-            this.Description.Size = new System.Drawing.Size(153, 20);
-            this.Description.TabIndex = 36;
             // 
             // labelControl1
             // 
@@ -306,116 +250,111 @@
             this.labelControl1.TabIndex = 35;
             this.labelControl1.Text = "Найменування";
             // 
-            // groupControl1
+            // Nomenclature
             // 
-            this.groupControl1.Controls.Add(this.Width);
-            this.groupControl1.Controls.Add(this.Height);
-            this.groupControl1.Controls.Add(this.Depth);
-            this.groupControl1.Controls.Add(this.labelControl17);
-            this.groupControl1.Controls.Add(this.labelControl16);
-            this.groupControl1.Controls.Add(this.labelControl15);
-            this.groupControl1.Controls.Add(this.labelControl14);
-            this.groupControl1.Controls.Add(this.labelControl12);
-            this.groupControl1.Controls.Add(this.labelControl4);
-            this.groupControl1.Location = new System.Drawing.Point(12, 60);
-            this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(240, 103);
-            this.groupControl1.TabIndex = 34;
-            this.groupControl1.Text = "Фізичні розміри";
+            this.Nomenclature.BaseFilter = null;
+            this.Nomenclature.Location = new System.Drawing.Point(118, 34);
+            this.Nomenclature.Name = "Nomenclature";
+            this.Nomenclature.Properties.BaseFilter = null;
+            this.Nomenclature.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(),
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete)});
+            this.Nomenclature.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
+            this.Nomenclature.Properties.NullText = "";
+            this.Nomenclature.Size = new System.Drawing.Size(268, 20);
+            this.Nomenclature.TabIndex = 37;
             // 
-            // Width
+            // labelControl2
             // 
-            this.Width.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.Width.Location = new System.Drawing.Point(56, 24);
-            this.Width.MenuManager = this.ribbon;
-            this.Width.Name = "Width";
-            this.Width.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.labelControl2.Location = new System.Drawing.Point(12, 37);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(73, 13);
+            this.labelControl2.TabIndex = 38;
+            this.labelControl2.Text = "Номенклатура";
+            // 
+            // DateOfManufacture
+            // 
+            this.DateOfManufacture.EditValue = null;
+            this.DateOfManufacture.Location = new System.Drawing.Point(162, 60);
+            this.DateOfManufacture.MenuManager = this.ribbon;
+            this.DateOfManufacture.Name = "DateOfManufacture";
+            this.DateOfManufacture.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.Width.Size = new System.Drawing.Size(162, 20);
-            this.Width.TabIndex = 38;
+            this.DateOfManufacture.Properties.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.DateOfManufacture.Size = new System.Drawing.Size(224, 20);
+            this.DateOfManufacture.TabIndex = 39;
             // 
-            // Height
+            // labelControl3
             // 
-            this.Height.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.Height.Location = new System.Drawing.Point(56, 50);
-            this.Height.MenuManager = this.ribbon;
-            this.Height.Name = "Height";
-            this.Height.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.labelControl3.Location = new System.Drawing.Point(12, 63);
+            this.labelControl3.Name = "labelControl3";
+            this.labelControl3.Size = new System.Drawing.Size(100, 13);
+            this.labelControl3.TabIndex = 40;
+            this.labelControl3.Text = "Дата виготовлення";
+            // 
+            // labelControl4
+            // 
+            this.labelControl4.Location = new System.Drawing.Point(11, 89);
+            this.labelControl4.Name = "labelControl4";
+            this.labelControl4.Size = new System.Drawing.Size(117, 13);
+            this.labelControl4.TabIndex = 41;
+            this.labelControl4.Text = "Термін приданості 50%";
+            // 
+            // ShelfLife50P
+            // 
+            this.ShelfLife50P.EditValue = null;
+            this.ShelfLife50P.Location = new System.Drawing.Point(162, 86);
+            this.ShelfLife50P.MenuManager = this.ribbon;
+            this.ShelfLife50P.Name = "ShelfLife50P";
+            this.ShelfLife50P.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.Height.Size = new System.Drawing.Size(162, 20);
-            this.Height.TabIndex = 37;
+            this.ShelfLife50P.Properties.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.ShelfLife50P.Size = new System.Drawing.Size(224, 20);
+            this.ShelfLife50P.TabIndex = 42;
             // 
-            // Depth
+            // TheDeadlineSuitability
             // 
-            this.Depth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.Depth.Location = new System.Drawing.Point(56, 76);
-            this.Depth.MenuManager = this.ribbon;
-            this.Depth.Name = "Depth";
-            this.Depth.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.TheDeadlineSuitability.EditValue = null;
+            this.TheDeadlineSuitability.Location = new System.Drawing.Point(162, 112);
+            this.TheDeadlineSuitability.MenuManager = this.ribbon;
+            this.TheDeadlineSuitability.Name = "TheDeadlineSuitability";
+            this.TheDeadlineSuitability.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.Depth.Size = new System.Drawing.Size(162, 20);
-            this.Depth.TabIndex = 36;
+            this.TheDeadlineSuitability.Properties.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.TheDeadlineSuitability.Size = new System.Drawing.Size(224, 20);
+            this.TheDeadlineSuitability.TabIndex = 44;
             // 
-            // labelControl17
+            // labelControl5
             // 
-            this.labelControl17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelControl17.Appearance.ForeColor = System.Drawing.Color.Gray;
-            this.labelControl17.Location = new System.Drawing.Point(224, 79);
-            this.labelControl17.Name = "labelControl17";
-            this.labelControl17.Size = new System.Drawing.Size(11, 13);
-            this.labelControl17.TabIndex = 35;
-            this.labelControl17.Text = "см";
+            this.labelControl5.Location = new System.Drawing.Point(11, 115);
+            this.labelControl5.Name = "labelControl5";
+            this.labelControl5.Size = new System.Drawing.Size(145, 13);
+            this.labelControl5.TabIndex = 43;
+            this.labelControl5.Text = "Кінцевий термін придатності";
             // 
-            // labelControl16
+            // Description
             // 
-            this.labelControl16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelControl16.Appearance.ForeColor = System.Drawing.Color.Gray;
-            this.labelControl16.Location = new System.Drawing.Point(224, 53);
-            this.labelControl16.Name = "labelControl16";
-            this.labelControl16.Size = new System.Drawing.Size(11, 13);
-            this.labelControl16.TabIndex = 34;
-            this.labelControl16.Text = "см";
+            this.Description.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
+            this.Description.Location = new System.Drawing.Point(118, 11);
+            this.Description.Name = "Description";
+            this.Description.Size = new System.Drawing.Size(21, 13);
+            this.Description.TabIndex = 45;
+            this.Description.Text = "{0}";
             // 
-            // labelControl15
-            // 
-            this.labelControl15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelControl15.Appearance.ForeColor = System.Drawing.Color.Gray;
-            this.labelControl15.Location = new System.Drawing.Point(224, 27);
-            this.labelControl15.Name = "labelControl15";
-            this.labelControl15.Size = new System.Drawing.Size(11, 13);
-            this.labelControl15.TabIndex = 33;
-            this.labelControl15.Text = "см";
-            // 
-            // labelControl14
-            // 
-            this.labelControl14.Location = new System.Drawing.Point(8, 79);
-            this.labelControl14.Name = "labelControl14";
-            this.labelControl14.Size = new System.Drawing.Size(42, 13);
-            this.labelControl14.TabIndex = 18;
-            this.labelControl14.Text = "Глибина";
-            // 
-            // labelControl12
-            // 
-            this.labelControl12.Location = new System.Drawing.Point(8, 53);
-            this.labelControl12.Name = "labelControl12";
-            this.labelControl12.Size = new System.Drawing.Size(35, 13);
-            this.labelControl12.TabIndex = 16;
-            this.labelControl12.Text = "Висота";
-            // 
-            // TypesOfCellItemsForm
+            // PartyItemsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(265, 257);
+            this.ClientSize = new System.Drawing.Size(398, 204);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.Name = "TypesOfCellItemsForm";
+            this.Name = "PartyItemsForm";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
             this.Text = "ItemsForm";
@@ -423,15 +362,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.IsVirtual.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AllowableWeight.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Description.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
-            this.groupControl1.ResumeLayout(false);
-            this.groupControl1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Width.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Height.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Depth.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Nomenclature.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DateOfManufacture.Properties.VistaTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DateOfManufacture.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ShelfLife50P.Properties.VistaTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ShelfLife50P.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TheDeadlineSuitability.Properties.VistaTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TheDeadlineSuitability.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -444,7 +381,6 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarButtonItem FillProductivity;
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
-        private DevExpress.XtraEditors.LabelControl labelControl4;
         private DevExpress.XtraBars.BarButtonItem Ok;
         private DevExpress.XtraBars.BarButtonItem Write;
         private DevExpress.XtraBars.BarButtonItem Cancel;
@@ -458,20 +394,15 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem10;
         private DevExpress.XtraBars.BarButtonItem barButtonItem11;
         private DevExpress.XtraEditors.PanelControl panelControl1;
-        private DevExpress.XtraEditors.CalcEdit AllowableWeight;
-        private DevExpress.XtraEditors.LabelControl labelControl2;
-        private DevExpress.XtraEditors.TextEdit Description;
         private DevExpress.XtraEditors.LabelControl labelControl1;
-        private DevExpress.XtraEditors.GroupControl groupControl1;
-        private DevExpress.XtraEditors.CalcEdit Width;
-        private DevExpress.XtraEditors.CalcEdit Height;
-        private DevExpress.XtraEditors.CalcEdit Depth;
-        private DevExpress.XtraEditors.LabelControl labelControl17;
-        private DevExpress.XtraEditors.LabelControl labelControl16;
-        private DevExpress.XtraEditors.LabelControl labelControl15;
-        private DevExpress.XtraEditors.LabelControl labelControl14;
-        private DevExpress.XtraEditors.LabelControl labelControl12;
+        private DevExpress.XtraEditors.LabelControl labelControl2;
+        private Aramis.AramisSearchLookUpEdit Nomenclature;
+        private DevExpress.XtraEditors.DateEdit TheDeadlineSuitability;
         private DevExpress.XtraEditors.LabelControl labelControl3;
-        private DevExpress.XtraEditors.CheckEdit IsVirtual;
+        private DevExpress.XtraEditors.LabelControl labelControl4;
+        private DevExpress.XtraEditors.LabelControl labelControl5;
+        private DevExpress.XtraEditors.DateEdit DateOfManufacture;
+        private DevExpress.XtraEditors.DateEdit ShelfLife50P;
+        private DevExpress.XtraEditors.LabelControl Description;
     }
 }

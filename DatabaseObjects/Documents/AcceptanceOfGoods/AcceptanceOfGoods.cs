@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using Aramis.Attributes;
 using Aramis.Core;
+using Aramis.DatabaseConnector;
 using Aramis.Enums;
 using Aramis.Platform;
 using AtosFMCG.DatabaseObjects.Catalogs;
@@ -186,7 +188,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
         #region Table Nomeclature
         /// <summary>Номенлатура</summary>
-        [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureMeasure, NomenclatureDate, NomenclatureCount, NomenclatureCell", ShowLineNumberColumn = true)]
+        [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureDate, NomenclatureCount, NomenclatureCell, IsTare", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенлатура")]
         public DataTable NomenclatureInfo
             {
@@ -194,7 +196,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             }
 
         /// <summary>Код груза</summary>
-        [SubTableField(Description = "Код груза", PropertyType = typeof(long), ReadOnly = true)]
+        [SubTableField(Description = "Код груза", PropertyType = typeof(long))]
         public DataColumn NomenclatureCode { get; set; }
 
         /// <summary>Номенлатура</summary>
@@ -206,7 +208,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         public DataColumn NomenclatureMeasure { get; set; }
 
         /// <summary>Дата виробництва</summary>
-        [SubTableField(Description = "Дата виробництва", PropertyType = typeof(DateTime))]
+        [SubTableField(Description = "Дата виробництва", PropertyType = typeof(DateTime), StorageType = StorageTypes.Local, ReadOnly = true)]
         public DataColumn NomenclatureDate { get; set; }
 
         /// <summary>К-сть</summary>
@@ -216,44 +218,21 @@ namespace AtosFMCG.DatabaseObjects.Documents
         /// <summary>Комірка</summary>
         [SubTableField(Description = "Комірка", PropertyType = typeof(Cells))]
         public DataColumn NomenclatureCell { get; set; }
-        #endregion
 
-        #region Table Tare
-        /// <summary>Номенлатура</summary>
-        [Table(Columns = "TareCode, Tare, TareMeasure, TareDate, TareCount, TareCell", ShowLineNumberColumn = true)]
-        [DataField(Description = "Номенлатура")]
-        public DataTable TareInfo
-            {
-            get { return GetSubtable("TareInfo"); }
-            }
+        /// <summary>Партія</summary>
+        [SubTableField(Description = "Партія", PropertyType = typeof(Party))]
+        public DataColumn NomenclatureParty { get; set; }
 
-        /// <summary>Код тари</summary>
-        [SubTableField(Description = "Код тари", PropertyType = typeof(long), ReadOnly = true)]
-        public DataColumn TareCode { get; set; }
-
-        /// <summary>Номенлатура</summary>
-        [SubTableField(Description = "Номенлатура", PropertyType = typeof(Nomenclature))]
-        public DataColumn Tare { get; set; }
-
-        /// <summary>Од.вим.</summary>
-        [SubTableField(Description = "Од.вим.", PropertyType = typeof(Measures))]
-        public DataColumn TareMeasure { get; set; }
-
-        /// <summary>Дата виробництва</summary>
-        [SubTableField(Description = "Дата виробництва", PropertyType = typeof(DateTime))]
-        public DataColumn TareDate { get; set; }
-
-        /// <summary>К-сть</summary>
-        [SubTableField(Description = "К-сть", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
-        public DataColumn TareCount { get; set; }
-
-        /// <summary>Комірка</summary>
-        [SubTableField(Description = "Комірка", PropertyType = typeof(Cells))]
-        public DataColumn TareCell { get; set; }
+        /// <summary>Тара</summary>
+        [SubTableField(Description = "Тара", PropertyType = typeof(bool), StorageType =  StorageTypes.Local, ReadOnly = true)]
+        public DataColumn IsTare { get; set; }
         #endregion
         #endregion
 
         #region DocumentTable
+        readonly Dictionary<long, bool> tareDic = new Dictionary<long,bool>();
+        readonly Dictionary<long, DateTime> partyDic = new Dictionary<long, DateTime>();
+
         protected override WritingResult CheckingBeforeWriting()
             {
             if (Responsible.Id != SystemAramis.CurrentUser.Id)
@@ -269,8 +248,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
             base.InitItemBeforeShowing();
 
             ValueOfObjectPropertyChanged += AcceptanceOfGoods_ValueOfObjectPropertyChanged;
-
+            TableRowChanged += AcceptanceOfGoods_TableRowChanged;
+            TableRowAdded += AcceptanceOfGoods_TableRowAdded;
             fillSourceData();
+            fillingTare();
             }
         #endregion
 
@@ -284,6 +265,49 @@ namespace AtosFMCG.DatabaseObjects.Documents
             Driver = Source.Driver.Description;
             Car = Source.Car.Description;
             }
+
+        private void fillingTare()
+            {
+            foreach (DataRow row in NomenclatureInfo.Rows)
+                {
+                fillTareInRow(row);
+                fillDateInRow(row);
+                }
+            }
+
+        private void fillTareInRow(DataRow row)
+            {
+            long nomenclatureId = (long) row[Nomenclature];
+
+            if(tareDic.ContainsKey(nomenclatureId))
+                {
+                row[IsTare] = tareDic[nomenclatureId];
+                }
+            else
+                {
+                Nomenclature nomenclature = new Nomenclature();
+                nomenclature.Read(nomenclatureId);
+                tareDic.Add(nomenclatureId, nomenclature.IsTare);
+                row[IsTare] = nomenclature.IsTare;
+                }
+            }
+
+        private void fillDateInRow(DataRow row)
+            {
+            long partyId = (long)row[NomenclatureParty];
+
+            if (partyDic.ContainsKey(partyId))
+                {
+                row[NomenclatureDate] = partyDic[partyId];
+                }
+            else
+                {
+                Party party = new Party();
+                party.Read(partyId);
+                partyDic.Add(partyId, party.DateOfManufacture);
+                row[NomenclatureDate] = party.DateOfManufacture;
+                }
+            }
         #endregion
 
         #region Changed
@@ -296,6 +320,60 @@ namespace AtosFMCG.DatabaseObjects.Documents
                         break;
                 }
             }
+
+        void AcceptanceOfGoods_TableRowAdded(DataTable dataTable, DataRow currentRow)
+            {
+            if(dataTable.Equals(NomenclatureInfo))
+                {
+                //todo: необхідно доопрацювати (?)
+                currentRow[NomenclatureCode] = newCodeNumber;
+                }
+            }
+
+        void AcceptanceOfGoods_TableRowChanged(DataTable dataTable, DataColumn currentColumn, DataRow currentRow)
+            {
+            if(dataTable.Equals(NomenclatureInfo))
+                {
+                if (currentColumn.Equals(Nomenclature))
+                    {
+                    fillTareInRow(currentRow);
+                    }
+                else if(currentColumn.Equals(NomenclatureParty))
+                    {
+                    fillDateInRow(currentRow);
+                    }
+                }
+            }
+        #endregion
+
+        #region newCodeNumber
+        private static long newCodeNumber
+            {
+            get
+                {
+                if(z_NewCodeNumber==0)
+                    {
+                    z_NewCodeNumber = getNewCode();
+                    }
+                else
+                    {
+                    z_NewCodeNumber++;
+                    }
+
+                return z_NewCodeNumber;
+                }
+            }
+        private static long z_NewCodeNumber;
+
+        private static long getNewCode()
+            {
+            Query query = DB.NewQuery(@"SELECT MAX(s.NomenclatureCode)+1 
+FROM AcceptanceOfGoods a
+JOIN SubAcceptanceOfGoodsNomenclatureInfo s ON s.IdDoc=a.Id");
+            object code = query.SelectScalar();
+
+            return code == null ? 1 : Convert.ToInt64(code);
+            } 
         #endregion
         }
     }

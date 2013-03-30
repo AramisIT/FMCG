@@ -9,47 +9,47 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
     public class FilledCell : CatalogTable
         {
         #region Properties
-        /// <summary>ІД комірки</summary>
-        [DataField(Description = "ІД комірки", ShowInList = true, Unique = true)]
-        public long CellId
+        /// <summary>ID коду товару</summary>
+        [DataField(Description = "ID коду товару", ShowInList = true, Unique = true)]
+        public long GoodsCode
             {
             get
                 {
-                return z_CellId;
+                return z_GoodsCode;
                 }
             set
                 {
-                if (z_CellId == value)
+                if (z_GoodsCode == value)
                     {
                     return;
                     }
 
-                z_CellId = value;
-                NotifyPropertyChanged("CellId");
+                z_GoodsCode = value;
+                NotifyPropertyChanged("GoodsCode");
                 }
             }
-        private long z_CellId;
+        private long z_GoodsCode;
 
-        /// <summary>ІД батька</summary>
-        [DataField(Description = "ІД батька", ShowInList = true)]
-        public long ParentCellId
+        /// <summary>ІД батьківського коду товару</summary>
+        [DataField(Description = "ІД батьківського коду товару", ShowInList = true)]
+        public long ParentCode
             {
             get
                 {
-                return z_ParentCellId;
+                return z_ParentCode;
                 }
             set
                 {
-                if (z_ParentCellId == value)
+                if (z_ParentCode == value)
                     {
                     return;
                     }
 
-                z_ParentCellId = value;
-                NotifyPropertyChanged("ParentCellId");
+                z_ParentCode = value;
+                NotifyPropertyChanged("ParentCode");
                 }
             }
-        private long z_ParentCellId;
+        private long z_ParentCode;
         #endregion
         }
     }

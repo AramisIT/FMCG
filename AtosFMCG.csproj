@@ -108,11 +108,18 @@
       <DependentUpon>ContractorsItemsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Catalogs\Cars.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\Party\Party.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Countries.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Drivers.cs" />
     <Compile Include="DatabaseObjects\Catalogs\FilledCell.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Measures.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Nomenclature.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\Party\PartyItemsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseObjects\Catalogs\Party\PartyItemsForm.Designer.cs">
+      <DependentUpon>PartyItemsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseObjects\Catalogs\TypesOfCell\TypesOfCellItemsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -160,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseObjects\Catalogs\Contractors\ContractorsItemsForm.resx">
       <DependentUpon>ContractorsItemsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseObjects\Catalogs\Party\PartyItemsForm.resx">
+      <DependentUpon>PartyItemsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseObjects\Catalogs\TypesOfCell\TypesOfCellItemsForm.resx">
       <DependentUpon>TypesOfCellItemsForm.cs</DependentUpon>

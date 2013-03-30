@@ -9,17 +9,34 @@ namespace AtosFMCG.HelperClasses
     {
     public static class BarcodeWorker
         {
-        private const int MIN_BARCODE_LENGTH = 4;
+        private const int MIN_BARCODE_LENGTH = 2;
         private const string SEPARATOR_TYPE_AND_DATA = "_";
         private static readonly Dictionary<string, Type> prefixes = new Dictionary<string, Type>
                                                                         {
                                                                             {"us", typeof (Users)},
-                                                                            {"nm", typeof (Nomenclature)}
+                                                                            {"nm", typeof (Nomenclature)},
+                                                                            {"cl", typeof (Cells)},
+                                                                            {string.Empty, typeof (long)}
                                                                         };
 
         public static bool Is2DCode(byte[] barcode)
             {
             return true;
+            }
+
+        public static bool GetPartsFromBarcode(string barcode, out long id)
+            {
+            string prefix;
+            string idStr;
+            bool result = GetPartsFromBarcode(barcode, out prefix, out idStr);
+
+            if (result)
+                {
+                return long.TryParse(idStr, out id);
+                }
+
+            id = 0;
+            return false ;
             }
 
         public static bool GetPartsFromBarcode(string barcode, out string prefix, out string id)
@@ -28,7 +45,7 @@ namespace AtosFMCG.HelperClasses
                 {
                 int index = barcode.IndexOf(SEPARATOR_TYPE_AND_DATA);
 
-                if (index > 0)
+                if (index >= 0)
                     {
                     prefix = barcode.Substring(0, index);
                     id = barcode.Substring(index + 1, barcode.Length - prefix.Length - 1);
