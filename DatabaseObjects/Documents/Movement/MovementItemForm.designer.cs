@@ -2,7 +2,7 @@ using Aramis;
 
 namespace AtosFMCG.DatabaseObjects.Documents
 {
-    partial class AcceptanceOfGoodsItemForm
+    partial class MovementItemForm
     {
         /// <summary>
         /// Required designer variable.
@@ -41,14 +41,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.IncomeNumber = new DevExpress.XtraEditors.LabelControl();
             this.Source = new Aramis.AramisSearchLookUpEdit();
             this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
-            this.Car = new DevExpress.XtraEditors.LabelControl();
-            this.Carrier = new DevExpress.XtraEditors.LabelControl();
-            this.Driver = new DevExpress.XtraEditors.LabelControl();
-            this.Contractor = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
-            this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
             this.State = new DevExpress.XtraEditors.ComboBoxEdit();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.label = new DevExpress.XtraEditors.LabelControl();
@@ -131,7 +123,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.MaxItemId = 18;
             this.ribbon.Name = "ribbon";
             this.ribbon.Size = new System.Drawing.Size(742, 54);
-            this.ribbon.StatusBar = this.NomenclatureInfoButtonsBar;
+            this.ribbon.StatusBar = this.ribbonStatusBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
             // 
             // NomenclatureInfoButtonsBar
@@ -149,14 +141,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl.Controls.Add(this.IncomeNumber);
             this.panelControl.Controls.Add(this.Source);
             this.panelControl.Controls.Add(this.labelControl8);
-            this.panelControl.Controls.Add(this.Car);
-            this.panelControl.Controls.Add(this.Carrier);
-            this.panelControl.Controls.Add(this.Driver);
-            this.panelControl.Controls.Add(this.Contractor);
-            this.panelControl.Controls.Add(this.labelControl7);
-            this.panelControl.Controls.Add(this.labelControl6);
-            this.panelControl.Controls.Add(this.labelControl5);
-            this.panelControl.Controls.Add(this.labelControl4);
             this.panelControl.Controls.Add(this.State);
             this.panelControl.Controls.Add(this.labelControl3);
             this.panelControl.Controls.Add(this.label);
@@ -164,7 +148,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl.Location = new System.Drawing.Point(0, 54);
             this.panelControl.Name = "panelControl";
-            this.panelControl.Size = new System.Drawing.Size(742, 94);
+            this.panelControl.Size = new System.Drawing.Size(742, 53);
             this.panelControl.TabIndex = 2;
             // 
             // IncomeDate
@@ -208,74 +192,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.labelControl8.TabIndex = 17;
             this.labelControl8.Text = "Документ-джерело";
             // 
-            // Car
-            // 
-            this.Car.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.Car.Location = new System.Drawing.Point(366, 72);
-            this.Car.Name = "Car";
-            this.Car.Size = new System.Drawing.Size(21, 13);
-            this.Car.TabIndex = 16;
-            this.Car.Text = "{0}";
-            // 
-            // Carrier
-            // 
-            this.Carrier.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.Carrier.Location = new System.Drawing.Point(366, 53);
-            this.Carrier.Name = "Carrier";
-            this.Carrier.Size = new System.Drawing.Size(21, 13);
-            this.Carrier.TabIndex = 15;
-            this.Carrier.Text = "{0}";
-            // 
-            // Driver
-            // 
-            this.Driver.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.Driver.Location = new System.Drawing.Point(99, 72);
-            this.Driver.Name = "Driver";
-            this.Driver.Size = new System.Drawing.Size(21, 13);
-            this.Driver.TabIndex = 14;
-            this.Driver.Text = "{0}";
-            // 
-            // Contractor
-            // 
-            this.Contractor.Appearance.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Bold);
-            this.Contractor.Location = new System.Drawing.Point(99, 53);
-            this.Contractor.Name = "Contractor";
-            this.Contractor.Size = new System.Drawing.Size(21, 13);
-            this.Contractor.TabIndex = 13;
-            this.Contractor.Text = "{0}";
-            // 
-            // labelControl7
-            // 
-            this.labelControl7.Location = new System.Drawing.Point(261, 72);
-            this.labelControl7.Name = "labelControl7";
-            this.labelControl7.Size = new System.Drawing.Size(40, 13);
-            this.labelControl7.TabIndex = 12;
-            this.labelControl7.Text = "Машина";
-            // 
-            // labelControl6
-            // 
-            this.labelControl6.Location = new System.Drawing.Point(10, 72);
-            this.labelControl6.Name = "labelControl6";
-            this.labelControl6.Size = new System.Drawing.Size(27, 13);
-            this.labelControl6.TabIndex = 10;
-            this.labelControl6.Text = "Водій";
-            // 
-            // labelControl5
-            // 
-            this.labelControl5.Location = new System.Drawing.Point(261, 53);
-            this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(56, 13);
-            this.labelControl5.TabIndex = 8;
-            this.labelControl5.Text = "Перевізник";
-            // 
-            // labelControl4
-            // 
-            this.labelControl4.Location = new System.Drawing.Point(10, 53);
-            this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(60, 13);
-            this.labelControl4.TabIndex = 6;
-            this.labelControl4.Text = "Контрагент";
-            // 
             // State
             // 
             this.State.Location = new System.Drawing.Point(99, 8);
@@ -317,7 +233,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.NomenclatureInfo.MainView = this.nomenclatureView;
             this.NomenclatureInfo.MenuManager = this.ribbon;
             this.NomenclatureInfo.Name = "NomenclatureInfo";
-            this.NomenclatureInfo.Size = new System.Drawing.Size(738, 366);
+            this.NomenclatureInfo.Size = new System.Drawing.Size(738, 407);
             this.NomenclatureInfo.TabIndex = 1;
             this.NomenclatureInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.nomenclatureView});
@@ -391,9 +307,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.groupControl1.Controls.Add(this.NomenclatureInfo);
             this.groupControl1.Controls.Add(this.panelControl2);
             this.groupControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl1.Location = new System.Drawing.Point(0, 148);
+            this.groupControl1.Location = new System.Drawing.Point(0, 107);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(742, 412);
+            this.groupControl1.Size = new System.Drawing.Size(742, 453);
             this.groupControl1.TabIndex = 21;
             this.groupControl1.Text = "Номенклатура";
             // 
@@ -431,7 +347,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.showTare.Text = "Тара";
             this.showTare.CheckedChanged += new System.EventHandler(this.showTare_CheckedChanged);
             // 
-            // AcceptanceOfGoodsItemForm
+            // MovementItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -442,7 +358,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
             this.KeyPreview = true;
-            this.Name = "AcceptanceOfGoodsItemForm";
+            this.Name = "MovementItemForm";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
             this.Text = "Item form";
@@ -483,19 +399,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem3;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
-        private DevExpress.XtraEditors.LabelControl labelControl4;
         private DevExpress.XtraEditors.ComboBoxEdit State;
         private DevExpress.XtraEditors.LabelControl labelControl3;
         private DevExpress.XtraEditors.LabelControl label;
         private DevExpress.XtraEditors.LabelControl labelControl1;
-        private DevExpress.XtraEditors.LabelControl labelControl6;
-        private DevExpress.XtraEditors.LabelControl labelControl5;
         private DevExpress.XtraEditors.PictureEdit pictureEdit1;
-        private DevExpress.XtraEditors.LabelControl labelControl7;
-        private DevExpress.XtraEditors.LabelControl Car;
-        private DevExpress.XtraEditors.LabelControl Carrier;
-        private DevExpress.XtraEditors.LabelControl Driver;
-        private DevExpress.XtraEditors.LabelControl Contractor;
         private AramisSearchLookUpEdit Source;
         private DevExpress.XtraEditors.LabelControl labelControl8;
         private DevExpress.XtraEditors.LabelControl IncomeNumber;

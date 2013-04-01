@@ -11,45 +11,45 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
         #region Properties
         /// <summary>ID коду товару</summary>
         [DataField(Description = "ID коду товару", ShowInList = true, Unique = true)]
-        public long GoodsCode
+        public long PalletCode
             {
             get
                 {
-                return z_GoodsCode;
+                return z_PalletCode;
                 }
             set
                 {
-                if (z_GoodsCode == value)
+                if (z_PalletCode == value)
                     {
                     return;
                     }
 
-                z_GoodsCode = value;
-                NotifyPropertyChanged("GoodsCode");
+                z_PalletCode = value;
+                NotifyPropertyChanged("PalletCode");
                 }
             }
-        private long z_GoodsCode;
+        private long z_PalletCode;
 
         /// <summary>ІД батьківського коду товару</summary>
         [DataField(Description = "ІД батьківського коду товару", ShowInList = true)]
-        public long ParentCode
+        public long PreviousCode
             {
             get
                 {
-                return z_ParentCode;
+                return z_PreviousCode;
                 }
             set
                 {
-                if (z_ParentCode == value)
+                if (z_PreviousCode == value)
                     {
                     return;
                     }
 
-                z_ParentCode = value;
-                NotifyPropertyChanged("ParentCode");
+                z_PreviousCode = value;
+                NotifyPropertyChanged("PreviousCode");
                 }
             }
-        private long z_ParentCode;
+        private long z_PreviousCode;
         #endregion
         }
     }

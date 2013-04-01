@@ -136,4 +136,45 @@ namespace AtosFMCG.HelperClasses
             return false;
             }
         }
+
+    /// <summary>Переміщувач паллети</summary>
+    public static class PalletMover
+        {
+        /// <summary>Встановити паллету в комірку (підставити до іншої паллети)</summary>
+        /// <param name="palletCode">Унікальний код палети</param>
+        /// <param name="previous">Унікальний код палети до якої підставиться паллета, що встановлюється</param>
+        public static void EstablishPalletToCell(long palletCode, long previous = 0)
+            {
+            FilledCell filledCell = new FilledCell
+            {
+                PalletCode = palletCode,
+                PreviousCode = previous
+            };
+            filledCell.Write();
+            //Query query = DB.NewQuery("");
+            //query.AddInputParameter("PalletCode", palletCode);
+            //query.AddInputParameter("Previous", previous);
+            //query.Execute();
+            }
+
+        /// <summary>Перемістити паллету</summary>
+        /// <param name="palletCode">Унікальний код паллети</param>
+        /// <param name="newPreviousPallet">Унікальний код палети до якої підставиться паллета, що переміщується</param>
+        public static void MovePalletToNewPlace(long palletCode, long newPreviousPallet = 0)
+            {
+            Query query = DB.NewQuery("UPDATE FilledCell SET PreviousCode=@PreviousCode WHERE PalletCode=@PalletCode");
+            query.AddInputParameter("PreviousCode", newPreviousPallet);
+            query.AddInputParameter("PalletCode", palletCode);
+            query.Execute();
+            }
+
+        /// <summary>Прибрати паллету зі скалду</summary>
+        /// <param name="palletCode">Унікальний код паллети</param>
+        public static void RemovePallet(long palletCode)
+            {
+            Query query = DB.NewQuery("DELETE FROM FilledCell PalletCode=@PalletCode");
+            query.AddInputParameter("PalletCode", palletCode);
+            query.Execute();
+            }
+        }
     }

@@ -26,6 +26,7 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
             } 
         #endregion
 
+        #region Static
         /// <summary>Отримати нову позицію для товару в залежності від дати виготовництва</summary>
         /// <param name="goods">ІД номенклатури товару</param>
         /// <param name="date">Дата виготовництво</param>
@@ -108,7 +109,7 @@ ORDER BY Priority");
             query.AddInputParameter("Date", date.Date);
             QueryResult result = query.SelectRow();
 
-            if(result!=null)
+            if (result != null)
                 {
                 cell = new KeyValuePair<long, string>(Convert.ToInt64(result["NomenclatureCell"]), result["Description"].ToString());
                 palett = Convert.ToInt64(result["GoodsCode"]);
@@ -121,5 +122,6 @@ ORDER BY Priority");
 
             return false;
             }
+        #endregion
         }
     }

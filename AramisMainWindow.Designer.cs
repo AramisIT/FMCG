@@ -30,9 +30,9 @@
             {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AramisMainWindow));
-            DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
-            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
-            DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
+            DevExpress.Utils.SuperToolTip superToolTip3 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem3 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
             this.smallImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
@@ -47,13 +47,17 @@
             this.openUsers = new DevExpress.XtraBars.BarButtonItem();
             this.openReportsSetting = new DevExpress.XtraBars.BarButtonItem();
             this.serverState = new DevExpress.XtraBars.BarButtonItem();
+            this.openStockBalance = new DevExpress.XtraBars.BarButtonItem();
+            this.openGoodsMoving = new DevExpress.XtraBars.BarButtonItem();
+            this.openFilledCell = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.mainPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.sysObjectsGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.favGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.updGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.testGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.dctServerGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.serviceTablesGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.testGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
@@ -83,15 +87,18 @@
             this.openRights,
             this.openUsers,
             this.openReportsSetting,
-            this.serverState});
+            this.serverState,
+            this.openStockBalance,
+            this.openGoodsMoving,
+            this.openFilledCell});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 29;
+            this.ribbon.MaxItemId = 32;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.mainPage});
-            this.ribbon.Size = new System.Drawing.Size(970, 144);
+            this.ribbon.Size = new System.Drawing.Size(970, 147);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // applicationMenu1
@@ -198,16 +205,40 @@
             this.serverState.Id = 28;
             this.serverState.LargeImageIndex = 4;
             this.serverState.Name = "serverState";
-            toolTipTitleItem2.Text = "Сервер не запущено!";
-            toolTipItem2.Appearance.Image = global::AtosFMCG.Properties.Resources._1317825614_information_balloon;
-            toolTipItem2.Appearance.Options.UseImage = true;
-            toolTipItem2.Image = global::AtosFMCG.Properties.Resources._1317825614_information_balloon;
-            toolTipItem2.LeftIndent = 6;
-            toolTipItem2.Text = "Сервер роботи з ТЗД не запущено...";
-            superToolTip2.Items.Add(toolTipTitleItem2);
-            superToolTip2.Items.Add(toolTipItem2);
-            this.serverState.SuperTip = superToolTip2;
+            toolTipTitleItem3.Text = "Сервер не запущено!";
+            toolTipItem3.Appearance.Image = global::AtosFMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem3.Appearance.Options.UseImage = true;
+            toolTipItem3.Image = global::AtosFMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem3.LeftIndent = 6;
+            toolTipItem3.Text = "Сервер роботи з ТЗД не запущено...";
+            superToolTip3.Items.Add(toolTipTitleItem3);
+            superToolTip3.Items.Add(toolTipItem3);
+            this.serverState.SuperTip = superToolTip3;
             this.serverState.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem1_ItemClick);
+            // 
+            // openStockBalance
+            // 
+            this.openStockBalance.Caption = "Залишки на складі";
+            this.openStockBalance.Glyph = global::AtosFMCG.Properties.Resources.storage;
+            this.openStockBalance.Id = 29;
+            this.openStockBalance.Name = "openStockBalance";
+            this.openStockBalance.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openStockBalance_ItemClick);
+            // 
+            // openGoodsMoving
+            // 
+            this.openGoodsMoving.Caption = "Переміщення товару";
+            this.openGoodsMoving.Glyph = global::AtosFMCG.Properties.Resources.move;
+            this.openGoodsMoving.Id = 30;
+            this.openGoodsMoving.Name = "openGoodsMoving";
+            this.openGoodsMoving.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openGoodsMoving_ItemClick);
+            // 
+            // openFilledCell
+            // 
+            this.openFilledCell.Caption = "Розміщення палелт";
+            this.openFilledCell.Glyph = global::AtosFMCG.Properties.Resources.order;
+            this.openFilledCell.Id = 31;
+            this.openFilledCell.Name = "openFilledCell";
+            this.openFilledCell.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openFilledCell_ItemClick);
             // 
             // largeImagesCollection
             // 
@@ -236,6 +267,7 @@
             this.sysObjectsGroup,
             this.favGroup,
             this.updGroup,
+            this.serviceTablesGroup,
             this.dctServerGroup,
             this.testGroup});
             this.mainPage.Name = "mainPage";
@@ -266,23 +298,31 @@
             this.updGroup.ShowCaptionButton = false;
             this.updGroup.Text = "Оновлення";
             // 
-            // testGroup
-            // 
-            this.testGroup.Name = "testGroup";
-            this.testGroup.Text = "Для тестів";
-            // 
             // dctServerGroup
             // 
             this.dctServerGroup.ItemLinks.Add(this.serverState);
             this.dctServerGroup.Name = "dctServerGroup";
             this.dctServerGroup.Text = "ТЗД сервер";
             // 
+            // serviceTablesGroup
+            // 
+            this.serviceTablesGroup.ItemLinks.Add(this.openStockBalance);
+            this.serviceTablesGroup.ItemLinks.Add(this.openGoodsMoving);
+            this.serviceTablesGroup.ItemLinks.Add(this.openFilledCell);
+            this.serviceTablesGroup.Name = "serviceTablesGroup";
+            this.serviceTablesGroup.Text = "Службові таблиці";
+            // 
+            // testGroup
+            // 
+            this.testGroup.Name = "testGroup";
+            this.testGroup.Text = "Для тестів";
+            // 
             // ribbonStatusBar
             // 
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 522);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 530);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(970, 31);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(970, 23);
             // 
             // defaultLookAndFeel
             // 
@@ -345,5 +385,9 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup testGroup;
         private DevExpress.XtraBars.BarButtonItem serverState;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup dctServerGroup;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup serviceTablesGroup;
+        private DevExpress.XtraBars.BarButtonItem openStockBalance;
+        private DevExpress.XtraBars.BarButtonItem openGoodsMoving;
+        private DevExpress.XtraBars.BarButtonItem openFilledCell;
         }
     }

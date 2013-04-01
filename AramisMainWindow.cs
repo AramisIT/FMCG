@@ -1,5 +1,6 @@
 ﻿using System;
 using AtosFMCG.HelperClasses.DCT;
+using AtosFMCG.HelperClasses.ViewOfServiceTables;
 using Catalogs;
 using DevExpress.XtraBars;
 using Aramis.Platform;
@@ -49,6 +50,7 @@ namespace AtosFMCG
             favGroup.Visible = openByAdmnin;
             testGroup.Visible = openByAdmnin;
             dctServerGroup.Visible = openByAdmnin;
+            serviceTablesGroup.Visible = openByAdmnin;
 
             if (openByAdmnin)
                 {
@@ -114,16 +116,6 @@ namespace AtosFMCG
             {
             PlatformMethods.ObjectsPermissions();
             }
-        #endregion
-        #endregion
-
-        #region Термінал Збіру Даних
-        private InfoForm smServer;
-
-        private void barButtonItem1_ItemClick(object sender, ItemClickEventArgs e)
-            {
-            runSMServer();
-            }
 
         private void runSMServer()
             {
@@ -164,6 +156,36 @@ namespace AtosFMCG
                 serverState.SuperTip.Items.Add(exc.Message);
                 }
             }
+        #endregion
+
+        #region Службові таблиці
+        private void openStockBalance_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            ViewOfStockBalance view = new ViewOfStockBalance();
+            view.Show();
+            }
+
+        private void openGoodsMoving_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            ViewOfGoodsMoving view = new ViewOfGoodsMoving();
+            view.Show();
+            }
+
+        private void openFilledCell_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            ViewOfFilledCell view = new ViewOfFilledCell();
+            view.Show();
+            }
+        #endregion
+
+        #region Термінал Збіру Даних
+        private InfoForm smServer;
+
+        private void barButtonItem1_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            runSMServer();
+            }
+        #endregion
         #endregion
         }
     }

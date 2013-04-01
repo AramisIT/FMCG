@@ -51,26 +51,26 @@
             this.barButtonItem10 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem11 = new DevExpress.XtraBars.BarButtonItem();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.Nomenclature = new Aramis.AramisSearchLookUpEdit();
-            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
-            this.DateOfManufacture = new DevExpress.XtraEditors.DateEdit();
+            this.TheDeadlineSuitability = new DevExpress.XtraEditors.DateEdit();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
-            this.ShelfLife50P = new DevExpress.XtraEditors.DateEdit();
-            this.TheDeadlineSuitability = new DevExpress.XtraEditors.DateEdit();
             this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
+            this.DateOfManufacture = new DevExpress.XtraEditors.DateEdit();
+            this.ShelfLife50P = new DevExpress.XtraEditors.DateEdit();
             this.Description = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.Nomenclature = new Aramis.AramisSearchLookUpEdit();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Nomenclature.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TheDeadlineSuitability.Properties.VistaTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TheDeadlineSuitability.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DateOfManufacture.Properties.VistaTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DateOfManufacture.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ShelfLife50P.Properties.VistaTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ShelfLife50P.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TheDeadlineSuitability.Properties.VistaTimeProperties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TheDeadlineSuitability.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Nomenclature.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbon
@@ -86,7 +86,7 @@
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 10;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(398, 27);
+            this.ribbon.Size = new System.Drawing.Size(398, 30);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // Ok
@@ -120,10 +120,10 @@
             this.ribbonStatusBar.ItemLinks.Add(this.Ok);
             this.ribbonStatusBar.ItemLinks.Add(this.Write);
             this.ribbonStatusBar.ItemLinks.Add(this.Cancel);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 173);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 181);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(398, 31);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(398, 23);
             // 
             // RefreshMapsInfoButton
             // 
@@ -237,53 +237,23 @@
             this.panelControl1.Controls.Add(this.Nomenclature);
             this.panelControl1.Controls.Add(this.labelControl1);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl1.Location = new System.Drawing.Point(0, 27);
+            this.panelControl1.Location = new System.Drawing.Point(0, 30);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(398, 146);
+            this.panelControl1.Size = new System.Drawing.Size(398, 151);
             this.panelControl1.TabIndex = 35;
             // 
-            // labelControl1
+            // TheDeadlineSuitability
             // 
-            this.labelControl1.Location = new System.Drawing.Point(12, 11);
-            this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(73, 13);
-            this.labelControl1.TabIndex = 35;
-            this.labelControl1.Text = "Найменування";
-            // 
-            // Nomenclature
-            // 
-            this.Nomenclature.BaseFilter = null;
-            this.Nomenclature.Location = new System.Drawing.Point(118, 34);
-            this.Nomenclature.Name = "Nomenclature";
-            this.Nomenclature.Properties.BaseFilter = null;
-            this.Nomenclature.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete)});
-            this.Nomenclature.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
-            this.Nomenclature.Properties.NullText = "";
-            this.Nomenclature.Size = new System.Drawing.Size(268, 20);
-            this.Nomenclature.TabIndex = 37;
-            // 
-            // labelControl2
-            // 
-            this.labelControl2.Location = new System.Drawing.Point(12, 37);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(73, 13);
-            this.labelControl2.TabIndex = 38;
-            this.labelControl2.Text = "Номенклатура";
-            // 
-            // DateOfManufacture
-            // 
-            this.DateOfManufacture.EditValue = null;
-            this.DateOfManufacture.Location = new System.Drawing.Point(162, 60);
-            this.DateOfManufacture.MenuManager = this.ribbon;
-            this.DateOfManufacture.Name = "DateOfManufacture";
-            this.DateOfManufacture.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.TheDeadlineSuitability.EditValue = null;
+            this.TheDeadlineSuitability.Location = new System.Drawing.Point(162, 112);
+            this.TheDeadlineSuitability.MenuManager = this.ribbon;
+            this.TheDeadlineSuitability.Name = "TheDeadlineSuitability";
+            this.TheDeadlineSuitability.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.DateOfManufacture.Properties.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.TheDeadlineSuitability.Properties.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
-            this.DateOfManufacture.Size = new System.Drawing.Size(224, 20);
-            this.DateOfManufacture.TabIndex = 39;
+            this.TheDeadlineSuitability.Size = new System.Drawing.Size(224, 20);
+            this.TheDeadlineSuitability.TabIndex = 3;
             // 
             // labelControl3
             // 
@@ -301,6 +271,27 @@
             this.labelControl4.TabIndex = 41;
             this.labelControl4.Text = "Термін приданості 50%";
             // 
+            // labelControl5
+            // 
+            this.labelControl5.Location = new System.Drawing.Point(11, 115);
+            this.labelControl5.Name = "labelControl5";
+            this.labelControl5.Size = new System.Drawing.Size(145, 13);
+            this.labelControl5.TabIndex = 43;
+            this.labelControl5.Text = "Кінцевий термін придатності";
+            // 
+            // DateOfManufacture
+            // 
+            this.DateOfManufacture.EditValue = null;
+            this.DateOfManufacture.Location = new System.Drawing.Point(162, 60);
+            this.DateOfManufacture.MenuManager = this.ribbon;
+            this.DateOfManufacture.Name = "DateOfManufacture";
+            this.DateOfManufacture.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.DateOfManufacture.Properties.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.DateOfManufacture.Size = new System.Drawing.Size(224, 20);
+            this.DateOfManufacture.TabIndex = 1;
+            // 
             // ShelfLife50P
             // 
             this.ShelfLife50P.EditValue = null;
@@ -312,28 +303,7 @@
             this.ShelfLife50P.Properties.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
             this.ShelfLife50P.Size = new System.Drawing.Size(224, 20);
-            this.ShelfLife50P.TabIndex = 42;
-            // 
-            // TheDeadlineSuitability
-            // 
-            this.TheDeadlineSuitability.EditValue = null;
-            this.TheDeadlineSuitability.Location = new System.Drawing.Point(162, 112);
-            this.TheDeadlineSuitability.MenuManager = this.ribbon;
-            this.TheDeadlineSuitability.Name = "TheDeadlineSuitability";
-            this.TheDeadlineSuitability.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.TheDeadlineSuitability.Properties.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton()});
-            this.TheDeadlineSuitability.Size = new System.Drawing.Size(224, 20);
-            this.TheDeadlineSuitability.TabIndex = 44;
-            // 
-            // labelControl5
-            // 
-            this.labelControl5.Location = new System.Drawing.Point(11, 115);
-            this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(145, 13);
-            this.labelControl5.TabIndex = 43;
-            this.labelControl5.Text = "Кінцевий термін придатності";
+            this.ShelfLife50P.TabIndex = 2;
             // 
             // Description
             // 
@@ -343,6 +313,36 @@
             this.Description.Size = new System.Drawing.Size(21, 13);
             this.Description.TabIndex = 45;
             this.Description.Text = "{0}";
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Location = new System.Drawing.Point(12, 37);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(73, 13);
+            this.labelControl2.TabIndex = 38;
+            this.labelControl2.Text = "Номенклатура";
+            // 
+            // Nomenclature
+            // 
+            this.Nomenclature.BaseFilter = null;
+            this.Nomenclature.Location = new System.Drawing.Point(118, 34);
+            this.Nomenclature.Name = "Nomenclature";
+            this.Nomenclature.Properties.BaseFilter = null;
+            this.Nomenclature.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(),
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete)});
+            this.Nomenclature.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
+            this.Nomenclature.Properties.NullText = "";
+            this.Nomenclature.Size = new System.Drawing.Size(268, 20);
+            this.Nomenclature.TabIndex = 0;
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Location = new System.Drawing.Point(12, 11);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(73, 13);
+            this.labelControl1.TabIndex = 35;
+            this.labelControl1.Text = "Найменування";
             // 
             // PartyItemsForm
             // 
@@ -362,13 +362,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Nomenclature.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TheDeadlineSuitability.Properties.VistaTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TheDeadlineSuitability.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DateOfManufacture.Properties.VistaTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DateOfManufacture.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ShelfLife50P.Properties.VistaTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ShelfLife50P.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TheDeadlineSuitability.Properties.VistaTimeProperties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TheDeadlineSuitability.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Nomenclature.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -102,7 +102,7 @@
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 10;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(477, 49);
+            this.ribbon.Size = new System.Drawing.Size(477, 54);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // Ok
@@ -136,10 +136,10 @@
             this.ribbonStatusBar.ItemLinks.Add(this.Ok);
             this.ribbonStatusBar.ItemLinks.Add(this.Write);
             this.ribbonStatusBar.ItemLinks.Add(this.Cancel);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 267);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 275);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(477, 31);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(477, 23);
             // 
             // RefreshMapsInfoButton
             // 
@@ -198,7 +198,7 @@
             this.WebSiteControl.Name = "WebSiteControl";
             this.WebSiteControl.Properties.Mask.EditMask = "http://www.[a-zA-Z.-?/]+";
             this.WebSiteControl.Size = new System.Drawing.Size(339, 20);
-            this.WebSiteControl.TabIndex = 21;
+            this.WebSiteControl.TabIndex = 8;
             // 
             // labelControl10
             // 
@@ -227,7 +227,7 @@
             this.HouseControl.MenuManager = this.ribbon;
             this.HouseControl.Name = "HouseControl";
             this.HouseControl.Size = new System.Drawing.Size(57, 20);
-            this.HouseControl.TabIndex = 17;
+            this.HouseControl.TabIndex = 4;
             // 
             // labelControl8
             // 
@@ -245,7 +245,7 @@
             this.StreetControl.MenuManager = this.ribbon;
             this.StreetControl.Name = "StreetControl";
             this.StreetControl.Size = new System.Drawing.Size(184, 20);
-            this.StreetControl.TabIndex = 15;
+            this.StreetControl.TabIndex = 3;
             // 
             // labelControl7
             // 
@@ -306,7 +306,7 @@
             this.DescriptionControl.MenuManager = this.ribbon;
             this.DescriptionControl.Name = "DescriptionControl";
             this.DescriptionControl.Size = new System.Drawing.Size(349, 20);
-            this.DescriptionControl.TabIndex = 1;
+            this.DescriptionControl.TabIndex = 0;
             // 
             // CutNameControl
             // 
@@ -316,7 +316,7 @@
             this.CutNameControl.MenuManager = this.ribbon;
             this.CutNameControl.Name = "CutNameControl";
             this.CutNameControl.Size = new System.Drawing.Size(349, 20);
-            this.CutNameControl.TabIndex = 3;
+            this.CutNameControl.TabIndex = 1;
             // 
             // CityControl
             // 
@@ -332,7 +332,7 @@
             this.CityControl.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
             this.CityControl.Properties.NullText = "";
             this.CityControl.Size = new System.Drawing.Size(405, 20);
-            this.CityControl.TabIndex = 7;
+            this.CityControl.TabIndex = 2;
             // 
             // PhoneControl
             // 
@@ -345,7 +345,7 @@
             this.PhoneControl.Properties.Mask.IgnoreMaskBlank = false;
             this.PhoneControl.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Simple;
             this.PhoneControl.Size = new System.Drawing.Size(405, 20);
-            this.PhoneControl.TabIndex = 11;
+            this.PhoneControl.TabIndex = 6;
             // 
             // FaxControl
             // 
@@ -357,7 +357,7 @@
             this.FaxControl.Properties.Mask.EditMask = "+38 (000) 00-00-000";
             this.FaxControl.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.Simple;
             this.FaxControl.Size = new System.Drawing.Size(405, 20);
-            this.FaxControl.TabIndex = 13;
+            this.FaxControl.TabIndex = 7;
             // 
             // OfficeControl
             // 
@@ -366,7 +366,7 @@
             this.OfficeControl.MenuManager = this.ribbon;
             this.OfficeControl.Name = "OfficeControl";
             this.OfficeControl.Size = new System.Drawing.Size(67, 20);
-            this.OfficeControl.TabIndex = 19;
+            this.OfficeControl.TabIndex = 5;
             // 
             // barButtonItem3
             // 
@@ -462,9 +462,9 @@
             this.panelControl1.Controls.Add(this.labelControl7);
             this.panelControl1.Controls.Add(this.StreetControl);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl1.Location = new System.Drawing.Point(0, 49);
+            this.panelControl1.Location = new System.Drawing.Point(0, 54);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(477, 218);
+            this.panelControl1.Size = new System.Drawing.Size(477, 221);
             this.panelControl1.TabIndex = 35;
             // 
             // panelControl2

@@ -93,7 +93,7 @@
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 10;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(265, 27);
+            this.ribbon.Size = new System.Drawing.Size(265, 30);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // Ok
@@ -127,10 +127,10 @@
             this.ribbonStatusBar.ItemLinks.Add(this.Ok);
             this.ribbonStatusBar.ItemLinks.Add(this.Write);
             this.ribbonStatusBar.ItemLinks.Add(this.Cancel);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 226);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 234);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(265, 31);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(265, 23);
             // 
             // RefreshMapsInfoButton
             // 
@@ -249,9 +249,9 @@
             this.panelControl1.Controls.Add(this.labelControl1);
             this.panelControl1.Controls.Add(this.groupControl1);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl1.Location = new System.Drawing.Point(0, 27);
+            this.panelControl1.Location = new System.Drawing.Point(0, 30);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(265, 199);
+            this.panelControl1.Size = new System.Drawing.Size(265, 204);
             this.panelControl1.TabIndex = 35;
             // 
             // labelControl3
@@ -270,7 +270,7 @@
             this.IsVirtual.Name = "IsVirtual";
             this.IsVirtual.Properties.Caption = "Віртуальна комірка";
             this.IsVirtual.Size = new System.Drawing.Size(241, 19);
-            this.IsVirtual.TabIndex = 41;
+            this.IsVirtual.TabIndex = 2;
             // 
             // AllowableWeight
             // 
@@ -280,7 +280,7 @@
             this.AllowableWeight.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.AllowableWeight.Size = new System.Drawing.Size(131, 20);
-            this.AllowableWeight.TabIndex = 40;
+            this.AllowableWeight.TabIndex = 1;
             // 
             // labelControl2
             // 
@@ -296,7 +296,7 @@
             this.Description.MenuManager = this.ribbon;
             this.Description.Name = "Description";
             this.Description.Size = new System.Drawing.Size(153, 20);
-            this.Description.TabIndex = 36;
+            this.Description.TabIndex = 0;
             // 
             // labelControl1
             // 
@@ -333,7 +333,7 @@
             this.Width.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.Width.Size = new System.Drawing.Size(162, 20);
-            this.Width.TabIndex = 38;
+            this.Width.TabIndex = 0;
             // 
             // Height
             // 
@@ -345,7 +345,7 @@
             this.Height.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.Height.Size = new System.Drawing.Size(162, 20);
-            this.Height.TabIndex = 37;
+            this.Height.TabIndex = 1;
             // 
             // Depth
             // 
@@ -357,7 +357,7 @@
             this.Depth.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.Depth.Size = new System.Drawing.Size(162, 20);
-            this.Depth.TabIndex = 36;
+            this.Depth.TabIndex = 2;
             // 
             // labelControl17
             // 

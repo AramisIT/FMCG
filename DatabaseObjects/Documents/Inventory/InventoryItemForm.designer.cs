@@ -2,7 +2,7 @@ using Aramis;
 
 namespace AtosFMCG.DatabaseObjects.Documents
 {
-    partial class PlannedArrivalItemForm
+    partial class InventoryItemForm
     {
         /// <summary>
         /// Required designer variable.
@@ -35,16 +35,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             this.cancel = new DevExpress.XtraBars.BarButtonItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
-            this.TareInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.NomenclatureInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.panelControl = new DevExpress.XtraEditors.PanelControl();
-            this.Car = new Aramis.AramisSearchLookUpEdit();
-            this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
-            this.Driver = new Aramis.AramisSearchLookUpEdit();
-            this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
-            this.Carrier = new Aramis.AramisSearchLookUpEdit();
-            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
-            this.Contractor = new Aramis.AramisSearchLookUpEdit();
+            this.State = new DevExpress.XtraEditors.ComboBoxEdit();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
             this.TypeOfArrival = new DevExpress.XtraEditors.ComboBoxEdit();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
@@ -52,41 +45,30 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
             this.IncomeNumber = new DevExpress.XtraEditors.TextEdit();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
-            this.tabControl1 = new DevExpress.XtraTab.XtraTabControl();
-            this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.NomenclatureInfo = new DevExpress.XtraGrid.GridControl();
             this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
-            this.TareInfo = new DevExpress.XtraGrid.GridControl();
-            this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.pictureEdit1 = new DevExpress.XtraEditors.PictureEdit();
             this.Info = new DevExpress.XtraEditors.LabelControl();
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
+            this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
             this.panelControl.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Car.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Driver.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Carrier.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Contractor.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.State.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TypeOfArrival.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Date.Properties.VistaTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Date.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.IncomeNumber.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tabControl1)).BeginInit();
-            this.tabControl1.SuspendLayout();
-            this.xtraTabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NomenclatureInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
-            this.xtraTabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.TareInfo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureEdit1.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
+            this.groupControl1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -139,35 +121,20 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.MaxItemId = 18;
             this.ribbon.Name = "ribbon";
             this.ribbon.Size = new System.Drawing.Size(657, 54);
-            this.ribbon.StatusBar = this.NomenclatureInfoButtonsBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
-            // 
-            // TareInfoButtonsBar
-            // 
-            this.TareInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TareInfoButtonsBar.Location = new System.Drawing.Point(0, 0);
-            this.TareInfoButtonsBar.Name = "TareInfoButtonsBar";
-            this.TareInfoButtonsBar.Ribbon = this.ribbon;
-            this.TareInfoButtonsBar.Size = new System.Drawing.Size(652, 23);
             // 
             // NomenclatureInfoButtonsBar
             // 
             this.NomenclatureInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.NomenclatureInfoButtonsBar.Location = new System.Drawing.Point(0, 0);
+            this.NomenclatureInfoButtonsBar.Location = new System.Drawing.Point(2, 21);
             this.NomenclatureInfoButtonsBar.Name = "NomenclatureInfoButtonsBar";
             this.NomenclatureInfoButtonsBar.Ribbon = this.ribbon;
-            this.NomenclatureInfoButtonsBar.Size = new System.Drawing.Size(652, 23);
+            this.NomenclatureInfoButtonsBar.Size = new System.Drawing.Size(653, 23);
             // 
             // panelControl
             // 
             this.panelControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.panelControl.Controls.Add(this.Car);
-            this.panelControl.Controls.Add(this.labelControl7);
-            this.panelControl.Controls.Add(this.Driver);
-            this.panelControl.Controls.Add(this.labelControl6);
-            this.panelControl.Controls.Add(this.Carrier);
-            this.panelControl.Controls.Add(this.labelControl5);
-            this.panelControl.Controls.Add(this.Contractor);
+            this.panelControl.Controls.Add(this.State);
             this.panelControl.Controls.Add(this.labelControl4);
             this.panelControl.Controls.Add(this.TypeOfArrival);
             this.panelControl.Controls.Add(this.labelControl3);
@@ -178,114 +145,40 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl.Location = new System.Drawing.Point(0, 54);
             this.panelControl.Name = "panelControl";
-            this.panelControl.Size = new System.Drawing.Size(657, 84);
-            this.panelControl.TabIndex = 2;
+            this.panelControl.Size = new System.Drawing.Size(657, 61);
+            this.panelControl.TabIndex = 0;
             // 
-            // Car
+            // State
             // 
-            this.Car.BaseFilter = null;
-            this.Car.Location = new System.Drawing.Point(407, 57);
-            this.Car.MenuManager = this.ribbon;
-            this.Car.Name = "Car";
-            this.Car.Properties.BaseFilter = null;
-            this.Car.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete)});
-            this.Car.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
-            this.Car.Properties.NullText = "";
-            this.Car.Size = new System.Drawing.Size(241, 20);
-            this.Car.TabIndex = 6;
-            // 
-            // labelControl7
-            // 
-            this.labelControl7.Location = new System.Drawing.Point(335, 60);
-            this.labelControl7.Name = "labelControl7";
-            this.labelControl7.Size = new System.Drawing.Size(40, 13);
-            this.labelControl7.TabIndex = 12;
-            this.labelControl7.Text = "Машина";
-            // 
-            // Driver
-            // 
-            this.Driver.BaseFilter = null;
-            this.Driver.Location = new System.Drawing.Point(85, 57);
-            this.Driver.MenuManager = this.ribbon;
-            this.Driver.Name = "Driver";
-            this.Driver.Properties.BaseFilter = null;
-            this.Driver.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete)});
-            this.Driver.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
-            this.Driver.Properties.NullText = "";
-            this.Driver.Size = new System.Drawing.Size(246, 20);
-            this.Driver.TabIndex = 3;
-            // 
-            // labelControl6
-            // 
-            this.labelControl6.Location = new System.Drawing.Point(10, 60);
-            this.labelControl6.Name = "labelControl6";
-            this.labelControl6.Size = new System.Drawing.Size(27, 13);
-            this.labelControl6.TabIndex = 10;
-            this.labelControl6.Text = "Водій";
-            // 
-            // Carrier
-            // 
-            this.Carrier.BaseFilter = null;
-            this.Carrier.Location = new System.Drawing.Point(407, 31);
-            this.Carrier.MenuManager = this.ribbon;
-            this.Carrier.Name = "Carrier";
-            this.Carrier.Properties.BaseFilter = null;
-            this.Carrier.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete)});
-            this.Carrier.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
-            this.Carrier.Properties.NullText = "";
-            this.Carrier.Size = new System.Drawing.Size(241, 20);
-            this.Carrier.TabIndex = 5;
-            // 
-            // labelControl5
-            // 
-            this.labelControl5.Location = new System.Drawing.Point(335, 34);
-            this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(56, 13);
-            this.labelControl5.TabIndex = 8;
-            this.labelControl5.Text = "Перевізник";
-            // 
-            // Contractor
-            // 
-            this.Contractor.BaseFilter = null;
-            this.Contractor.Location = new System.Drawing.Point(85, 31);
-            this.Contractor.MenuManager = this.ribbon;
-            this.Contractor.Name = "Contractor";
-            this.Contractor.Properties.BaseFilter = null;
-            this.Contractor.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete)});
-            this.Contractor.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
-            this.Contractor.Properties.NullText = "";
-            this.Contractor.Size = new System.Drawing.Size(246, 20);
-            this.Contractor.TabIndex = 2;
+            this.State.Location = new System.Drawing.Point(85, 31);
+            this.State.MenuManager = this.ribbon;
+            this.State.Name = "State";
+            this.State.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.State.Size = new System.Drawing.Size(132, 20);
+            this.State.TabIndex = 2;
             // 
             // labelControl4
             // 
-            this.labelControl4.Location = new System.Drawing.Point(10, 34);
+            this.labelControl4.Location = new System.Drawing.Point(13, 34);
             this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(60, 13);
+            this.labelControl4.Size = new System.Drawing.Size(25, 13);
             this.labelControl4.TabIndex = 6;
-            this.labelControl4.Text = "Контрагент";
+            this.labelControl4.Text = "Стан";
             // 
             // TypeOfArrival
             // 
-            this.TypeOfArrival.Location = new System.Drawing.Point(407, 5);
+            this.TypeOfArrival.Location = new System.Drawing.Point(295, 31);
             this.TypeOfArrival.MenuManager = this.ribbon;
             this.TypeOfArrival.Name = "TypeOfArrival";
             this.TypeOfArrival.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.TypeOfArrival.Size = new System.Drawing.Size(132, 20);
-            this.TypeOfArrival.TabIndex = 4;
+            this.TypeOfArrival.TabIndex = 3;
             // 
             // labelControl3
             // 
-            this.labelControl3.Location = new System.Drawing.Point(335, 8);
+            this.labelControl3.Location = new System.Drawing.Point(223, 34);
             this.labelControl3.Name = "labelControl3";
             this.labelControl3.Size = new System.Drawing.Size(64, 13);
             this.labelControl3.TabIndex = 4;
@@ -294,19 +187,19 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // Date
             // 
             this.Date.EditValue = null;
-            this.Date.Location = new System.Drawing.Point(231, 5);
+            this.Date.Location = new System.Drawing.Point(295, 5);
             this.Date.MenuManager = this.ribbon;
             this.Date.Name = "Date";
             this.Date.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.Date.Properties.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
-            this.Date.Size = new System.Drawing.Size(100, 20);
+            this.Date.Size = new System.Drawing.Size(132, 20);
             this.Date.TabIndex = 1;
             // 
             // labelControl2
             // 
-            this.labelControl2.Location = new System.Drawing.Point(196, 8);
+            this.labelControl2.Location = new System.Drawing.Point(223, 8);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(29, 13);
             this.labelControl2.TabIndex = 2;
@@ -317,7 +210,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.IncomeNumber.Location = new System.Drawing.Point(85, 5);
             this.IncomeNumber.MenuManager = this.ribbon;
             this.IncomeNumber.Name = "IncomeNumber";
-            this.IncomeNumber.Size = new System.Drawing.Size(105, 20);
+            this.IncomeNumber.Size = new System.Drawing.Size(132, 20);
             this.IncomeNumber.TabIndex = 0;
             // 
             // labelControl1
@@ -328,34 +221,14 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.labelControl1.TabIndex = 0;
             this.labelControl1.Text = "№ накладної";
             // 
-            // tabControl1
-            // 
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl1.Location = new System.Drawing.Point(0, 138);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedTabPage = this.xtraTabPage1;
-            this.tabControl1.Size = new System.Drawing.Size(657, 327);
-            this.tabControl1.TabIndex = 3;
-            this.tabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
-            this.xtraTabPage1,
-            this.xtraTabPage2});
-            // 
-            // xtraTabPage1
-            // 
-            this.xtraTabPage1.Controls.Add(this.NomenclatureInfo);
-            this.xtraTabPage1.Controls.Add(this.NomenclatureInfoButtonsBar);
-            this.xtraTabPage1.Name = "xtraTabPage1";
-            this.xtraTabPage1.Size = new System.Drawing.Size(652, 301);
-            this.xtraTabPage1.Text = "Номенклатура";
-            // 
             // NomenclatureInfo
             // 
             this.NomenclatureInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NomenclatureInfo.Location = new System.Drawing.Point(0, 23);
+            this.NomenclatureInfo.Location = new System.Drawing.Point(2, 44);
             this.NomenclatureInfo.MainView = this.gridView1;
             this.NomenclatureInfo.MenuManager = this.ribbon;
             this.NomenclatureInfo.Name = "NomenclatureInfo";
-            this.NomenclatureInfo.Size = new System.Drawing.Size(652, 278);
+            this.NomenclatureInfo.Size = new System.Drawing.Size(653, 304);
             this.NomenclatureInfo.TabIndex = 1;
             this.NomenclatureInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridView1});
@@ -364,31 +237,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.gridView1.GridControl = this.NomenclatureInfo;
             this.gridView1.Name = "gridView1";
-            // 
-            // xtraTabPage2
-            // 
-            this.xtraTabPage2.Controls.Add(this.TareInfo);
-            this.xtraTabPage2.Controls.Add(this.TareInfoButtonsBar);
-            this.xtraTabPage2.Name = "xtraTabPage2";
-            this.xtraTabPage2.Size = new System.Drawing.Size(652, 298);
-            this.xtraTabPage2.Text = "Тара";
-            // 
-            // TareInfo
-            // 
-            this.TareInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.TareInfo.Location = new System.Drawing.Point(0, 23);
-            this.TareInfo.MainView = this.gridView2;
-            this.TareInfo.MenuManager = this.ribbon;
-            this.TareInfo.Name = "TareInfo";
-            this.TareInfo.Size = new System.Drawing.Size(652, 275);
-            this.TareInfo.TabIndex = 3;
-            this.TareInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView2});
-            // 
-            // gridView2
-            // 
-            this.gridView2.GridControl = this.TareInfo;
-            this.gridView2.Name = "gridView2";
             // 
             // panelControl1
             // 
@@ -449,18 +297,29 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem4.ImageIndex = 1;
             this.barButtonItem4.Name = "barButtonItem4";
             // 
-            // PlannedArrivalItemForm
+            // groupControl1
+            // 
+            this.groupControl1.Controls.Add(this.NomenclatureInfo);
+            this.groupControl1.Controls.Add(this.NomenclatureInfoButtonsBar);
+            this.groupControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupControl1.Location = new System.Drawing.Point(0, 115);
+            this.groupControl1.Name = "groupControl1";
+            this.groupControl1.Size = new System.Drawing.Size(657, 350);
+            this.groupControl1.TabIndex = 7;
+            this.groupControl1.Text = "Номенклатура";
+            // 
+            // InventoryItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(657, 508);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.groupControl1);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.panelControl);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
             this.KeyPreview = true;
-            this.Name = "PlannedArrivalItemForm";
+            this.Name = "InventoryItemForm";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
             this.Text = "Item form";
@@ -469,26 +328,19 @@ namespace AtosFMCG.DatabaseObjects.Documents
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).EndInit();
             this.panelControl.ResumeLayout(false);
             this.panelControl.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Car.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Driver.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Carrier.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Contractor.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.State.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TypeOfArrival.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Date.Properties.VistaTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Date.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.IncomeNumber.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tabControl1)).EndInit();
-            this.tabControl1.ResumeLayout(false);
-            this.xtraTabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NomenclatureInfo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
-            this.xtraTabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.TareInfo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureEdit1.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
+            this.groupControl1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -501,34 +353,23 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
         private DevExpress.XtraBars.BarButtonItem cancel;
         private DevExpress.XtraEditors.PanelControl panelControl;
-        private DevExpress.XtraTab.XtraTabControl tabControl1;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage1;
-        private DevExpress.XtraTab.XtraTabPage xtraTabPage2;
         private DevExpress.XtraEditors.PanelControl panelControl1;
         private DevExpress.XtraEditors.LabelControl Info;
-        private DevExpress.XtraBars.Ribbon.RibbonStatusBar TareInfoButtonsBar;
         private DevExpress.XtraGrid.GridControl NomenclatureInfo;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar NomenclatureInfoButtonsBar;
-        private DevExpress.XtraGrid.GridControl TareInfo;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView2;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem3;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
-        private Aramis.AramisSearchLookUpEdit Contractor;
-        private DevExpress.XtraEditors.LabelControl labelControl4;
         private DevExpress.XtraEditors.ComboBoxEdit TypeOfArrival;
         private DevExpress.XtraEditors.LabelControl labelControl3;
         private DevExpress.XtraEditors.DateEdit Date;
         private DevExpress.XtraEditors.LabelControl labelControl2;
         private DevExpress.XtraEditors.TextEdit IncomeNumber;
         private DevExpress.XtraEditors.LabelControl labelControl1;
-        private AramisSearchLookUpEdit Driver;
-        private DevExpress.XtraEditors.LabelControl labelControl6;
-        private AramisSearchLookUpEdit Carrier;
-        private DevExpress.XtraEditors.LabelControl labelControl5;
         private DevExpress.XtraEditors.PictureEdit pictureEdit1;
-        private AramisSearchLookUpEdit Car;
-        private DevExpress.XtraEditors.LabelControl labelControl7;
+        private DevExpress.XtraEditors.ComboBoxEdit State;
+        private DevExpress.XtraEditors.LabelControl labelControl4;
+        private DevExpress.XtraEditors.GroupControl groupControl1;
     }
 }

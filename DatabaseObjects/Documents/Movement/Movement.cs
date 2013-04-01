@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using Aramis.Attributes;
 using Aramis.Core;
-using Aramis.DatabaseConnector;
 using Aramis.Enums;
 using Aramis.Platform;
 using AtosFMCG.DatabaseObjects.Catalogs;
@@ -11,9 +9,9 @@ using AtosFMCG.Enums;
 
 namespace AtosFMCG.DatabaseObjects.Documents
     {
-    /// <summary>Приймання товару</summary>
-    [Document(Description = "Приймання товару", GUID = "0ACBC4E6-5486-4F2E-B207-3E8D012A080B", NumberType = NumberType.Int64, NumberIsReadonly = false)]
-    public class AcceptanceOfGoods : DocumentTable
+    /// <summary>Переміщення</summary>
+    [Document(Description = "Переміщення", GUID = "015CC1EA-D666-431E-9D08-510395C78E4C", NumberType = NumberType.Int64, NumberIsReadonly = false)]
+    public class Movement : DocumentTable
         {
         #region Properties
         /// <summary>Стан документу</summary>
@@ -100,95 +98,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
                 }
             }
         private string z_IncomeDate = string.Empty;
-
-        /// <summary>Контрагент</summary>
-        [DataField(Description = "Контрагент", ShowInList = true, StorageType = StorageTypes.Local)]
-        public string Contractor
-            {
-            get
-                {
-                return z_Contractor;
-                }
-            set
-                {
-                if (z_Contractor == value)
-                    {
-                    return;
-                    }
-
-                z_Contractor = value;
-                NotifyPropertyChanged("Contractor");
-                }
-            }
-        private string z_Contractor = string.Empty;
-
-        /// <summary>Перевізник</summary>
-        [DataField(Description = "Перевізник", ShowInList = true, StorageType = StorageTypes.Local)]
-        public string Carrier
-            {
-            get
-                {
-                return z_Carrier;
-                }
-            set
-                {
-                if (z_Carrier == value)
-                    {
-                    return;
-                    }
-
-                z_Carrier = value;
-                NotifyPropertyChanged("Carrier");
-                }
-            }
-        private string z_Carrier = string.Empty;
-
-        /// <summary>Водій</summary>
-        [DataField(Description = "Водій", ShowInList = true, StorageType = StorageTypes.Local)]
-        public string Driver
-            {
-            get
-                {
-                return z_Driver;
-                }
-            set
-                {
-                if (z_Driver == value)
-                    {
-                    return;
-                    }
-
-                z_Driver = value;
-                NotifyPropertyChanged("Driver");
-                }
-            }
-        private string z_Driver = string.Empty;
-
-        /// <summary>Машина</summary>
-        [DataField(Description = "Машина", ShowInList = true, StorageType = StorageTypes.Local)]
-        public string Car
-            {
-            get
-                {
-                return z_Car;
-                }
-            set
-                {
-                if (z_Car == value)
-                    {
-                    return;
-                    }
-
-                z_Car = value;
-                NotifyPropertyChanged("Car");
-                }
-            }
-        private string z_Car = string.Empty; 
         #endregion
 
         #region Table Nomeclature
         /// <summary>Номенлатура</summary>
-        [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureDate, NomenclatureCount, NomenclatureCell, IsTare", ShowLineNumberColumn = true)]
+        [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureCount, SourceCell, DestinationCell, IsTare", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенлатура")]
         public DataTable NomenclatureInfo
             {
@@ -207,21 +121,21 @@ namespace AtosFMCG.DatabaseObjects.Documents
         [SubTableField(Description = "Од.вим.", PropertyType = typeof(Measures))]
         public DataColumn NomenclatureMeasure { get; set; }
 
-        /// <summary>Дата виробництва</summary>
-        [SubTableField(Description = "Дата виробництва", PropertyType = typeof(DateTime), StorageType = StorageTypes.Local, ReadOnly = true)]
-        public DataColumn NomenclatureDate { get; set; }
-
         /// <summary>К-сть</summary>
         [SubTableField(Description = "К-сть", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
         public DataColumn NomenclatureCount { get; set; }
 
-        /// <summary>Комірка</summary>
-        [SubTableField(Description = "Комірка", PropertyType = typeof(Cells))]
-        public DataColumn NomenclatureCell { get; set; }
-
         /// <summary>Партія</summary>
         [SubTableField(Description = "Партія", PropertyType = typeof(Party))]
         public DataColumn NomenclatureParty { get; set; }
+
+        /// <summary>Комірка-джерело</summary>
+        [SubTableField(Description = "Комірка-джерело", PropertyType = typeof(Cells))]
+        public DataColumn SourceCell { get; set; }
+
+        /// <summary>Комірка-призначення</summary>
+        [SubTableField(Description = "Комірка-призначення", PropertyType = typeof(Cells))]
+        public DataColumn DestinationCell { get; set; }
 
         /// <summary>Тара</summary>
         [SubTableField(Description = "Тара", PropertyType = typeof(bool), StorageType =  StorageTypes.Local, ReadOnly = true)]
@@ -231,7 +145,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
         #region DocumentTable
         readonly Dictionary<long, bool> tareDic = new Dictionary<long,bool>();
-        readonly Dictionary<long, DateTime> partyDic = new Dictionary<long, DateTime>();
 
         protected override WritingResult CheckingBeforeWriting()
             {
@@ -249,7 +162,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
             ValueOfObjectPropertyChanged += AcceptanceOfGoods_ValueOfObjectPropertyChanged;
             TableRowChanged += AcceptanceOfGoods_TableRowChanged;
-            TableRowAdded += AcceptanceOfGoods_TableRowAdded;
             fillSourceData();
             fillingTare();
             }
@@ -260,10 +172,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             {
             IncomeNumber = Source.IncomeNumber;
             IncomeDate = Source.Id==0 ? string.Empty : Source.Date.ToShortDateString();
-            Contractor = Source.Contractor.Description;
-            Carrier = Source.Carrier.Description;
-            Driver = Source.Driver.Description;
-            Car = Source.Car.Description;
             }
 
         private void fillingTare()
@@ -271,7 +179,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             foreach (DataRow row in NomenclatureInfo.Rows)
                 {
                 fillTareInRow(row);
-                fillDateInRow(row);
                 }
             }
 
@@ -291,23 +198,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
                 row[IsTare] = nomenclature.IsTare;
                 }
             }
-
-        private void fillDateInRow(DataRow row)
-            {
-            long partyId = (long)row[NomenclatureParty];
-
-            if (partyDic.ContainsKey(partyId))
-                {
-                row[NomenclatureDate] = partyDic[partyId];
-                }
-            else
-                {
-                Party party = new Party();
-                party.Read(partyId);
-                partyDic.Add(partyId, party.DateOfManufacture);
-                row[NomenclatureDate] = party.DateOfManufacture;
-                }
-            }
         #endregion
 
         #region Changed
@@ -321,15 +211,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
                 }
             }
 
-        void AcceptanceOfGoods_TableRowAdded(DataTable dataTable, DataRow currentRow)
-            {
-            if(dataTable.Equals(NomenclatureInfo))
-                {
-                //todo: необхідно доопрацювати (?)
-                currentRow[NomenclatureCode] = newCodeNumber;
-                }
-            }
-
         void AcceptanceOfGoods_TableRowChanged(DataTable dataTable, DataColumn currentColumn, DataRow currentRow)
             {
             if(dataTable.Equals(NomenclatureInfo))
@@ -338,42 +219,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
                     {
                     fillTareInRow(currentRow);
                     }
-                else if(currentColumn.Equals(NomenclatureParty))
-                    {
-                    fillDateInRow(currentRow);
-                    }
                 }
             }
-        #endregion
-
-        #region newCodeNumber
-        private static long newCodeNumber
-            {
-            get
-                {
-                if(z_NewCodeNumber==0)
-                    {
-                    z_NewCodeNumber = getNewCode();
-                    }
-                else
-                    {
-                    z_NewCodeNumber++;
-                    }
-
-                return z_NewCodeNumber;
-                }
-            }
-        private static long z_NewCodeNumber;
-
-        private static long getNewCode()
-            {
-            Query query = DB.NewQuery(@"SELECT MAX(s.NomenclatureCode)+1 
-FROM AcceptanceOfGoods a
-JOIN SubAcceptanceOfGoodsNomenclatureInfo s ON s.IdDoc=a.Id");
-            object code = query.SelectScalar();
-
-            return code == null ? 1 : Convert.ToInt64(code);
-            } 
         #endregion
         }
     }

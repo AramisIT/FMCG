@@ -141,12 +141,40 @@
     <Compile Include="DatabaseObjects\Documents\AcceptanceOfGoods\AcceptanceOfGoodsItemForm.designer.cs">
       <DependentUpon>AcceptanceOfGoodsItemForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseObjects\Documents\Inventory\Inventory.cs" />
+    <Compile Include="DatabaseObjects\Documents\Inventory\InventoryItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseObjects\Documents\Inventory\InventoryItemForm.designer.cs">
+      <DependentUpon>InventoryItemForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseObjects\Documents\Movement\Movement.cs" />
+    <Compile Include="DatabaseObjects\Documents\Movement\MovementItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseObjects\Documents\Movement\MovementItemForm.designer.cs">
+      <DependentUpon>MovementItemForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseObjects\Documents\PlannedArrival\PlannedArrival.cs" />
     <Compile Include="DatabaseObjects\Documents\PlannedArrival\PlannedArrivalItemForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DatabaseObjects\Documents\PlannedArrival\PlannedArrivalItemForm.designer.cs">
       <DependentUpon>PlannedArrivalItemForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseObjects\Documents\ShipmentPlan\ShipmentPlan.cs" />
+    <Compile Include="DatabaseObjects\Documents\ShipmentPlan\ShipmentPlanItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseObjects\Documents\ShipmentPlan\ShipmentPlanItemForm.designer.cs">
+      <DependentUpon>ShipmentPlanItemForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseObjects\Documents\Shipment\Shipment.cs" />
+    <Compile Include="DatabaseObjects\Documents\Shipment\ShipmentItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseObjects\Documents\Shipment\ShipmentItemForm.designer.cs">
+      <DependentUpon>ShipmentItemForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Interfaces\ISyncWith1C.cs" />
     <Compile Include="HelperClasses\BarcodeWorker.cs" />
@@ -158,6 +186,24 @@
       <DependentUpon>SendToTCD.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Enums\TypesOfArrival.cs" />
+    <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfFilledCell.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfFilledCell.Designer.cs">
+      <DependentUpon>ViewOfFilledCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfStockBalance.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfStockBalance.Designer.cs">
+      <DependentUpon>ViewOfStockBalance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfGoodsMoving.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfGoodsMoving.Designer.cs">
+      <DependentUpon>ViewOfGoodsMoving.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UIConfigurator.cs" />
@@ -181,11 +227,32 @@
     <EmbeddedResource Include="DatabaseObjects\Documents\AcceptanceOfGoods\AcceptanceOfGoodsItemForm.resx">
       <DependentUpon>AcceptanceOfGoodsItemForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseObjects\Documents\Inventory\InventoryItemForm.resx">
+      <DependentUpon>InventoryItemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseObjects\Documents\Movement\MovementItemForm.resx">
+      <DependentUpon>MovementItemForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DatabaseObjects\Documents\PlannedArrival\PlannedArrivalItemForm.resx">
       <DependentUpon>PlannedArrivalItemForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseObjects\Documents\ShipmentPlan\ShipmentPlanItemForm.resx">
+      <DependentUpon>ShipmentPlanItemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseObjects\Documents\Shipment\ShipmentItemForm.resx">
+      <DependentUpon>ShipmentItemForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HelperClasses\DCT\SendToTCD.resx">
       <DependentUpon>SendToTCD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperClasses\ViewOfServiceTables\ViewOfFilledCell.resx">
+      <DependentUpon>ViewOfFilledCell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperClasses\ViewOfServiceTables\ViewOfStockBalance.resx">
+      <DependentUpon>ViewOfStockBalance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperClasses\ViewOfServiceTables\ViewOfGoodsMoving.resx">
+      <DependentUpon>ViewOfGoodsMoving.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -226,6 +293,9 @@
     <None Include="Resources\smallImageCollection\rights.png" />
     <None Include="Resources\smallImageCollection\star.png" />
     <None Include="Resources\smallImageCollection\updDB.png" />
+    <None Include="Resources\storage.png" />
+    <None Include="Resources\move.png" />
+    <None Include="Resources\order.png" />
     <Content Include="TraceAramis.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
