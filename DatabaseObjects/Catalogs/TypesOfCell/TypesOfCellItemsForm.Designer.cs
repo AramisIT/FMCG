@@ -59,6 +59,9 @@
             this.Description = new DevExpress.XtraEditors.TextEdit();
             this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             this.groupControl1 = new DevExpress.XtraEditors.GroupControl();
+            this.NumberOfPallets = new DevExpress.XtraEditors.CalcEdit();
+            this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
+            this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
             this.Width = new DevExpress.XtraEditors.CalcEdit();
             this.Height = new DevExpress.XtraEditors.CalcEdit();
             this.Depth = new DevExpress.XtraEditors.CalcEdit();
@@ -75,6 +78,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.Description.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).BeginInit();
             this.groupControl1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NumberOfPallets.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Width.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Height.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Depth.Properties)).BeginInit();
@@ -93,7 +97,7 @@
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 10;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(265, 30);
+            this.ribbon.Size = new System.Drawing.Size(265, 27);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // Ok
@@ -127,10 +131,10 @@
             this.ribbonStatusBar.ItemLinks.Add(this.Ok);
             this.ribbonStatusBar.ItemLinks.Add(this.Write);
             this.ribbonStatusBar.ItemLinks.Add(this.Cancel);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 234);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 249);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(265, 23);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(265, 31);
             // 
             // RefreshMapsInfoButton
             // 
@@ -249,15 +253,15 @@
             this.panelControl1.Controls.Add(this.labelControl1);
             this.panelControl1.Controls.Add(this.groupControl1);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl1.Location = new System.Drawing.Point(0, 30);
+            this.panelControl1.Location = new System.Drawing.Point(0, 27);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(265, 204);
+            this.panelControl1.Size = new System.Drawing.Size(265, 222);
             this.panelControl1.TabIndex = 35;
             // 
             // labelControl3
             // 
             this.labelControl3.Appearance.ForeColor = System.Drawing.Color.Gray;
-            this.labelControl3.Location = new System.Drawing.Point(236, 37);
+            this.labelControl3.Location = new System.Drawing.Point(222, 37);
             this.labelControl3.Name = "labelControl3";
             this.labelControl3.Size = new System.Drawing.Size(11, 13);
             this.labelControl3.TabIndex = 39;
@@ -265,7 +269,7 @@
             // 
             // IsVirtual
             // 
-            this.IsVirtual.Location = new System.Drawing.Point(10, 169);
+            this.IsVirtual.Location = new System.Drawing.Point(10, 196);
             this.IsVirtual.MenuManager = this.ribbon;
             this.IsVirtual.Name = "IsVirtual";
             this.IsVirtual.Properties.Caption = "Віртуальна комірка";
@@ -279,7 +283,7 @@
             this.AllowableWeight.Name = "AllowableWeight";
             this.AllowableWeight.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.AllowableWeight.Size = new System.Drawing.Size(131, 20);
+            this.AllowableWeight.Size = new System.Drawing.Size(117, 20);
             this.AllowableWeight.TabIndex = 1;
             // 
             // labelControl2
@@ -308,6 +312,9 @@
             // 
             // groupControl1
             // 
+            this.groupControl1.Controls.Add(this.NumberOfPallets);
+            this.groupControl1.Controls.Add(this.labelControl5);
+            this.groupControl1.Controls.Add(this.labelControl6);
             this.groupControl1.Controls.Add(this.Width);
             this.groupControl1.Controls.Add(this.Height);
             this.groupControl1.Controls.Add(this.Depth);
@@ -319,9 +326,39 @@
             this.groupControl1.Controls.Add(this.labelControl4);
             this.groupControl1.Location = new System.Drawing.Point(12, 60);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(240, 103);
+            this.groupControl1.Size = new System.Drawing.Size(240, 130);
             this.groupControl1.TabIndex = 34;
             this.groupControl1.Text = "Фізичні розміри";
+            // 
+            // NumberOfPallets
+            // 
+            this.NumberOfPallets.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.NumberOfPallets.Location = new System.Drawing.Point(112, 102);
+            this.NumberOfPallets.MenuManager = this.ribbon;
+            this.NumberOfPallets.Name = "NumberOfPallets";
+            this.NumberOfPallets.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.NumberOfPallets.Size = new System.Drawing.Size(92, 20);
+            this.NumberOfPallets.TabIndex = 36;
+            // 
+            // labelControl5
+            // 
+            this.labelControl5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelControl5.Appearance.ForeColor = System.Drawing.Color.Gray;
+            this.labelControl5.Location = new System.Drawing.Point(210, 105);
+            this.labelControl5.Name = "labelControl5";
+            this.labelControl5.Size = new System.Drawing.Size(25, 13);
+            this.labelControl5.TabIndex = 38;
+            this.labelControl5.Text = "місць";
+            // 
+            // labelControl6
+            // 
+            this.labelControl6.Location = new System.Drawing.Point(8, 105);
+            this.labelControl6.Name = "labelControl6";
+            this.labelControl6.Size = new System.Drawing.Size(98, 13);
+            this.labelControl6.TabIndex = 37;
+            this.labelControl6.Text = "К-сть паллетомісць";
             // 
             // Width
             // 
@@ -332,7 +369,7 @@
             this.Width.Name = "Width";
             this.Width.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.Width.Size = new System.Drawing.Size(162, 20);
+            this.Width.Size = new System.Drawing.Size(148, 20);
             this.Width.TabIndex = 0;
             // 
             // Height
@@ -344,7 +381,7 @@
             this.Height.Name = "Height";
             this.Height.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.Height.Size = new System.Drawing.Size(162, 20);
+            this.Height.Size = new System.Drawing.Size(148, 20);
             this.Height.TabIndex = 1;
             // 
             // Depth
@@ -356,14 +393,14 @@
             this.Depth.Name = "Depth";
             this.Depth.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.Depth.Size = new System.Drawing.Size(162, 20);
+            this.Depth.Size = new System.Drawing.Size(148, 20);
             this.Depth.TabIndex = 2;
             // 
             // labelControl17
             // 
             this.labelControl17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelControl17.Appearance.ForeColor = System.Drawing.Color.Gray;
-            this.labelControl17.Location = new System.Drawing.Point(224, 79);
+            this.labelControl17.Location = new System.Drawing.Point(210, 79);
             this.labelControl17.Name = "labelControl17";
             this.labelControl17.Size = new System.Drawing.Size(11, 13);
             this.labelControl17.TabIndex = 35;
@@ -373,7 +410,7 @@
             // 
             this.labelControl16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelControl16.Appearance.ForeColor = System.Drawing.Color.Gray;
-            this.labelControl16.Location = new System.Drawing.Point(224, 53);
+            this.labelControl16.Location = new System.Drawing.Point(210, 53);
             this.labelControl16.Name = "labelControl16";
             this.labelControl16.Size = new System.Drawing.Size(11, 13);
             this.labelControl16.TabIndex = 34;
@@ -383,7 +420,7 @@
             // 
             this.labelControl15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelControl15.Appearance.ForeColor = System.Drawing.Color.Gray;
-            this.labelControl15.Location = new System.Drawing.Point(224, 27);
+            this.labelControl15.Location = new System.Drawing.Point(210, 27);
             this.labelControl15.Name = "labelControl15";
             this.labelControl15.Size = new System.Drawing.Size(11, 13);
             this.labelControl15.TabIndex = 33;
@@ -409,7 +446,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(265, 257);
+            this.ClientSize = new System.Drawing.Size(265, 280);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
@@ -429,6 +466,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.groupControl1)).EndInit();
             this.groupControl1.ResumeLayout(false);
             this.groupControl1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NumberOfPallets.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Width.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Height.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Depth.Properties)).EndInit();
@@ -473,5 +511,8 @@
         private DevExpress.XtraEditors.LabelControl labelControl12;
         private DevExpress.XtraEditors.LabelControl labelControl3;
         private DevExpress.XtraEditors.CheckEdit IsVirtual;
+        private DevExpress.XtraEditors.CalcEdit NumberOfPallets;
+        private DevExpress.XtraEditors.LabelControl labelControl5;
+        private DevExpress.XtraEditors.LabelControl labelControl6;
     }
 }

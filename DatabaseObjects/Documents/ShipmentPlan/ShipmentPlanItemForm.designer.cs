@@ -35,6 +35,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             this.cancel = new DevExpress.XtraBars.BarButtonItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
+            this.NomenclatureInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.panelControl = new DevExpress.XtraEditors.PanelControl();
             this.Car = new Aramis.AramisSearchLookUpEdit();
             this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
@@ -44,7 +45,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.labelControl5 = new DevExpress.XtraEditors.LabelControl();
             this.Contractor = new Aramis.AramisSearchLookUpEdit();
             this.labelControl4 = new DevExpress.XtraEditors.LabelControl();
-            this.TypeOfArrival = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.TypeOfShipment = new DevExpress.XtraEditors.ComboBoxEdit();
             this.labelControl3 = new DevExpress.XtraEditors.LabelControl();
             this.Date = new DevExpress.XtraEditors.DateEdit();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
@@ -62,11 +63,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl2 = new DevExpress.XtraEditors.PanelControl();
             this.showNomenclature = new DevExpress.XtraEditors.CheckButton();
             this.showTare = new DevExpress.XtraEditors.CheckButton();
-            this.NomenclatureInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
-            this.City = new Aramis.AramisSearchLookUpEdit();
+            this.State = new DevExpress.XtraEditors.ComboBoxEdit();
             this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
@@ -75,7 +75,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             ((System.ComponentModel.ISupportInitialize)(this.Driver.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Carrier.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Contractor.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TypeOfArrival.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TypeOfShipment.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Date.Properties.VistaTimeProperties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Date.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.IncomeNumber.Properties)).BeginInit();
@@ -88,7 +88,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             ((System.ComponentModel.ISupportInitialize)(this.nomenclatureView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.City.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.State.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -96,10 +96,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbonStatusBar.ItemLinks.Add(this.OK);
             this.ribbonStatusBar.ItemLinks.Add(this.barButtonItem2);
             this.ribbonStatusBar.ItemLinks.Add(this.cancel);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 485);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 544);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(657, 23);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(720, 31);
             // 
             // OK
             // 
@@ -140,14 +140,22 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 18;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(657, 54);
-            this.ribbon.StatusBar = this.NomenclatureInfoButtonsBar;
+            this.ribbon.Size = new System.Drawing.Size(720, 49);
+            this.ribbon.StatusBar = this.ribbonStatusBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
+            // 
+            // NomenclatureInfoButtonsBar
+            // 
+            this.NomenclatureInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.NomenclatureInfoButtonsBar.Location = new System.Drawing.Point(0, -4);
+            this.NomenclatureInfoButtonsBar.Name = "NomenclatureInfoButtonsBar";
+            this.NomenclatureInfoButtonsBar.Ribbon = this.ribbon;
+            this.NomenclatureInfoButtonsBar.Size = new System.Drawing.Size(716, 27);
             // 
             // panelControl
             // 
             this.panelControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
-            this.panelControl.Controls.Add(this.City);
+            this.panelControl.Controls.Add(this.State);
             this.panelControl.Controls.Add(this.labelControl8);
             this.panelControl.Controls.Add(this.Car);
             this.panelControl.Controls.Add(this.labelControl7);
@@ -157,22 +165,22 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl.Controls.Add(this.labelControl5);
             this.panelControl.Controls.Add(this.Contractor);
             this.panelControl.Controls.Add(this.labelControl4);
-            this.panelControl.Controls.Add(this.TypeOfArrival);
+            this.panelControl.Controls.Add(this.TypeOfShipment);
             this.panelControl.Controls.Add(this.labelControl3);
             this.panelControl.Controls.Add(this.Date);
             this.panelControl.Controls.Add(this.labelControl2);
             this.panelControl.Controls.Add(this.IncomeNumber);
             this.panelControl.Controls.Add(this.labelControl1);
             this.panelControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl.Location = new System.Drawing.Point(0, 54);
+            this.panelControl.Location = new System.Drawing.Point(0, 49);
             this.panelControl.Name = "panelControl";
-            this.panelControl.Size = new System.Drawing.Size(657, 108);
-            this.panelControl.TabIndex = 2;
+            this.panelControl.Size = new System.Drawing.Size(720, 110);
+            this.panelControl.TabIndex = 0;
             // 
             // Car
             // 
             this.Car.BaseFilter = null;
-            this.Car.Location = new System.Drawing.Point(407, 57);
+            this.Car.Location = new System.Drawing.Point(455, 83);
             this.Car.MenuManager = this.ribbon;
             this.Car.Name = "Car";
             this.Car.Properties.BaseFilter = null;
@@ -181,12 +189,12 @@ namespace AtosFMCG.DatabaseObjects.Documents
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete)});
             this.Car.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
             this.Car.Properties.NullText = "";
-            this.Car.Size = new System.Drawing.Size(241, 20);
-            this.Car.TabIndex = 6;
+            this.Car.Size = new System.Drawing.Size(209, 20);
+            this.Car.TabIndex = 7;
             // 
             // labelControl7
             // 
-            this.labelControl7.Location = new System.Drawing.Point(335, 60);
+            this.labelControl7.Location = new System.Drawing.Point(366, 86);
             this.labelControl7.Name = "labelControl7";
             this.labelControl7.Size = new System.Drawing.Size(40, 13);
             this.labelControl7.TabIndex = 12;
@@ -195,7 +203,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // Driver
             // 
             this.Driver.BaseFilter = null;
-            this.Driver.Location = new System.Drawing.Point(85, 57);
+            this.Driver.Location = new System.Drawing.Point(114, 83);
             this.Driver.MenuManager = this.ribbon;
             this.Driver.Name = "Driver";
             this.Driver.Properties.BaseFilter = null;
@@ -205,11 +213,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.Driver.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
             this.Driver.Properties.NullText = "";
             this.Driver.Size = new System.Drawing.Size(246, 20);
-            this.Driver.TabIndex = 3;
+            this.Driver.TabIndex = 6;
             // 
             // labelControl6
             // 
-            this.labelControl6.Location = new System.Drawing.Point(10, 60);
+            this.labelControl6.Location = new System.Drawing.Point(10, 86);
             this.labelControl6.Name = "labelControl6";
             this.labelControl6.Size = new System.Drawing.Size(27, 13);
             this.labelControl6.TabIndex = 10;
@@ -218,7 +226,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // Carrier
             // 
             this.Carrier.BaseFilter = null;
-            this.Carrier.Location = new System.Drawing.Point(407, 31);
+            this.Carrier.Location = new System.Drawing.Point(455, 57);
             this.Carrier.MenuManager = this.ribbon;
             this.Carrier.Name = "Carrier";
             this.Carrier.Properties.BaseFilter = null;
@@ -227,12 +235,12 @@ namespace AtosFMCG.DatabaseObjects.Documents
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete)});
             this.Carrier.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
             this.Carrier.Properties.NullText = "";
-            this.Carrier.Size = new System.Drawing.Size(241, 20);
+            this.Carrier.Size = new System.Drawing.Size(209, 20);
             this.Carrier.TabIndex = 5;
             // 
             // labelControl5
             // 
-            this.labelControl5.Location = new System.Drawing.Point(335, 34);
+            this.labelControl5.Location = new System.Drawing.Point(366, 60);
             this.labelControl5.Name = "labelControl5";
             this.labelControl5.Size = new System.Drawing.Size(56, 13);
             this.labelControl5.TabIndex = 8;
@@ -241,7 +249,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // Contractor
             // 
             this.Contractor.BaseFilter = null;
-            this.Contractor.Location = new System.Drawing.Point(85, 31);
+            this.Contractor.Location = new System.Drawing.Point(114, 57);
             this.Contractor.MenuManager = this.ribbon;
             this.Contractor.Name = "Contractor";
             this.Contractor.Properties.BaseFilter = null;
@@ -251,38 +259,38 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.Contractor.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
             this.Contractor.Properties.NullText = "";
             this.Contractor.Size = new System.Drawing.Size(246, 20);
-            this.Contractor.TabIndex = 2;
+            this.Contractor.TabIndex = 4;
             // 
             // labelControl4
             // 
-            this.labelControl4.Location = new System.Drawing.Point(10, 34);
+            this.labelControl4.Location = new System.Drawing.Point(10, 60);
             this.labelControl4.Name = "labelControl4";
             this.labelControl4.Size = new System.Drawing.Size(60, 13);
             this.labelControl4.TabIndex = 6;
             this.labelControl4.Text = "Контрагент";
             // 
-            // TypeOfArrival
+            // TypeOfShipment
             // 
-            this.TypeOfArrival.Location = new System.Drawing.Point(407, 5);
-            this.TypeOfArrival.MenuManager = this.ribbon;
-            this.TypeOfArrival.Name = "TypeOfArrival";
-            this.TypeOfArrival.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            this.TypeOfShipment.Location = new System.Drawing.Point(114, 31);
+            this.TypeOfShipment.MenuManager = this.ribbon;
+            this.TypeOfShipment.Name = "TypeOfShipment";
+            this.TypeOfShipment.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.TypeOfArrival.Size = new System.Drawing.Size(132, 20);
-            this.TypeOfArrival.TabIndex = 4;
+            this.TypeOfShipment.Size = new System.Drawing.Size(246, 20);
+            this.TypeOfShipment.TabIndex = 2;
             // 
             // labelControl3
             // 
-            this.labelControl3.Location = new System.Drawing.Point(335, 8);
+            this.labelControl3.Location = new System.Drawing.Point(10, 34);
             this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(64, 13);
+            this.labelControl3.Size = new System.Drawing.Size(98, 13);
             this.labelControl3.TabIndex = 4;
-            this.labelControl3.Text = "Тип приходу";
+            this.labelControl3.Text = "Тип відвантаження";
             // 
             // Date
             // 
             this.Date.EditValue = null;
-            this.Date.Location = new System.Drawing.Point(231, 5);
+            this.Date.Location = new System.Drawing.Point(260, 6);
             this.Date.MenuManager = this.ribbon;
             this.Date.Name = "Date";
             this.Date.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
@@ -294,7 +302,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             // labelControl2
             // 
-            this.labelControl2.Location = new System.Drawing.Point(196, 8);
+            this.labelControl2.Location = new System.Drawing.Point(225, 8);
             this.labelControl2.Name = "labelControl2";
             this.labelControl2.Size = new System.Drawing.Size(29, 13);
             this.labelControl2.TabIndex = 2;
@@ -302,7 +310,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             // IncomeNumber
             // 
-            this.IncomeNumber.Location = new System.Drawing.Point(85, 5);
+            this.IncomeNumber.Location = new System.Drawing.Point(114, 5);
             this.IncomeNumber.MenuManager = this.ribbon;
             this.IncomeNumber.Name = "IncomeNumber";
             this.IncomeNumber.Size = new System.Drawing.Size(105, 20);
@@ -322,9 +330,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl1.Controls.Add(this.pictureEdit1);
             this.panelControl1.Controls.Add(this.Info);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelControl1.Location = new System.Drawing.Point(0, 465);
+            this.panelControl1.Location = new System.Drawing.Point(0, 524);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(657, 20);
+            this.panelControl1.Size = new System.Drawing.Size(720, 20);
             this.panelControl1.TabIndex = 0;
             // 
             // pictureEdit1
@@ -380,9 +388,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.groupControl1.Controls.Add(this.NomenclatureInfo);
             this.groupControl1.Controls.Add(this.panelControl2);
             this.groupControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl1.Location = new System.Drawing.Point(0, 162);
+            this.groupControl1.Location = new System.Drawing.Point(0, 159);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(657, 303);
+            this.groupControl1.Size = new System.Drawing.Size(720, 365);
             this.groupControl1.TabIndex = 22;
             this.groupControl1.Text = "Номенклатура";
             // 
@@ -393,7 +401,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.NomenclatureInfo.MainView = this.nomenclatureView;
             this.NomenclatureInfo.MenuManager = this.ribbon;
             this.NomenclatureInfo.Name = "NomenclatureInfo";
-            this.NomenclatureInfo.Size = new System.Drawing.Size(653, 257);
+            this.NomenclatureInfo.Size = new System.Drawing.Size(716, 319);
             this.NomenclatureInfo.TabIndex = 1;
             this.NomenclatureInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.nomenclatureView});
@@ -412,14 +420,14 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl2.Location = new System.Drawing.Point(2, 21);
             this.panelControl2.Name = "panelControl2";
-            this.panelControl2.Size = new System.Drawing.Size(653, 23);
+            this.panelControl2.Size = new System.Drawing.Size(716, 23);
             this.panelControl2.TabIndex = 6;
             // 
             // showNomenclature
             // 
             this.showNomenclature.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.showNomenclature.Location = new System.Drawing.Point(477, 0);
+            this.showNomenclature.Location = new System.Drawing.Point(540, 0);
             this.showNomenclature.Name = "showNomenclature";
             this.showNomenclature.Size = new System.Drawing.Size(88, 23);
             this.showNomenclature.TabIndex = 4;
@@ -429,19 +437,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.showTare.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.showTare.Location = new System.Drawing.Point(573, 0);
+            this.showTare.Location = new System.Drawing.Point(636, 0);
             this.showTare.Name = "showTare";
             this.showTare.Size = new System.Drawing.Size(75, 23);
             this.showTare.TabIndex = 3;
             this.showTare.Text = "Тара";
-            // 
-            // NomenclatureInfoButtonsBar
-            // 
-            this.NomenclatureInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NomenclatureInfoButtonsBar.Location = new System.Drawing.Point(0, 0);
-            this.NomenclatureInfoButtonsBar.Name = "NomenclatureInfoButtonsBar";
-            this.NomenclatureInfoButtonsBar.Ribbon = this.ribbon;
-            this.NomenclatureInfoButtonsBar.Size = new System.Drawing.Size(653, 23);
             // 
             // barButtonItem5
             // 
@@ -466,34 +466,29 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem7.ImageIndex = 1;
             this.barButtonItem7.Name = "barButtonItem7";
             // 
-            // City
+            // State
             // 
-            this.City.BaseFilter = null;
-            this.City.Location = new System.Drawing.Point(85, 83);
-            this.City.MenuManager = this.ribbon;
-            this.City.Name = "City";
-            this.City.Properties.BaseFilter = null;
-            this.City.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(),
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Delete)});
-            this.City.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
-            this.City.Properties.NullText = "";
-            this.City.Size = new System.Drawing.Size(246, 20);
-            this.City.TabIndex = 13;
+            this.State.Location = new System.Drawing.Point(455, 31);
+            this.State.MenuManager = this.ribbon;
+            this.State.Name = "State";
+            this.State.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.State.Size = new System.Drawing.Size(209, 20);
+            this.State.TabIndex = 3;
             // 
             // labelControl8
             // 
-            this.labelControl8.Location = new System.Drawing.Point(10, 86);
+            this.labelControl8.Location = new System.Drawing.Point(366, 34);
             this.labelControl8.Name = "labelControl8";
-            this.labelControl8.Size = new System.Drawing.Size(27, 13);
+            this.labelControl8.Size = new System.Drawing.Size(83, 13);
             this.labelControl8.TabIndex = 14;
-            this.labelControl8.Text = "Місто";
+            this.labelControl8.Text = "Стан документу";
             // 
             // ShipmentPlanItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(657, 508);
+            this.ClientSize = new System.Drawing.Size(720, 575);
             this.Controls.Add(this.groupControl1);
             this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.panelControl);
@@ -513,7 +508,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             ((System.ComponentModel.ISupportInitialize)(this.Driver.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Carrier.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Contractor.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TypeOfArrival.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TypeOfShipment.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Date.Properties.VistaTimeProperties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Date.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.IncomeNumber.Properties)).EndInit();
@@ -527,7 +522,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             ((System.ComponentModel.ISupportInitialize)(this.nomenclatureView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.City.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.State.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -547,7 +542,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
         private Aramis.AramisSearchLookUpEdit Contractor;
         private DevExpress.XtraEditors.LabelControl labelControl4;
-        private DevExpress.XtraEditors.ComboBoxEdit TypeOfArrival;
+        private DevExpress.XtraEditors.ComboBoxEdit TypeOfShipment;
         private DevExpress.XtraEditors.LabelControl labelControl3;
         private DevExpress.XtraEditors.DateEdit Date;
         private DevExpress.XtraEditors.LabelControl labelControl2;
@@ -561,8 +556,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private AramisSearchLookUpEdit Car;
         private DevExpress.XtraEditors.LabelControl labelControl7;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar NomenclatureInfoButtonsBar;
-        private AramisSearchLookUpEdit City;
-        private DevExpress.XtraEditors.LabelControl labelControl8;
         private DevExpress.XtraEditors.GroupControl groupControl1;
         private DevExpress.XtraGrid.GridControl NomenclatureInfo;
         private DevExpress.XtraGrid.Views.Grid.GridView nomenclatureView;
@@ -572,5 +565,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
         private DevExpress.XtraBars.BarButtonItem barButtonItem6;
         private DevExpress.XtraBars.BarButtonItem barButtonItem7;
+        private DevExpress.XtraEditors.ComboBoxEdit State;
+        private DevExpress.XtraEditors.LabelControl labelControl8;
     }
 }

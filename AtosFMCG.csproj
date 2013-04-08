@@ -100,6 +100,13 @@
     </Compile>
     <Compile Include="DatabaseObjects\Catalogs\Cells.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Cities.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\Consts\Consts.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\Consts\ConstsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseObjects\Catalogs\Consts\ConstsForm.designer.cs">
+      <DependentUpon>ConstsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseObjects\Catalogs\Contractors\Contractors.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Contractors\ContractorsItemsForm.cs">
       <SubType>Form</SubType>
@@ -176,6 +183,9 @@
     <Compile Include="DatabaseObjects\Documents\Shipment\ShipmentItemForm.designer.cs">
       <DependentUpon>ShipmentItemForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseObjects\Enums\StatesOfDocument.cs" />
+    <Compile Include="DatabaseObjects\Enums\TypesOfInventory.cs" />
+    <Compile Include="DatabaseObjects\Enums\TypesOfShipment.cs" />
     <Compile Include="DatabaseObjects\Interfaces\ISyncWith1C.cs" />
     <Compile Include="HelperClasses\BarcodeWorker.cs" />
     <Compile Include="HelperClasses\DCT\ReceiveMessages.cs" />
@@ -186,6 +196,13 @@
       <DependentUpon>SendToTCD.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Enums\TypesOfArrival.cs" />
+    <Compile Include="HelperClasses\PalletMover.cs" />
+    <Compile Include="HelperClasses\ViewOfServiceTables\ViewBaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HelperClasses\ViewOfServiceTables\ViewBaseForm.Designer.cs">
+      <DependentUpon>ViewBaseForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfFilledCell.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -210,6 +227,9 @@
     <EmbeddedResource Include="AramisMainWindow.resx">
       <DependentUpon>AramisMainWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseObjects\Catalogs\Consts\ConstsForm.resx">
+      <DependentUpon>ConstsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseObjects\Catalogs\Contractors\ContractorsItemsForm.resx">
       <DependentUpon>ContractorsItemsForm.cs</DependentUpon>
@@ -244,6 +264,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HelperClasses\DCT\SendToTCD.resx">
       <DependentUpon>SendToTCD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HelperClasses\ViewOfServiceTables\ViewBaseForm.resx">
+      <DependentUpon>ViewBaseForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HelperClasses\ViewOfServiceTables\ViewOfFilledCell.resx">
       <DependentUpon>ViewOfFilledCell.cs</DependentUpon>
@@ -296,6 +319,8 @@
     <None Include="Resources\storage.png" />
     <None Include="Resources\move.png" />
     <None Include="Resources\order.png" />
+    <None Include="Resources\1303219717_Settings.png" />
+    <None Include="Resources\add.png" />
     <Content Include="TraceAramis.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

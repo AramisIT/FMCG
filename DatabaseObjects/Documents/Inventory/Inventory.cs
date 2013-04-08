@@ -1,8 +1,12 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using Aramis.Attributes;
 using Aramis.Core;
+using Aramis.DatabaseConnector;
 using Aramis.Enums;
 using Aramis.Platform;
+using Aramis.SystemConfigurations;
+using Aramis.UI.WinFormsDevXpress;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.Enums;
 
@@ -54,33 +58,77 @@ namespace AtosFMCG.DatabaseObjects.Documents
             }
         private string z_IncomeNumber = string.Empty;
 
-        /// <summary>Прихід від</summary>
-        [DataField(Description = "Прихід від", ShowInList = true)]
-        public TypesOfArrival TypeOfArrival
+        /// <summary>Тип інветаризації</summary>
+        [DataField(Description = "Тип інветаризації", ShowInList = true)]
+        public TypesOfInventory TypeOfInventory
             {
             get
                 {
-                return z_TypeOfArrival;
+                return z_TypeOfInventory;
                 }
             set
                 {
-                if (z_TypeOfArrival == value)
+                if (z_TypeOfInventory == value)
                     {
                     return;
                     }
 
-                z_TypeOfArrival = value;
-                NotifyPropertyChanged("TypeOfArrival");
+                z_TypeOfInventory = value;
+                NotifyPropertyChanged("TypeOfInventory");
                 }
             }
-        private TypesOfArrival z_TypeOfArrival;
+        private TypesOfInventory z_TypeOfInventory;
 
+        #region Local
         /// <summary>Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)</summary>
-        [DataField(Description = "Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)", ShowInList = true, StorageType = StorageTypes.Local)]
+        [DataField(Description = "Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)", ShowInList = false, StorageType = StorageTypes.Local)]
         public string Info
             {
             get { return string.Concat(Responsible.Description, ' ', Date.ToString()); }
             }
+
+        /// <summary>Початок періоду</summary>
+        [DataField(Description = "Початок періоду", ShowInList = false, StorageType = StorageTypes.Local)]
+        public DateTime StartPeriod
+            {
+            get
+                {
+                return z_StartPeriod;
+                }
+            set
+                {
+                if (z_StartPeriod == value)
+                    {
+                    return;
+                    }
+
+                z_StartPeriod = value;
+                NotifyPropertyChanged("StartPeriod");
+                }
+            }
+        private DateTime z_StartPeriod = SystemConfiguration.ServerDateTime.Date;
+
+        /// <summary>Завершення періоду</summary>
+        [DataField(Description = "Завершення періоду", ShowInList = false, StorageType = StorageTypes.Local)]
+        public DateTime FinishPeriod
+            {
+            get
+                {
+                return z_FinishPeriod;
+                }
+            set
+                {
+                if (z_FinishPeriod == value)
+                    {
+                    return;
+                    }
+
+                z_FinishPeriod = value;
+                NotifyPropertyChanged("FinishPeriod");
+                }
+            }
+        private DateTime z_FinishPeriod = SystemConfiguration.ServerDateTime.Date.AddDays(1);
+        #endregion
 
         #region Таблична частина
         /// <summary>Номенклатура</summary>
@@ -121,6 +169,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         #endregion
         #endregion
 
+        #region DocumentTable
         protected override WritingResult CheckingBeforeWriting()
             {
             if (Responsible.Id != SystemAramis.CurrentUser.Id)
@@ -129,6 +178,63 @@ namespace AtosFMCG.DatabaseObjects.Documents
                 }
 
             return base.CheckingBeforeWriting();
+            }
+
+        protected override void InitNewBeforeShowing()
+            {
+            base.InitNewBeforeShowing();
+            State = StatesOfDocument.Empty;
+            } 
+        #endregion
+
+        public void CreateTask()
+            {
+            if(TypeOfInventory == TypesOfInventory.LatestCellsForPeriod)
+                {
+                if(NomenclatureInfo.Rows.Count>0)
+                    {
+                    if(!"Всі строки в тиблиці будуть видалені!\r\nПродовжити?".Ask())
+                        {
+                        return;
+                        }
+
+                    NomenclatureInfo.Rows.Clear();
+                    }
+
+                Query query = DB.NewQuery(@"
+--DECLARE @StartDate DATETIME2='2013-04-08'
+--DECLARE @FinishDate DATETIME2='2013-04-09';
+
+WITH
+LastPalletInCell AS (
+	SELECT c.PalletCode 
+	FROM FilledCell c
+	FULL JOIN FilledCell p ON p.PreviousCode=c.PalletCode
+	WHERE p.PalletCode IS NULL)
+	
+SELECT DISTINCT g.UniqueCode PalletCode,g.Nomenclature,g.MeasureUnit Measure,g.Quantity PlanValue,g.Cell
+FROM GoodsMoving g
+JOIN LastPalletInCell c ON c.PalletCode=g.UniqueCode
+WHERE g.WritingDate BETWEEN @StartDate AND @FinishDate");
+                query.AddInputParameter("StartDate", StartPeriod);
+                query.AddInputParameter("FinishDate", FinishPeriod);
+                DataTable table = query.SelectToTable();
+
+                foreach (DataRow row in table.Rows)
+                    {
+                    DataRow newRow = NomenclatureInfo.GetNewRow(this);
+                    newRow[PalletCode] = row[PalletCode.ColumnName];
+                    newRow.SetRefValueToRowCell(this, Nomenclature, row[Nomenclature.ColumnName], typeof(Nomenclature));
+                    newRow.SetRefValueToRowCell(this, Measure, row[Measure.ColumnName], typeof(Measures));
+                    newRow[PlanValue] = row[PlanValue.ColumnName];
+                    newRow.SetRefValueToRowCell(this, Cell, row[Cell.ColumnName], typeof(Cells));
+                    newRow.AddRowToTable(this);
+                    }
+                }
+            else
+                {
+                "Завдання формується лише для завдання 'Перевірити останні зачіплені комірки за обраний період'".WarningBox();
+                }
             }
         }
     }

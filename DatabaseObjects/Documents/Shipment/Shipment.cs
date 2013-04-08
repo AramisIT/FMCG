@@ -14,6 +14,27 @@ namespace AtosFMCG.DatabaseObjects.Documents
     public class Shipment : DocumentTable
         {
         #region Properties
+        /// <summary>Вхідний номер/Номер накладної</summary>
+        [DataField(Description = "№ накладної", ShowInList = true, NotEmpty = true)]
+        public string IncomeNumber
+            {
+            get
+                {
+                return z_IncomeNumber;
+                }
+            set
+                {
+                if (z_IncomeNumber == value)
+                    {
+                    return;
+                    }
+
+                z_IncomeNumber = value;
+                NotifyPropertyChanged("IncomeNumber");
+                }
+            }
+        private string z_IncomeNumber = string.Empty;
+
         /// <summary>Стан документу</summary>
         [DataField(Description = "Стан документу", ShowInList = true)]
         public StatesOfDocument State
@@ -37,24 +58,24 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
         /// <summary>Тип відвантаження</summary>
         [DataField(Description = "Тип відвантаження", ShowInList = true)]
-        public TypesOfArrival TypeOfArrival
+        public TypesOfShipment TypeOfShipment
             {
             get
                 {
-                return z_TypeOfArrival;
+                return z_TypeOfShipment;
                 }
             set
                 {
-                if (z_TypeOfArrival == value)
+                if (z_TypeOfShipment == value)
                     {
                     return;
                     }
 
-                z_TypeOfArrival = value;
-                NotifyPropertyChanged("TypeOfArrival");
+                z_TypeOfShipment = value;
+                NotifyPropertyChanged("TypeOfShipment");
                 }
             }
-        private TypesOfArrival z_TypeOfArrival;
+        private TypesOfShipment z_TypeOfShipment;
 
         /// <summary>Контрагент</summary>
         [DataField(Description = "Контрагент", ShowInList = true)]

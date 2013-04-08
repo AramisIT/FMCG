@@ -46,9 +46,9 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
 WITH
 --Список комірок з такою ж номенклатурою
 AllowedCells AS (
-	SELECT f.GoodsCode,f.ParentCode,a.NomenclatureCell,p.DateOfManufacture NomenclatureDate
+	SELECT DISTINCT f.PalletCode,f.PreviousCode,a.NomenclatureCell,p.DateOfManufacture NomenclatureDate
 	FROM FilledCell f
-	JOIN SubAcceptanceOfGoodsNomenclatureInfo a ON f.GoodsCode=a.NomenclatureCode
+	JOIN SubAcceptanceOfGoodsNomenclatureInfo a ON f.PalletCode=a.NomenclatureCode
 	JOIN Party p ON p.Id=a.NomenclatureParty
 	WHERE a.Nomenclature=@Goods)
 --
@@ -56,14 +56,21 @@ AllowedCells AS (
 	SELECT 
 		a1.NomenclatureCell,
 		RTRIM(c.Description)Description,
-		a1.GoodsCode,
+		a1.PalletCode,
 		CAST(a1.NomenclatureDate AS DATE) NomenclatureDate,
-		a1.ParentCode,
-		ROW_NUMBER() OVER (PARTITION BY a1.NomenclatureCell,a1.NomenclatureDate ORDER BY a1.NomenclatureCell,a1.NomenclatureDate,a1.ParentCode DESC) RowNumber
+		a1.PreviousCode,
+		toc.NumberOfPallets,
+		ROW_NUMBER() OVER (PARTITION BY a1.NomenclatureCell,a1.NomenclatureDate ORDER BY a1.NomenclatureCell,a1.NomenclatureDate,a1.PreviousCode DESC) RowNumber
 	FROM AllowedCells a1
-	LEFT JOIN AllowedCells a2 ON a2.ParentCode=a1.GoodsCode
+	LEFT JOIN AllowedCells a2 ON a2.PreviousCode=a1.PalletCode
 	LEFT JOIN Cells c ON c.Id=a1.NomenclatureCell
+	LEFT JOIN TypesOfCell toc ON toc.Id=c.TypeOfCell
 	WHERE a2.NomenclatureCell IS NULL)
+--Кількість паллет в не порожніх комірках
+,PalletCountInNotEmptyCells AS (
+	SELECT c.NomenclatureCell Cell,COUNT(1)Count
+	FROM AllowedCells c
+	GROUP BY c.NomenclatureCell)
 --Список порожных комірок	
 ,EmptyCells AS (
 	SELECT Id
@@ -71,7 +78,7 @@ AllowedCells AS (
 	EXCEPT
 	SELECT DISTINCT c.Id
 	FROM FilledCell f
-	JOIN SubAcceptanceOfGoodsNomenclatureInfo a ON f.GoodsCode=a.NomenclatureCode
+	JOIN SubAcceptanceOfGoodsNomenclatureInfo a ON f.PalletCode=a.NomenclatureCode
 	JOIN Cells c ON c.Id=a.NomenclatureCell)
 --Перша порожня комірка (згідно з порядком обходу)
 ,FirstEmptyCell AS(
@@ -84,27 +91,28 @@ AllowedCells AS (
 		FROM Cells c 
 		JOIN EmptyCells e ON e.Id=c.Id)t)
 
-SELECT TOP 1 NomenclatureCell,RTRIM(Description)Description,GoodsCode
+SELECT TOP 1 Priority,NomenclatureCell,RTRIM(Description)Description,PalletCode
 FROM(
 	--Пріорітет 1 
 	--Остання палета в комірці с тією ж номенклатурою і таким же терміном придатності
-	SELECT 1 Priority,NomenclatureCell,Description,GoodsCode,NomenclatureDate
-	FROM PreparedData
-	WHERE NomenclatureDate=@Date AND RowNumber=1
+	SELECT 1 Priority,d.NomenclatureCell,d.Description,d.PalletCode,d.NomenclatureDate
+	FROM PreparedData d
+	JOIN PalletCountInNotEmptyCells c ON c.Cell=d.NomenclatureCell
+	WHERE d.NomenclatureDate=@Date AND RowNumber=1 AND c.Count<d.NumberOfPallets
 	UNION ALL
 	--Пріорітет 2
 	--Остання палета в комірці с тією ж номенклатурою і більш свіжою продукцією
-	SELECT 2 Priority,NomenclatureCell,Description,GoodsCode,MAX(NomenclatureDate)NomenclatureDate
+	SELECT 2 Priority,NomenclatureCell,Description,PalletCode,MAX(NomenclatureDate)NomenclatureDate
 	FROM PreparedData
 	WHERE RowNumber=1 AND NomenclatureDate<>@Date
-	GROUP BY NomenclatureCell,Description,GoodsCode
+	GROUP BY NomenclatureCell,Description,PalletCode
 	UNION ALL 
 	--Пріорітет 3 
 	--Порожня комірка, перша відповідно порядку
-	SELECT 3 Priority,NomenclatureCell,Description,0 GoodsCode,'0001-01-01'NomenclatureDate
+	SELECT 3 Priority,NomenclatureCell,Description,0 PalletCode,'0001-01-01'NomenclatureDate
 	FROM FirstEmptyCell)t
 WHERE NomenclatureCell IS NOT NULL
-ORDER BY Priority");
+ORDER BY Priority,Description");
             query.AddInputParameter("Goods", goods);
             query.AddInputParameter("Date", date.Date);
             QueryResult result = query.SelectRow();
@@ -112,7 +120,7 @@ ORDER BY Priority");
             if (result != null)
                 {
                 cell = new KeyValuePair<long, string>(Convert.ToInt64(result["NomenclatureCell"]), result["Description"].ToString());
-                palett = Convert.ToInt64(result["GoodsCode"]);
+                palett = Convert.ToInt64(result["PalletCode"]);
 
                 return true;
                 }

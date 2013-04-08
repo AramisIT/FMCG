@@ -353,7 +353,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
                 {
                 if(z_NewCodeNumber==0)
                     {
-                    z_NewCodeNumber = getNewCode();
+                    z_NewCodeNumber = GetNewCode();
                     }
                 else
                     {
@@ -365,7 +365,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             }
         private static long z_NewCodeNumber;
 
-        private static long getNewCode()
+        public static long GetNewCode()
             {
             Query query = DB.NewQuery(@"SELECT MAX(s.NomenclatureCode)+1 
 FROM AcceptanceOfGoods a

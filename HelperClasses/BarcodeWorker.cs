@@ -7,24 +7,39 @@ using Catalogs;
 
 namespace AtosFMCG.HelperClasses
     {
+    /// <summary>Роботник зі штрихкодами</summary>
     public static class BarcodeWorker
         {
+        #region Additional fields,consts ...
+        public const string BARCODE_STR = "Barcode";
+        /// <summary>Мінімальна довжина штрихкоду</summary>
         private const int MIN_BARCODE_LENGTH = 2;
+        /// <summary>Роздільник типу і даних</summary>
         private const string SEPARATOR_TYPE_AND_DATA = "_";
+        /// <summary>Префікси</summary>
         private static readonly Dictionary<string, Type> prefixes = new Dictionary<string, Type>
                                                                         {
                                                                             {"us", typeof (Users)},
                                                                             {"nm", typeof (Nomenclature)},
                                                                             {"cl", typeof (Cells)},
-                                                                            {string.Empty, typeof (long)}
-                                                                        };
+                                                                            {String.Empty, typeof (long)}
+                                                                        }; 
+        #endregion
 
+        /// <summary>Визначення чи являється штрихкод двомірним</summary>
+        /// <param name="barcode">Штрихкод</param>
+        /// <returns>Чи являється штрихкод двомірним</returns>
         public static bool Is2DCode(byte[] barcode)
             {
             return true;
             }
 
-        public static bool GetPartsFromBarcode(string barcode, out long id)
+        #region Code128
+        /// <summary>Отримати ID зі штрих-коду</summary>
+        /// <param name="barcode">Штрих-код</param>
+        /// <param name="id">ID</param>
+        /// <returns>Чи було отримано ID</returns>
+        public static bool GetIdFromBarcode(string barcode, out long id)
             {
             string prefix;
             string idStr;
@@ -32,16 +47,21 @@ namespace AtosFMCG.HelperClasses
 
             if (result)
                 {
-                return long.TryParse(idStr, out id);
+                return Int64.TryParse(idStr, out id);
                 }
 
             id = 0;
-            return false ;
+            return false;
             }
 
+        /// <summary>Отримати частини зі штрих-коду</summary>
+        /// <param name="barcode">Штрих-код</param>
+        /// <param name="prefix">Префікс (відповідає за тип даних)</param>
+        /// <param name="id">ID</param>
+        /// <returns>Чи було отримано частинки</returns>
         public static bool GetPartsFromBarcode(string barcode, out string prefix, out string id)
             {
-            if (!string.IsNullOrWhiteSpace(barcode) && barcode.Length >= MIN_BARCODE_LENGTH)
+            if (!String.IsNullOrWhiteSpace(barcode) && barcode.Length >= MIN_BARCODE_LENGTH)
                 {
                 int index = barcode.IndexOf(SEPARATOR_TYPE_AND_DATA);
 
@@ -54,11 +74,14 @@ namespace AtosFMCG.HelperClasses
 
                 }
 
-            prefix = string.Empty;
-            id = string.Empty;
+            prefix = String.Empty;
+            id = String.Empty;
             return false;
             }
 
+        /// <summary>Отримати тип даних зі штрихкоду</summary>
+        /// <param name="barcode">Штрих-код</param>
+        /// <returns>Тип даних</returns>
         public static Type GetTypeOfData(string barcode)
             {
             string prefix;
@@ -72,19 +95,31 @@ namespace AtosFMCG.HelperClasses
                     }
                 }
 
-            return typeof (Nullable);
+            return typeof(Nullable);
             }
 
+        /// <summary>Перевірити штрих-код на відповідність типу даних</summary>
+        /// <typeparam name="T">Тип даних</typeparam>
+        /// <param name="barcodeObj">Штрих-код</param>
+        /// <returns>Штрих-код відповідає типу даних</returns>
         public static bool CheckMatchingBarcodeAndType<T>(object barcodeObj)
             {
             return barcodeObj != null && CheckMatchingBarcodeAndType(barcodeObj.ToString(), typeof(T));
             }
 
+        /// <summary>Перевірити штрих-код на відповідність типу даних</summary>
+        /// <param name="barcodeObj">Штрих-код</param>
+        /// <param name="expectedType">Тип даних</param>
+        /// <returns>Штрих-код відповідає типу даних</returns>
         public static bool CheckMatchingBarcodeAndType(object barcodeObj, Type expectedType)
             {
             return barcodeObj != null && CheckMatchingBarcodeAndType(barcodeObj.ToString(), expectedType);
             }
 
+        /// <summary>Перевірити штрих-код на відповідність типу даних</summary>
+        /// <param name="expectedType">Тип даних</param>
+        /// <param name="barcode">Штрих-код</param>
+        /// <returns>Штрих-код відповідає типу даних</returns>
         public static bool CheckMatchingBarcodeAndType(string barcode, Type expectedType)
             {
             string prefix;
@@ -94,10 +129,15 @@ namespace AtosFMCG.HelperClasses
                 {
                 return prefixes[prefix] == expectedType;
                 }
-            
+
             return false;
             }
 
+        /// <summary>Перевірити штрих-код на відповідність типу даних</summary>
+        /// <param name="expectedType">Тип даних</param>
+        /// <param name="barcode">Штрих-код</param>
+        /// <param name="id">ID</param>
+        /// <returns>Штрих-код відповідає типу даних</returns>
         public static bool CheckMatchingBarcodeAndType(string barcode, Type expectedType, out long id)
             {
             string prefix;
@@ -105,7 +145,7 @@ namespace AtosFMCG.HelperClasses
 
             if (GetPartsFromBarcode(barcode, out prefix, out idStr))
                 {
-                long.TryParse(idStr, out id);
+                Int64.TryParse(idStr, out id);
                 return prefixes[prefix] == expectedType;
                 }
 
@@ -113,13 +153,19 @@ namespace AtosFMCG.HelperClasses
             return false;
             }
 
+        /// <summary>Отримати коротку інформацію зі штрихкоду</summary>
+        /// <typeparam name="T">Тип даних</typeparam>
+        /// <param name="barcode">Штрих-код</param>
+        /// <param name="id">ID</param>
+        /// <param name="description">Опис</param>
+        /// <returns>Чи було отримано коротку інформацію зі штрих-коду</returns>
         public static bool GetCutDataByBarcode<T>(string barcode, out long id, out string description)
             {
-            Type type = typeof (T);
+            Type type = typeof(T);
 
             if (CheckMatchingBarcodeAndType(barcode, type, out id))
                 {
-                string command = string.Format("SELECT RTRIM(Description) FROM {0} WHERE Id=@Id", type.Name);
+                string command = String.Format("SELECT RTRIM(Description) FROM {0} WHERE Id=@Id", type.Name);
                 Query query = DB.NewQuery(command);
                 query.AddInputParameter("Id", id);
                 object descriptionObj = query.SelectScalar();
@@ -132,49 +178,40 @@ namespace AtosFMCG.HelperClasses
                 }
 
             id = 0;
-            description = string.Empty;
+            description = String.Empty;
             return false;
             }
-        }
 
-    /// <summary>Переміщувач паллети</summary>
-    public static class PalletMover
-        {
-        /// <summary>Встановити паллету в комірку (підставити до іншої паллети)</summary>
-        /// <param name="palletCode">Унікальний код палети</param>
-        /// <param name="previous">Унікальний код палети до якої підставиться паллета, що встановлюється</param>
-        public static void EstablishPalletToCell(long palletCode, long previous = 0)
+        /// <summary>Перевірка штрих-коду паллети (комірки) для переміщення</summary>
+        /// <param name="barcode">Штрих-код</param>
+        /// <param name="cellIsAccepted"> </param>
+        /// <param name="palletId">Код палети до якої встановлюватиметься паллета, що переміщується</param>
+        /// <returns>Чи вірний штрих-код</returns>
+        public static bool CheckPalletBarcodeForMoving(string barcode, bool cellIsAccepted, out long palletId, out bool iscell)
             {
-            FilledCell filledCell = new FilledCell
-            {
-                PalletCode = palletCode,
-                PreviousCode = previous
-            };
-            filledCell.Write();
-            //Query query = DB.NewQuery("");
-            //query.AddInputParameter("PalletCode", palletCode);
-            //query.AddInputParameter("Previous", previous);
-            //query.Execute();
-            }
+            //Може бути три варіати,що було відскановано: 1) паллету, 2) комірку, 3) щось зайве
+            Type type = GetTypeOfData(barcode);
 
-        /// <summary>Перемістити паллету</summary>
-        /// <param name="palletCode">Унікальний код паллети</param>
-        /// <param name="newPreviousPallet">Унікальний код палети до якої підставиться паллета, що переміщується</param>
-        public static void MovePalletToNewPlace(long palletCode, long newPreviousPallet = 0)
-            {
-            Query query = DB.NewQuery("UPDATE FilledCell SET PreviousCode=@PreviousCode WHERE PalletCode=@PalletCode");
-            query.AddInputParameter("PreviousCode", newPreviousPallet);
-            query.AddInputParameter("PalletCode", palletCode);
-            query.Execute();
-            }
+            if (type == typeof(Cells))
+                {
+                //Note: Є можливість додати перевірку, що у цій комірці нічого не стоїть
+                GetIdFromBarcode(barcode, out palletId);
+                iscell = true;
+                return cellIsAccepted;
+                }
 
-        /// <summary>Прибрати паллету зі скалду</summary>
-        /// <param name="palletCode">Унікальний код паллети</param>
-        public static void RemovePallet(long palletCode)
-            {
-            Query query = DB.NewQuery("DELETE FROM FilledCell PalletCode=@PalletCode");
-            query.AddInputParameter("PalletCode", palletCode);
-            query.Execute();
+            if (type == typeof (long))
+                {
+                //Note: Є можливість додати перевірку, що перед цією паллетою нічого не стоїть
+                GetIdFromBarcode(barcode, out palletId);
+                iscell = false;
+                return true;
+                }
+
+            palletId = 0;
+            iscell = false;
+            return false;
             }
+        #endregion
         }
     }

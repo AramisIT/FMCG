@@ -1,4 +1,6 @@
 ﻿using System;
+using Aramis.UI.WinFormsDevXpress.Forms;
+using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.HelperClasses.DCT;
 using AtosFMCG.HelperClasses.ViewOfServiceTables;
 using Catalogs;
@@ -52,8 +54,10 @@ namespace AtosFMCG
             dctServerGroup.Visible = openByAdmnin;
             serviceTablesGroup.Visible = openByAdmnin;
 
+            //todo: Додати роль "Менеджер ТСД"
             if (openByAdmnin)
                 {
+                ltlServerState.Visibility = BarItemVisibility.Always;
                 runSMServer();
                 }
             }
@@ -83,6 +87,11 @@ namespace AtosFMCG
         private void openReportsSetting_ItemClick(object sender, ItemClickEventArgs e)
             {
             UserInterface.Current.ShowList(typeof(MatrixReports));
+            }
+
+        private void openConsts_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowSystemObject(SystemConsts.GetEntity(), new ConstsForm());
             }
         #endregion
 
@@ -116,46 +125,6 @@ namespace AtosFMCG
             {
             PlatformMethods.ObjectsPermissions();
             }
-
-        private void runSMServer()
-            {
-            try
-                {
-                if (smServer == null || !smServer.IsRun)
-                    {
-                    smServer = new InfoForm(ReceiveMessages.ReceiveMessage);
-
-                    if (smServer.IsRun)
-                        {
-                        serverState.Caption = "Запущено!";
-                        serverState.LargeImageIndex = 24;
-                        serverState.SuperTip.Items.Clear();
-                        serverState.SuperTip.Items.Add("Сервер запущено!");
-                        }
-                    else
-                        {
-                        serverState.LargeImageIndex = 22;
-                        serverState.Caption = "Помилка!";
-                        serverState.SuperTip.Items.Clear();
-                        serverState.SuperTip.Items.Add("Сервер не зміг запуститись!");
-                        }
-                    }
-                else if (SystemAramis.CurrentUser.Id == CatalogUsers.Admin.Id)
-                    {
-                    SendToTCD sendForm = new SendToTCD(smServer);
-                    sendForm.Show();
-                    }
-                }
-            catch (Exception exc)
-                {
-                smServer = null;
-                exc.Message.WarningBox();
-                serverState.Caption = "Помилка!";
-                serverState.LargeImageIndex = 22;
-                serverState.SuperTip.Items.Clear();
-                serverState.SuperTip.Items.Add(exc.Message);
-                }
-            }
         #endregion
 
         #region Службові таблиці
@@ -177,15 +146,61 @@ namespace AtosFMCG
             view.Show();
             }
         #endregion
+        #endregion
 
-        #region Термінал Збіру Даних
+        #region Робота з Терміналом Збіру Даних
         private InfoForm smServer;
 
         private void barButtonItem1_ItemClick(object sender, ItemClickEventArgs e)
             {
             runSMServer();
             }
-        #endregion
+
+        private void runSMServer()
+            {
+            try
+                {
+                if (smServer == null || !smServer.IsRun)
+                    {
+                    smServer = new InfoForm(ReceiveMessages.ReceiveMessage);
+
+                    if (smServer.IsRun)
+                        {
+                        serverState.Caption = "Запущено!";
+                        serverState.LargeImageIndex = 24;
+                        serverState.SuperTip.Items.Clear();
+                        serverState.SuperTip.Items.Add("Сервер для роботи з ТСД запущено!");
+                        
+                        ltlServerState.ImageIndex = 20;
+                        ltlServerState.Caption= "Сервер для роботи з ТСД запущено!";
+                        }
+                    else
+                        {
+                        serverState.LargeImageIndex = 22;
+                        serverState.Caption = "Помилка!";
+                        serverState.SuperTip.Items.Clear();
+                        serverState.SuperTip.Items.Add("Сервер для роботи з ТСД не зміг запуститись!");
+
+                        ltlServerState.ImageIndex = 1;
+                        ltlServerState.Caption = "Сервер для роботи з ТСД не зміг запуститись!";
+                        }
+                    }
+                else if (SystemAramis.CurrentUser.Id == CatalogUsers.Admin.Id)
+                    {
+                    SendToTCD sendForm = new SendToTCD(smServer);
+                    sendForm.Show();
+                    }
+                }
+            catch (Exception exc)
+                {
+                smServer = null;
+                exc.Message.WarningBox();
+                serverState.Caption = "Помилка!";
+                serverState.LargeImageIndex = 22;
+                serverState.SuperTip.Items.Clear();
+                serverState.SuperTip.Items.Add(exc.Message);
+                }
+            }
         #endregion
         }
     }

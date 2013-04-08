@@ -39,26 +39,6 @@ namespace AtosFMCG.HelperClasses.DCT
             smServer.EmulatePressKey(116);
             }
 
-        private void button87_Click(object sender, EventArgs e) {}
-
-        private void button88_Click(object sender, EventArgs e) {}
-
-        private void button89_Click(object sender, EventArgs e) {}
-
-        private void button92_Click(object sender, EventArgs e) {}
-
-        private void button91_Click(object sender, EventArgs e) {}
-
-        private void button90_Click(object sender, EventArgs e) {}
-
-        private void button95_Click(object sender, EventArgs e) {}
-
-        private void button94_Click(object sender, EventArgs e) {}
-
-        private void button93_Click(object sender, EventArgs e) {}
-
-        private void button96_Click(object sender, EventArgs e) {}
-
         private void button86_Click(object sender, EventArgs e)
             {
             smServer.EmulatePressKey(11);

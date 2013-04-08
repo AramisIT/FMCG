@@ -92,6 +92,27 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
             }
         private double z_AllowableWeight;
 
+        /// <summary>Кількість паллетомісць</summary>
+        [DataField(Description = "Кількість паллетомісць", ShowInList = true)]
+        public int NumberOfPallets
+            {
+            get
+                {
+                return z_NumberOfPallets;
+                }
+            set
+                {
+                if (z_NumberOfPallets == value)
+                    {
+                    return;
+                    }
+
+                z_NumberOfPallets = value;
+                NotifyPropertyChanged("NumberOfPallets");
+                }
+            }
+        private int z_NumberOfPallets;
+
         /// <summary>Віртуальна комірка</summary>
         [DataField(Description = "Віртуальна комірка", ShowInList = true)]
         public bool IsVirtual

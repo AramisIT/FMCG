@@ -3,6 +3,7 @@ using Aramis.UI.WinFormsDevXpress;
 using Aramis.Core;
 using Aramis.Enums;
 using Aramis.Attributes;
+using AtosFMCG.Enums;
 using DevExpress.XtraBars;
 
 namespace AtosFMCG.DatabaseObjects.Documents
@@ -15,17 +16,24 @@ namespace AtosFMCG.DatabaseObjects.Documents
         public DatabaseObject Item
             {
             get { return item; }
-            set { item = (DocumentTable)value; }
+            set { item = (DocumentTable) value; }
             }
         public Inventory Document
             {
-            get { return (Inventory)item; }
+            get { return (Inventory) item; }
             }
         #endregion
 
         public InventoryItemForm()
             {
             InitializeComponent();
+            Load += InventoryItemForm_Load;
+            }
+
+        private void InventoryItemForm_Load(object sender, System.EventArgs e)
+            {
+            setCreateTaskEnabled();
+            Document.PropertyChanged += Document_PropertyChanged;
             }
 
         #region Result
@@ -73,5 +81,29 @@ namespace AtosFMCG.DatabaseObjects.Documents
             TryCancel();
             }
         #endregion
+
+        private void Document_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+            {
+            switch (e.PropertyName)
+                {
+                    case "TypeOfInventory":
+                        periodPanel.Visible = Document.TypeOfInventory == TypesOfInventory.LatestCellsForPeriod;
+                        setCreateTaskEnabled();
+                        break;
+                    case "State":
+                        setCreateTaskEnabled();
+                        break;
+                }
+            }
+
+        private void setCreateTaskEnabled()
+            {
+            createTask.Enabled = Document.State == StatesOfDocument.Empty && Document.TypeOfInventory == TypesOfInventory.LatestCellsForPeriod;
+            }
+
+        private void createTask_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            Document.CreateTask();
+            }
         }
     }

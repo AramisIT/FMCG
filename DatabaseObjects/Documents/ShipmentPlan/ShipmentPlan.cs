@@ -10,7 +10,7 @@ using AtosFMCG.Enums;
 namespace AtosFMCG.DatabaseObjects.Documents
     {
     /// <summary>План відвантаження</summary>
-    [Document(Description = "План відвантаження", GUID = "029B0572-E5B5-48CD-9805-1211319A5633", NumberType = NumberType.Int64, NumberIsReadonly = false)]
+    [Document(Description = "План відвантаження", GUID = "029B0572-E5B5-48CD-9805-1211319A5633", NumberType = NumberType.String, NumberIsReadonly = false)]
     public class ShipmentPlan : DocumentTable
         {
         #region Properties
@@ -35,26 +35,47 @@ namespace AtosFMCG.DatabaseObjects.Documents
             }
         private string z_IncomeNumber = string.Empty;
 
-        /// <summary>Тип відвантаження</summary>
-        [DataField(Description = "Прихід від", ShowInList = true)]
-        public TypesOfArrival TypeOfArrival
+        /// <summary>Стан документу</summary>
+        [DataField(Description = "Стан документу", ShowInList = true)]
+        public StatesOfDocument State
             {
             get
                 {
-                return z_TypeOfArrival;
+                return z_State;
                 }
             set
                 {
-                if (z_TypeOfArrival == value)
+                if (z_State == value)
                     {
                     return;
                     }
 
-                z_TypeOfArrival = value;
-                NotifyPropertyChanged("TypeOfArrival");
+                z_State = value;
+                NotifyPropertyChanged("State");
                 }
             }
-        private TypesOfArrival z_TypeOfArrival;
+        private StatesOfDocument z_State;
+
+        /// <summary>Тип відвантаження</summary>
+        [DataField(Description = "Тип відвантаження", ShowInList = true)]
+        public TypesOfShipment TypeOfShipment
+            {
+            get
+                {
+                return z_TypeOfShipment;
+                }
+            set
+                {
+                if (z_TypeOfShipment == value)
+                    {
+                    return;
+                    }
+
+                z_TypeOfShipment = value;
+                NotifyPropertyChanged("TypeOfShipment");
+                }
+            }
+        private TypesOfShipment z_TypeOfShipment;
 
         /// <summary>Контрагент</summary>
         [DataField(Description = "Контрагент", ShowInList = true, NotEmpty = true, AllowOpenItem = true)]
@@ -112,20 +133,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
                 }
             }
 
-        /// <summary>Місто</summary>
-        [DataField(Description = "Місто", ShowInList = true)]
-        public Cities City
-            {
-            get
-                {
-                return (Cities)GetValueForObjectProperty("City");
-                }
-            set
-                {
-                SetValueForObjectProperty("City", value);
-                }
-            }
-
         /// <summary>Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)</summary>
         [DataField(Description = "Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)", ShowInList = true, StorageType = StorageTypes.Local)]
         public string Info
@@ -135,7 +142,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
         #region Table Nomeclature
         /// <summary>Номенлатура</summary>
-        [Table(Columns = "Code, Nomenclature, Measure, Quantity, Party, Cell, IsTare", ShowLineNumberColumn = true)]
+        [Table(Columns = "Code, Nomenclature, Measure, Quantity, Party, Cell, IsTare, IsMove", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенлатура")]
         public DataTable NomenclatureInfo
             {
@@ -169,6 +176,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
         /// <summary>Тара</summary>
         [SubTableField(Description = "Тара", PropertyType = typeof(bool), StorageType = StorageTypes.Local, ReadOnly = true)]
         public DataColumn IsTare { get; set; }
+
+        /// <summary>Переміщено</summary>
+        [SubTableField(Description = "Переміщено", PropertyType = typeof(bool), ReadOnly = true)]
+        public DataColumn IsMove { get; set; }
         #endregion
         #endregion
 

@@ -2,10 +2,12 @@
 using System.Data;
 using Aramis.Attributes;
 using Aramis.Core;
+using Aramis.DatabaseConnector;
 using Aramis.Enums;
 using Aramis.Platform;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.Enums;
+using AtosFMCG.HelperClasses;
 
 namespace AtosFMCG.DatabaseObjects.Documents
     {
@@ -35,8 +37,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
             }
         private StatesOfDocument z_State;
 
-        /// <summary>Джерело </summary>
-        [DataField(Description = "Джерело ", ShowInList = true, AllowOpenItem = true)]
+        /// <summary>Джерело</summary>
+        [DataField(Description = "Джерело", ShowInList = true, AllowOpenItem = true)]
         public PlannedArrival Source
             {
             get
@@ -102,7 +104,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
         #region Table Nomeclature
         /// <summary>Номенлатура</summary>
-        [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureCount, SourceCell, DestinationCell, IsTare", ShowLineNumberColumn = true)]
+        [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureCount, SourceCell, DestinationCell, IsMoved, IsTare", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенлатура")]
         public DataTable NomenclatureInfo
             {
@@ -137,6 +139,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
         [SubTableField(Description = "Комірка-призначення", PropertyType = typeof(Cells))]
         public DataColumn DestinationCell { get; set; }
 
+        /// <summary>Переміщено</summary>
+        [SubTableField(Description = "Переміщено", PropertyType = typeof(bool), ReadOnly = true)]
+        public DataColumn IsMoved { get; set; }
+
         /// <summary>Тара</summary>
         [SubTableField(Description = "Тара", PropertyType = typeof(bool), StorageType =  StorageTypes.Local, ReadOnly = true)]
         public DataColumn IsTare { get; set; }
@@ -162,6 +168,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
             ValueOfObjectPropertyChanged += AcceptanceOfGoods_ValueOfObjectPropertyChanged;
             TableRowChanged += AcceptanceOfGoods_TableRowChanged;
+            TableRowAdded += Movement_TableRowAdded;
             fillSourceData();
             fillingTare();
             }
@@ -201,6 +208,14 @@ namespace AtosFMCG.DatabaseObjects.Documents
         #endregion
 
         #region Changed
+        void Movement_TableRowAdded(DataTable dataTable, DataRow currentRow)
+            {
+            if(dataTable.Equals(NomenclatureInfo))
+                {
+                currentRow[IsMoved] = false;
+                }
+            }
+
         void AcceptanceOfGoods_ValueOfObjectPropertyChanged(string propertyName)
             {
             switch (propertyName)
@@ -220,6 +235,19 @@ namespace AtosFMCG.DatabaseObjects.Documents
                     fillTareInRow(currentRow);
                     }
                 }
+            }
+        #endregion
+
+        #region Static
+        public static void MovePallet(long palletId, long newPositionId, bool isCell)
+            {
+            Query query = DB.NewQuery(@"EXEC FinishMovement @Responsible,@DestinationCell,@PalletId");
+            query.AddInputParameter("Responsible", SystemAramis.CurrentUser.Id);
+            query.AddInputParameter("DestinationCell", newPositionId);
+            query.AddInputParameter("PalletId", palletId);
+            query.Execute();
+
+            PalletMover.MovePalletToNewPlace(palletId, isCell ? 0 : newPositionId);
             }
         #endregion
         }
