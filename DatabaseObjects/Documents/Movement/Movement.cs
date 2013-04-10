@@ -6,6 +6,7 @@ using Aramis.DatabaseConnector;
 using Aramis.Enums;
 using Aramis.Platform;
 using AtosFMCG.DatabaseObjects.Catalogs;
+using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
 using AtosFMCG.HelperClasses;
 
@@ -38,12 +39,12 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private StatesOfDocument z_State;
 
         /// <summary>Джерело</summary>
-        [DataField(Description = "Джерело", ShowInList = true, AllowOpenItem = true)]
-        public PlannedArrival Source
+        [DataField(Description = "Джерело", ShowInList = true, AllowOpenItem = true, AllowedTypes = new[]{typeof(ShipmentPlan), typeof(AcceptanceOfGoods)})]
+        public DocumentTable Source
             {
             get
                 {
-                return (PlannedArrival)GetValueForObjectProperty("Source");
+                return (DocumentTable)GetValueForObjectProperty("Source");
                 }
             set
                 {
@@ -104,7 +105,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
         #region Table Nomeclature
         /// <summary>Номенлатура</summary>
-        [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureCount, SourceCell, DestinationCell, IsMoved, IsTare", ShowLineNumberColumn = true)]
+        [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureCount, SourceCell, DestinationCell, RowState, IsTare", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенлатура")]
         public DataTable NomenclatureInfo
             {
@@ -140,8 +141,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
         public DataColumn DestinationCell { get; set; }
 
         /// <summary>Переміщено</summary>
-        [SubTableField(Description = "Переміщено", PropertyType = typeof(bool), ReadOnly = true)]
-        public DataColumn IsMoved { get; set; }
+        [SubTableField(Description = "Переміщено", PropertyType = typeof(StatesOfDocument), ReadOnly = true)]
+        public DataColumn RowState { get; set; }
 
         /// <summary>Тара</summary>
         [SubTableField(Description = "Тара", PropertyType = typeof(bool), StorageType =  StorageTypes.Local, ReadOnly = true)]
@@ -177,8 +178,14 @@ namespace AtosFMCG.DatabaseObjects.Documents
         #region Filling
         private void fillSourceData()
             {
-            IncomeNumber = Source.IncomeNumber;
-            IncomeDate = Source.Id==0 ? string.Empty : Source.Date.ToShortDateString();
+            IIncomeOwner owner = Source as IIncomeOwner;
+
+            if(owner!=null)
+                {
+                IncomeNumber = owner.IncomeNumber;
+                }
+
+            IncomeDate = Source == null || Source.Id == 0 ? string.Empty : Source.Date.ToShortDateString();
             }
 
         private void fillingTare()
@@ -212,7 +219,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             {
             if(dataTable.Equals(NomenclatureInfo))
                 {
-                currentRow[IsMoved] = false;
+                currentRow[RowState] = StatesOfDocument.Planned;
                 }
             }
 

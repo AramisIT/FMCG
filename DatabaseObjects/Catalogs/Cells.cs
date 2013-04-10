@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
+using Aramis;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
+using Aramis.Enums;
+using Catalogs;
 
 namespace AtosFMCG.DatabaseObjects.Catalogs
     {
     /// <summary>Комірки зберігання</summary>
-    [Catalog(Description = "Комірки зберігання", GUID = "A4BDEF67-D02D-469E-928E-F5BE8FFCA0A1")]
+    [Catalog(Description = "Комірки зберігання", GUID = "A4BDEF67-D02D-469E-928E-F5BE8FFCA0A1", HierarchicType = HierarchicTypes.None, ShowCodeFieldInForm = false)]
     public class Cells : CatalogTable
         {
         #region Properties
@@ -23,7 +26,35 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
                 {
                 SetValueForObjectProperty("TypeOfCell", value);
                 }
-            } 
+            }
+
+        /// <summary>Класифікатор</summary>
+        [DataField(Description = "Класифікатор", ShowInList = true)]
+        public ClassifierUnits Classifier
+            {
+            get
+                {
+                return (ClassifierUnits)GetValueForObjectProperty("Classifier");
+                }
+            set
+                {
+                SetValueForObjectProperty("Classifier", value);
+                }
+            }
+        #endregion
+
+        #region Предопределенные элементы
+        private const string CATALOG_NAME = "Cells";
+
+        /// <summary>Ящик</summary>
+        public static DBObjectRef Buyout
+            {
+            get
+                {
+                return z_Buyout ?? (z_Buyout = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "Викуп"));
+                }
+            }
+        private static DBObjectRef z_Buyout;
         #endregion
 
         #region Static

@@ -24,17 +24,17 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
                 }
             }
 
-        /// <summary>Номенклатура (тари)</summary>
-        [DataField(Description = "Номенклатура (тари)", ShowInList = true)]
-        public Nomenclature Tare
+        /// <summary>Класифікатор тари</summary>
+        [DataField(Description = "Класифікатор тари", ShowInList = true)]
+        public ClassifierUnits Classifier
             {
             get
                 {
-                return (Nomenclature)GetValueForObjectProperty("Tare");
+                return (ClassifierUnits)GetValueForObjectProperty("Classifier");
                 }
             set
                 {
-                SetValueForObjectProperty("Tare", value);
+                SetValueForObjectProperty("Classifier", value);
                 }
             }
 
@@ -83,5 +83,11 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
             }
         private static DBObjectRef z_Bottle;
         #endregion
+
+        protected override WritingResult CheckingBeforeWriting()
+            {
+            Description = string.Format("{0} ({1})", Classifier.Description, Nomenclature.Description);
+            return base.CheckingBeforeWriting();
+            }
         }
     }

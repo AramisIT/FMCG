@@ -187,6 +187,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             } 
         #endregion
 
+        /// <summary>Сформувати завдання</summary>
         public void CreateTask()
             {
             if(TypeOfInventory == TypesOfInventory.LatestCellsForPeriod)
@@ -201,6 +202,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
                     NomenclatureInfo.Rows.Clear();
                     }
 
+                //Вибираємо з таблиці 'GoodsMoving' необхідні дані по останнім паллетам в комірці з котрими в обраний період робились хоч якісь операції
                 Query query = DB.NewQuery(@"
 --DECLARE @StartDate DATETIME2='2013-04-08'
 --DECLARE @FinishDate DATETIME2='2013-04-09';
@@ -212,9 +214,10 @@ LastPalletInCell AS (
 	FULL JOIN FilledCell p ON p.PreviousCode=c.PalletCode
 	WHERE p.PalletCode IS NULL)
 	
-SELECT DISTINCT g.UniqueCode PalletCode,g.Nomenclature,g.MeasureUnit Measure,g.Quantity PlanValue,g.Cell
+SELECT DISTINCT g.UniqueCode,g.Nomenclature,g.MeasureUnit,g.Quantity,g.Cell,n.NomenclatureParty Party
 FROM GoodsMoving g
 JOIN LastPalletInCell c ON c.PalletCode=g.UniqueCode
+LEFT JOIN SubAcceptanceOfGoodsNomenclatureInfo n ON n.NomenclatureCode=g.UniqueCode
 WHERE g.WritingDate BETWEEN @StartDate AND @FinishDate");
                 query.AddInputParameter("StartDate", StartPeriod);
                 query.AddInputParameter("FinishDate", FinishPeriod);
@@ -228,6 +231,7 @@ WHERE g.WritingDate BETWEEN @StartDate AND @FinishDate");
                     newRow.SetRefValueToRowCell(this, Measure, row[Measure.ColumnName], typeof(Measures));
                     newRow[PlanValue] = row[PlanValue.ColumnName];
                     newRow.SetRefValueToRowCell(this, Cell, row[Cell.ColumnName], typeof(Cells));
+                    newRow.SetRefValueToRowCell(this, Party, row[Party.ColumnName], typeof(Party));
                     newRow.AddRowToTable(this);
                     }
                 }

@@ -100,6 +100,7 @@
     </Compile>
     <Compile Include="DatabaseObjects\Catalogs\Cells.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Cities.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\ClassifierUnits.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Consts\Consts.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Consts\ConstsForm.cs">
       <SubType>Form</SubType>
@@ -196,6 +197,10 @@
       <DependentUpon>SendToTCD.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Enums\TypesOfArrival.cs" />
+    <Compile Include="HelperClasses\Deleted\AlterDeletedColumn.cs" />
+    <Compile Include="HelperClasses\Deleted\DeleteMarked.cs" />
+    <Compile Include="HelperClasses\Deleted\DeleteObjectInfo.cs" />
+    <Compile Include="HelperClasses\Deleted\InformationName.cs" />
     <Compile Include="HelperClasses\PalletMover.cs" />
     <Compile Include="HelperClasses\ViewOfServiceTables\ViewBaseForm.cs">
       <SubType>Form</SubType>

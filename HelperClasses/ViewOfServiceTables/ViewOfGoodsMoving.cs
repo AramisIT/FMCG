@@ -8,7 +8,7 @@
             Command = @"
 SELECT TOP {0}
 	ROW_NUMBER() OVER (ORDER BY m.WritingDate DESC) [#],
-	CONVERT(VARCHAR(10),m.WritingDate,104) [Дата запису],
+	CONVERT(VARCHAR(10),m.WritingDate,104)+' '+CONVERT(VARCHAR(8),m.WritingDate,108) [Дата запису],
 	m.DocTypeId [GUID документу],
 	m.DocId [ID документу],
 	m.RowNumber [№ строки],

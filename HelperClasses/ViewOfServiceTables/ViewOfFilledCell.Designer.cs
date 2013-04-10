@@ -36,7 +36,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(743, 436);
             this.Name = "ViewOfFilledCell";
-            this.Text = "Відображення таблиці \"Переміщення товару\"";
+            this.Text = "Відображення таблиці \"Розміщення паллет\"";
             this.ResumeLayout(false);
 
             }

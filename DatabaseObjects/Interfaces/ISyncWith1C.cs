@@ -8,4 +8,10 @@ namespace AtosFMCG.DatabaseObjects.Interfaces
         /// <summary>Посилання 1С</summary>
         Guid Ref1C { get; set; }
         }
+
+    public interface IIncomeOwner
+        {
+        /// <summary>Номер накладної</summary>
+        string IncomeNumber { get; set; }
+        }
     }

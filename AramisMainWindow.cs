@@ -2,6 +2,7 @@
 using Aramis.UI.WinFormsDevXpress.Forms;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.HelperClasses.DCT;
+using AtosFMCG.HelperClasses.Deleted;
 using AtosFMCG.HelperClasses.ViewOfServiceTables;
 using Catalogs;
 using DevExpress.XtraBars;
@@ -202,5 +203,16 @@ namespace AtosFMCG
                 }
             }
         #endregion
+
+        private void tstDeleted_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            AlterDeletedColumn.Run();
+            }
+
+        private void tstDeleteMarked_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            DeleteMarked.GetBlockedInfo(typeof(Cells).Name, 1);
+            DeleteMarked.GetBlockedInfo(typeof(Cities).Name, 1);
+            }
         }
     }

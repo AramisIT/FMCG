@@ -95,34 +95,27 @@ WHERE a.MarkForDeleting=0 AND a.State=0 AND @Today=CAST(p.Date AS DATE)");
             {
             long palletId = Convert.ToInt64(parameters[0]);
 
-            Query query = DB.NewQuery(@"--DECLARE @PalletId BIGINT=1
---DECLARE @BoxId BIGINT=1
---DECLARE @BottleId BIGINT=3;
+            Query query = DB.NewQuery(@"
+--DECLARE @PalletId BIGINT=1
+--DECLARE @BoxId BIGINT=1;
 
 WITH 
 Data AS (
 	SELECT 
-        RTRIM(n.Description) Goods,
-        CONVERT(VARCHAR(10),b.ExpariedDate,104)ExpariedDate,
-        b.Quantity,
-        b.MeasureUnit
+		b.Nomenclature,
+        b.ExpariedDate,
+        SUM(CASE WHEN b.MeasureUnit=@BoxId THEN b.Quantity ELSE 0 END) BoxCount,
+        SUM(CASE WHEN b.MeasureUnit<>@BoxId THEN b.Quantity ELSE 0 END) BottleCount
 	FROM StockBalance b
-	JOIN Nomenclature n ON n.Id=b.Nomenclature
-	WHERE b.UniqueCode=@PalletId)
-	
-SELECT *
-FROM (
-	SELECT DISTINCT
-		ISNULL(box.Goods, bot.Goods)Goods,
-		ISNULL(box.ExpariedDate,bot.ExpariedDate)Date,
-		CASE WHEN box.MeasureUnit=@BoxId	THEN box.Quantity ELSE 0 END BoxCount,
-		CASE WHEN bot.MeasureUnit=@BottleId THEN bot.Quantity ELSE 0 END BottleCount
-	FROM Data box
-	JOIN Data bot ON 1=1)t
-WHERE t.BottleCount<>0 OR t.BoxCount<>0");
+	WHERE b.UniqueCode=@PalletId
+	GROUP BY b.Nomenclature,b.ExpariedDate)
+
+SELECT RTRIM(n.Description) Goods,CONVERT(VARCHAR(10),d.ExpariedDate,104)Date,BoxCount,BottleCount
+FROM Data d
+JOIN Nomenclature n ON n.Id=d.Nomenclature
+WHERE d.BottleCount<>0 OR d.BoxCount<>0");
             query.AddInputParameter("PalletId", palletId);
             query.AddInputParameter("BoxId", Measures.Box.Id);
-            query.AddInputParameter("BottleId", Measures.Bottle.Id);
             QueryResult result = query.SelectRow();
 
             return new[] { result["Goods"], result["Date"], result["BoxCount"], result["BottleCount"] };
@@ -218,7 +211,7 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Movement])) 
             {
             Query query = DB.NewQuery(@"DECLARE @Today DATETIME2=CAST(GETDATE() AS Date)
 
-SELECT RTRIM(c.Description)+' №'+CAST(s.Number AS VARCHAR) Description, c.Id Id
+SELECT RTRIM(RTRIM(c.Description)+' №'+CAST(s.Number AS VARCHAR)) Description, c.Id Id
 FROM ShipmentPlan s 
 JOIN Contractors c ON c.Id=s.Contractor
 JOIN SubShipmentPlanNomenclatureInfo p ON p.IdDoc=s.Id AND p.IsMove=0
@@ -306,7 +299,8 @@ LEFT JOIN Cells c ON c.Id=d.Cell");
         private static long getIncomeDoc(double count, long goods, long car)
             {
             Query query = DB.NewQuery(@"--DECLARE @Goods	BIGINT=1
---DECLARE @Car	BIGINT=2;
+--DECLARE @Car	BIGINT=2
+DECLARE @Date	DATETIME2=CAST(GETDATE() AS DATE);
 
 WITH
 PlanData AS (
@@ -339,7 +333,11 @@ SELECT
 FROM AcceptanceOfGoods a 
 LEFT JOIN PlanData p ON p.Id=a.Id
 LEFT JOIN FactData f ON f.Id=a.Id
---WHERE p.Count>f.Count
+JOIN PlannedArrival pa ON pa.Id=a.Source
+WHERE 
+	a.MarkForDeleting=0
+	AND a.State<>4 -- 4='Завершено'
+	AND CAST(pa.Date AS DATE)=@Date
 ");
             query.AddInputParameter("Goods", goods);
             query.AddInputParameter("Car", car);

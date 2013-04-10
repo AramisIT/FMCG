@@ -27,6 +27,18 @@ namespace AtosFMCG.DatabaseObjects.Documents
         public ShipmentPlanItemForm()
             {
             InitializeComponent();
+            Load += ShipmentPlanItemForm_Load;
+            }
+
+        void ShipmentPlanItemForm_Load(object sender, System.EventArgs e)
+            {
+            setCaptionForCreationButton();
+            Document.MovementDocIsAssigned += Document_MovementDocIsAssigned;
+            }
+
+        void Document_MovementDocIsAssigned(object sender, System.EventArgs e)
+            {
+            setCaptionForCreationButton();
             }
 
         #region Result
@@ -74,5 +86,15 @@ namespace AtosFMCG.DatabaseObjects.Documents
             TryCancel();
             }
         #endregion
+
+        private void setCaptionForCreationButton()
+            {
+            createMovement.Caption = Document.HaveDocMovement ? "Відкрити \"Переміщення\"" : createMovement.Caption;
+            }
+
+        private void createMovement_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            Document.CreateMovement();
+            }
         }
     }

@@ -37,6 +37,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.NomenclatureInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.panelControl = new DevExpress.XtraEditors.PanelControl();
+            this.State = new DevExpress.XtraEditors.ComboBoxEdit();
+            this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
             this.Car = new Aramis.AramisSearchLookUpEdit();
             this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
             this.Driver = new Aramis.AramisSearchLookUpEdit();
@@ -66,11 +68,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
-            this.State = new DevExpress.XtraEditors.ComboBoxEdit();
-            this.labelControl8 = new DevExpress.XtraEditors.LabelControl();
+            this.createMovement = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
             this.panelControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.State.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Car.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Driver.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.Carrier.Properties)).BeginInit();
@@ -88,7 +90,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             ((System.ComponentModel.ISupportInitialize)(this.nomenclatureView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).BeginInit();
             this.panelControl2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.State.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -96,10 +97,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbonStatusBar.ItemLinks.Add(this.OK);
             this.ribbonStatusBar.ItemLinks.Add(this.barButtonItem2);
             this.ribbonStatusBar.ItemLinks.Add(this.cancel);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 544);
+            this.ribbonStatusBar.ItemLinks.Add(this.createMovement);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 552);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(720, 31);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(720, 23);
             // 
             // OK
             // 
@@ -136,12 +138,13 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.ExpandCollapseItem,
             this.OK,
             this.barButtonItem2,
-            this.cancel});
+            this.cancel,
+            this.createMovement});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 18;
+            this.ribbon.MaxItemId = 19;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(720, 49);
-            this.ribbon.StatusBar = this.ribbonStatusBar;
+            this.ribbon.Size = new System.Drawing.Size(720, 54);
+            this.ribbon.StatusBar = this.NomenclatureInfoButtonsBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
             // 
             // NomenclatureInfoButtonsBar
@@ -172,10 +175,28 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl.Controls.Add(this.IncomeNumber);
             this.panelControl.Controls.Add(this.labelControl1);
             this.panelControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl.Location = new System.Drawing.Point(0, 49);
+            this.panelControl.Location = new System.Drawing.Point(0, 54);
             this.panelControl.Name = "panelControl";
             this.panelControl.Size = new System.Drawing.Size(720, 110);
             this.panelControl.TabIndex = 0;
+            // 
+            // State
+            // 
+            this.State.Location = new System.Drawing.Point(455, 31);
+            this.State.MenuManager = this.ribbon;
+            this.State.Name = "State";
+            this.State.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.State.Size = new System.Drawing.Size(209, 20);
+            this.State.TabIndex = 3;
+            // 
+            // labelControl8
+            // 
+            this.labelControl8.Location = new System.Drawing.Point(366, 34);
+            this.labelControl8.Name = "labelControl8";
+            this.labelControl8.Size = new System.Drawing.Size(83, 13);
+            this.labelControl8.TabIndex = 14;
+            this.labelControl8.Text = "Стан документу";
             // 
             // Car
             // 
@@ -330,7 +351,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl1.Controls.Add(this.pictureEdit1);
             this.panelControl1.Controls.Add(this.Info);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelControl1.Location = new System.Drawing.Point(0, 524);
+            this.panelControl1.Location = new System.Drawing.Point(0, 532);
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(720, 20);
             this.panelControl1.TabIndex = 0;
@@ -388,9 +409,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.groupControl1.Controls.Add(this.NomenclatureInfo);
             this.groupControl1.Controls.Add(this.panelControl2);
             this.groupControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl1.Location = new System.Drawing.Point(0, 159);
+            this.groupControl1.Location = new System.Drawing.Point(0, 164);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(720, 365);
+            this.groupControl1.Size = new System.Drawing.Size(720, 368);
             this.groupControl1.TabIndex = 22;
             this.groupControl1.Text = "Номенклатура";
             // 
@@ -401,7 +422,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.NomenclatureInfo.MainView = this.nomenclatureView;
             this.NomenclatureInfo.MenuManager = this.ribbon;
             this.NomenclatureInfo.Name = "NomenclatureInfo";
-            this.NomenclatureInfo.Size = new System.Drawing.Size(716, 319);
+            this.NomenclatureInfo.Size = new System.Drawing.Size(716, 322);
             this.NomenclatureInfo.TabIndex = 1;
             this.NomenclatureInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.nomenclatureView});
@@ -466,23 +487,13 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem7.ImageIndex = 1;
             this.barButtonItem7.Name = "barButtonItem7";
             // 
-            // State
+            // createMovement
             // 
-            this.State.Location = new System.Drawing.Point(455, 31);
-            this.State.MenuManager = this.ribbon;
-            this.State.Name = "State";
-            this.State.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.State.Size = new System.Drawing.Size(209, 20);
-            this.State.TabIndex = 3;
-            // 
-            // labelControl8
-            // 
-            this.labelControl8.Location = new System.Drawing.Point(366, 34);
-            this.labelControl8.Name = "labelControl8";
-            this.labelControl8.Size = new System.Drawing.Size(83, 13);
-            this.labelControl8.TabIndex = 14;
-            this.labelControl8.Text = "Стан документу";
+            this.createMovement.Caption = "Сформувати переміщення";
+            this.createMovement.Id = 18;
+            this.createMovement.ImageIndex = 2;
+            this.createMovement.Name = "createMovement";
+            this.createMovement.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.createMovement_ItemClick);
             // 
             // ShipmentPlanItemForm
             // 
@@ -504,6 +515,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).EndInit();
             this.panelControl.ResumeLayout(false);
             this.panelControl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.State.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Car.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Driver.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Carrier.Properties)).EndInit();
@@ -522,7 +534,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             ((System.ComponentModel.ISupportInitialize)(this.nomenclatureView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl2)).EndInit();
             this.panelControl2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.State.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -567,5 +578,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private DevExpress.XtraBars.BarButtonItem barButtonItem7;
         private DevExpress.XtraEditors.ComboBoxEdit State;
         private DevExpress.XtraEditors.LabelControl labelControl8;
+        private DevExpress.XtraBars.BarButtonItem createMovement;
     }
 }

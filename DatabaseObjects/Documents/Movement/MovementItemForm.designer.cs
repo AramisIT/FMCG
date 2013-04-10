@@ -123,7 +123,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.MaxItemId = 18;
             this.ribbon.Name = "ribbon";
             this.ribbon.Size = new System.Drawing.Size(742, 54);
-            this.ribbon.StatusBar = this.ribbonStatusBar;
+            this.ribbon.StatusBar = this.NomenclatureInfoButtonsBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
             // 
             // NomenclatureInfoButtonsBar
