@@ -4,6 +4,7 @@ using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.HelperClasses.DCT;
 using AtosFMCG.HelperClasses.Deleted;
 using AtosFMCG.HelperClasses.ViewOfServiceTables;
+using AtosFMCG.TouchScreen;
 using Catalogs;
 using DevExpress.XtraBars;
 using Aramis.Platform;
@@ -61,6 +62,11 @@ namespace AtosFMCG
                 ltlServerState.Visibility = BarItemVisibility.Always;
                 runSMServer();
                 }
+            }
+
+        private void AramisMainWindow_Shown(object sender, EventArgs e)
+            {
+            loadScreen_ItemClick(null, null);
             }
         #endregion
 
@@ -204,6 +210,7 @@ namespace AtosFMCG
             }
         #endregion
 
+        #region Для тестів
         private void tstDeleted_ItemClick(object sender, ItemClickEventArgs e)
             {
             AlterDeletedColumn.Run();
@@ -214,5 +221,12 @@ namespace AtosFMCG
             DeleteMarked.GetBlockedInfo(typeof(Cells).Name, 1);
             DeleteMarked.GetBlockedInfo(typeof(Cities).Name, 1);
             }
+
+        private void loadScreen_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            MainScreen mainScreen = new MainScreen();
+            mainScreen.Show();
+            } 
+        #endregion
         }
     }

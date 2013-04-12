@@ -31,7 +31,7 @@ FROM(
 	LEFT JOIN Party p ON p.Id=a.NomenclatureParty
 	LEFT JOIN StockBalance b ON b.UniqueCode=f.PalletCode
 	LEFT JOIN Cells c ON c.Id=b.Cell)t
-WHERE t.RowNumber=1
+WHERE t.RowNumber=1 AND Cell IS NOT NULL
 ORDER BY t.LineNumber";
             }
         }

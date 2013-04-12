@@ -214,10 +214,11 @@ LastPalletInCell AS (
 	FULL JOIN FilledCell p ON p.PreviousCode=c.PalletCode
 	WHERE p.PalletCode IS NULL)
 	
-SELECT DISTINCT g.UniqueCode,g.Nomenclature,g.MeasureUnit,g.Quantity,g.Cell,n.NomenclatureParty Party
+SELECT DISTINCT g.UniqueCode PalletCode,g.Nomenclature,g.MeasureUnit Measure,g.Quantity PlanValue,g.Cell,n.NomenclatureParty Party
 FROM GoodsMoving g
 JOIN LastPalletInCell c ON c.PalletCode=g.UniqueCode
 LEFT JOIN SubAcceptanceOfGoodsNomenclatureInfo n ON n.NomenclatureCode=g.UniqueCode
+JOIN StockBalance b ON b.UniqueCode=g.UniqueCode AND b.Quantity=g.Quantity AND b.MeasureUnit=g.MeasureUnit
 WHERE g.WritingDate BETWEEN @StartDate AND @FinishDate");
                 query.AddInputParameter("StartDate", StartPeriod);
                 query.AddInputParameter("FinishDate", FinishPeriod);

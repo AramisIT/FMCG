@@ -228,6 +228,81 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TouchScreen\Controls\DateEdit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\Controls\DateEdit.Designer.cs">
+      <DependentUpon>DateEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TouchScreen\Controls\Message.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\Controls\Message.Designer.cs">
+      <DependentUpon>Message.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TouchScreen\Controls\EditPlannedArrivalDoc.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\Controls\EditPlannedArrivalDoc.Designer.cs">
+      <DependentUpon>EditPlannedArrivalDoc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TouchScreen\Controls\EnterField.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\Controls\EnterField.Designer.cs">
+      <DependentUpon>EnterField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TouchScreen\Controls\NavigatedButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\Controls\NavigatedButton.Designer.cs">
+      <DependentUpon>NavigatedButton.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TouchScreen\Controls\SelectFromObjectList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\Controls\SelectFromObjectList.Designer.cs">
+      <DependentUpon>SelectFromObjectList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TouchScreen\Data\BaseData.cs" />
+    <Compile Include="TouchScreen\Data\PlannedArrivalData.cs" />
+    <Compile Include="TouchScreen\Enums\TypesOfFont.cs" />
+    <Compile Include="TouchScreen\Events\DateIsChangedArgs.cs" />
+    <Compile Include="TouchScreen\Events\Delegates.cs" />
+    <Compile Include="TouchScreen\Events\FieldValueIsChangedArgs.cs" />
+    <Compile Include="TouchScreen\HelpersClasses\HelpersClasses.cs" />
+    <Compile Include="TouchScreen\Interfaces\IExtControl.cs" />
+    <Compile Include="TouchScreen\MainScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\MainScreen.Designer.cs">
+      <DependentUpon>MainScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TouchScreen\Events\ScreenChangedArgs.cs" />
+    <Compile Include="TouchScreen\Screens\Base\BaseOfT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\Screens\Base\BaseScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\Screens\Base\BaseScreen.Designer.cs">
+      <DependentUpon>BaseScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TouchScreen\Screens\Base\BaseScreen_T.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\Screens\Base\StartScreen.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\Screens\Base\StartScreen.Designer.cs">
+      <DependentUpon>StartScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TouchScreen\Screens\SelectPlannedArrival.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\Screens\SelectPlannedArrival.Designer.cs">
+      <DependentUpon>SelectPlannedArrival.cs</DependentUpon>
+    </Compile>
     <Compile Include="UIConfigurator.cs" />
     <EmbeddedResource Include="AramisMainWindow.resx">
       <DependentUpon>AramisMainWindow.cs</DependentUpon>
@@ -247,6 +322,33 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseObjects\Catalogs\Users\UsersItemForm.resx">
       <DependentUpon>UsersItemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TouchScreen\Controls\DateEdit.resx">
+      <DependentUpon>DateEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TouchScreen\Controls\Message.resx">
+      <DependentUpon>Message.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TouchScreen\Controls\EditPlannedArrivalDoc.resx">
+      <DependentUpon>EditPlannedArrivalDoc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TouchScreen\Controls\EnterField.resx">
+      <DependentUpon>EnterField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TouchScreen\Controls\SelectFromObjectList.resx">
+      <DependentUpon>SelectFromObjectList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TouchScreen\MainScreen.resx">
+      <DependentUpon>MainScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TouchScreen\Screens\Base\BaseScreen.resx">
+      <DependentUpon>BaseScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TouchScreen\Screens\Base\StartScreen.resx">
+      <DependentUpon>StartScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TouchScreen\Screens\SelectPlannedArrival.resx">
+      <DependentUpon>SelectPlannedArrival.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\licenses.licx" />
     <EmbeddedResource Include="DatabaseObjects\Documents\AcceptanceOfGoods\AcceptanceOfGoodsItemForm.resx">
@@ -326,6 +428,18 @@
     <None Include="Resources\order.png" />
     <None Include="Resources\1303219717_Settings.png" />
     <None Include="Resources\add.png" />
+    <None Include="Resources\package-add.png" />
+    <None Include="Resources\next.png" />
+    <None Include="Resources\next64.png" />
+    <None Include="Resources\back64.png" />
+    <None Include="Resources\number.png" />
+    <None Include="Resources\date.png" />
+    <None Include="Resources\user.png" />
+    <None Include="Resources\car.png" />
+    <None Include="Resources\edit.png" />
+    <None Include="Resources\finish.png" />
+    <None Include="Resources\next_back.png" />
+    <None Include="Resources\prev_black.png" />
     <Content Include="TraceAramis.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>

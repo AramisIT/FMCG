@@ -53,6 +53,8 @@
             this.ltlServerState = new DevExpress.XtraBars.BarButtonItem();
             this.openConsts = new DevExpress.XtraBars.BarButtonItem();
             this.tstDeleted = new DevExpress.XtraBars.BarButtonItem();
+            this.tstDeleteMarked = new DevExpress.XtraBars.BarButtonItem();
+            this.loadScreen = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.mainPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.sysObjectsGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -64,7 +66,6 @@
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
-            this.tstDeleteMarked = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).BeginInit();
@@ -98,15 +99,16 @@
             this.ltlServerState,
             this.openConsts,
             this.tstDeleted,
-            this.tstDeleteMarked});
+            this.tstDeleteMarked,
+            this.loadScreen});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 37;
+            this.ribbon.MaxItemId = 38;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.mainPage});
-            this.ribbon.Size = new System.Drawing.Size(1113, 147);
+            this.ribbon.Size = new System.Drawing.Size(1113, 144);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             this.ribbon.Toolbar.ItemLinks.Add(this.ltlServerState);
             // 
@@ -272,6 +274,20 @@
             this.tstDeleted.Name = "tstDeleted";
             this.tstDeleted.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.tstDeleted_ItemClick);
             // 
+            // tstDeleteMarked
+            // 
+            this.tstDeleteMarked.Caption = "Del marked";
+            this.tstDeleteMarked.Id = 36;
+            this.tstDeleteMarked.Name = "tstDeleteMarked";
+            this.tstDeleteMarked.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.tstDeleteMarked_ItemClick);
+            // 
+            // loadScreen
+            // 
+            this.loadScreen.Caption = "load screen";
+            this.loadScreen.Id = 37;
+            this.loadScreen.Name = "loadScreen";
+            this.loadScreen.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.loadScreen_ItemClick);
+            // 
             // largeImagesCollection
             // 
             this.largeImagesCollection.ImageSize = new System.Drawing.Size(32, 32);
@@ -349,15 +365,16 @@
             // 
             this.testGroup.ItemLinks.Add(this.tstDeleted);
             this.testGroup.ItemLinks.Add(this.tstDeleteMarked);
+            this.testGroup.ItemLinks.Add(this.loadScreen);
             this.testGroup.Name = "testGroup";
             this.testGroup.Text = "Для тестів";
             // 
             // ribbonStatusBar
             // 
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 530);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 522);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(1113, 23);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(1113, 31);
             // 
             // defaultLookAndFeel
             // 
@@ -370,13 +387,6 @@
             this.barButtonItem4.ImageIndex = 1;
             this.barButtonItem4.LargeImageIndex = 0;
             this.barButtonItem4.Name = "barButtonItem4";
-            // 
-            // tstDeleteMarked
-            // 
-            this.tstDeleteMarked.Caption = "Del marked";
-            this.tstDeleteMarked.Id = 36;
-            this.tstDeleteMarked.Name = "tstDeleteMarked";
-            this.tstDeleteMarked.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.tstDeleteMarked_ItemClick);
             // 
             // AramisMainWindow
             // 
@@ -393,6 +403,7 @@
             this.Text = "ATOS FMCG";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.AramisMainWindow_Load);
+            this.Shown += new System.EventHandler(this.AramisMainWindow_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).EndInit();
@@ -435,5 +446,6 @@
         private DevExpress.XtraBars.BarButtonItem openConsts;
         private DevExpress.XtraBars.BarButtonItem tstDeleted;
         private DevExpress.XtraBars.BarButtonItem tstDeleteMarked;
+        private DevExpress.XtraBars.BarButtonItem loadScreen;
         }
     }

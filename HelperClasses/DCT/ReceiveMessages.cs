@@ -130,7 +130,7 @@ WHERE d.BottleCount<>0 OR d.BoxCount<>0");
 	RTRIM(nd.Description) Nomenclature,
 	CONVERT(VARCHAR(10),p.DateOfManufacture,104) DateOfManufacture,
 	n.PalletCode,
-	RTRIM(m.Description) Measure,
+	RTRIM(u.CutName) Measure,
 	n.Cell CellId,
 	RTRIM(c.Description) Cell
 FROM Inventory i
@@ -138,6 +138,7 @@ JOIN SubInventoryNomenclatureInfo n ON n.IdDoc=i.Id
 LEFT JOIN Nomenclature nd ON nd.Id=n.Nomenclature
 LEFT JOIN Party p ON p.Id=n.Party
 LEFT JOIN Measures m ON m.Id=n.Measure
+LEFT JOIN ClassifierUnits u ON u.Id=m.Classifier
 LEFT JOIN Cells c ON c.Id=n.Cell
 WHERE i.State=0 AND i.MarkForDeleting=0 AND n.FactValue=0 AND CAST(i.Date AS DATE)=CAST(GetDate() AS DATE)");
             QueryResult result = query.SelectRow();
@@ -210,12 +211,13 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Movement])) 
         private static object[] GetContractorsForSelection()
             {
             Query query = DB.NewQuery(@"DECLARE @Today DATETIME2=CAST(GETDATE() AS Date)
+DECLARE @ShipmentPlan_Type uniqueidentifier='029B0572-E5B5-48CD-9805-1211319A5633'
 
 SELECT RTRIM(RTRIM(c.Description)+' ¹'+CAST(s.Number AS VARCHAR)) Description, c.Id Id
 FROM ShipmentPlan s 
 JOIN Contractors c ON c.Id=s.Contractor
-JOIN SubShipmentPlanNomenclatureInfo p ON p.IdDoc=s.Id AND p.IsMove=0
-WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(Date AS DATE)=@Today");
+JOIN Movement m ON m.Source=s.Id AND m.SourceType=@ShipmentPlan_Type
+WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
             DataTable table = query.SelectToTable();
 
             if(table!=null)
@@ -229,29 +231,44 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(Date AS DATE)=@Today");
         private static object[] GetSelectionRowInfo()
             {
             Query query = DB.NewQuery(@"--DECLARE @BoxMeasure BIGINT=1;
-DECLARE @Today DATETIME2=CAST(GETDATE() AS Date);
+
+DECLARE @Today DATETIME2=CAST(GETDATE() AS Date)
+DECLARE @ShipmentPlan_Type uniqueidentifier='029B0572-E5B5-48CD-9805-1211319A5633';
 
 WITH
 PreparedData AS (
 	SELECT 
 		s.Id
-		,i.Code
-		,i.Nomenclature
-		,i.Party
-		,SUM(CASE WHEN i.Measure=@BoxMeasure THEN i.Quantity ELSE 0 END) BoxCount
-		,SUM(CASE WHEN i.Measure<>@BoxMeasure THEN i.Quantity ELSE 0 END) UnitCount
-		,i.Cell
+		,n.NomenclatureCode Code
+		,n.Nomenclature
+		,n.NomenclatureParty Party
+		,SUM(CASE WHEN n.NomenclatureMeasure=@BoxMeasure THEN n.NomenclatureCount ELSE 0 END) BoxCount
+		,SUM(CASE WHEN n.NomenclatureMeasure<>@BoxMeasure THEN n.NomenclatureCount ELSE 0 END) UnitCount
+		,n.SourceCell Cell
 	FROM ShipmentPlan s 
-	JOIN SubShipmentPlanNomenclatureInfo i ON i.IdDoc=s.Id
-	WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(Date AS DATE)=@Today AND i.IsMove=0
-	GROUP BY s.Id,i.Code,i.Nomenclature,i.Party,i.Cell)
+	JOIN Movement m ON m.Source=s.Id AND m.SourceType=@ShipmentPlan_Type
+	JOIN SubMovementNomenclatureInfo n ON n.IdDoc=m.Id
+	WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today AND n.RowState=0
+	GROUP BY s.Id,n.NomenclatureCode,n.Nomenclature,n.NomenclatureParty,n.SourceCell)
+,MainData AS(
+	SELECT d.Id,d.Code,RTRIM(n.Description) Goods,CONVERT(VARCHAR(10),p.DateOfManufacture,104)Date,BoxCount,UnitCount,m.BaseCount,RTRIM(c.Description)Cell
+	FROM PreparedData d
+	LEFT JOIN Nomenclature n ON n.Id=d.Nomenclature
+	LEFT JOIN Party p ON p.Id=d.Party
+	LEFT JOIN Measures m ON m.Id=@BoxMeasure
+	LEFT JOIN Cells c ON c.Id=d.Cell)
+,OrderDate AS (
+	SELECT Code,ROW_NUMBER() OVER (ORDER BY Date DESC)RowNumber
+	FROM(
+		SELECT d.Code,MAX(m.WritingDate)Date
+		FROM MainData d
+		JOIN GoodsMoving m ON m.UniqueCode=d.Code
+		GROUP BY d.Code)t)
 
-SELECT TOP 1 d.Id,d.Code,RTRIM(n.Description) Goods,CONVERT(VARCHAR(10),p.DateOfManufacture,104)Date,BoxCount,UnitCount,m.BaseCount,RTRIM(c.Description)Cell
-FROM PreparedData d
-LEFT JOIN Nomenclature n ON n.Id=d.Nomenclature
-LEFT JOIN Party p ON p.Id=d.Party
-LEFT JOIN Measures m ON m.Id=@BoxMeasure
-LEFT JOIN Cells c ON c.Id=d.Cell");
+SELECT TOP 1 m.*
+FROM MainData m
+JOIN OrderDate o ON o.Code=m.Code
+ORDER BY o.RowNumber");
             query.AddInputParameter("BoxMeasure", Measures.Box.Id);
             QueryResult result = query.SelectRow();
 

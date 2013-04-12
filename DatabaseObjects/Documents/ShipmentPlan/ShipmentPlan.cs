@@ -261,10 +261,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private void fillMovement(Movement movement, MovementFillingInfo info)
             {
             Query query = DB.NewQuery(@"
-DECLARE @SourceType uniqueidentifier='029B0572-E5B5-48CD-9805-1211319A5633'
 --DECLARE @Nomenclature BIGINT=1;
 --DECLARE @Measure BIGINT=1;
 --DECLARE @Party BIGINT=2;
+DECLARE @SourceType uniqueidentifier='029B0572-E5B5-48CD-9805-1211319A5633';
 
 WITH
  PalletOrder AS (SELECT f.PalletCode,ROW_NUMBER() OVER(ORDER BY f.CreationDate) PalletOrder FROM FilledCell f)
@@ -297,25 +297,28 @@ FROM PreparedData");
             DataTable table = query.SelectToTable();
             double howIsUsed = 0;
 
-            foreach (DataRow row in table.Rows)
+            if (table != null)
                 {
-                double quantity = Convert.ToDouble(row["Quantity"]);
-                howIsUsed += quantity;
-
-                DataRow newRow = movement.NomenclatureInfo.GetNewRow(movement);
-                newRow[movement.NomenclatureCode] = row["UniqueCode"];
-                newRow.SetRefValueToRowCell(movement, movement.Nomenclature, info.Nomenclature, typeof(Nomenclature));
-                newRow.SetRefValueToRowCell(movement, movement.NomenclatureMeasure, info.Measure, typeof(Measures));
-                newRow.SetRefValueToRowCell(movement, movement.NomenclatureParty, info.Party, typeof(Party));
-                newRow[movement.NomenclatureCount] = quantity;
-                newRow.SetRefValueToRowCell(movement, movement.SourceCell, row["Cell"], typeof(Cells));
-                newRow.SetRefValueToRowCell(movement, movement.DestinationCell, Cells.Buyout.Id, typeof(Cells));
-                newRow[movement.RowState] = StatesOfDocument.Planned;
-                newRow.AddRowToTable(movement);
-
-                if(howIsUsed >= info.Count )
+                foreach (DataRow row in table.Rows)
                     {
-                    break;
+                    double quantity = Convert.ToDouble(row["Quantity"]);
+                    howIsUsed += quantity;
+
+                    DataRow newRow = movement.NomenclatureInfo.GetNewRow(movement);
+                    newRow[movement.NomenclatureCode] = row["UniqueCode"];
+                    newRow.SetRefValueToRowCell(movement, movement.Nomenclature, info.Nomenclature, typeof(Nomenclature));
+                    newRow.SetRefValueToRowCell(movement, movement.NomenclatureMeasure, info.Measure, typeof(Measures));
+                    newRow.SetRefValueToRowCell(movement, movement.NomenclatureParty, info.Party, typeof(Party));
+                    newRow[movement.NomenclatureCount] = quantity;
+                    newRow.SetRefValueToRowCell(movement, movement.SourceCell, row["Cell"], typeof(Cells));
+                    newRow.SetRefValueToRowCell(movement, movement.DestinationCell, Cells.Buyout.Id, typeof(Cells));
+                    newRow[movement.RowState] = StatesOfDocument.Planned;
+                    newRow.AddRowToTable(movement);
+
+                    if (howIsUsed >= info.Count)
+                        {
+                        break;
+                        }
                     }
                 }
 
