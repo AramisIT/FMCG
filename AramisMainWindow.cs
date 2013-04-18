@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Windows;
 using Aramis.UI.WinFormsDevXpress.Forms;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.HelperClasses.DCT;
 using AtosFMCG.HelperClasses.Deleted;
 using AtosFMCG.HelperClasses.ViewOfServiceTables;
+using AtosFMCG.PrintForms;
 using AtosFMCG.TouchScreen;
 using Catalogs;
 using DevExpress.XtraBars;
@@ -66,7 +68,7 @@ namespace AtosFMCG
 
         private void AramisMainWindow_Shown(object sender, EventArgs e)
             {
-            loadScreen_ItemClick(null, null);
+            //loadScreen_ItemClick(null, null);
             }
         #endregion
 
@@ -227,6 +229,26 @@ namespace AtosFMCG
             MainScreen mainScreen = new MainScreen();
             mainScreen.Show();
             } 
+
+        private void printPalletLabel_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            Window palletPrintForm = new Window();
+            PalletPrintForm label = new PalletPrintForm(
+                "Живчик 1л Апельсин",
+                15,
+                15678923,
+                new DateTime(2010, 1, 15),
+                new DateTime(2013, 05, 09),
+                new DateTime(2016, 10, 18),
+                "Іванополус",
+                "55568408/965",
+                DateTime.Now);
+            label.UpdateLayout();
+            palletPrintForm.Width = 700;
+            palletPrintForm.Height = 500;
+            palletPrintForm.Content = label;
+            palletPrintForm.Show();
+            }
         #endregion
         }
     }

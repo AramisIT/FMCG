@@ -1,31 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
+using Aramis.Core;
 using Aramis.DatabaseConnector;
+using Aramis.UI.WinFormsDevXpress;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Documents;
 using AtosFMCG.TouchScreen.Events;
+using DevExpress.XtraGrid.Views.Base;
+using DevExpress.XtraGrid.Views.Grid;
+using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using TouchScreen.Models.Data;
 
 namespace AtosFMCG.TouchScreen.Controls
     {
+    /// <summary>Редагування документу "План приходу"</summary>
     public partial class EditPlannedArrivalDoc : UserControl
         {
         #region Veriables
+        /// <summary>Колонки таблиці для редагування</summary>
+        private enum EditedColumns { Description = 1, Quantity, Date }
+        /// <summary>Максимальна к-сть літер, що відображається в кнопці</summary>
+        private const int MAX_BTN_TEXT_LENGTH = 13;
+        /// <summary>Документ "План приходу"</summary>
         private PlannedArrival Document;
+        /// <summary>Дія при завершені роботи з документом</summary>
         private readonly FinishEditPlannedArrivalDelegate onFinish;
+        /// <summary>Список номеналутари (аналог таблиці)</summary>
         private List<NomenclatureData> list;
+        /// <summary>Початкові дані для визначення документу</summary>
         private readonly PlannedArrivalData plannedData;
-        private bool isLoaded; 
+        /// <summary>Чи завантажено форму</summary>
+        private bool isLoaded;
+        /// <summary>Обрана строка для редагування</summary>
+        private NomenclatureData selectedRow
+            {
+            get
+                {
+                return gridView.FocusedRowHandle <= list.Count && gridView.FocusedRowHandle >= 0
+                           ? list[gridView.FocusedRowHandle]
+                           : null;
+                }
+            }
         #endregion
 
         #region Init
+        /// <summary>Редагування документу "План приходу"</summary>
         public EditPlannedArrivalDoc()
             {
             InitializeComponent();
             }
 
+        /// <summary>Редагування документу "План приходу"</summary>
+        /// <param name="data">Початкові дані для визначення документу</param>
+        /// <param name="finish">Дія при завершені роботи з документом</param>
         public EditPlannedArrivalDoc(PlannedArrivalData data, FinishEditPlannedArrivalDelegate finish)
             : this()
             {
@@ -40,10 +70,12 @@ namespace AtosFMCG.TouchScreen.Controls
                 fillInitData(plannedData);
                 isLoaded = true;
                 }
-            } 
+            }
         #endregion
 
         #region Fill
+        /// <summary>Заповнення форми даними ініціалізації</summary>
+        /// <param name="data">Дані</param>
         private void fillInitData(PlannedArrivalData data)
             {
             //Document
@@ -51,10 +83,10 @@ namespace AtosFMCG.TouchScreen.Controls
             Document.Read(data.Invoice.Key);
 
             //Fields
-            invoiceDate.Text = NavigatedButton.SPACES_FOR_x32 + Document.Date.ToShortDateString();
-            invoiceNumber.Text = NavigatedButton.SPACES_FOR_x32 + Document.IncomeNumber;
-            driver.Text = NavigatedButton.SPACES_FOR_x32 + Document.Driver.Description;
-            car.Text = NavigatedButton.SPACES_FOR_x32 + Document.Car.Description;
+            invoiceDate.Text = NavigatedButton.SPACES_FOR_ICOx32 + Document.Date.ToShortDateString();
+            invoiceNumber.Text = NavigatedButton.SPACES_FOR_ICOx32 + Document.IncomeNumber;
+            driver.Text = setValueIntoButton(Document.Driver.Description);
+            car.Text = setValueIntoButton(Document.Car.Description); 
 
             //Table
             list = new List<NomenclatureData>();
@@ -68,8 +100,9 @@ namespace AtosFMCG.TouchScreen.Controls
 
                 NomenclatureData element = new NomenclatureData
                                                {
-                                                   LineNumber = row["LineNumber"].ToString(),
-                                                   Description = nomenclature.Description,
+                                                   LineNumber = Convert.ToInt64(row["LineNumber"]),
+                                                   Description =
+                                                       new ObjectValue(nomenclature.Description, nomenclature.Id),
                                                    Quantity = Convert.ToDouble(row[Document.NomenclatureCount]),
                                                    Date = party.DateOfManufacture,
                                                };
@@ -77,27 +110,57 @@ namespace AtosFMCG.TouchScreen.Controls
                 }
 
             grid.DataSource = list;
-            } 
+            }
+
+        /// <summary>Встановити значення для кнопки</summary>
+        /// <param name="value">Значення</param>
+        /// <returns>Текст для кнопки</returns>
+        private string setValueIntoButton(string value)
+            {
+            //Для того щоб текст був рівно після іконки він вирівнян по лівому краю і додано відповідна кількість пробілів
+            //Ще довга назва обрізається, щоб не було переходу на іншу строку
+            return string.Concat(NavigatedButton.SPACES_FOR_ICOx32,
+                                 value.Length <= MAX_BTN_TEXT_LENGTH
+                                     ? value
+                                     : string.Concat(value.Substring(0, MAX_BTN_TEXT_LENGTH), "..."));
+            }
         #endregion
 
         #region Edit
+        /// <summary>Оновити контрол редагування даних</summary>
+        /// <param name="action">Дія з додаванням контролу</param>
         private void updateEditControl(Action action)
-            {
-            int  editControls = editControlsArea.Controls.Count;
-            
-            action();
-
-            for (int i = 0; i < editControls; i++)
-                {
-                editControlsArea.Controls.RemoveAt(0);
-                }
-            }
-
-        private void showMessage(string message)
             {
             int editControls = editControlsArea.Controls.Count;
 
-            editControlsArea.Controls.Add(new Message(message) {Dock = DockStyle.Fill});
+            //Додавання контролу
+            if (action != null)
+                {
+                action();
+                }
+
+            //Очищення старих контролів (щоб зменшити ефекти переходів)
+            for (int i = 0; i < editControls; i++)
+                {
+                editControlsArea.Controls.RemoveAt(0);
+                }
+            }
+
+        /// <summary>Відобразити повідомлення</summary>
+        /// <param name="message">Повідомлення</param>
+        private void showMessage(string message)
+            {
+            showMessage(message, string.Empty);
+            }
+
+        /// <summary>Відобразити повідомлення</summary>
+        /// <param name="message">Повідомлення</param>
+        /// <param name="detailInfo">Детальна інформація</param>
+        private void showMessage(string message, string detailInfo)
+            {
+            int editControls = editControlsArea.Controls.Count;
+
+            editControlsArea.Controls.Add(new Message(message, detailInfo) { Dock = DockStyle.Fill });
 
             for (int i = 0; i < editControls; i++)
                 {
@@ -105,6 +168,7 @@ namespace AtosFMCG.TouchScreen.Controls
                 }
             }
 
+        /// <summary>"Назад" (очишення панелі для контролів редагування)</summary>
         private void Back()
             {
             editControlsArea.Controls.Clear();
@@ -119,25 +183,25 @@ namespace AtosFMCG.TouchScreen.Controls
         private void installInvoiceNumberEditiors()
             {
             EnterField enterField = new EnterField("Введіть номер", Document.IncomeNumber)
-            {
-                Dock = DockStyle.Fill
-            };
+                                        {
+                                            Dock = DockStyle.Fill
+                                        };
             enterField.FieldValueIsChanged += enterField_FieldValueIsChanged;
             editControlsArea.Controls.Add(enterField);
             }
 
-        void enterField_FieldValueIsChanged(object sender, FieldValueIsChangedArgs e)
+        private void enterField_FieldValueIsChanged(object sender, ValueIsChangedArgs<string> e)
             {
             Document.IncomeNumber = e.Value;
-            invoiceNumber.Text = NavigatedButton.SPACES_FOR_x32 + Document.IncomeNumber;
-            } 
+            invoiceNumber.Text = NavigatedButton.SPACES_FOR_ICOx32 + Document.IncomeNumber;
+            }
         #endregion
 
-        #region MyRegion
+        #region invoiceDate
         private void invoiceDate_Click(object sender, EventArgs e)
             {
             updateEditControl(installInvoiceDateEditiors);
-            } 
+            }
 
         private void installInvoiceDateEditiors()
             {
@@ -146,10 +210,10 @@ namespace AtosFMCG.TouchScreen.Controls
             editControlsArea.Controls.Add(dateEdit);
             }
 
-        void dateEdit_DateIsChanged(object sender, DateIsChangedArgs e)
+        private void dateEdit_DateIsChanged(object sender, ValueIsChangedArgs<DateTime> e)
             {
             Document.Date = e.Value;
-            invoiceDate.Text = NavigatedButton.SPACES_FOR_x32 + Document.Date.ToShortDateString();
+            invoiceDate.Text = NavigatedButton.SPACES_FOR_ICOx32 + Document.Date.ToShortDateString();
             }
         #endregion
 
@@ -162,7 +226,7 @@ namespace AtosFMCG.TouchScreen.Controls
         private void installDriverEditors()
             {
             SelectFromObjectList selectDriver = new SelectFromObjectList(
-                "водія", "Водій", UpdateDriver, SelectDriverValue, Back) { Dock = DockStyle.Fill };
+                "водія", "Водій", UpdateDriver, SelectDriverValue, Back) {Dock = DockStyle.Fill};
             editControlsArea.Controls.Add(selectDriver);
             }
 
@@ -171,19 +235,19 @@ namespace AtosFMCG.TouchScreen.Controls
             Drivers driverValue = new Drivers();
             driverValue.Read(value.Key);
             Document.Driver = driverValue;
-            driver.Text = NavigatedButton.SPACES_FOR_x32 + Document.Driver.Description;
+            driver.Text = setValueIntoButton(Document.Driver.Description);
             showMessage("Обрано нового водія!");
             }
 
         private DataTable UpdateDriver(string enterValue)
             {
             Query query = DB.NewQuery(
-                    "SELECT Id,RTRIM(Description)Description FROM Drivers WHERE Description like '%'+@Driver+'%' AND IsGroup=0 ORDER BY Description");
+                "SELECT Id,RTRIM(Description)Description FROM Drivers WHERE Description like '%'+@Driver+'%' AND IsGroup=0 ORDER BY Description");
             query.AddInputParameter("Driver", enterValue);
             DataTable table = query.SelectToTable();
 
             return table;
-            } 
+            }
         #endregion
 
         #region Car
@@ -195,7 +259,7 @@ namespace AtosFMCG.TouchScreen.Controls
         private void installCarEditors()
             {
             SelectFromObjectList selectDriver = new SelectFromObjectList(
-                "машину", "Машина", UpdateCar, SelectCarValue, Back) { Dock = DockStyle.Fill };
+                "машину", "Машина", UpdateCar, SelectCarValue, Back) {Dock = DockStyle.Fill};
             editControlsArea.Controls.Add(selectDriver);
             }
 
@@ -204,14 +268,14 @@ namespace AtosFMCG.TouchScreen.Controls
             Cars driverValue = new Cars();
             driverValue.Read(value.Key);
             Document.Car = driverValue;
-            car.Text = NavigatedButton.SPACES_FOR_x32 + Document.Car.Description;
+            car.Text = setValueIntoButton(Document.Car.Description);
             showMessage("Обрано нову машину!");
             }
 
         private DataTable UpdateCar(string enterValue)
             {
             Query query = DB.NewQuery(
-                    "SELECT Id,RTRIM(Description)Description FROM Cars WHERE Description like '%'+@Car+'%' AND IsGroup=0 ORDER BY Description");
+                "SELECT Id,RTRIM(Description)Description FROM Cars WHERE Description like '%'+@Car+'%' AND IsGroup=0 ORDER BY Description");
             query.AddInputParameter("Car", enterValue);
             DataTable table = query.SelectToTable();
 
@@ -219,16 +283,311 @@ namespace AtosFMCG.TouchScreen.Controls
             }
         #endregion
 
-        private void editMode_Click(object sender, EventArgs e)
+        #region Save
+        /// <summary>Отримати словник партій для всієї таблиці</summary>
+        private Dictionary<long, Party> gaetPartyForTable()
             {
+            Dictionary<long, Party> partyDic = new Dictionary<long, Party>();
 
+            foreach (NomenclatureData element in list)
+                {
+                if (element.Description != null && !partyDic.ContainsKey(element.Description.Id))
+                    {
+                    Party party = getPartyForNomenclatureByDate(element.Date, element.Description.Id);
+                    partyDic.Add(element.Description.Id, party);
+                    }
+                }
+
+            return partyDic;
             }
 
+        /// <summary>Отримати партію для номенталатури на обрану дату</summary>
+        /// <param name="date">Дата</param>
+        /// <param name="nomenclature">Номенлатура</param>
+        /// <returns>Партія</returns>
+        private Party getPartyForNomenclatureByDate(DateTime date, long nomenclature)
+            {
+            Query query = DB.NewQuery(@"SELECT Id FROM Party WHERE Nomenclature=@Nomenclature AND CAST(DateOfManufacture AS DATE)=@Date");
+            query.AddInputParameter("Date", date.Date);
+            query.AddInputParameter("Nomenclature", nomenclature);
+            object id = query.SelectScalar();
+            Party party = new Party();
+
+            if (id == null)
+                {
+                party.DateOfManufacture = date;
+                party.Nomenclature = (Nomenclature)new Nomenclature().Read(nomenclature);
+                party.FillAddData();
+                party.Write();
+                }
+            else
+                {
+                party.Read(id);
+                }
+
+            return party;
+            }
+
+        /// <summary>Конвертація списку елементів в таблицю</summary>
+        private void convertListToTable()
+            {
+            Dictionary<long, Party> partyDic = gaetPartyForTable();
+            Document.NomenclatureInfo.Rows.Clear();
+
+            foreach (NomenclatureData data in list)
+                {
+                if (data.Description != null && data.Description.Id != 0)
+                    {
+                    DataRow newRow = Document.NomenclatureInfo.GetNewRow(Document);
+                    newRow.SetRefValueToRowCell(Document, Document.Nomenclature, data.Description.Id, typeof(Nomenclature));
+                    newRow[Document.NomenclatureCount] = data.Quantity;
+                    newRow.SetRefValueToRowCell(Document, Document.NomenclatureParty, partyDic[data.Description.Id]);
+                    newRow.AddRowToTable(Document);
+                    }
+                }
+
+            Document.SetSubtableModified(Document.NomenclatureInfo.TableName);
+            }
+
+        /// <summary>Завершити/Зберегти</summary>
         private void finish_Click(object sender, EventArgs e)
             {
-            //do..
-            //
-            onFinish(Document);
+            convertListToTable();
+            WritingResult result = Document.Write();
+
+            if(result != WritingResult.Success)
+                {
+                if(isEditMode)
+                    {
+                    changeEditMode(false);
+                    }
+                showMessage("Помилка при збережені даних!");
+                }
+            else
+                {
+                onFinish(true, Document);
+                }
+            }
+        #endregion
+
+        #region Exit
+        /// <summary>Вихід без збереження даних</summary>
+        private void exit_Click(object sender, EventArgs e)
+            {
+            onFinish(false, Document);
+            } 
+        #endregion
+        #endregion
+
+        #region EditTableData
+        private void gridView_FocusedColumnChanged(object sender, FocusedColumnChangedEventArgs e)
+            {
+            startCellValueEditig();
+            }
+
+        private void gridView_RowClick(object sender, RowClickEventArgs e)
+            {
+            GridHitInfo hitInfo = gridView.CalcHitInfo(new Point(e.X, e.Y));
+
+            if (ModifierKeys != Keys.None)
+                {
+                return;
+                }
+
+            if (e.Button == MouseButtons.Left && hitInfo.RowHandle >= 0)
+                {
+                if (!isEditMode)
+                    {
+                    startCellValueEditig();
+                    }
+
+                updateSelectedRowInfo();
+                }
+            }
+
+        private void updateSelectedRowInfo()
+            {
+            NomenclatureData selectedData = selectedRow;
+            selectedRowInfo.Text = selectedData != null
+                                       ? string.Format(
+                                           "Обрано рядок №{0}\r\n{1} / {2} / {3}",
+                                           selectedData.LineNumber,
+                                           selectedData.Description,
+                                           selectedData.Quantity,
+                                           selectedData.Date.ToShortDateString())
+                                       : string.Empty;
+            }
+
+        private void startCellValueEditig()
+            {
+            NomenclatureData currSelectedRow = selectedRow;
+
+            if (currSelectedRow != null)
+                {
+                EditedColumns selectedColumn = (EditedColumns) gridView.FocusedColumn.VisibleIndex;
+
+                switch (selectedColumn)
+                    {
+                        case EditedColumns.Description:
+                            updateEditControl(changeNomenclatureData);
+                            break;
+                        case EditedColumns.Quantity:
+                            updateEditControl(installQuantityEditiors);
+                            break;
+                        case EditedColumns.Date:
+                            updateEditControl(installDateEditiors);
+                            break;
+                    }
+                }
+            }
+
+        #region Edit table mode
+        /// <summary>Режим редагування таблиці</summary>
+        private bool isEditMode;
+
+        /// <summary>Зміна режиму роботи з таблицею</summary>
+        /// <param name="start"></param>
+        private void changeEditMode(bool start)
+            {
+            isEditMode = start;
+            invoiceNumber.Enabled = !isEditMode;
+            invoiceDate.Enabled = !isEditMode;
+            car.Enabled = !isEditMode;
+            driver.Enabled = !isEditMode;
+            editControlsArea.Visible = !isEditMode;
+            }
+
+        /// <summary>Редагувати тиблицю (SingleClick!)</summary>
+        private void editMode_SingleClick(object sender, EventArgs e)
+            {
+            changeEditMode(!isEditMode);
+            }
+        #endregion
+
+        #region Nomenclature
+        private void changeNomenclatureData()
+            {
+            SelectFromObjectList selectNomenclature = new SelectFromObjectList(
+                "номенклатуру", "Номенклатура", UpdateNomenclature, SelectNomenclatureValue, Back)
+                                                          {Dock = DockStyle.Fill};
+            editControlsArea.Controls.Add(selectNomenclature);
+            selectNomenclature.FocusField();
+            }
+
+        private DataTable UpdateNomenclature(string enterValue)
+            {
+            Query query = DB.NewQuery(
+                "SELECT Id,RTRIM(Description)Description FROM Nomenclature WHERE Description like '%'+@Description+'%' ORDER BY Description");
+            query.AddInputParameter("Description", enterValue);
+            DataTable table = query.SelectToTable();
+
+            return table;
+            }
+
+        private void SelectNomenclatureValue(KeyValuePair<long, string> value)
+            {
+            NomenclatureData currentRow = selectedRow;
+
+            if (currentRow.Description.Id == value.Key)
+                {
+                editControlsArea.Controls.Clear();
+                }
+            else
+                {
+                foreach (NomenclatureData data in list)
+                    {
+                    if (data.Description != null &&
+                        data.Description.Id == value.Key &&
+                        data.LineNumber != currentRow.LineNumber)
+                        {
+                        string message = string.Format(
+                            "\r\nВ таблиці вже існує рядок №{0} з такою номенлатурою..", data.LineNumber);
+                        showMessage("Повторення номенклатури!", message);
+                        return;
+                        }
+                    }
+
+                selectedRow.Description = new ObjectValue(value);
+                grid.RefreshDataSource();
+                showMessage("Обрано нову номенклатуру!", value.Value);
+                }
+            }
+        #endregion
+
+        #region Date
+        private void installDateEditiors()
+            {
+            DateEdit dateEdit = new DateEdit(selectedRow.Date);
+            dateEdit.DateIsChanged += date_DateIsChanged;
+            editControlsArea.Controls.Add(dateEdit);
+            }
+
+        private void date_DateIsChanged(object sender, ValueIsChangedArgs<DateTime> e)
+            {
+            selectedRow.Date = e.Value;
+            grid.RefreshDataSource();
+            }
+        #endregion
+
+        #region Quantity
+        private void installQuantityEditiors()
+            {
+            NumberEdit quantityEdit = new NumberEdit((int) selectedRow.Quantity, Back, FinishQuantityEdit);
+            quantityEdit.ValueIsChanged += quantityEdit_ValueIsChanged;
+            editControlsArea.Controls.Add(quantityEdit);
+            }
+
+        private void FinishQuantityEdit(string newValue)
+            {
+            showMessage("К-сть змінено!");
+            }
+
+        private void quantityEdit_ValueIsChanged(object sender, ValueIsChangedArgs<int> e)
+            {
+            selectedRow.Quantity = e.Value;
+            grid.RefreshDataSource();
+            }
+        #endregion
+        #endregion
+
+        #region Edit table
+        /// <summary>Видалення обраного рядка</summary>
+        private void deleteRow_Click(object sender, EventArgs e)
+            {
+            NomenclatureData selectedElement = selectedRow;
+            
+            //Якщо строка виділена
+            if(selectedElement!=null)
+                {
+                //Видалення
+                list.Remove(selectedElement);
+                //Оновлення номерів рядків
+                long index = selectedElement.LineNumber;
+                
+                for (int i = (int)selectedElement.LineNumber-1; i < list.Count; i++)
+                    {
+                    NomenclatureData element = list[i];
+                    element.LineNumber = index++;
+                    }
+
+                //Оновлення дангих на формі
+                grid.RefreshDataSource();
+                updateSelectedRowInfo();
+                }
+            }
+
+        /// <summary>Додавання нового рядка</summary>
+        private void addRow_Click(object sender, EventArgs e)
+            {
+            list.Add(new NomenclatureData{LineNumber = list.Count+1});
+            grid.RefreshDataSource();
+            updateSelectedRowInfo();
+            }
+
+        /// <summary>Вихід з режиму редагування таблиці</summary>
+        private void finishEditMode_Click(object sender, EventArgs e)
+            {
+            changeEditMode(false);
             } 
         #endregion
         }

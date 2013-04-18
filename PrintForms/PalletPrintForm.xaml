@@ -1,0 +1,39 @@
+﻿<UserControl x:Class="AtosFMCG.PrintForms.PalletPrintForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        
+        <Rectangle Grid.ColumnSpan="2" Margin="0" Grid.RowSpan="7" Stroke="#FF7C7C7C"/>
+        <Label x:Name="nomencletureDescription" Content="..." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,0" FontWeight="Bold" FontSize="20" Width="280" Grid.ColumnSpan="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Image x:Name="barcodeImage" Margin="18,7,18,27" Grid.Row="1" Width="175" Height="175" Grid.RowSpan="2"/>
+        <Label x:Name="palletCode" Content="..." HorizontalAlignment="Center" Margin="10,0" Grid.Row="2" VerticalAlignment="Bottom" FontSize="10" Width="190" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label x:Name="quantityString" Content="..." HorizontalAlignment="Center" VerticalAlignment="Center" Margin="10,33" FontWeight="Bold" FontSize="20" Grid.Column="1" Grid.Row="1" Width="70" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <Label Content="СВЗ" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" FontWeight="Bold" FontSize="20" Grid.Column="1" Grid.Row="2"/>
+        <Label Content="Дата виробництва:" HorizontalAlignment="Left" Margin="15,0,0,0" Grid.Row="3" VerticalAlignment="Center"/>
+        <Label Content="Дата з терміном реалізації 50%:" HorizontalAlignment="Left" Margin="15,0,0,0" Grid.Row="4" VerticalAlignment="Center"/>
+        <Label Content="Кінцева дата реалізації:" HorizontalAlignment="Left" Margin="15,0,0,0" Grid.Row="5" VerticalAlignment="Center"/>
+        <Label x:Name="dateOfManufacture" Content="..." HorizontalAlignment="Left" Margin="10,5,0,4" Grid.Row="3" VerticalAlignment="Center" Grid.Column="1" Width="70"/>
+        <Label x:Name="shelfLife50P" Content="..." HorizontalAlignment="Left" Margin="10,4,0,5" Grid.Row="4" VerticalAlignment="Center" Grid.Column="1" Width="70"/>
+        <Label x:Name="deadlineSuitability" Content="..." HorizontalAlignment="Left" Margin="10,9,0,0" Grid.Row="5" VerticalAlignment="Center" Grid.Column="1" Width="70"/>
+        <Label x:Name="employeeString" Content="..." HorizontalAlignment="Left" Margin="15,0,0,0" Grid.Row="6" VerticalAlignment="Top" FontSize="15" Grid.ColumnSpan="2" Width="275"/>
+        <Label x:Name="date" Content="..." HorizontalAlignment="Left" Margin="15,20,0,0" Grid.Row="6" VerticalAlignment="Top" FontSize="15" Width="185"/>
+
+    </Grid>
+</UserControl>

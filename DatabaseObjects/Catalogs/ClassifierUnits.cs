@@ -1,6 +1,8 @@
+using Aramis;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.Enums;
+using Catalogs;
 
 namespace AtosFMCG.DatabaseObjects.Catalogs
     {
@@ -28,5 +30,43 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
                 }
             }
         private string z_CutName = string.Empty;
+
+        #region ѕредопределенные элементы
+        private const string CATALOG_NAME = "ClassifierUnits";
+
+        /// <summary>ящик</summary>
+        public static DBObjectRef Box
+            {
+            get
+                {
+                return z_Box ?? (z_Box = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "ящик"));
+                }
+            }
+        private static DBObjectRef z_Box;
+
+        /// <summary>
+        /// Ѕутилка
+        /// </summary>
+        public static DBObjectRef Bottle
+            {
+            get
+                {
+                return z_Bottle ?? (z_Bottle = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "Ѕутилка"));
+                }
+            }
+        private static DBObjectRef z_Bottle;
+
+        /// <summary>
+        ///  ѕаллета 
+        /// </summary>
+        public static DBObjectRef Pallet
+            {
+            get
+                {
+                return z_Pallet ?? (z_Pallet = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "ѕаллета"));
+                }
+            }
+        private static DBObjectRef z_Pallet;
+        #endregion
         }
     }

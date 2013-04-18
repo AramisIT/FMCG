@@ -16,8 +16,12 @@ namespace AtosFMCG.TouchScreen.Events
     /// <summary>Повернутись назад</summary>
     public delegate void GoDelegate();
 
-    /// <summary></summary>
-    public delegate void FinishEditPlannedArrivalDelegate(PlannedArrival Document);
+    /// <summary>Завершено редагування документу "План приходу"</summary>
+    /// <param name="isSaved">Чи був документ збережений</param>
+    /// <param name="Document">Документ</param>
+    public delegate void FinishEditPlannedArrivalDelegate(bool isSaved, PlannedArrival Document);
 
+    /// <summary>Завершено редагування строкового поля</summary>
+    /// <param name="newValue">Нове значення</param>
     public delegate void FinishFieldEditiong(string newValue);
     }

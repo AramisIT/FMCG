@@ -38,8 +38,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.selectedRowLabel = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.scrollUp = new System.Windows.Forms.Button();
+            this.scrollDown = new System.Windows.Forms.Button();
             this.goNext = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.goPrev = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.gridArea.SuspendLayout();
@@ -96,6 +96,12 @@
             // 
             // gridView
             // 
+            this.gridView.Appearance.FocusedCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(245)))), ((int)(((byte)(255)))));
+            this.gridView.Appearance.FocusedCell.Font = new System.Drawing.Font("Tahoma", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.gridView.Appearance.FocusedCell.ForeColor = System.Drawing.Color.Black;
+            this.gridView.Appearance.FocusedCell.Options.UseBackColor = true;
+            this.gridView.Appearance.FocusedCell.Options.UseFont = true;
+            this.gridView.Appearance.FocusedCell.Options.UseForeColor = true;
             this.gridView.Appearance.HeaderPanel.Font = new System.Drawing.Font("Tahoma", 20F, System.Drawing.FontStyle.Bold);
             this.gridView.Appearance.HeaderPanel.Options.UseFont = true;
             this.gridView.Appearance.HeaderPanel.Options.UseTextOptions = true;
@@ -106,6 +112,7 @@
             this.gridView.GridControl = this.grid;
             this.gridView.Name = "gridView";
             this.gridView.OptionsView.ShowGroupPanel = false;
+            this.gridView.OptionsView.ShowIndicator = false;
             this.gridView.RowHeight = 65;
             this.gridView.FocusedRowChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventHandler(this.gridView_FocusedRowChanged);
             // 
@@ -161,25 +168,27 @@
             this.selectedRowLabel.Text = "Обраний рядок: ...";
             this.selectedRowLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // button1
+            // scrollUp
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(945, 149);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(65, 65);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
+            this.scrollUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.scrollUp.Image = global::AtosFMCG.Properties.Resources.up;
+            this.scrollUp.Location = new System.Drawing.Point(945, 149);
+            this.scrollUp.Name = "scrollUp";
+            this.scrollUp.Size = new System.Drawing.Size(65, 65);
+            this.scrollUp.TabIndex = 4;
+            this.scrollUp.UseVisualStyleBackColor = true;
+            this.scrollUp.Click += new System.EventHandler(this.scrollUp_Click);
             // 
-            // button2
+            // scrollDown
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(945, 590);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(65, 65);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
+            this.scrollDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.scrollDown.Image = global::AtosFMCG.Properties.Resources.down;
+            this.scrollDown.Location = new System.Drawing.Point(945, 590);
+            this.scrollDown.Name = "scrollDown";
+            this.scrollDown.Size = new System.Drawing.Size(65, 65);
+            this.scrollDown.TabIndex = 5;
+            this.scrollDown.UseVisualStyleBackColor = true;
+            this.scrollDown.Click += new System.EventHandler(this.scrollDown_Click);
             // 
             // goNext
             // 
@@ -227,8 +236,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.goPrev);
             this.Controls.Add(this.goNext);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.scrollDown);
+            this.Controls.Add(this.scrollUp);
             this.Controls.Add(this.selectedRowLabel);
             this.Controls.Add(this.gridArea);
             this.Controls.Add(this.inputField);
@@ -253,8 +262,8 @@
         private DevExpress.XtraGrid.Views.Grid.GridView gridView;
         private DevExpress.XtraGrid.Columns.GridColumn Description;
         private DevExpress.XtraGrid.Columns.GridColumn Id;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button scrollUp;
+        private System.Windows.Forms.Button scrollDown;
         private NavigatedButton goNext;
         private NavigatedButton goPrev;
         private System.Windows.Forms.Label label2;

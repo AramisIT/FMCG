@@ -54,6 +54,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Aramis.NET\Aramis\bin\Release\Aramis system.dll</HintPath>
     </Reference>
+    <Reference Include="AramisWpfComponents">
+      <HintPath>..\..\Aramis.NET\Aramis\bin\Release\AramisWpfComponents.dll</HintPath>
+    </Reference>
     <Reference Include="Attributes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Aramis.NET\Aramis\bin\Release\Attributes.dll</HintPath>
@@ -81,6 +84,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Aramis.NET\Aramis\bin\Release\Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="Storekeeper Management Server">
       <HintPath>..\..\GreenHouse\SMS for Lamps\Storekeeper Management Server\bin\Release\Storekeeper Management Server.dll</HintPath>
     </Reference>
@@ -89,7 +94,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AramisMainWindow.cs">
@@ -189,6 +196,7 @@
     <Compile Include="DatabaseObjects\Enums\TypesOfShipment.cs" />
     <Compile Include="DatabaseObjects\Interfaces\ISyncWith1C.cs" />
     <Compile Include="HelperClasses\BarcodeWorker.cs" />
+    <Compile Include="HelperClasses\DCT\Processes.cs" />
     <Compile Include="HelperClasses\DCT\ReceiveMessages.cs" />
     <Compile Include="HelperClasses\DCT\SendToTCD.cs">
       <SubType>Form</SubType>
@@ -226,8 +234,17 @@
     <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfGoodsMoving.Designer.cs">
       <DependentUpon>ViewOfGoodsMoving.cs</DependentUpon>
     </Compile>
+    <Compile Include="PrintForms\PalletPrintForm.xaml.cs">
+      <DependentUpon>PalletPrintForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TouchScreen\Controls\NumberEdit.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TouchScreen\Controls\NumberEdit.Designer.cs">
+      <DependentUpon>NumberEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="TouchScreen\Controls\DateEdit.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -265,13 +282,13 @@
       <DependentUpon>SelectFromObjectList.cs</DependentUpon>
     </Compile>
     <Compile Include="TouchScreen\Data\BaseData.cs" />
+    <Compile Include="TouchScreen\Data\NomenclatureData.cs" />
+    <Compile Include="TouchScreen\Data\ObjectValue.cs" />
     <Compile Include="TouchScreen\Data\PlannedArrivalData.cs" />
     <Compile Include="TouchScreen\Enums\TypesOfFont.cs" />
-    <Compile Include="TouchScreen\Events\DateIsChangedArgs.cs" />
+    <Compile Include="TouchScreen\Events\ValueIsChangedArgs.cs" />
     <Compile Include="TouchScreen\Events\Delegates.cs" />
-    <Compile Include="TouchScreen\Events\FieldValueIsChangedArgs.cs" />
     <Compile Include="TouchScreen\HelpersClasses\HelpersClasses.cs" />
-    <Compile Include="TouchScreen\Interfaces\IExtControl.cs" />
     <Compile Include="TouchScreen\MainScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -322,6 +339,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseObjects\Catalogs\Users\UsersItemForm.resx">
       <DependentUpon>UsersItemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TouchScreen\Controls\NumberEdit.resx">
+      <DependentUpon>NumberEdit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TouchScreen\Controls\DateEdit.resx">
       <DependentUpon>DateEdit.cs</DependentUpon>
@@ -440,6 +460,13 @@
     <None Include="Resources\finish.png" />
     <None Include="Resources\next_back.png" />
     <None Include="Resources\prev_black.png" />
+    <None Include="Resources\left.png" />
+    <None Include="Resources\addnew.png" />
+    <None Include="Resources\delete.png" />
+    <None Include="Resources\save.png" />
+    <None Include="Resources\Exit.png" />
+    <None Include="Resources\up.png" />
+    <None Include="Resources\down.png" />
     <Content Include="TraceAramis.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -467,7 +494,15 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="TouchScreen\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="PrintForms\PalletPrintForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

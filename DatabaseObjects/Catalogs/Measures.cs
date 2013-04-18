@@ -1,7 +1,7 @@
-using Aramis;
+using System;
 using Aramis.Attributes;
 using Aramis.Core;
-using Catalogs;
+using Aramis.DatabaseConnector;
 
 namespace AtosFMCG.DatabaseObjects.Catalogs
     {
@@ -60,34 +60,50 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
         private double z_BaseCount; 
         #endregion
 
-        #region Предопределенные элементы
-        private const string CATALOG_NAME = "Measures";
-
-        /// <summary>Ящик</summary>
-        public static DBObjectRef Box
-            {
-            get
-                {
-                return z_Box ?? (z_Box = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "ящик"));
-                }
-            }
-        private static DBObjectRef z_Box;
-
-        //Бутилка
-        public static DBObjectRef Bottle
-            {
-            get
-                {
-                return z_Bottle ?? (z_Bottle = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "бут"));
-                }
-            }
-        private static DBObjectRef z_Bottle;
-        #endregion
-
+        #region Implemention of CatalogTable
         protected override WritingResult CheckingBeforeWriting()
             {
             Description = string.Format("{0} ({1})", Classifier.Description, Nomenclature.Description);
             return base.CheckingBeforeWriting();
+            } 
+        #endregion
+
+        #region Get Box
+        public static long GetBoxForPallet(long palletId)
+            {
+            Query query = DB.NewQuery(@"WITH
+NomenclatureTable AS (SELECT Nomenclature,MeasureUnit FROM StockBalance b WHERE b.UniqueCode=@Pallet)
+, BoxTable AS (SELECT * FROM Measures WHERE Classifier=@Box)
+	
+SELECT DISTINCT TOP 1 b.Id
+FROM NomenclatureTable n
+JOIN BoxTable b ON b.Id=n.MeasureUnit");
+            query.AddInputParameter("Pallet", palletId);
+            query.AddInputParameter("Box", ClassifierUnits.Box.Id);
+            object idObj = query.SelectScalar();
+
+            return idObj == null ? 0 : Convert.ToInt64(idObj);
             }
+
+        public static long GetBoxForNomenclature(Nomenclature nomenclature)
+            {
+            return GetBoxForNomenclature(nomenclature.Id);
+            }
+
+        public static long GetBoxForNomenclature(long nomenclatureId)
+            {
+            return GetMeasureForNomenclature(nomenclatureId, ClassifierUnits.Box.Id);
+            }
+
+        public static long GetMeasureForNomenclature(long nomenclatureId, long classifier)
+            {
+            Query query = DB.NewQuery(@"SELECT Id FROM Measures m WHERE m.Nomenclature=@Nomenclature AND m.Classifier=@Classifier");
+            query.AddInputParameter("Nomenclature", nomenclatureId);
+            query.AddInputParameter("Classifier", classifier);
+            object idObj = query.SelectScalar();
+
+            return idObj == null ? 0 : Convert.ToInt64(idObj);
+            }
+        #endregion
         }
     }

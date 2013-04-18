@@ -106,6 +106,12 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
         #endregion
 
         #region Fill
+        public void FillAddData()
+            {
+            fillDeadline();
+            fillDescription();
+            }
+
         /// <summary>Заповнення термінів придатності</summary>
         private void fillDeadline()
             {

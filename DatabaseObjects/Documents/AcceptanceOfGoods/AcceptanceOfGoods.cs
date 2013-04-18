@@ -326,7 +326,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             {
             if(dataTable.Equals(NomenclatureInfo))
                 {
-                //todo: необхідно доопрацювати (?)
                 currentRow[NomenclatureCode] = newCodeNumber;
                 }
             }

@@ -34,15 +34,24 @@
             this.invoiceDate = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.invoiceNumber = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.editControlsArea = new System.Windows.Forms.Panel();
-            this.finish = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
+            this.save = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.grid = new DevExpress.XtraGrid.GridControl();
             this.gridView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.LineNumber = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Description = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Quantity = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Date = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.editPanel = new System.Windows.Forms.Panel();
+            this.selectedRowInfo = new System.Windows.Forms.Label();
+            this.finishEditMode = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.navigatedButton2 = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
+            this.navigatedButton3 = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
+            this.exit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
+            this.editPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // editMode
@@ -54,7 +63,7 @@
             this.editMode.Image = global::AtosFMCG.Properties.Resources.edit;
             this.editMode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.editMode.IsEnabled = true;
-            this.editMode.Location = new System.Drawing.Point(3, 700);
+            this.editMode.Location = new System.Drawing.Point(3, 698);
             this.editMode.Name = "editMode";
             this.editMode.Size = new System.Drawing.Size(210, 60);
             this.editMode.TabIndex = 40;
@@ -62,7 +71,7 @@
             this.editMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.editMode.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
             this.editMode.UseVisualStyleBackColor = false;
-            this.editMode.Click += new System.EventHandler(this.editMode_Click);
+            this.editMode.SingleClick += new System.EventHandler(this.editMode_SingleClick);
             // 
             // car
             // 
@@ -77,7 +86,7 @@
             this.car.Name = "car";
             this.car.Size = new System.Drawing.Size(210, 60);
             this.car.TabIndex = 39;
-            this.car.Text = "          Машина";
+            this.car.Text = "          Машинашшшшшшш";
             this.car.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.car.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
             this.car.UseVisualStyleBackColor = false;
@@ -147,24 +156,24 @@
             this.editControlsArea.Size = new System.Drawing.Size(580, 755);
             this.editControlsArea.TabIndex = 41;
             // 
-            // finish
+            // save
             // 
-            this.finish.BackColor = System.Drawing.Color.LightGreen;
-            this.finish.Background = System.Drawing.Color.LightGreen;
-            this.finish.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
-            this.finish.Ico = global::AtosFMCG.Properties.Resources.finish;
-            this.finish.Image = global::AtosFMCG.Properties.Resources.finish;
-            this.finish.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.finish.IsEnabled = true;
-            this.finish.Location = new System.Drawing.Point(218, 700);
-            this.finish.Name = "finish";
-            this.finish.Size = new System.Drawing.Size(210, 60);
-            this.finish.TabIndex = 42;
-            this.finish.Text = "          Завершити";
-            this.finish.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.finish.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
-            this.finish.UseVisualStyleBackColor = false;
-            this.finish.Click += new System.EventHandler(this.finish_Click);
+            this.save.BackColor = System.Drawing.Color.LightGreen;
+            this.save.Background = System.Drawing.Color.LightGreen;
+            this.save.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.save.Ico = global::AtosFMCG.Properties.Resources.save;
+            this.save.Image = global::AtosFMCG.Properties.Resources.save;
+            this.save.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.save.IsEnabled = true;
+            this.save.Location = new System.Drawing.Point(219, 698);
+            this.save.Name = "save";
+            this.save.Size = new System.Drawing.Size(209, 60);
+            this.save.TabIndex = 42;
+            this.save.Text = "          Зберегти";
+            this.save.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.save.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
+            this.save.UseVisualStyleBackColor = false;
+            this.save.Click += new System.EventHandler(this.finish_Click);
             // 
             // grid
             // 
@@ -178,10 +187,29 @@
             // 
             // gridView
             // 
+            this.gridView.Appearance.FocusedCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(245)))), ((int)(((byte)(255)))));
+            this.gridView.Appearance.FocusedCell.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.gridView.Appearance.FocusedCell.Options.UseBackColor = true;
+            this.gridView.Appearance.FocusedCell.Options.UseFont = true;
+            this.gridView.Appearance.FocusedRow.BackColor = System.Drawing.Color.White;
+            this.gridView.Appearance.FocusedRow.BackColor2 = System.Drawing.Color.White;
+            this.gridView.Appearance.FocusedRow.ForeColor = System.Drawing.Color.Black;
+            this.gridView.Appearance.FocusedRow.Options.UseBackColor = true;
+            this.gridView.Appearance.FocusedRow.Options.UseForeColor = true;
             this.gridView.Appearance.HeaderPanel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
             this.gridView.Appearance.HeaderPanel.Options.UseFont = true;
             this.gridView.Appearance.HeaderPanel.Options.UseTextOptions = true;
             this.gridView.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.gridView.Appearance.HideSelectionRow.BackColor = System.Drawing.Color.White;
+            this.gridView.Appearance.HideSelectionRow.BackColor2 = System.Drawing.Color.White;
+            this.gridView.Appearance.HideSelectionRow.ForeColor = System.Drawing.Color.Black;
+            this.gridView.Appearance.HideSelectionRow.Options.UseBackColor = true;
+            this.gridView.Appearance.HideSelectionRow.Options.UseForeColor = true;
+            this.gridView.Appearance.SelectedRow.BackColor = System.Drawing.Color.White;
+            this.gridView.Appearance.SelectedRow.BackColor2 = System.Drawing.Color.White;
+            this.gridView.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
+            this.gridView.Appearance.SelectedRow.Options.UseBackColor = true;
+            this.gridView.Appearance.SelectedRow.Options.UseForeColor = true;
             this.gridView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
             this.LineNumber,
             this.Description,
@@ -192,7 +220,10 @@
             this.gridView.OptionsBehavior.Editable = false;
             this.gridView.OptionsBehavior.ReadOnly = true;
             this.gridView.OptionsView.ShowGroupPanel = false;
+            this.gridView.OptionsView.ShowIndicator = false;
             this.gridView.RowHeight = 65;
+            this.gridView.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_RowClick);
+            this.gridView.FocusedColumnChanged += new DevExpress.XtraGrid.Views.Base.FocusedColumnChangedEventHandler(this.gridView_FocusedColumnChanged);
             // 
             // LineNumber
             // 
@@ -203,6 +234,7 @@
             this.LineNumber.Caption = " ";
             this.LineNumber.FieldName = "LineNumber";
             this.LineNumber.Name = "LineNumber";
+            this.LineNumber.OptionsColumn.AllowFocus = false;
             this.LineNumber.Visible = true;
             this.LineNumber.VisibleIndex = 0;
             this.LineNumber.Width = 37;
@@ -246,23 +278,144 @@
             this.Date.VisibleIndex = 3;
             this.Date.Width = 125;
             // 
+            // editPanel
+            // 
+            this.editPanel.Controls.Add(this.selectedRowInfo);
+            this.editPanel.Controls.Add(this.finishEditMode);
+            this.editPanel.Controls.Add(this.label3);
+            this.editPanel.Controls.Add(this.label4);
+            this.editPanel.Controls.Add(this.navigatedButton2);
+            this.editPanel.Controls.Add(this.navigatedButton3);
+            this.editPanel.Location = new System.Drawing.Point(434, 3);
+            this.editPanel.Name = "editPanel";
+            this.editPanel.Size = new System.Drawing.Size(580, 755);
+            this.editPanel.TabIndex = 48;
+            // 
+            // selectedRowInfo
+            // 
+            this.selectedRowInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.selectedRowInfo.ForeColor = System.Drawing.Color.DimGray;
+            this.selectedRowInfo.Location = new System.Drawing.Point(3, 406);
+            this.selectedRowInfo.Name = "selectedRowInfo";
+            this.selectedRowInfo.Size = new System.Drawing.Size(574, 67);
+            this.selectedRowInfo.TabIndex = 48;
+            this.selectedRowInfo.Text = "...";
+            this.selectedRowInfo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // finishEditMode
+            // 
+            this.finishEditMode.BackColor = System.Drawing.Color.LightGray;
+            this.finishEditMode.Background = System.Drawing.Color.LightGray;
+            this.finishEditMode.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.finishEditMode.Ico = global::AtosFMCG.Properties.Resources.finish;
+            this.finishEditMode.Image = global::AtosFMCG.Properties.Resources.finish;
+            this.finishEditMode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.finishEditMode.IsEnabled = true;
+            this.finishEditMode.Location = new System.Drawing.Point(74, 565);
+            this.finishEditMode.Name = "finishEditMode";
+            this.finishEditMode.Size = new System.Drawing.Size(425, 60);
+            this.finishEditMode.TabIndex = 47;
+            this.finishEditMode.Text = "                       Вийти з режиму редагування";
+            this.finishEditMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.finishEditMode.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
+            this.finishEditMode.UseVisualStyleBackColor = false;
+            this.finishEditMode.Click += new System.EventHandler(this.finishEditMode_Click);
+            // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label3.ForeColor = System.Drawing.Color.DimGray;
+            this.label3.Location = new System.Drawing.Point(3, 258);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(574, 67);
+            this.label3.TabIndex = 46;
+            this.label3.Text = "Додайте необхідну кількість рядків або видаліть виділені рядки";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label4
+            // 
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label4.ForeColor = System.Drawing.Color.DarkOrange;
+            this.label4.Location = new System.Drawing.Point(3, 150);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(574, 67);
+            this.label4.TabIndex = 45;
+            this.label4.Text = "Режим редагування таблиці";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // navigatedButton2
+            // 
+            this.navigatedButton2.BackColor = System.Drawing.Color.LightGreen;
+            this.navigatedButton2.Background = System.Drawing.Color.LightGreen;
+            this.navigatedButton2.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.navigatedButton2.Ico = global::AtosFMCG.Properties.Resources.addnew;
+            this.navigatedButton2.Image = global::AtosFMCG.Properties.Resources.addnew;
+            this.navigatedButton2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.navigatedButton2.IsEnabled = true;
+            this.navigatedButton2.Location = new System.Drawing.Point(289, 499);
+            this.navigatedButton2.Name = "navigatedButton2";
+            this.navigatedButton2.Size = new System.Drawing.Size(210, 60);
+            this.navigatedButton2.TabIndex = 44;
+            this.navigatedButton2.Text = "             Додати рядок";
+            this.navigatedButton2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.navigatedButton2.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
+            this.navigatedButton2.UseVisualStyleBackColor = false;
+            this.navigatedButton2.Click += new System.EventHandler(this.addRow_Click);
+            // 
+            // navigatedButton3
+            // 
+            this.navigatedButton3.BackColor = System.Drawing.Color.Bisque;
+            this.navigatedButton3.Background = System.Drawing.Color.Bisque;
+            this.navigatedButton3.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.navigatedButton3.Ico = global::AtosFMCG.Properties.Resources.delete;
+            this.navigatedButton3.Image = global::AtosFMCG.Properties.Resources.delete;
+            this.navigatedButton3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.navigatedButton3.IsEnabled = true;
+            this.navigatedButton3.Location = new System.Drawing.Point(74, 499);
+            this.navigatedButton3.Name = "navigatedButton3";
+            this.navigatedButton3.Size = new System.Drawing.Size(210, 60);
+            this.navigatedButton3.TabIndex = 43;
+            this.navigatedButton3.Text = "            Видалити рядок";
+            this.navigatedButton3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.navigatedButton3.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
+            this.navigatedButton3.UseVisualStyleBackColor = false;
+            this.navigatedButton3.Click += new System.EventHandler(this.deleteRow_Click);
+            // 
+            // exit
+            // 
+            this.exit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.exit.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.exit.Image = global::AtosFMCG.Properties.Resources.Exit;
+            this.exit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.exit.Location = new System.Drawing.Point(952, 3);
+            this.exit.Name = "exit";
+            this.exit.Size = new System.Drawing.Size(62, 30);
+            this.exit.TabIndex = 49;
+            this.exit.Text = "Вихід";
+            this.exit.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.exit.UseVisualStyleBackColor = false;
+            this.exit.Click += new System.EventHandler(this.exit_Click);
+            // 
             // EditPlannedArrivalDoc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.exit);
             this.Controls.Add(this.grid);
             this.Controls.Add(this.invoiceNumber);
             this.Controls.Add(this.invoiceDate);
-            this.Controls.Add(this.finish);
+            this.Controls.Add(this.save);
             this.Controls.Add(this.driver);
             this.Controls.Add(this.editControlsArea);
             this.Controls.Add(this.car);
             this.Controls.Add(this.editMode);
+            this.Controls.Add(this.editPanel);
             this.Name = "EditPlannedArrivalDoc";
             this.Size = new System.Drawing.Size(1014, 763);
             this.Load += new System.EventHandler(this.EditPlannedArrivalDoc_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView)).EndInit();
+            this.editPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
             }
@@ -275,12 +428,20 @@
         private NavigatedButton car;
         private NavigatedButton editMode;
         private System.Windows.Forms.Panel editControlsArea;
-        private NavigatedButton finish;
+        private NavigatedButton save;
         private DevExpress.XtraGrid.GridControl grid;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView;
         private DevExpress.XtraGrid.Columns.GridColumn Description;
         private DevExpress.XtraGrid.Columns.GridColumn LineNumber;
         private DevExpress.XtraGrid.Columns.GridColumn Quantity;
         private DevExpress.XtraGrid.Columns.GridColumn Date;
+        private System.Windows.Forms.Panel editPanel;
+        private NavigatedButton finishEditMode;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private NavigatedButton navigatedButton2;
+        private NavigatedButton navigatedButton3;
+        private System.Windows.Forms.Label selectedRowInfo;
+        private System.Windows.Forms.Button exit;
         }
     }

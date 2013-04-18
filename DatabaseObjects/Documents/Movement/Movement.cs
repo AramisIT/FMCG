@@ -5,6 +5,8 @@ using Aramis.Core;
 using Aramis.DatabaseConnector;
 using Aramis.Enums;
 using Aramis.Platform;
+using Aramis.SystemConfigurations;
+using Aramis.UI.WinFormsDevXpress;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
@@ -248,13 +250,92 @@ namespace AtosFMCG.DatabaseObjects.Documents
         #region Static
         public static void MovePallet(long palletId, long newPositionId, bool isCell)
             {
-            Query query = DB.NewQuery(@"EXEC FinishMovement @Responsible,@DestinationCell,@PalletId");
-            query.AddInputParameter("Responsible", SystemAramis.CurrentUser.Id);
-            query.AddInputParameter("DestinationCell", newPositionId);
-            query.AddInputParameter("PalletId", palletId);
-            query.Execute();
+            Query query = DB.NewQuery(@"
+DECLARE @Today DATETIME=CAST(GETDATE() AS DATE)
 
-            PalletMover.MovePalletToNewPlace(palletId, isCell ? 0 : newPositionId);
+SELECT TOP 1 m.Id,n.LineNumber
+FROM Movement m 
+JOIN SubMovementNomenclatureInfo n ON n.IdDoc=m.Id 
+WHERE
+    m.State=0 
+    AND CAST(m.Date AS DATE)=@Today
+    AND m.MarkForDeleting=0 
+    AND n.NomenclatureCode=@PalletId
+    AND RowState=0");
+            query.AddInputParameter("PalletId", palletId);
+            QueryResult result = query.SelectRow();
+
+            if(result!=null)
+                {
+                //Якщо переміщення виконується за завданням, то просто оновити IsMoved для виконаного завдання
+                object docId = result["Id"];
+                object lineNumber = result["LineNumber"];
+
+                Query updateCommand = DB.NewQuery(@"
+UPDATE SubMovementNomenclatureInfo SET RowState=@State WHERE IdDoc=@DocId AND LineNumber=@LineNumber");
+                updateCommand.AddInputParameter("DocId", docId);
+                updateCommand.AddInputParameter("State", StatesOfDocument.Achieved);
+                updateCommand.AddInputParameter("LineNumber", lineNumber);
+                updateCommand.Execute();
+                }
+            else
+                {
+                //Інакше перевірити і при потребі створити новий документ документу
+                Query getDocCommand = DB.NewQuery(@"
+DECLARE @Today DATETIME=CAST(GETDATE() AS DATE)
+
+SELECT TOP 1 @DocId=Id 
+FROM Movement
+WHERE MarkForDeleting=0 AND State=@State AND Source=0 AND CAST(Date AS DATE)=@Today
+ORDER BY Date DESC");
+                getDocCommand.AddInputParameter("State", StatesOfDocument.Achieved);
+                object idObj = getDocCommand.SelectScalar();
+                Movement movementDoc = new Movement();
+                
+                if(idObj==null)
+                    {
+                    movementDoc.Date = SystemConfiguration.ServerDateTime.Date;
+                    }
+                else
+                    {
+                    //Якщо документ просто читаємо його, інакше в результаті буде створено новий док
+                    movementDoc.Read(idObj);
+                    }
+
+                Query getNomenclatureCommand = DB.NewQuery(@"
+SELECT DISTINCT b.Nomenclature,b.Quantity,b.MeasureUnit,b.Cell,n.NomenclatureParty
+FROM StockBalance b 
+LEFT JOIN SubAcceptanceOfGoodsNomenclatureInfo n ON n.NomenclatureCode=b.UniqueCode
+WHERE b.UniqueCode=@PalletId AND Quantity>0");
+                getNomenclatureCommand.AddInputParameter("PalletId", palletId);
+                DataTable table = getNomenclatureCommand.SelectToTable();
+
+                foreach (DataRow row in table.Rows)
+                    {
+                    DataRow newRow = movementDoc.NomenclatureInfo.GetNewRow(movementDoc);
+                    newRow.SetRefValueToRowCell(movementDoc, movementDoc.Nomenclature, row["Nomenclature"], typeof(Nomenclature));
+                    newRow[movementDoc.NomenclatureCode] = palletId;
+                    newRow[movementDoc.NomenclatureCount] = row["Quantity"];
+                    newRow.SetRefValueToRowCell(movementDoc, movementDoc.NomenclatureMeasure, row["MeasureUnit"], typeof(Measures));
+                    newRow.SetRefValueToRowCell(movementDoc, movementDoc.NomenclatureParty, row["NomenclatureParty"], typeof(Party));
+                    newRow.SetRefValueToRowCell(movementDoc, movementDoc.SourceCell, row["Cell"], typeof(Cells));
+                    newRow.SetRefValueToRowCell(movementDoc, movementDoc.DestinationCell, isCell ? 0 : newPositionId, typeof(Cells));
+                    newRow[movementDoc.RowState] = StatesOfDocument.Achieved;
+                    newRow.AddRowToTable(movementDoc);
+                    }
+
+                movementDoc.Write();
+                }
+
+            PalletMover.MovePalletToNewPlace(palletId, isCell ? 0 : newPositionId); 
+
+            #region Старая реализация через процедуру..
+            //Query query = DB.NewQuery(@"EXEC FinishMovement @Responsible,@DestinationCell,@PalletId");
+            //query.AddInputParameter("Responsible", SystemAramis.CurrentUser.Id);
+            //query.AddInputParameter("DestinationCell", newPositionId);
+            //query.AddInputParameter("PalletId", palletId);
+            //query.Execute();
+            #endregion
             }
         #endregion
         }

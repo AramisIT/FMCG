@@ -1,4 +1,4 @@
 ﻿namespace AtosFMCG.TouchScreen.Enums
     {
-    public enum TypesOfFont { Normal, Big }
+    public enum TypesOfFont { Small, Normal, Big }
     }

@@ -106,10 +106,9 @@ WHERE
             {
             ScreenData.Invoice = value;
             installNewPage(new EditPlannedArrivalDoc(ScreenData, Finish));
-            //new EditPlannedArrivalDoc(ScreenData, Finish).Show();
             }
 
-        private void Finish(PlannedArrival document)
+        private void Finish(bool isSaved, PlannedArrival document)
             {
             goToStartPage();
             }

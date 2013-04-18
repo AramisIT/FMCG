@@ -47,6 +47,12 @@ namespace AtosFMCG.TouchScreen.Controls
         #endregion
 
         #region Support
+        public void FocusField()
+            {
+            inputField.Focus();
+            inputField.SelectAll();
+            }
+
         /// <summary>Id обраної строки</summary>
         public bool SelectedRowValue(out KeyValuePair<long, string> value)
             {
@@ -126,6 +132,18 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             inputField.Focus();
             }
+        #endregion
+
+        #region Scroll
+        private void scrollUp_Click(object sender, EventArgs e)
+            {
+            gridView.TopRowIndex = gridView.TopRowIndex - 1;
+            }
+
+        private void scrollDown_Click(object sender, EventArgs e)
+            {
+            gridView.TopRowIndex = gridView.TopRowIndex + 1;
+            } 
         #endregion
         }
     }

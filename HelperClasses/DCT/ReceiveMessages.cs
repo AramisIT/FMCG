@@ -76,6 +76,9 @@ WHERE a.MarkForDeleting=0 AND a.State=0 AND @Today=CAST(p.Date AS DATE)");
             return new object[] { table };
             }
 
+        /// <summary>Отримати місце розміщення зі штрихкоду</summary>
+        /// <param name="parameters">Штрихкод</param>
+        /// <returns>Відсканованне розміщення</returns>
         private static object[] GetPlaceDataFromCode(IList<object> parameters)
             {
             string barcode = parameters[0].ToString();
@@ -86,11 +89,16 @@ WHERE a.MarkForDeleting=0 AND a.State=0 AND @Today=CAST(p.Date AS DATE)");
             return new object[] {result, type, id};
             }
 
+        /// <summary>Проверить разрешена ли установка паллет вручную</summary>
+        /// <returns>Разрешена ли установка паллет вручную</returns>
         private static object[] GetPermitInstallPalletManually()
             {
             return new object[] {Consts.PermitInstallPalletManually};
             }
 
+        /// <summary>Необхідні дані про паллету, що переміщується</summary>
+        /// <param name="parameters">ІД паллети</param>
+        /// <returns>Груз, Дата, К-сть ящиків, К-сть бутилок</returns>
         private static object[] GetDataAboutMovingPallet(IList<object> parameters)
             {
             long palletId = Convert.ToInt64(parameters[0]);
@@ -115,12 +123,15 @@ FROM Data d
 JOIN Nomenclature n ON n.Id=d.Nomenclature
 WHERE d.BottleCount<>0 OR d.BoxCount<>0");
             query.AddInputParameter("PalletId", palletId);
-            query.AddInputParameter("BoxId", Measures.Box.Id);
+            query.AddInputParameter("BoxId", Measures.GetBoxForPallet(palletId));
             QueryResult result = query.SelectRow();
 
             return new[] { result["Goods"], result["Date"], result["BoxCount"], result["BottleCount"] };
             }
 
+        /// <summary>
+        /// Дані для інвентаризації
+        /// </summary>
         private static object[] GetDataForInventory()
             {
             Query query = DB.NewQuery(@"SELECT TOP 1 
@@ -163,6 +174,10 @@ WHERE i.State=0 AND i.MarkForDeleting=0 AND n.FactValue=0 AND CAST(i.Date AS DAT
             return new object[]{false};
             }
 
+        /// <summary>
+        /// К-сть документів, що чекають обробки
+        /// </summary>
+        /// <returns>Прийманя, Інветаризація, Відбір, Переміщення</returns>
         private static object[] GetCountOfDocuments()
             {
             //Умова відбору: Стан = "Заплановано" + Не помічений на видалення + На сьогодні
@@ -208,6 +223,10 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Movement])) 
                        };
             }
 
+        /// <summary>
+        /// Отримати список конрагентів для відбіру продукції
+        /// </summary>
+        /// <returns>Таблиця контрагентів (Description, Id)</returns>
         private static object[] GetContractorsForSelection()
             {
             Query query = DB.NewQuery(@"DECLARE @Today DATETIME2=CAST(GETDATE() AS Date)
@@ -228,9 +247,11 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
             return new object[]{false};
             }
 
+        /// <summary>Інформація про ПЕРШУ паллету (тут строка) для відбору</summary>
+        /// <returns>true,Code,Goods,Date,BoxCount,UnitCount,BaseCount,Cell </returns>
         private static object[] GetSelectionRowInfo()
             {
-            Query query = DB.NewQuery(@"--DECLARE @BoxMeasure BIGINT=1;
+            Query query = DB.NewQuery(@"--DECLARE @Box BIGINT=1;
 
 DECLARE @Today DATETIME2=CAST(GETDATE() AS Date)
 DECLARE @ShipmentPlan_Type uniqueidentifier='029B0572-E5B5-48CD-9805-1211319A5633';
@@ -242,12 +263,13 @@ PreparedData AS (
 		,n.NomenclatureCode Code
 		,n.Nomenclature
 		,n.NomenclatureParty Party
-		,SUM(CASE WHEN n.NomenclatureMeasure=@BoxMeasure THEN n.NomenclatureCount ELSE 0 END) BoxCount
-		,SUM(CASE WHEN n.NomenclatureMeasure<>@BoxMeasure THEN n.NomenclatureCount ELSE 0 END) UnitCount
+		,SUM(CASE WHEN Measures.Classifier=@Box THEN n.NomenclatureCount ELSE 0 END) BoxCount
+		,SUM(CASE WHEN Measures.Classifier<>@Box THEN n.NomenclatureCount ELSE 0 END) UnitCount
 		,n.SourceCell Cell
 	FROM ShipmentPlan s 
 	JOIN Movement m ON m.Source=s.Id AND m.SourceType=@ShipmentPlan_Type
 	JOIN SubMovementNomenclatureInfo n ON n.IdDoc=m.Id
+	JOIN Measures ON Measures.Id=n.NomenclatureMeasure
 	WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today AND n.RowState=0
 	GROUP BY s.Id,n.NomenclatureCode,n.Nomenclature,n.NomenclatureParty,n.SourceCell)
 ,MainData AS(
@@ -255,7 +277,7 @@ PreparedData AS (
 	FROM PreparedData d
 	LEFT JOIN Nomenclature n ON n.Id=d.Nomenclature
 	LEFT JOIN Party p ON p.Id=d.Party
-	LEFT JOIN Measures m ON m.Id=@BoxMeasure
+	LEFT JOIN Measures m ON m.Nomenclature=n.Id AND m.Classifier=@Box
 	LEFT JOIN Cells c ON c.Id=d.Cell)
 ,OrderDate AS (
 	SELECT Code,ROW_NUMBER() OVER (ORDER BY Date DESC)RowNumber
@@ -269,7 +291,7 @@ SELECT TOP 1 m.*
 FROM MainData m
 JOIN OrderDate o ON o.Code=m.Code
 ORDER BY o.RowNumber");
-            query.AddInputParameter("BoxMeasure", Measures.Box.Id);
+            query.AddInputParameter("Box", ClassifierUnits.Box.Id);
             QueryResult result = query.SelectRow();
 
             if (result != null)
@@ -383,6 +405,10 @@ WHERE
         #endregion
 
         #region Set
+        /// <summary>
+        /// Збереження даних інвентаризації
+        /// </summary>
+        /// <param name="parameters">ІД документу, Номер рядка, К-сть</param>
         private static void SetInventory(IList<object> parameters)
             {
             long docId = Convert.ToInt64(parameters[0]);
@@ -415,6 +441,10 @@ JOIN (SELECT Id FROM Documents WHERE Total=Finished)d ON i.Id=d.Id");
             updFinishedDocs.Execute();
             }
 
+        /// <summary>
+        /// Збереження даних по переміщенню паллети
+        /// </summary>
+        /// <param name="parameters">ІД паллети, Нова позиція, Чи являється нова позиція порожньою коміркою</param>
         private static void SetMoving(IList<object> parameters)
             {
             long palletId = Convert.ToInt64(parameters[0]);
@@ -440,13 +470,15 @@ JOIN (SELECT Id FROM Documents WHERE Total=Finished)d ON i.Id=d.Id");
 
             if (boxCount != 0)
                 {
-                createNewSubAccepnatceRow(palletId,planId, nomenclature, boxCount, Measures.Box.Id, party, cellId);
+                long box = Measures.GetBoxForNomenclature(nomenclature);
+                createNewSubAccepnatceRow(palletId, planId, nomenclature, boxCount, box, party, cellId);
                 isCreated = true;
                 }
 
             if (bottleCount != 0)
                 {
-                createNewSubAccepnatceRow(palletId, planId, nomenclature, bottleCount, Measures.Bottle.Id, party, cellId);
+                long bottle = Measures.GetMeasureForNomenclature(nomenclature, ClassifierUnits.Bottle.Id);
+                createNewSubAccepnatceRow(palletId, planId, nomenclature, bottleCount, bottle, party, cellId);
                 isCreated = true;
                 }
 
@@ -456,6 +488,10 @@ JOIN (SELECT Id FROM Documents WHERE Total=Finished)d ON i.Id=d.Id");
                 }
             }
 
+        /// <summary>
+        /// Зберегти дані про переміщення
+        /// </summary>
+        /// <param name="parameters">ІД документу, ІД паллети, ІД комірки</param>
         private static void SetSelectionData(IList<object> parameters)
             {
             long docId = Convert.ToInt64(parameters[0]);
@@ -471,8 +507,17 @@ JOIN (SELECT Id FROM Documents WHERE Total=Finished)d ON i.Id=d.Id");
             query.Execute();
             }
 
+        /// <summary></summary>
+        /// <param name="palletId"></param>
+        /// <param name="planId"></param>
+        /// <param name="nomenclature"></param>
+        /// <param name="boxCount"></param>
+        /// <param name="measure"></param>
+        /// <param name="party"></param>
+        /// <param name="cell"></param>
         private static void createNewSubAccepnatceRow(long palletId, long planId, long nomenclature, double boxCount, long measure, long party, long cell)
             {
+            //поки нема сенсу перероблювати..
             Query query = DB.NewQuery("EXEC AddRowIntoAcceptanceOfGoods @Code,@PlanId,@Nomenclature,@Cell,@Count,@Measure,@Party");
             query.AddInputParameter("Code", palletId);
             query.AddInputParameter("PlanId", planId);
@@ -518,6 +563,9 @@ JOIN (SELECT Id FROM Documents WHERE Total=Finished)d ON i.Id=d.Id");
             return new object[] {result, palletId, isCell};
             }
 
+        /// <summary>Перевірити комірку інвентаризації</summary>
+        /// <param name="parameters">Штрихкод, ІД комірки</param>
+        /// <returns></returns>
         private static object[] CheckInventoryPallet(IList<object> parameters)
             {
             string barcode = parameters[0].ToString();
@@ -551,9 +599,12 @@ FROM LastPalletInCell ");
 
                 return new object[] {true, resultObj != null && Convert.ToBoolean(resultObj)};
                 }
+
             return new object[]{false};
             }
 
+        /// <summary>Перевірка комірки для відвантаження</summary>
+        /// <param name="parameters">Штрихкод</param>
         private static object[] CheckCellFormShipment(IList<object> parameters)
             {
             string barcode = parameters[0].ToString();
@@ -566,13 +617,5 @@ FROM LastPalletInCell ");
             return new object[] {  false};
             }
         #endregion
-        }
-
-    public enum Processes : long
-        {
-        Acceptance,
-        Inventory,
-        Selection,
-        Movement
         }
     }

@@ -55,6 +55,7 @@
             this.tstDeleted = new DevExpress.XtraBars.BarButtonItem();
             this.tstDeleteMarked = new DevExpress.XtraBars.BarButtonItem();
             this.loadScreen = new DevExpress.XtraBars.BarButtonItem();
+            this.printPalletLabel = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.mainPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.sysObjectsGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -100,15 +101,16 @@
             this.openConsts,
             this.tstDeleted,
             this.tstDeleteMarked,
-            this.loadScreen});
+            this.loadScreen,
+            this.printPalletLabel});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 38;
+            this.ribbon.MaxItemId = 39;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.mainPage});
-            this.ribbon.Size = new System.Drawing.Size(1113, 144);
+            this.ribbon.Size = new System.Drawing.Size(1196, 144);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             this.ribbon.Toolbar.ItemLinks.Add(this.ltlServerState);
             // 
@@ -271,6 +273,7 @@
             // 
             this.tstDeleted.Caption = "add Deleted col";
             this.tstDeleted.Id = 35;
+            this.tstDeleted.ImageIndex = 26;
             this.tstDeleted.Name = "tstDeleted";
             this.tstDeleted.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.tstDeleted_ItemClick);
             // 
@@ -278,6 +281,7 @@
             // 
             this.tstDeleteMarked.Caption = "Del marked";
             this.tstDeleteMarked.Id = 36;
+            this.tstDeleteMarked.ImageIndex = 4;
             this.tstDeleteMarked.Name = "tstDeleteMarked";
             this.tstDeleteMarked.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.tstDeleteMarked_ItemClick);
             // 
@@ -285,8 +289,17 @@
             // 
             this.loadScreen.Caption = "load screen";
             this.loadScreen.Id = 37;
+            this.loadScreen.ImageIndex = 12;
             this.loadScreen.Name = "loadScreen";
             this.loadScreen.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.loadScreen_ItemClick);
+            // 
+            // printPalletLabel
+            // 
+            this.printPalletLabel.Caption = "Pallet";
+            this.printPalletLabel.Id = 38;
+            this.printPalletLabel.ImageIndex = 21;
+            this.printPalletLabel.Name = "printPalletLabel";
+            this.printPalletLabel.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.printPalletLabel_ItemClick);
             // 
             // largeImagesCollection
             // 
@@ -366,15 +379,16 @@
             this.testGroup.ItemLinks.Add(this.tstDeleted);
             this.testGroup.ItemLinks.Add(this.tstDeleteMarked);
             this.testGroup.ItemLinks.Add(this.loadScreen);
+            this.testGroup.ItemLinks.Add(this.printPalletLabel);
             this.testGroup.Name = "testGroup";
             this.testGroup.Text = "Для тестів";
             // 
             // ribbonStatusBar
             // 
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 522);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 553);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(1113, 31);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(1196, 31);
             // 
             // defaultLookAndFeel
             // 
@@ -392,7 +406,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1113, 553);
+            this.ClientSize = new System.Drawing.Size(1196, 584);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -447,5 +461,6 @@
         private DevExpress.XtraBars.BarButtonItem tstDeleted;
         private DevExpress.XtraBars.BarButtonItem tstDeleteMarked;
         private DevExpress.XtraBars.BarButtonItem loadScreen;
+        private DevExpress.XtraBars.BarButtonItem printPalletLabel;
         }
     }

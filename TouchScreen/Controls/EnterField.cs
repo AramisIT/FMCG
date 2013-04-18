@@ -37,16 +37,23 @@ namespace AtosFMCG.TouchScreen.Controls
 
         private void inputField_TextChanged(object sender, EventArgs e)
             {
-            OnFieldValueIsChanged(new FieldValueIsChangedArgs(inputField.Text));
+            OnFieldValueIsChanged(new ValueIsChangedArgs<string>(inputField.Text));
+            }
+        
+        /// <summary>Сфокусуватись на полі вводу</summary>
+        public void FocusField()
+            {
+            inputField.Focus();
+            inputField.SelectAll();
             }
 
         #region FieldValueIsChanged
-        /// <summary></summary>
-        public event EventHandler<FieldValueIsChangedArgs> FieldValueIsChanged; 
+        /// <summary>Значення поля було оновлено</summary>
+        public event EventHandler<ValueIsChangedArgs<string>> FieldValueIsChanged;
 
-        private void OnFieldValueIsChanged(FieldValueIsChangedArgs e)
+        private void OnFieldValueIsChanged(ValueIsChangedArgs<string> e)
             {
-            EventHandler<FieldValueIsChangedArgs> handler = FieldValueIsChanged;
+            EventHandler<ValueIsChangedArgs<string>> handler = FieldValueIsChanged;
 
             if(handler!=null)
                 {

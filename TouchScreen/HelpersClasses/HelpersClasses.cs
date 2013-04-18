@@ -45,6 +45,8 @@ namespace AtosFMCG.TouchScreen.HelpersClasses
             {
             switch (type)
                 {
+                case TypesOfFont.Small:
+                        return new Font("Tahoma", 8);
                     case TypesOfFont.Big:
                         return new Font("Tahoma", 25, FontStyle.Bold);
                     default:

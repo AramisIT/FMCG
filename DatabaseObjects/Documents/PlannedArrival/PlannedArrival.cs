@@ -121,7 +121,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
         #region Table Nomeclature
         /// <summary>Номенлатура</summary>
-        [Table(Columns = "Nomenclature, NomenclatureMeasure, NomenclatureDate, NomenclatureCount, NomenclaturePrice, NomenclatureSum, NomenclatureParty", ShowLineNumberColumn = true)]
+        [Table(Columns = "Nomenclature, NomenclatureMeasure, NomenclatureCount, NomenclaturePrice, NomenclatureSum, NomenclatureParty", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенлатура")]
         public DataTable NomenclatureInfo
             {
@@ -135,10 +135,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
         /// <summary>Од.вим.</summary>
         [SubTableField(Description = "Од.вим.", PropertyType = typeof(Measures))]
         public DataColumn NomenclatureMeasure { get; set; }
-
-        /// <summary>Дата виробництва</summary>
-        [SubTableField(Description = "Дата виробництва", PropertyType = typeof(DateTime))]
-        public DataColumn NomenclatureDate { get; set; }
 
         /// <summary>К-сть</summary>
         [SubTableField(Description = "К-сть", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
