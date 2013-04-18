@@ -87,7 +87,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="Storekeeper Management Server">
-      <HintPath>..\..\GreenHouse\SMS for Lamps\Storekeeper Management Server\bin\Release\Storekeeper Management Server.dll</HintPath>
+      <HintPath>..\SMS for DCT\Storekeeper Management Server\bin\Release\Storekeeper Management Server.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -123,6 +123,7 @@
       <DependentUpon>ContractorsItemsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Catalogs\Cars.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\DCTSettings.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Party\Party.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Countries.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Drivers.cs" />

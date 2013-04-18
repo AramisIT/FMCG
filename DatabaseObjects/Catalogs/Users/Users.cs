@@ -1,5 +1,5 @@
-﻿using Aramis.Attributes;
-using Catalogs;
+﻿using Aramis;
+using Aramis.Attributes;
 
 namespace Catalogs
     {
@@ -25,5 +25,19 @@ namespace Catalogs
                 }
             }
         private string z_Email = string.Empty;
+
+        #region Предопределенные элементы
+        private const string CATALOG_NAME = "Roles";
+
+        /// <summary>Менеджер ТСД</summary>
+        public static DBObjectRef ManagerOfDCT
+            {
+            get
+                {
+                return z_ManagerOfDCT ?? (z_ManagerOfDCT = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "Менеджер ТСД"));
+                }
+            }
+        private static DBObjectRef z_ManagerOfDCT;
+        #endregion
         }
     }

@@ -40,6 +40,13 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.labelControl32 = new DevExpress.XtraEditors.LabelControl();
             this.processPage = new DevExpress.XtraTab.XtraTabPage();
             this.PermitInstallPalletManually = new DevExpress.XtraEditors.CheckEdit();
+            this.dctSettings = new DevExpress.XtraTab.XtraTabPage();
+            this.ServerIP = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.UpdateFolderName = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl)).BeginInit();
             this.xtraTabControl.SuspendLayout();
@@ -48,15 +55,18 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             ((System.ComponentModel.ISupportInitialize)(this.OriginalDatabaseName.Properties)).BeginInit();
             this.processPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PermitInstallPalletManually.Properties)).BeginInit();
+            this.dctSettings.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ServerIP.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UpdateFolderName.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
             // 
             this.ribbonStatusBar.ItemLinks.Add(this.OKButton);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 410);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 402);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(486, 23);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(486, 31);
             // 
             // OKButton
             // 
@@ -79,7 +89,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 9;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(486, 54);
+            this.ribbon.Size = new System.Drawing.Size(486, 49);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
             // 
@@ -102,14 +112,15 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             // xtraTabControl
             // 
             this.xtraTabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.xtraTabControl.Location = new System.Drawing.Point(0, 54);
+            this.xtraTabControl.Location = new System.Drawing.Point(0, 49);
             this.xtraTabControl.Name = "xtraTabControl";
             this.xtraTabControl.SelectedTabPage = this.systemPage;
-            this.xtraTabControl.Size = new System.Drawing.Size(486, 356);
+            this.xtraTabControl.Size = new System.Drawing.Size(486, 353);
             this.xtraTabControl.TabIndex = 2;
             this.xtraTabControl.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.processPage,
-            this.systemPage});
+            this.systemPage,
+            this.dctSettings});
             this.xtraTabControl.Visible = false;
             // 
             // systemPage
@@ -119,14 +130,14 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.systemPage.Controls.Add(this.labelControl33);
             this.systemPage.Controls.Add(this.labelControl32);
             this.systemPage.Name = "systemPage";
-            this.systemPage.Size = new System.Drawing.Size(481, 330);
+            this.systemPage.Size = new System.Drawing.Size(480, 325);
             this.systemPage.Text = "Система";
             // 
             // PreviewDatabaseName
             // 
             this.PreviewDatabaseName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.PreviewDatabaseName.Location = new System.Drawing.Point(111, 34);
+            this.PreviewDatabaseName.Location = new System.Drawing.Point(111, 38);
             this.PreviewDatabaseName.MenuManager = this.ribbon;
             this.PreviewDatabaseName.Name = "PreviewDatabaseName";
             this.PreviewDatabaseName.Size = new System.Drawing.Size(362, 20);
@@ -136,7 +147,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             // 
             this.OriginalDatabaseName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.OriginalDatabaseName.Location = new System.Drawing.Point(111, 8);
+            this.OriginalDatabaseName.Location = new System.Drawing.Point(111, 12);
             this.OriginalDatabaseName.MenuManager = this.ribbon;
             this.OriginalDatabaseName.Name = "OriginalDatabaseName";
             this.OriginalDatabaseName.Size = new System.Drawing.Size(362, 20);
@@ -144,7 +155,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             // 
             // labelControl33
             // 
-            this.labelControl33.Location = new System.Drawing.Point(11, 37);
+            this.labelControl33.Location = new System.Drawing.Point(11, 41);
             this.labelControl33.Name = "labelControl33";
             this.labelControl33.Size = new System.Drawing.Size(27, 13);
             this.labelControl33.TabIndex = 6;
@@ -152,7 +163,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             // 
             // labelControl32
             // 
-            this.labelControl32.Location = new System.Drawing.Point(9, 11);
+            this.labelControl32.Location = new System.Drawing.Point(9, 15);
             this.labelControl32.Name = "labelControl32";
             this.labelControl32.Size = new System.Drawing.Size(86, 13);
             this.labelControl32.TabIndex = 4;
@@ -162,7 +173,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             // 
             this.processPage.Controls.Add(this.PermitInstallPalletManually);
             this.processPage.Name = "processPage";
-            this.processPage.Size = new System.Drawing.Size(481, 330);
+            this.processPage.Size = new System.Drawing.Size(480, 325);
             this.processPage.Text = "Процеси";
             // 
             // PermitInstallPalletManually
@@ -173,6 +184,81 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.PermitInstallPalletManually.Properties.Caption = "Дозволити карщику встановлювати паллети самостійно";
             this.PermitInstallPalletManually.Size = new System.Drawing.Size(449, 19);
             this.PermitInstallPalletManually.TabIndex = 0;
+            // 
+            // dctSettings
+            // 
+            this.dctSettings.Controls.Add(this.label2);
+            this.dctSettings.Controls.Add(this.label1);
+            this.dctSettings.Controls.Add(this.UpdateFolderName);
+            this.dctSettings.Controls.Add(this.labelControl2);
+            this.dctSettings.Controls.Add(this.ServerIP);
+            this.dctSettings.Controls.Add(this.labelControl1);
+            this.dctSettings.Name = "dctSettings";
+            this.dctSettings.Size = new System.Drawing.Size(480, 325);
+            this.dctSettings.Text = "Налаштування ТСД";
+            // 
+            // ServerIP
+            // 
+            this.ServerIP.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ServerIP.Location = new System.Drawing.Point(111, 12);
+            this.ServerIP.MenuManager = this.ribbon;
+            this.ServerIP.Name = "ServerIP";
+            this.ServerIP.Properties.Mask.EditMask = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(" +
+    "25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
+            this.ServerIP.Properties.Mask.MaskType = DevExpress.XtraEditors.Mask.MaskType.RegEx;
+            this.ServerIP.Size = new System.Drawing.Size(140, 20);
+            this.ServerIP.TabIndex = 9;
+            // 
+            // labelControl1
+            // 
+            this.labelControl1.Location = new System.Drawing.Point(9, 15);
+            this.labelControl1.Name = "labelControl1";
+            this.labelControl1.Size = new System.Drawing.Size(54, 13);
+            this.labelControl1.TabIndex = 8;
+            this.labelControl1.Text = "IP серверу";
+            // 
+            // UpdateFolderName
+            // 
+            this.UpdateFolderName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.UpdateFolderName.Location = new System.Drawing.Point(111, 38);
+            this.UpdateFolderName.MenuManager = this.ribbon;
+            this.UpdateFolderName.Name = "UpdateFolderName";
+            this.UpdateFolderName.Size = new System.Drawing.Size(362, 20);
+            this.UpdateFolderName.TabIndex = 11;
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Location = new System.Drawing.Point(9, 41);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(66, 13);
+            this.labelControl2.TabIndex = 10;
+            this.labelControl2.Text = "Папка обміну";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Tahoma", 7F);
+            this.label1.ForeColor = System.Drawing.Color.Gray;
+            this.label1.Location = new System.Drawing.Point(108, 61);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(209, 12);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "C:\\Program Files\\Logiston SM Server\\Update";
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.ForeColor = System.Drawing.Color.Maroon;
+            this.label2.Location = new System.Drawing.Point(6, 291);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(467, 30);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Будь ласка, не забудьте, що у довіднику \'Налаштування ТСД\' необхідно вказати IP а" +
+    "дресси ТСД яким дозволено підлючатись до серверу";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ConstsForm
             // 
@@ -203,6 +289,10 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             ((System.ComponentModel.ISupportInitialize)(this.OriginalDatabaseName.Properties)).EndInit();
             this.processPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PermitInstallPalletManually.Properties)).EndInit();
+            this.dctSettings.ResumeLayout(false);
+            this.dctSettings.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ServerIP.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.UpdateFolderName.Properties)).EndInit();
             this.ResumeLayout(false);
 
             }
@@ -221,5 +311,12 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
         private DevExpress.XtraEditors.TextEdit OriginalDatabaseName;
         private DevExpress.XtraTab.XtraTabPage processPage;
         private DevExpress.XtraEditors.CheckEdit PermitInstallPalletManually;
+        private DevExpress.XtraTab.XtraTabPage dctSettings;
+        private DevExpress.XtraEditors.TextEdit UpdateFolderName;
+        private DevExpress.XtraEditors.LabelControl labelControl2;
+        private DevExpress.XtraEditors.TextEdit ServerIP;
+        private DevExpress.XtraEditors.LabelControl labelControl1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
         }
     }

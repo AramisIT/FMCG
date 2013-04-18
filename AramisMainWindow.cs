@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Data;
+using System.Linq;
 using System.Windows;
+using Aramis.Core;
 using Aramis.UI.WinFormsDevXpress.Forms;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.HelperClasses.DCT;
@@ -55,21 +58,27 @@ namespace AtosFMCG
             updGroup.Visible = openByAdmnin;
             favGroup.Visible = openByAdmnin;
             testGroup.Visible = openByAdmnin;
-            dctServerGroup.Visible = openByAdmnin;
             serviceTablesGroup.Visible = openByAdmnin;
 
-            //todo: Додати роль "Менеджер ТСД"
-            if (openByAdmnin)
+            //ТСД сервер
+            bool isManagerOfDCT =
+                SystemAramis.CurrentUser.Roles.Rows.Cast<DataRow>().Any(
+                    row => Convert.ToInt64(row[DatabaseObject.ID_FIELD_NAME]) == Users.ManagerOfDCT.Id);
+
+            if (openByAdmnin || isManagerOfDCT)
                 {
                 ltlServerState.Visibility = BarItemVisibility.Always;
                 runSMServer();
+                dctServerGroup.Visible = true;
+                }
+            else
+                {
+                ltlServerState.Visibility = BarItemVisibility.Never;
+                dctServerGroup.Visible = false;
                 }
             }
 
-        private void AramisMainWindow_Shown(object sender, EventArgs e)
-            {
-            //loadScreen_ItemClick(null, null);
-            }
+        private void AramisMainWindow_Shown(object sender, EventArgs e) {}
         #endregion
 
         #region Головна панель
@@ -158,42 +167,34 @@ namespace AtosFMCG
         #endregion
 
         #region Робота з Терміналом Збіру Даних
+        /// <summary>StorekeeperManagementServer </summary>
         private InfoForm smServer;
 
-        private void barButtonItem1_ItemClick(object sender, ItemClickEventArgs e)
+        private void serverState_ItemClick(object sender, ItemClickEventArgs e)
             {
             runSMServer();
             }
 
+        /// <summary>Запуск серверу showSuccessResultOfConnection</summary>
         private void runSMServer()
             {
             try
                 {
+                //Якщо сервер не запущено - запустити
                 if (smServer == null || !smServer.IsRun)
                     {
-                    smServer = new InfoForm(ReceiveMessages.ReceiveMessage);
+                    smServer = new InfoForm(ReceiveMessages.ReceiveMessage, DCTSettings.AllowedIPs(), Consts.ServerIP, Consts.UpdateFolderName);
 
                     if (smServer.IsRun)
                         {
-                        serverState.Caption = "Запущено!";
-                        serverState.LargeImageIndex = 24;
-                        serverState.SuperTip.Items.Clear();
-                        serverState.SuperTip.Items.Add("Сервер для роботи з ТСД запущено!");
-                        
-                        ltlServerState.ImageIndex = 20;
-                        ltlServerState.Caption= "Сервер для роботи з ТСД запущено!";
+                        showSuccessResultOfConnection();
                         }
                     else
                         {
-                        serverState.LargeImageIndex = 22;
-                        serverState.Caption = "Помилка!";
-                        serverState.SuperTip.Items.Clear();
-                        serverState.SuperTip.Items.Add("Сервер для роботи з ТСД не зміг запуститись!");
-
-                        ltlServerState.ImageIndex = 1;
-                        ltlServerState.Caption = "Сервер для роботи з ТСД не зміг запуститись!";
+                        showFailResultOfConnection();
                         }
                     }
+                    //Якщо сервер запущено і цю дію робить Адмін - відкрити вікно симулювання читання штрих-коду
                 else if (SystemAramis.CurrentUser.Id == CatalogUsers.Admin.Id)
                     {
                     SendToTCD sendForm = new SendToTCD(smServer);
@@ -204,11 +205,30 @@ namespace AtosFMCG
                 {
                 smServer = null;
                 exc.Message.WarningBox();
-                serverState.Caption = "Помилка!";
-                serverState.LargeImageIndex = 22;
-                serverState.SuperTip.Items.Clear();
-                serverState.SuperTip.Items.Add(exc.Message);
+                showFailResultOfConnection();
                 }
+            }
+
+        private void showSuccessResultOfConnection()
+            {
+            serverState.Caption = "Запущено!";
+            serverState.LargeImageIndex = 24;
+            serverState.SuperTip.Items.Clear();
+            serverState.SuperTip.Items.Add("Сервер для роботи з ТСД запущено!");
+
+            ltlServerState.ImageIndex = 20;
+            ltlServerState.Caption = "Сервер для роботи з ТСД запущено!";
+            }
+
+        private void showFailResultOfConnection()
+            {
+            serverState.LargeImageIndex = 22;
+            serverState.Caption = "Помилка!";
+            serverState.SuperTip.Items.Clear();
+            serverState.SuperTip.Items.Add("Сервер для роботи з ТСД не зміг запуститись!");
+
+            ltlServerState.ImageIndex = 1;
+            ltlServerState.Caption = "Сервер для роботи з ТСД не зміг запуститись!";
             }
         #endregion
 
@@ -240,7 +260,7 @@ namespace AtosFMCG
                 new DateTime(2010, 1, 15),
                 new DateTime(2013, 05, 09),
                 new DateTime(2016, 10, 18),
-                "Іванополус",
+                "Іванопополус",
                 "55568408/965",
                 DateTime.Now);
             label.UpdateLayout();
