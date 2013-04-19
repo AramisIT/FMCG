@@ -13,7 +13,8 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
         public enum ConstsPages
         {
             processPage,
-            systemPage
+            systemPage,
+            dctSettings
         }
 
         private readonly ConstsPages FirstPage;

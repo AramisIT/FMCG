@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
-using Aramis.Core;
 using Aramis.UI.WinFormsDevXpress.Forms;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.HelperClasses.DCT;
-using AtosFMCG.HelperClasses.Deleted;
 using AtosFMCG.HelperClasses.ViewOfServiceTables;
 using AtosFMCG.PrintForms;
 using AtosFMCG.TouchScreen;
@@ -29,9 +28,18 @@ namespace AtosFMCG
         #region Властивості
         public Action ShowConnectionTroublesForm { get; set; }
         public bool AutoStartMode { get; set; }
-        public ImageCollection SmallImagesCollection { get { return smallImagesCollection; } }
-        public ImageCollection LargeImagesCollection { get { return largeImagesCollection; } }
-        new public UserLookAndFeel LookAndFeel { get { return defaultLookAndFeel.LookAndFeel; } }
+        public ImageCollection SmallImagesCollection
+            {
+            get { return smallImagesCollection; }
+            }
+        public ImageCollection LargeImagesCollection
+            {
+            get { return largeImagesCollection; }
+            }
+        public new UserLookAndFeel LookAndFeel
+            {
+            get { return defaultLookAndFeel.LookAndFeel; }
+            }
 
         /// <summary>Форма відкрита Адміністратором</summary>
         private bool openByAdmnin;
@@ -44,9 +52,7 @@ namespace AtosFMCG
             }
 
         /// <summary>Виконання дій при автозапуску</summary>
-        public void OnAutoStart()
-            {
-            }
+        public void OnAutoStart() {}
 
         #region Event handling
         /// <summary>Форму завантажено</summary>
@@ -61,10 +67,8 @@ namespace AtosFMCG
             serviceTablesGroup.Visible = openByAdmnin;
 
             //ТСД сервер
-            bool isManagerOfDCT =
-                SystemAramis.CurrentUser.Roles.Rows.Cast<DataRow>().Any(
-                    row => Convert.ToInt64(row[DatabaseObject.ID_FIELD_NAME]) == Users.ManagerOfDCT.Id);
-
+            bool isManagerOfDCT = SystemAramis.CurrentUser.Roles.Rows.Cast<DataRow>().Any(
+                row => Convert.ToInt64(row["Role"]) == Users.ManagerOfDCT.Id);
             if (openByAdmnin || isManagerOfDCT)
                 {
                 ltlServerState.Visibility = BarItemVisibility.Always;
@@ -82,6 +86,7 @@ namespace AtosFMCG
         #endregion
 
         #region Головна панель
+
         #region Объекты системы
         /// <summary>Відкрити список довідників</summary>
         private void openCatalogs_ItemClick(object sender, ItemClickEventArgs e)
@@ -99,12 +104,12 @@ namespace AtosFMCG
         #region Обране
         private void openUsers_ItemClick(object sender, ItemClickEventArgs e)
             {
-            UserInterface.Current.ShowList(typeof(Users));
+            UserInterface.Current.ShowList(typeof (Users));
             }
 
         private void openReportsSetting_ItemClick(object sender, ItemClickEventArgs e)
             {
-            UserInterface.Current.ShowList(typeof(MatrixReports));
+            UserInterface.Current.ShowList(typeof (MatrixReports));
             }
 
         private void openConsts_ItemClick(object sender, ItemClickEventArgs e)
@@ -164,6 +169,7 @@ namespace AtosFMCG
             view.Show();
             }
         #endregion
+
         #endregion
 
         #region Робота з Терміналом Збіру Даних
@@ -183,7 +189,8 @@ namespace AtosFMCG
                 //Якщо сервер не запущено - запустити
                 if (smServer == null || !smServer.IsRun)
                     {
-                    smServer = new InfoForm(ReceiveMessages.ReceiveMessage, DCTSettings.AllowedIPs(), Consts.ServerIP, Consts.UpdateFolderName);
+                    smServer = new InfoForm(ReceiveMessages.ReceiveMessage, DCTSettings.AllowedIPs(), Consts.ServerIP,
+                                            Consts.UpdateFolderName);
 
                     if (smServer.IsRun)
                         {
@@ -214,10 +221,10 @@ namespace AtosFMCG
             serverState.Caption = "Запущено!";
             serverState.LargeImageIndex = 24;
             serverState.SuperTip.Items.Clear();
-            serverState.SuperTip.Items.Add("Сервер для роботи з ТСД запущено!");
+            serverState.SuperTip.Items.Add("Сервер для роботи з ТЗД запущено!");
 
             ltlServerState.ImageIndex = 20;
-            ltlServerState.Caption = "Сервер для роботи з ТСД запущено!";
+            ltlServerState.Caption = "Сервер для роботи з ТЗД запущено!";
             }
 
         private void showFailResultOfConnection()
@@ -225,30 +232,19 @@ namespace AtosFMCG
             serverState.LargeImageIndex = 22;
             serverState.Caption = "Помилка!";
             serverState.SuperTip.Items.Clear();
-            serverState.SuperTip.Items.Add("Сервер для роботи з ТСД не зміг запуститись!");
+            serverState.SuperTip.Items.Add("Сервер для роботи з ТЗД не зміг запуститись!");
 
             ltlServerState.ImageIndex = 1;
-            ltlServerState.Caption = "Сервер для роботи з ТСД не зміг запуститись!";
+            ltlServerState.Caption = "Сервер для роботи з ТЗД не зміг запуститись!";
             }
         #endregion
 
         #region Для тестів
-        private void tstDeleted_ItemClick(object sender, ItemClickEventArgs e)
-            {
-            AlterDeletedColumn.Run();
-            }
-
-        private void tstDeleteMarked_ItemClick(object sender, ItemClickEventArgs e)
-            {
-            DeleteMarked.GetBlockedInfo(typeof(Cells).Name, 1);
-            DeleteMarked.GetBlockedInfo(typeof(Cities).Name, 1);
-            }
-
         private void loadScreen_ItemClick(object sender, ItemClickEventArgs e)
             {
             MainScreen mainScreen = new MainScreen();
             mainScreen.Show();
-            } 
+            }
 
         private void printPalletLabel_ItemClick(object sender, ItemClickEventArgs e)
             {
@@ -268,6 +264,22 @@ namespace AtosFMCG
             palletPrintForm.Height = 500;
             palletPrintForm.Content = label;
             palletPrintForm.Show();
+            }
+
+        private void tstInvoke_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            string result = InvokeStringMethod<string>("Test", new object[] {1.ToString(), "222"});
+            Console.Write(result);
+            }
+
+        public static T InvokeStringMethod<T>(string methodName, object[] args)
+            {
+            Type calledType = typeof (ReceiveMessages);
+
+            return (T) calledType.InvokeMember(
+                methodName,
+                BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static,
+                null, null, args);
             }
         #endregion
         }

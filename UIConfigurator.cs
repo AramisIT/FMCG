@@ -2,12 +2,8 @@
 
 namespace PlatformTest
     {
-    class UIConfigurator : Configurator
-        {       
-
-        public override void ApplyConfig()
-            {
-          
-            }
+    internal class UIConfigurator : Configurator
+        {
+        public override void ApplyConfig() {}
         }
     }

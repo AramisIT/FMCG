@@ -41,12 +41,12 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.processPage = new DevExpress.XtraTab.XtraTabPage();
             this.PermitInstallPalletManually = new DevExpress.XtraEditors.CheckEdit();
             this.dctSettings = new DevExpress.XtraTab.XtraTabPage();
-            this.ServerIP = new DevExpress.XtraEditors.TextEdit();
-            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.UpdateFolderName = new DevExpress.XtraEditors.TextEdit();
             this.labelControl2 = new DevExpress.XtraEditors.LabelControl();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.ServerIP = new DevExpress.XtraEditors.TextEdit();
+            this.labelControl1 = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl)).BeginInit();
             this.xtraTabControl.SuspendLayout();
@@ -56,8 +56,8 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.processPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PermitInstallPalletManually.Properties)).BeginInit();
             this.dctSettings.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ServerIP.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpdateFolderName.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ServerIP.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -121,7 +121,6 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.processPage,
             this.systemPage,
             this.dctSettings});
-            this.xtraTabControl.Visible = false;
             // 
             // systemPage
             // 
@@ -197,6 +196,48 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.dctSettings.Size = new System.Drawing.Size(480, 325);
             this.dctSettings.Text = "Налаштування ТСД";
             // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.label2.ForeColor = System.Drawing.Color.Maroon;
+            this.label2.Location = new System.Drawing.Point(6, 291);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(467, 30);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Будь ласка, не забудьте, що у довіднику \'Налаштування ТСД\' необхідно вказати IP а" +
+    "дресси ТСД яким дозволено підлючатись до серверу";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Tahoma", 7F);
+            this.label1.ForeColor = System.Drawing.Color.Gray;
+            this.label1.Location = new System.Drawing.Point(108, 61);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(209, 12);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "C:\\Program Files\\Logiston SM Server\\Update";
+            // 
+            // UpdateFolderName
+            // 
+            this.UpdateFolderName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.UpdateFolderName.Location = new System.Drawing.Point(111, 38);
+            this.UpdateFolderName.MenuManager = this.ribbon;
+            this.UpdateFolderName.Name = "UpdateFolderName";
+            this.UpdateFolderName.Size = new System.Drawing.Size(362, 20);
+            this.UpdateFolderName.TabIndex = 11;
+            // 
+            // labelControl2
+            // 
+            this.labelControl2.Location = new System.Drawing.Point(9, 41);
+            this.labelControl2.Name = "labelControl2";
+            this.labelControl2.Size = new System.Drawing.Size(66, 13);
+            this.labelControl2.TabIndex = 10;
+            this.labelControl2.Text = "Папка обміну";
+            // 
             // ServerIP
             // 
             this.ServerIP.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -217,48 +258,6 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.labelControl1.Size = new System.Drawing.Size(54, 13);
             this.labelControl1.TabIndex = 8;
             this.labelControl1.Text = "IP серверу";
-            // 
-            // UpdateFolderName
-            // 
-            this.UpdateFolderName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.UpdateFolderName.Location = new System.Drawing.Point(111, 38);
-            this.UpdateFolderName.MenuManager = this.ribbon;
-            this.UpdateFolderName.Name = "UpdateFolderName";
-            this.UpdateFolderName.Size = new System.Drawing.Size(362, 20);
-            this.UpdateFolderName.TabIndex = 11;
-            // 
-            // labelControl2
-            // 
-            this.labelControl2.Location = new System.Drawing.Point(9, 41);
-            this.labelControl2.Name = "labelControl2";
-            this.labelControl2.Size = new System.Drawing.Size(66, 13);
-            this.labelControl2.TabIndex = 10;
-            this.labelControl2.Text = "Папка обміну";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 7F);
-            this.label1.ForeColor = System.Drawing.Color.Gray;
-            this.label1.Location = new System.Drawing.Point(108, 61);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(209, 12);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "C:\\Program Files\\Logiston SM Server\\Update";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.ForeColor = System.Drawing.Color.Maroon;
-            this.label2.Location = new System.Drawing.Point(6, 291);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(467, 30);
-            this.label2.TabIndex = 13;
-            this.label2.Text = "Будь ласка, не забудьте, що у довіднику \'Налаштування ТСД\' необхідно вказати IP а" +
-    "дресси ТСД яким дозволено підлючатись до серверу";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // ConstsForm
             // 
@@ -291,8 +290,8 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             ((System.ComponentModel.ISupportInitialize)(this.PermitInstallPalletManually.Properties)).EndInit();
             this.dctSettings.ResumeLayout(false);
             this.dctSettings.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.ServerIP.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.UpdateFolderName.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ServerIP.Properties)).EndInit();
             this.ResumeLayout(false);
 
             }

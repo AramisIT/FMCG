@@ -2,6 +2,7 @@ using Aramis.Attributes;
 
 namespace AtosFMCG.Enums
     {
+    /// <summary>Тип інвентаризації</summary>
     public enum TypesOfInventory
         {
         /// <summary>Перевірити тип комірок</summary>

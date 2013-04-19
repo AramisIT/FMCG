@@ -52,8 +52,6 @@
             this.openFilledCell = new DevExpress.XtraBars.BarButtonItem();
             this.ltlServerState = new DevExpress.XtraBars.BarButtonItem();
             this.openConsts = new DevExpress.XtraBars.BarButtonItem();
-            this.tstDeleted = new DevExpress.XtraBars.BarButtonItem();
-            this.tstDeleteMarked = new DevExpress.XtraBars.BarButtonItem();
             this.loadScreen = new DevExpress.XtraBars.BarButtonItem();
             this.printPalletLabel = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
@@ -67,6 +65,7 @@
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
+            this.tstInvoke = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).BeginInit();
@@ -99,13 +98,12 @@
             this.openFilledCell,
             this.ltlServerState,
             this.openConsts,
-            this.tstDeleted,
-            this.tstDeleteMarked,
             this.loadScreen,
-            this.printPalletLabel});
+            this.printPalletLabel,
+            this.tstInvoke});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 39;
+            this.ribbon.MaxItemId = 40;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
@@ -184,7 +182,7 @@
             // 
             this.FastDBUpdateButton.Caption = "Оновлення БД без форми";
             this.FastDBUpdateButton.Id = 13;
-            this.FastDBUpdateButton.ImageIndex = 25;
+            this.FastDBUpdateButton.ImageIndex = 26;
             this.FastDBUpdateButton.Name = "FastDBUpdateButton";
             this.FastDBUpdateButton.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.FastDBUpdateButton_ItemClick);
             // 
@@ -268,22 +266,6 @@
             this.openConsts.LargeGlyph = global::AtosFMCG.Properties.Resources._1303219717_Settings;
             this.openConsts.Name = "openConsts";
             this.openConsts.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openConsts_ItemClick);
-            // 
-            // tstDeleted
-            // 
-            this.tstDeleted.Caption = "add Deleted col";
-            this.tstDeleted.Id = 35;
-            this.tstDeleted.ImageIndex = 26;
-            this.tstDeleted.Name = "tstDeleted";
-            this.tstDeleted.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.tstDeleted_ItemClick);
-            // 
-            // tstDeleteMarked
-            // 
-            this.tstDeleteMarked.Caption = "Del marked";
-            this.tstDeleteMarked.Id = 36;
-            this.tstDeleteMarked.ImageIndex = 4;
-            this.tstDeleteMarked.Name = "tstDeleteMarked";
-            this.tstDeleteMarked.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.tstDeleteMarked_ItemClick);
             // 
             // loadScreen
             // 
@@ -376,10 +358,9 @@
             // 
             // testGroup
             // 
-            this.testGroup.ItemLinks.Add(this.tstDeleted);
-            this.testGroup.ItemLinks.Add(this.tstDeleteMarked);
             this.testGroup.ItemLinks.Add(this.loadScreen);
             this.testGroup.ItemLinks.Add(this.printPalletLabel);
+            this.testGroup.ItemLinks.Add(this.tstInvoke);
             this.testGroup.Name = "testGroup";
             this.testGroup.Text = "Для тестів";
             // 
@@ -401,6 +382,13 @@
             this.barButtonItem4.ImageIndex = 1;
             this.barButtonItem4.LargeImageIndex = 0;
             this.barButtonItem4.Name = "barButtonItem4";
+            // 
+            // tstInvoke
+            // 
+            this.tstInvoke.Caption = "invoke";
+            this.tstInvoke.Id = 39;
+            this.tstInvoke.Name = "tstInvoke";
+            this.tstInvoke.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.tstInvoke_ItemClick);
             // 
             // AramisMainWindow
             // 
@@ -458,9 +446,8 @@
         private DevExpress.XtraBars.BarButtonItem openFilledCell;
         private DevExpress.XtraBars.BarButtonItem ltlServerState;
         private DevExpress.XtraBars.BarButtonItem openConsts;
-        private DevExpress.XtraBars.BarButtonItem tstDeleted;
-        private DevExpress.XtraBars.BarButtonItem tstDeleteMarked;
         private DevExpress.XtraBars.BarButtonItem loadScreen;
         private DevExpress.XtraBars.BarButtonItem printPalletLabel;
+        private DevExpress.XtraBars.BarButtonItem tstInvoke;
         }
     }
