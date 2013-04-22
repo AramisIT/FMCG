@@ -2,14 +2,35 @@ using System;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
+using AtosFMCG.DatabaseObjects.Interfaces;
 
 namespace AtosFMCG.DatabaseObjects.Catalogs
     {
     /// <summary>Одиниці виміру</summary>
     [Catalog(Description = "Одиниці виміру", GUID = "AAA9608E-2F23-4BB5-98C6-78BC782AE4DD", ShowCodeFieldInForm = false)]
-    public class Measures : CatalogTable
+    public class Measures : CatalogTable, ISyncWith1C
         {
         #region Properties
+        /// <summary>Посилання 1С</summary>
+        [DataField(Description = "Посилання 1С", ShowInList = false)]
+        public Guid Ref1C
+            {
+            get
+                {
+                return z_Ref1C;
+                }
+            set
+                {
+                if (z_Ref1C == value)
+                    {
+                    return;
+                    }
+                z_Ref1C = value;
+                NotifyPropertyChanged("Ref1C");
+                }
+            }
+        private Guid z_Ref1C;
+
         /// <summary>Власник</summary>
         [DataField(Description = "Власник", ShowInList = true)]
         public Nomenclature Nomenclature

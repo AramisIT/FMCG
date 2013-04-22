@@ -5,15 +5,36 @@ using Aramis.Core;
 using Aramis.Enums;
 using Aramis.Platform;
 using AtosFMCG.DatabaseObjects.Catalogs;
+using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
 
 namespace AtosFMCG.DatabaseObjects.Documents
     {
     /// <summary>План приходу</summary>
     [Document(Description = "План приходу", GUID = "0455B8DB-F11B-4B3B-A727-D4E889A1EFCB", NumberType = NumberType.Int64, NumberIsReadonly = false)]
-    public class PlannedArrival : DocumentTable
+    public class PlannedArrival : DocumentTable, ISyncWith1C
         {
         #region Properties
+        /// <summary>Посилання 1С</summary>
+        [DataField(Description = "Посилання 1С", ShowInList = false)]
+        public Guid Ref1C
+            {
+            get
+                {
+                return z_Ref1C;
+                }
+            set
+                {
+                if (z_Ref1C == value)
+                    {
+                    return;
+                    }
+                z_Ref1C = value;
+                NotifyPropertyChanged("Ref1C");
+                }
+            }
+        private Guid z_Ref1C;
+
         /// <summary>Вхідний номер/Номер накладної</summary>
         [DataField(Description = "№ накладної", ShowInList = true, NotEmpty = true)]
         public string IncomeNumber

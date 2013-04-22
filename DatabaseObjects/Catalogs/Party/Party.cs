@@ -3,14 +3,35 @@ using System.ComponentModel;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
+using AtosFMCG.DatabaseObjects.Interfaces;
 
 namespace AtosFMCG.DatabaseObjects.Catalogs
     {
     /// <summary>Партії</summary>
     [Catalog(Description = "Партії", GUID = "AEDDF72B-5CD8-4702-A464-A8439D345D11")]
-    public class Party : CatalogTable
+    public class Party : CatalogTable, ISyncWith1C
         {
         #region Properties
+        /// <summary>Посилання 1С</summary>
+        [DataField(Description = "Посилання 1С", ShowInList = false)]
+        public Guid Ref1C
+            {
+            get
+                {
+                return z_Ref1C;
+                }
+            set
+                {
+                if (z_Ref1C == value)
+                    {
+                    return;
+                    }
+                z_Ref1C = value;
+                NotifyPropertyChanged("Ref1C");
+                }
+            }
+        private Guid z_Ref1C;
+
         /// <summary>Номенклатура</summary>
         [DataField(Description = "Номенклатура", ShowInList = true, AllowOpenItem = true)]
         public Nomenclature Nomenclature

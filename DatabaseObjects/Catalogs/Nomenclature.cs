@@ -1,14 +1,36 @@
+using System;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.Enums;
+using AtosFMCG.DatabaseObjects.Interfaces;
 
 namespace AtosFMCG.DatabaseObjects.Catalogs
     {
     /// <summary>Номенклатура</summary>
     [Catalog(Description = "Номенклатура", GUID = "A29CEC12-B241-4574-82BE-F6EACE352E24", HierarchicType = HierarchicTypes.None, ShowCodeFieldInForm = false)]
-    public class Nomenclature : CatalogTable
+    public class Nomenclature : CatalogTable, ISyncWith1C
         {
         #region Properties
+        /// <summary>Посилання 1С</summary>
+        [DataField(Description = "Посилання 1С", ShowInList = false)]
+        public Guid Ref1C
+            {
+            get
+                {
+                return z_Ref1C;
+                }
+            set
+                {
+                if (z_Ref1C == value)
+                    {
+                    return;
+                    }
+                z_Ref1C = value;
+                NotifyPropertyChanged("Ref1C");
+                }
+            }
+        private Guid z_Ref1C;
+
         /// <summary>Тара</summary>
         [DataField(Description = "Тара", ShowInList = true)]
         public bool IsTare
