@@ -1,6 +1,6 @@
 namespace AtosFMCG.HelperClasses.DCT
     {
-    public enum Processes : long
+    public enum TypesOfProcess : long
         {
         /// <summary>
         /// Приймання 

@@ -108,6 +108,15 @@ namespace AtosFMCG.HelperClasses
             }
 
         /// <summary>Перевірити штрих-код на відповідність типу даних</summary>
+        /// <typeparam name="T">Тип даних</typeparam>
+        /// <param name="barcodeObj">Штрих-код</param>
+        /// <returns>Штрих-код відповідає типу даних</returns>
+        public static bool CheckMatchingBarcodeAndType<T>(string barcodeObj)
+            {
+            return barcodeObj != null && CheckMatchingBarcodeAndType(barcodeObj, typeof(T));
+            }
+
+        /// <summary>Перевірити штрих-код на відповідність типу даних</summary>
         /// <param name="barcodeObj">Штрих-код</param>
         /// <param name="expectedType">Тип даних</param>
         /// <returns>Штрих-код відповідає типу даних</returns>

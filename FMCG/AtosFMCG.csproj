@@ -201,7 +201,8 @@
     <Compile Include="DatabaseObjects\Interfaces\IIncomeOwner.cs" />
     <Compile Include="DatabaseObjects\Interfaces\ISyncWith1C.cs" />
     <Compile Include="HelperClasses\BarcodeWorker.cs" />
-    <Compile Include="HelperClasses\DCT\Processes.cs" />
+    <Compile Include="HelperClasses\DCT\PDTCommunication.cs" />
+    <Compile Include="HelperClasses\DCT\TypesOfProcess.cs" />
     <Compile Include="HelperClasses\DCT\ReceiveMessages.cs" />
     <Compile Include="HelperClasses\DCT\SendToTCD.cs">
       <SubType>Form</SubType>
