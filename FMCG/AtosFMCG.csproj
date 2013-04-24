@@ -50,20 +50,17 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
-    <Reference Include="Aramis system, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\Aramis system.dll</HintPath>
+    <Reference Include="Aramis system">
+      <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\Aramis system.dll</HintPath>
     </Reference>
     <Reference Include="AramisWpfComponents">
-      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\AramisWpfComponents.dll</HintPath>
+      <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\AramisWpfComponents.dll</HintPath>
     </Reference>
-    <Reference Include="Attributes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\Attributes.dll</HintPath>
+    <Reference Include="Attributes">
+      <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\Attributes.dll</HintPath>
     </Reference>
-    <Reference Include="DBInteraction, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\DBInteraction.dll</HintPath>
+    <Reference Include="DBInteraction">
+      <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\DBInteraction.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Data.v12.1, Version=12.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -80,17 +77,13 @@
     <Reference Include="DevExpress.XtraGrid.v12.1, Version=12.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
-    <Reference Include="Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="pdtExternalStorage">
-      <HintPath>..\DCTclient\tcdEnums\bin\Debug\pdtExternalStorage.dll</HintPath>
+    <Reference Include="Extensions">
+      <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\Extensions.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ReportView">
-      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\ReportView.dll</HintPath>
+      <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\ReportView.dll</HintPath>
     </Reference>
     <Reference Include="Storekeeper Management Server">
       <HintPath>..\SMS for DCT\Storekeeper Management Server\bin\Release\Storekeeper Management Server.dll</HintPath>
@@ -103,7 +96,7 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="TableViewInterfaces">
-      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\TableViewInterfaces.dll</HintPath>
+      <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\TableViewInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
