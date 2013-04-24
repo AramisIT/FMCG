@@ -80,6 +80,9 @@
     <Reference Include="Extensions">
       <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="pdtExternalStorage">
+      <HintPath>..\PDT\pdtExternalStorage\bin\Release\pdtExternalStorage.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ReportView">
@@ -326,7 +329,9 @@
       <DependentUpon>SelectPlannedArrival.cs</DependentUpon>
     </Compile>
     <Compile Include="UIConfigurator.cs" />
-    <Content Include="TraceAramis.xml" />
+    <Content Include="TraceAramis.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <EmbeddedResource Include="AramisMainWindow.resx">
       <DependentUpon>AramisMainWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
