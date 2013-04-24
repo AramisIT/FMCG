@@ -97,7 +97,7 @@ namespace AtosFMCG.HelperClasses.DCT
             {
             int palletId = Convert.ToInt32(parameters[0]);
             string goods;
-            DateTime date;
+            string date;
             double boxCount;
             double bottleCount;
 

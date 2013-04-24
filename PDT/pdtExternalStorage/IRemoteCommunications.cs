@@ -28,7 +28,7 @@ namespace pdtExternalStorage
         /// <param name="boxCount">К-сть ящиків</param>
         /// <param name="bottleCount">К-сть бутилок</param>
         /// <returns>Груз, Дата, К-сть ящиків, К-сть бутилок</returns>
-        bool GetDataAboutMovingPallet(int palletId, out string goods, out DateTime date, out double boxCount,
+        bool GetDataAboutMovingPallet(int palletId, out string goods, out string date, out double boxCount,
                                       out double bottleCount);
 
         /// <summary>Дані для інвентаризації</summary>

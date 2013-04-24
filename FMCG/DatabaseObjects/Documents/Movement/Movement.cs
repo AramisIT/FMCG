@@ -319,7 +319,7 @@ WHERE b.UniqueCode=@PalletId AND Quantity>0");
                     newRow.SetRefValueToRowCell(movementDoc, movementDoc.NomenclatureMeasure, row["MeasureUnit"], typeof(Measures));
                     newRow.SetRefValueToRowCell(movementDoc, movementDoc.NomenclatureParty, row["NomenclatureParty"], typeof(Party));
                     newRow.SetRefValueToRowCell(movementDoc, movementDoc.SourceCell, row["Cell"], typeof(Cells));
-                    newRow.SetRefValueToRowCell(movementDoc, movementDoc.DestinationCell, isCell ? 0 : newPositionId, typeof(Cells));
+                    newRow.SetRefValueToRowCell(movementDoc, movementDoc.DestinationCell, newPositionId, typeof(Cells));
                     newRow[movementDoc.RowState] = StatesOfDocument.Achieved;
                     newRow.AddRowToTable(movementDoc);
                     }
