@@ -52,18 +52,18 @@
   <ItemGroup>
     <Reference Include="Aramis system, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Aramis.NET\Aramis\bin\Release\Aramis system.dll</HintPath>
+      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\Aramis system.dll</HintPath>
     </Reference>
     <Reference Include="AramisWpfComponents">
-      <HintPath>..\..\Aramis.NET\Aramis\bin\Release\AramisWpfComponents.dll</HintPath>
+      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\AramisWpfComponents.dll</HintPath>
     </Reference>
     <Reference Include="Attributes, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Aramis.NET\Aramis\bin\Release\Attributes.dll</HintPath>
+      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\Attributes.dll</HintPath>
     </Reference>
     <Reference Include="DBInteraction, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Aramis.NET\Aramis\bin\Release\DBInteraction.dll</HintPath>
+      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\DBInteraction.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Data.v12.1, Version=12.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -82,13 +82,16 @@
     </Reference>
     <Reference Include="Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Aramis.NET\Aramis\bin\Release\Extensions.dll</HintPath>
+      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\Extensions.dll</HintPath>
     </Reference>
     <Reference Include="pdtExternalStorage">
       <HintPath>..\DCTclient\tcdEnums\bin\Debug\pdtExternalStorage.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="ReportView">
+      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\ReportView.dll</HintPath>
+    </Reference>
     <Reference Include="Storekeeper Management Server">
       <HintPath>..\SMS for DCT\Storekeeper Management Server\bin\Release\Storekeeper Management Server.dll</HintPath>
     </Reference>
@@ -99,6 +102,9 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="TableViewInterfaces">
+      <HintPath>..\..\UTK\Aramis.NET\Aramis\bin\Release\TableViewInterfaces.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
@@ -326,6 +332,7 @@
       <DependentUpon>SelectPlannedArrival.cs</DependentUpon>
     </Compile>
     <Compile Include="UIConfigurator.cs" />
+    <Content Include="TraceAramis.xml" />
     <EmbeddedResource Include="AramisMainWindow.resx">
       <DependentUpon>AramisMainWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -375,6 +382,7 @@
     <EmbeddedResource Include="TouchScreen\Screens\SelectPlannedArrival.resx">
       <DependentUpon>SelectPlannedArrival.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="App.config" />
     <None Include="Properties\licenses.licx" />
     <EmbeddedResource Include="DatabaseObjects\Documents\AcceptanceOfGoods\AcceptanceOfGoodsItemForm.resx">
       <DependentUpon>AcceptanceOfGoodsItemForm.cs</DependentUpon>
@@ -419,10 +427,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Content Include="App.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -472,10 +476,6 @@
     <None Include="Resources\Exit.png" />
     <None Include="Resources\up.png" />
     <None Include="Resources\down.png" />
-    <Content Include="TraceAramis.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
