@@ -80,8 +80,9 @@
     <Reference Include="Extensions">
       <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="pdtExternalStorage">
-      <HintPath>..\PDT\pdtExternalStorage\bin\Release\pdtExternalStorage.dll</HintPath>
+    <Reference Include="pdtExternalStorage, Version=1.0.4860.24754, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\PDT\pdtExternalStorage\bin\Debug\pdtExternalStorage.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />

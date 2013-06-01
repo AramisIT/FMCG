@@ -488,7 +488,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             NomenclatureData currentRow = selectedRow;
 
-            if (currentRow.Description.Id == value.Key)
+            if (currentRow.Description !=null && currentRow.Description.Id == value.Key)
                 {
                 editControlsArea.Controls.Clear();
                 }

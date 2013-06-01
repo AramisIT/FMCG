@@ -23,7 +23,7 @@ namespace WMS_client
 
             if (IsExistParameters)
                 {
-                table = (DataTable) Parameters[0];
+                table = (DataTable) Parameters[1];
                 return true;
                 }
 
@@ -68,7 +68,7 @@ namespace WMS_client
         /// <param name="boxCount">К-сть ящиків</param>
         /// <param name="bottleCount">К-сть бутилок</param>
         /// <returns>Груз, Дата, К-сть ящиків, К-сть бутилок</returns>
-        public bool GetDataAboutMovingPallet(int palletId, out string goods, out DateTime date, out double boxCount,
+        public bool GetDataAboutMovingPallet(int palletId, out string goods, out string date, out double boxCount,
                                              out double bottleCount)
             {
             PerformQuery("GetDataAboutMovingPallet", palletId);
@@ -76,7 +76,7 @@ namespace WMS_client
             if (IsAnswerIsTrue)
                 {
                 goods = Parameters[1].ToString();
-                date = Convert.ToDateTime(Parameters[2]);
+                date = Parameters[2].ToString();
                 boxCount = Convert.ToDouble(Parameters[3]);
                 bottleCount = Convert.ToDouble(Parameters[4]);
 
@@ -84,7 +84,7 @@ namespace WMS_client
                 }
 
             goods = string.Empty;
-            date = DateTime.MinValue;
+            date = string.Empty;
             boxCount = 0;
             bottleCount = 0;
             return false;
@@ -109,15 +109,15 @@ namespace WMS_client
 
             if (IsAnswerIsTrue)
                 {
-                count = Convert.ToDouble(Parameters[0]);
-                nomenclature = Parameters[1].ToString();
-                date = Parameters[2].ToString();
-                palletId = Convert.ToInt64(Parameters[3]);
-                measure = Parameters[4].ToString();
-                docId = Convert.ToInt64(Parameters[5]);
-                lineNumber = Convert.ToInt64(Parameters[6]);
-                cellId = Convert.ToInt64(Parameters[7]);
-                cell = Parameters[8].ToString();
+                count = Convert.ToDouble(Parameters[1]);
+                nomenclature = Parameters[2].ToString();
+                date = Parameters[3].ToString();
+                palletId = Convert.ToInt64(Parameters[4]);
+                measure = Parameters[5].ToString();
+                docId = Convert.ToInt64(Parameters[6]);
+                lineNumber = Convert.ToInt64(Parameters[7]);
+                cellId = Convert.ToInt64(Parameters[8]);
+                cell = Parameters[9].ToString();
 
                 return true;
                 }
@@ -144,11 +144,21 @@ namespace WMS_client
                                         out string selectionDocCount, out string movementDocCount)
             {
             PerformQuery("GetCountOfDocuments");
-            acceptanceDocCount = Parameters[0].ToString();
-            inventoryDocCount = Parameters[1].ToString();
-            selectionDocCount = Parameters[2].ToString();
-            movementDocCount = Parameters[3].ToString();
-            }
+
+            if (IsExistParameters)
+                {
+                acceptanceDocCount = Parameters[0].ToString();
+                inventoryDocCount = Parameters[1].ToString();
+                selectionDocCount = Parameters[2].ToString();
+                movementDocCount = Parameters[3].ToString();
+                return;
+                }
+
+            acceptanceDocCount = 0.ToString();
+            inventoryDocCount = 0.ToString();
+            selectionDocCount = 0.ToString();
+            movementDocCount = 0.ToString();
+        }
 
         /// <summary>Інформація про ПЕРШУ паллету (тут строка) для відбору</summary>
         /// <param name="contractor">Контрагент</param>
@@ -169,14 +179,14 @@ namespace WMS_client
 
             if (IsAnswerIsTrue)
                 {
-                id = Convert.ToInt64(Parameters[0]);
-                palletId = Convert.ToInt64(Parameters[1]);
-                goods = Parameters[2].ToString();
-                date = Parameters[3].ToString();
-                boxCount = Convert.ToInt64(Parameters[4]);
-                unitCount = Convert.ToInt64(Parameters[5]);
-                baseCount = Convert.ToInt32(Parameters[6]);
-                cell = Parameters[7].ToString();
+                id = Convert.ToInt64(Parameters[1]);
+                palletId = Convert.ToInt64(Parameters[2]);
+                goods = Parameters[3].ToString();
+                date = Parameters[4].ToString();
+                boxCount = Convert.ToInt64(Parameters[5]);
+                unitCount = Convert.ToInt64(Parameters[6]);
+                baseCount = Convert.ToInt32(Parameters[7]);
+                cell = Parameters[8].ToString();
 
                 return true;
                 }
@@ -212,11 +222,11 @@ namespace WMS_client
 
             if (IsAnswerIsTrue)
                 {
-                incomeDoc = Convert.ToInt64(Parameters[0]);
-                date = Parameters[1].ToString();
-                cellId = Convert.ToInt64(Parameters[2]);
-                cell = Parameters[3].ToString();
-                palett = Convert.ToInt64(Parameters[4]);
+                incomeDoc = Convert.ToInt64(Parameters[1]);
+                date = Parameters[2].ToString();
+                cellId = Convert.ToInt64(Parameters[3]);
+                cell = Parameters[4].ToString();
+                palett = Convert.ToInt64(Parameters[5]);
 
                 return true;
                 }

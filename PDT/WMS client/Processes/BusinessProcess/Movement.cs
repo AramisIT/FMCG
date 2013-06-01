@@ -64,14 +64,14 @@ namespace WMS_client.Processes
         private void chooseNewPosition()
         {
             string goods;
-            DateTime date;
+            string date;
             double boxCount;
             double bottleCount;
 
             if (GetDataAboutMovingPallet((int)Data.PalletId, out goods, out date, out boxCount, out bottleCount))
                 {
                 Data.GoodsDescription = goods;
-                Data.Date = date.ToString();
+                Data.Date = date;
                 Data.BoxCount = boxCount;
                 Data.BottleCount = bottleCount;
                 }

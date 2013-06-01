@@ -292,5 +292,22 @@ namespace AtosFMCG.TouchScreen.Controls
                 }
             }
         #endregion
+
+        private void button43_Paint(object sender, PaintEventArgs e)
+            {
+            Button button = sender as Button;
+
+            if(button!=null)
+                {
+                string additionalText = button.Tag.ToString();
+
+                e.Graphics.DrawString(
+                    additionalText,
+                    button.Font,
+                    new SolidBrush(Color.Black),
+                    (button.Width - 12 * additionalText.Length) / 2,
+                    button.Height - 30);
+                }
+            }
         }
     }

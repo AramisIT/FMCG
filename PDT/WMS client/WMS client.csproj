@@ -145,7 +145,7 @@
     <Content Include="media_player.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\tcdEnums\pdtExternalStorage.csproj">
+    <ProjectReference Include="..\pdtExternalStorage\pdtExternalStorage.csproj">
       <Project>{A95D2C09-B66D-48E4-B50C-D43B886CB862}</Project>
       <Name>pdtExternalStorage</Name>
     </ProjectReference>

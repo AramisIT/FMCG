@@ -465,6 +465,7 @@
             this.button37.Text = "Лютий";
             this.button37.UseVisualStyleBackColor = false;
             this.button37.Click += new System.EventHandler(this.monthButton_Click);
+            this.button37.Paint += new System.Windows.Forms.PaintEventHandler(this.button43_Paint);
             // 
             // button38
             // 
@@ -478,6 +479,7 @@
             this.button38.Text = "Березень";
             this.button38.UseVisualStyleBackColor = false;
             this.button38.Click += new System.EventHandler(this.monthButton_Click);
+            this.button38.Paint += new System.Windows.Forms.PaintEventHandler(this.button43_Paint);
             // 
             // button39
             // 
@@ -491,6 +493,7 @@
             this.button39.Text = "Січень";
             this.button39.UseVisualStyleBackColor = false;
             this.button39.Click += new System.EventHandler(this.monthButton_Click);
+            this.button39.Paint += new System.Windows.Forms.PaintEventHandler(this.button43_Paint);
             // 
             // button40
             // 
@@ -504,6 +507,7 @@
             this.button40.Text = "Квітень";
             this.button40.UseVisualStyleBackColor = false;
             this.button40.Click += new System.EventHandler(this.monthButton_Click);
+            this.button40.Paint += new System.Windows.Forms.PaintEventHandler(this.button43_Paint);
             // 
             // button41
             // 
@@ -517,6 +521,7 @@
             this.button41.Text = "Травень";
             this.button41.UseVisualStyleBackColor = false;
             this.button41.Click += new System.EventHandler(this.monthButton_Click);
+            this.button41.Paint += new System.Windows.Forms.PaintEventHandler(this.button43_Paint);
             // 
             // button42
             // 
@@ -530,6 +535,7 @@
             this.button42.Text = "Червень";
             this.button42.UseVisualStyleBackColor = false;
             this.button42.Click += new System.EventHandler(this.monthButton_Click);
+            this.button42.Paint += new System.Windows.Forms.PaintEventHandler(this.button43_Paint);
             // 
             // button43
             // 
@@ -543,6 +549,7 @@
             this.button43.Text = "Серпень";
             this.button43.UseVisualStyleBackColor = false;
             this.button43.Click += new System.EventHandler(this.monthButton_Click);
+            this.button43.Paint += new System.Windows.Forms.PaintEventHandler(this.button43_Paint);
             // 
             // button44
             // 
@@ -556,6 +563,7 @@
             this.button44.Text = "Вересень";
             this.button44.UseVisualStyleBackColor = false;
             this.button44.Click += new System.EventHandler(this.monthButton_Click);
+            this.button44.Paint += new System.Windows.Forms.PaintEventHandler(this.button43_Paint);
             // 
             // button45
             // 
@@ -569,6 +577,7 @@
             this.button45.Text = "Липень";
             this.button45.UseVisualStyleBackColor = false;
             this.button45.Click += new System.EventHandler(this.monthButton_Click);
+            this.button45.Paint += new System.Windows.Forms.PaintEventHandler(this.button43_Paint);
             // 
             // button46
             // 
@@ -582,6 +591,7 @@
             this.button46.Text = "Жовтень";
             this.button46.UseVisualStyleBackColor = false;
             this.button46.Click += new System.EventHandler(this.monthButton_Click);
+            this.button46.Paint += new System.Windows.Forms.PaintEventHandler(this.button43_Paint);
             // 
             // button47
             // 
@@ -595,6 +605,7 @@
             this.button47.Text = "Листопад";
             this.button47.UseVisualStyleBackColor = false;
             this.button47.Click += new System.EventHandler(this.monthButton_Click);
+            this.button47.Paint += new System.Windows.Forms.PaintEventHandler(this.button43_Paint);
             // 
             // button48
             // 
@@ -608,6 +619,7 @@
             this.button48.Text = "Грудень";
             this.button48.UseVisualStyleBackColor = false;
             this.button48.Click += new System.EventHandler(this.monthButton_Click);
+            this.button48.Paint += new System.Windows.Forms.PaintEventHandler(this.button43_Paint);
             // 
             // year2
             // 

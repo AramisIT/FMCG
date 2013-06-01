@@ -55,7 +55,7 @@ WHERE a.MarkForDeleting=0 AND a.State=0 AND @Today=CAST(p.Date AS DATE)");
         /// <param name="boxCount">К-сть ящиків</param>
         /// <param name="bottleCount">К-сть бутилок</param>
         /// <returns>Груз, Дата, К-сть ящиків, К-сть бутилок</returns>
-        public bool GetDataAboutMovingPallet(int palletId, out string goods, out DateTime date, out double boxCount,
+        public bool GetDataAboutMovingPallet(int palletId, out string goods, out string date, out double boxCount,
                                              out double bottleCount)
             {
             Query query = DB.NewQuery(@"
@@ -84,14 +84,14 @@ WHERE d.BottleCount<>0 OR d.BoxCount<>0");
             if (result == null)
                 {
                 goods = string.Empty;
-                date = DateTime.MinValue;
+                date = string.Empty;
                 boxCount = 0;
                 bottleCount = 0;
                 return false;
                 }
 
             goods = result["Goods"].ToString();
-            date = Convert.ToDateTime(result["Date"]);
+            date = Convert.ToDateTime(result["Date"]).ToShortDateString();
             boxCount = Convert.ToDouble(result["BoxCount"]);
             bottleCount = Convert.ToDouble(result["BottleCount"]);
             return true;
