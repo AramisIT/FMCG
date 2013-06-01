@@ -7,7 +7,7 @@ using AtosFMCG.DatabaseObjects.Documents;
 using Catalogs;
 using pdtExternalStorage;
 
-namespace AtosFMCG.HelperClasses.DCT
+namespace AtosFMCG.HelperClasses.PDT
     {
     public class PDTCommunication : IRemoteCommunications
         {

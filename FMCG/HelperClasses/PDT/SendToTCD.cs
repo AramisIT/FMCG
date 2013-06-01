@@ -3,7 +3,7 @@ using System.Threading;
 using System.Windows.Forms;
 using StorekeeperManagementServer;
 
-namespace AtosFMCG.HelperClasses.DCT
+namespace AtosFMCG.HelperClasses.PDT
     {
     public partial class SendToTCD : Form
         {

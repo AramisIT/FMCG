@@ -1,4 +1,4 @@
-namespace AtosFMCG.HelperClasses.DCT
+namespace AtosFMCG.HelperClasses.PDT
     {
     public enum TypesOfProcess : long
         {

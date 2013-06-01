@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Windows;
 using Aramis.UI.WinFormsDevXpress.Forms;
 using AtosFMCG.DatabaseObjects.Catalogs;
-using AtosFMCG.HelperClasses.DCT;
+using AtosFMCG.HelperClasses.PDT;
 using AtosFMCG.HelperClasses.ViewOfServiceTables;
 using AtosFMCG.PrintForms;
 using AtosFMCG.TouchScreen;
@@ -242,7 +242,7 @@ namespace AtosFMCG
         #region Для тестів
         private void loadScreen_ItemClick(object sender, ItemClickEventArgs e)
             {
-            MainScreen mainScreen = new MainScreen();
+            TouchScreenMainForm mainScreen = new TouchScreenMainForm();
             mainScreen.Show();
             }
 

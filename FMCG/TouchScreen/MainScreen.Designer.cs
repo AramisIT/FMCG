@@ -1,6 +1,6 @@
 ﻿namespace AtosFMCG.TouchScreen
     {
-    partial class MainScreen
+    partial class TouchScreenMainForm
         {
         /// <summary>
         /// Required designer variable.

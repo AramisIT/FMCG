@@ -203,13 +203,13 @@
     <Compile Include="DatabaseObjects\Interfaces\IIncomeOwner.cs" />
     <Compile Include="DatabaseObjects\Interfaces\ISyncWith1C.cs" />
     <Compile Include="HelperClasses\BarcodeWorker.cs" />
-    <Compile Include="HelperClasses\DCT\PDTCommunication.cs" />
-    <Compile Include="HelperClasses\DCT\TypesOfProcess.cs" />
-    <Compile Include="HelperClasses\DCT\ReceiveMessages.cs" />
-    <Compile Include="HelperClasses\DCT\SendToTCD.cs">
+    <Compile Include="HelperClasses\PDT\PDTCommunication.cs" />
+    <Compile Include="HelperClasses\PDT\TypesOfProcess.cs" />
+    <Compile Include="HelperClasses\PDT\ReceiveMessages.cs" />
+    <Compile Include="HelperClasses\PDT\SendToTCD.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HelperClasses\DCT\SendToTCD.Designer.cs">
+    <Compile Include="HelperClasses\PDT\SendToTCD.Designer.cs">
       <DependentUpon>SendToTCD.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Enums\TypesOfArrival.cs" />
@@ -401,7 +401,7 @@
     <EmbeddedResource Include="DatabaseObjects\Documents\Shipment\ShipmentItemForm.resx">
       <DependentUpon>ShipmentItemForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HelperClasses\DCT\SendToTCD.resx">
+    <EmbeddedResource Include="HelperClasses\PDT\SendToTCD.resx">
       <DependentUpon>SendToTCD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HelperClasses\ViewOfServiceTables\ViewBaseForm.resx">

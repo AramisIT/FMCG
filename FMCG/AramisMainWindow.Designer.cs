@@ -54,6 +54,7 @@
             this.openConsts = new DevExpress.XtraBars.BarButtonItem();
             this.loadScreen = new DevExpress.XtraBars.BarButtonItem();
             this.printPalletLabel = new DevExpress.XtraBars.BarButtonItem();
+            this.tstInvoke = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.mainPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.sysObjectsGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -65,7 +66,6 @@
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
-            this.tstInvoke = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).BeginInit();
@@ -269,7 +269,7 @@
             // 
             // loadScreen
             // 
-            this.loadScreen.Caption = "load screen";
+            this.loadScreen.Caption = "Тачскрин";
             this.loadScreen.Id = 37;
             this.loadScreen.ImageIndex = 12;
             this.loadScreen.Name = "loadScreen";
@@ -282,6 +282,13 @@
             this.printPalletLabel.ImageIndex = 21;
             this.printPalletLabel.Name = "printPalletLabel";
             this.printPalletLabel.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.printPalletLabel_ItemClick);
+            // 
+            // tstInvoke
+            // 
+            this.tstInvoke.Caption = "invoke";
+            this.tstInvoke.Id = 39;
+            this.tstInvoke.Name = "tstInvoke";
+            this.tstInvoke.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.tstInvoke_ItemClick);
             // 
             // largeImagesCollection
             // 
@@ -382,13 +389,6 @@
             this.barButtonItem4.ImageIndex = 1;
             this.barButtonItem4.LargeImageIndex = 0;
             this.barButtonItem4.Name = "barButtonItem4";
-            // 
-            // tstInvoke
-            // 
-            this.tstInvoke.Caption = "invoke";
-            this.tstInvoke.Id = 39;
-            this.tstInvoke.Name = "tstInvoke";
-            this.tstInvoke.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.tstInvoke_ItemClick);
             // 
             // AramisMainWindow
             // 

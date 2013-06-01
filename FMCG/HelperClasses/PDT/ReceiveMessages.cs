@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Aramis.DatabaseConnector;
 
-namespace AtosFMCG.HelperClasses.DCT
+namespace AtosFMCG.HelperClasses.PDT
     {
     public static class ReceiveMessages
         {

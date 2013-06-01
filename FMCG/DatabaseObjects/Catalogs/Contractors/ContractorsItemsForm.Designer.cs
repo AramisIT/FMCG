@@ -102,7 +102,7 @@
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 10;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(477, 54);
+            this.ribbon.Size = new System.Drawing.Size(477, 49);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // Ok
@@ -136,10 +136,10 @@
             this.ribbonStatusBar.ItemLinks.Add(this.Ok);
             this.ribbonStatusBar.ItemLinks.Add(this.Write);
             this.ribbonStatusBar.ItemLinks.Add(this.Cancel);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 275);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 267);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(477, 23);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(477, 31);
             // 
             // RefreshMapsInfoButton
             // 
@@ -206,7 +206,7 @@
             this.labelControl10.Appearance.ForeColor = System.Drawing.Color.Gray;
             this.labelControl10.Location = new System.Drawing.Point(371, 114);
             this.labelControl10.Name = "labelControl10";
-            this.labelControl10.Size = new System.Drawing.Size(21, 13);
+            this.labelControl10.Size = new System.Drawing.Size(22, 13);
             this.labelControl10.TabIndex = 20;
             this.labelControl10.Text = "офіс";
             // 
@@ -216,7 +216,7 @@
             this.labelControl9.Appearance.ForeColor = System.Drawing.Color.Gray;
             this.labelControl9.Location = new System.Drawing.Point(278, 114);
             this.labelControl9.Name = "labelControl9";
-            this.labelControl9.Size = new System.Drawing.Size(23, 13);
+            this.labelControl9.Size = new System.Drawing.Size(22, 13);
             this.labelControl9.TabIndex = 18;
             this.labelControl9.Text = "буд.";
             // 
@@ -267,7 +267,7 @@
             // 
             this.labelControl4.Location = new System.Drawing.Point(10, 66);
             this.labelControl4.Name = "labelControl4";
-            this.labelControl4.Size = new System.Drawing.Size(27, 13);
+            this.labelControl4.Size = new System.Drawing.Size(28, 13);
             this.labelControl4.TabIndex = 8;
             this.labelControl4.Text = "Місто";
             // 
@@ -276,7 +276,7 @@
             this.labelControl3.Appearance.ForeColor = System.Drawing.Color.Gray;
             this.labelControl3.Location = new System.Drawing.Point(60, 92);
             this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(37, 13);
+            this.labelControl3.Size = new System.Drawing.Size(38, 13);
             this.labelControl3.TabIndex = 6;
             this.labelControl3.Text = "Країна:";
             // 
@@ -462,16 +462,16 @@
             this.panelControl1.Controls.Add(this.labelControl7);
             this.panelControl1.Controls.Add(this.StreetControl);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl1.Location = new System.Drawing.Point(0, 54);
+            this.panelControl1.Location = new System.Drawing.Point(0, 49);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(477, 221);
+            this.panelControl1.Size = new System.Drawing.Size(477, 218);
             this.panelControl1.TabIndex = 35;
             // 
             // panelControl2
             // 
             this.panelControl2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelControl2.Appearance.BackColor = System.Drawing.Color.Black;
+            this.panelControl2.Appearance.BackColor = System.Drawing.Color.Silver;
             this.panelControl2.Appearance.Options.UseBackColor = true;
             this.panelControl2.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
             this.panelControl2.Location = new System.Drawing.Point(10, 59);
@@ -484,7 +484,7 @@
             this.labelControl5.Appearance.ForeColor = System.Drawing.Color.Gray;
             this.labelControl5.Location = new System.Drawing.Point(60, 114);
             this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(22, 13);
+            this.labelControl5.Size = new System.Drawing.Size(21, 13);
             this.labelControl5.TabIndex = 32;
             this.labelControl5.Text = "вул.";
             // 

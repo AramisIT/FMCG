@@ -5,10 +5,10 @@ using AtosFMCG.TouchScreen.Screens.Base;
 namespace AtosFMCG.TouchScreen
     {
     /// <summary>Основний так-скрін</summary>
-    public partial class MainScreen : Form
+    public partial class TouchScreenMainForm : Form
         {
         /// <summary>Основний так-скрін</summary>
-        public MainScreen()
+        public TouchScreenMainForm()
             {
             InitializeComponent();
             loadNextScreen(new StartScreen());
