@@ -604,5 +604,11 @@ FROM LastPalletInCell ");
             return false;
             }
         #endregion
+
+
+        public bool GetDataAboutMovingPallet(int palletId, out string goods, out DateTime date, out double boxCount, out double bottleCount)
+            {
+            throw new NotImplementedException();
+            }
         }
     }

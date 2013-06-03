@@ -24,7 +24,7 @@ namespace AtosFMCG.TouchScreen.Controls
                 {
                 if (z_currentDate != value || z_currentDate == DateTime.MinValue)
                     {
-                    if(z_currentDate != DateTime.MinValue)
+                    if (z_currentDate != DateTime.MinValue)
                         {
                         OnDateIsChanged(new ValueIsChangedArgs<DateTime>(value));
                         }
@@ -34,7 +34,7 @@ namespace AtosFMCG.TouchScreen.Controls
                     }
                 }
             }
-        private DateTime z_currentDate; 
+        private DateTime z_currentDate;
         #endregion
 
         /// <summary>Контрол вибору дати</summary>
@@ -86,8 +86,8 @@ namespace AtosFMCG.TouchScreen.Controls
         /// <returns>Кнопка</returns>
         private Button findControlByTag(string text)
             {
-            return (from Control control in Controls select control as Button).FirstOrDefault(btn => btn != null && btn.Tag!=null && btn.Tag.ToString() == text);
-            } 
+            return (from Control control in Controls select control as Button).FirstOrDefault(btn => btn != null && btn.Tag != null && btn.Tag.ToString() == text);
+            }
         #endregion
 
         #region Select
@@ -95,7 +95,7 @@ namespace AtosFMCG.TouchScreen.Controls
         /// <param name="button">Кнопка</param>
         private void selectButton(Button button)
             {
-            if (button!=null)
+            if (button != null)
                 {
                 button.BackColor = selectedColor;
                 }
@@ -109,7 +109,7 @@ namespace AtosFMCG.TouchScreen.Controls
                 {
                 button.BackColor = deselectedColor;
                 }
-            } 
+            }
         #endregion
 
         #region Set
@@ -123,16 +123,24 @@ namespace AtosFMCG.TouchScreen.Controls
             setDay(CurrentDate.Day);
             }
 
+        private int getCheckedYear(int year)
+            {
+            return year < 1000 ? DateTime.Now.Year : year;
+            }
+
         /// <summary>Встановити рік</summary>
         /// <param name="year">Рік</param>
         private void setYear(int year)
             {
+
+            year = getCheckedYear(year);
+
             string yearString = string.Format(YEAR_PATTERN, year);
             Button yearControl = findControlByText(yearString);
 
             if (yearControl == null)
                 {
-                if(year<=DateTime.MinValue.Year)
+                if (year <= DateTime.MinValue.Year)
                     {
                     year = DateTime.MinValue.Year + 1;
                     }
@@ -142,7 +150,7 @@ namespace AtosFMCG.TouchScreen.Controls
                     }
 
                 year1.Text = string.Format(YEAR_PATTERN, year - 1);
-                year2.Text = string.Format(YEAR_PATTERN,year);
+                year2.Text = string.Format(YEAR_PATTERN, year);
                 year3.Text = string.Format(YEAR_PATTERN, year + 1);
 
                 yearButton_Click(year2, new EventArgs());
@@ -159,7 +167,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             Button monthControl = findControlByTag(month.ToString());
 
-            if(monthControl!=null)
+            if (monthControl != null)
                 {
                 selectButton(monthControl);
                 buildDayBtn();
@@ -194,7 +202,7 @@ namespace AtosFMCG.TouchScreen.Controls
         #region BtnPressed
         private void dayButton_Click(object sender, EventArgs e)
             {
-            Button selectedDay = (Button) sender;
+            Button selectedDay = (Button)sender;
 
             Button oldDayControl = findControlByText(CurrentDate.Day.ToString());
             deselectButton(oldDayControl);
@@ -209,7 +217,7 @@ namespace AtosFMCG.TouchScreen.Controls
         private void monthButton_Click(object sender, EventArgs e)
             {
             //month
-            Button selectedMonth = (Button) sender;
+            Button selectedMonth = (Button)sender;
 
             Button oldMonthControl = findControlByTag(CurrentDate.Month.ToString());
             deselectButton(oldMonthControl);
@@ -237,7 +245,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             Button selectedYear = (Button)sender;
 
-            string yearDes = string.Format(YEAR_PATTERN, CurrentDate.Year);
+            string yearDes = string.Format(YEAR_PATTERN, getCheckedYear(CurrentDate.Year));
             Button oldYearControl = findControlByText(yearDes);
             deselectButton(oldYearControl);
 
@@ -286,7 +294,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             EventHandler<ValueIsChangedArgs<DateTime>> handler = DateIsChanged;
 
-            if(handler!=null)
+            if (handler != null)
                 {
                 handler(this, e);
                 }
@@ -297,7 +305,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             Button button = sender as Button;
 
-            if(button!=null)
+            if (button != null)
                 {
                 string additionalText = button.Tag.ToString();
 

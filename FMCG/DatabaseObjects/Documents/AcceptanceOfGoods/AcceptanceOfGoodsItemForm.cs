@@ -37,11 +37,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
         void Document_TableRowAdded(System.Data.DataTable dataTable, System.Data.DataRow currentRow)
             {
-            if(showNomenclature.Checked || showTare.Checked)
+            if (showNomenclatureBarButtonItem.Checked || showTareBarButtonItem.Checked)
                 {
                 skip = true;
-                showTare.Checked = false;
-                showNomenclature.Checked = false;
+                showTareBarButtonItem.Checked = false;
+                showNomenclatureBarButtonItem.Checked = false;
                 showTareRows(ShownModes.All);
                 skip = false;
                 }
@@ -94,34 +94,31 @@ namespace AtosFMCG.DatabaseObjects.Documents
         #endregion
 
         #region Change show modes
-        private enum ShownModes{All, Tare, Nomenclature}
+        private enum ShownModes { All, Tare, Nomenclature }
         private bool skip;
 
         private void showNomenclature_CheckedChanged(object sender, System.EventArgs e)
             {
+            setWaresVisibility(showNomenclatureBarButtonItem.Checked);
+            }
+
+        private void setWaresVisibility(bool waresVisible)
+            {
             if (!skip)
                 {
                 skip = true;
-                showTare.Checked = false;
-                showTareRows(showNomenclature.Checked ? ShownModes.Nomenclature : ShownModes.All);
+                showTareBarButtonItem.Checked = !waresVisible;
+                showNomenclatureBarButtonItem.Checked = waresVisible;
+                showTareRows(waresVisible ? ShownModes.Nomenclature : ShownModes.Tare);
                 skip = false;
                 }
             }
 
-        private void showTare_CheckedChanged(object sender, System.EventArgs e)
-            {
-            if(!skip)
-                {
-                skip = true;
-                showNomenclature.Checked = false;
-                showTareRows(showTare.Checked ? ShownModes.Tare : ShownModes.All);
-                skip = false;
-                }
-            }
+
 
         private void showTareRows(ShownModes mode)
             {
-            if(mode == ShownModes.All)
+            if (mode == ShownModes.All)
                 {
                 nomenclatureView.Columns[Document.IsTare.ColumnName].FilterInfo = new ColumnFilterInfo();
                 }
@@ -132,5 +129,20 @@ namespace AtosFMCG.DatabaseObjects.Documents
                 }
             }
         #endregion
+
+        private void barCheckItem1_CheckedChanged(object sender, ItemClickEventArgs e)
+            {
+
+            }
+
+        private void showNomenclatureBarButtonItem_CheckedChanged(object sender, ItemClickEventArgs e)
+            {
+            setWaresVisibility(showNomenclatureBarButtonItem.Checked);
+            }
+
+        private void showTareBarButtonItem_CheckedChanged(object sender, ItemClickEventArgs e)
+            {
+            setWaresVisibility(!showTareBarButtonItem.Checked);
+            }
         }
     }
