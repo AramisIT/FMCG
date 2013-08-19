@@ -82,7 +82,7 @@
     </Reference>
     <Reference Include="pdtExternalStorage, Version=1.0.4860.24754, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\PDT\pdtExternalStorage\bin\Debug\pdtExternalStorage.dll</HintPath>
+      <HintPath>..\..\PDT\pdtExternalStorage\bin\Release\pdtExternalStorage.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -99,6 +99,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="TableViewInterfaces">
       <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\TableViewInterfaces.dll</HintPath>
     </Reference>
@@ -305,6 +306,8 @@
       <DependentUpon>MainScreen.cs</DependentUpon>
     </Compile>
     <Compile Include="TouchScreen\Events\ScreenChangedArgs.cs" />
+    <Compile Include="TouchScreen\PalletSticker\StickerInfo.cs" />
+    <Compile Include="TouchScreen\PalletSticker\StickersPrintingHelper.cs" />
     <Compile Include="TouchScreen\Screens\Base\BaseOfT.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -330,6 +333,9 @@
       <DependentUpon>SelectPlannedArrival.cs</DependentUpon>
     </Compile>
     <Compile Include="UIConfigurator.cs" />
+    <Content Include="TouchScreen\PalletSticker\StickerAdapter.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="TraceAramis.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

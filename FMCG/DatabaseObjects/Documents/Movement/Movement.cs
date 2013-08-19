@@ -105,10 +105,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private string z_IncomeDate = string.Empty;
         #endregion
 
-        #region Table Nomeclature
+        #region Table Nomenclature
         /// <summary>Номенлатура</summary>
         [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureCount, SourceCell, DestinationCell, RowState, IsTare", ShowLineNumberColumn = true)]
-        [DataField(Description = "Номенлатура")]
+        [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {
             get { return GetSubtable("NomenclatureInfo"); }
@@ -118,8 +118,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
         [SubTableField(Description = "Код вантажу", PropertyType = typeof(long))]
         public DataColumn NomenclatureCode { get; set; }
 
-        /// <summary>Номенлатура</summary>
-        [SubTableField(Description = "Номенлатура", PropertyType = typeof(Nomenclature))]
+        /// <summary>Номенклатура</summary>
+        [SubTableField(Description = "Номенклатура", PropertyType = typeof(Nomenclature))]
         public DataColumn Nomenclature { get; set; }
 
         /// <summary>Од.вим.</summary>

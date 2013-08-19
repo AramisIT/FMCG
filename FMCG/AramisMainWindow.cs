@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
@@ -9,6 +10,7 @@ using AtosFMCG.HelperClasses.PDT;
 using AtosFMCG.HelperClasses.ViewOfServiceTables;
 using AtosFMCG.PrintForms;
 using AtosFMCG.TouchScreen;
+using AtosFMCG.TouchScreen.PalletSticker;
 using Catalogs;
 using DevExpress.XtraBars;
 using Aramis.Platform;
@@ -52,7 +54,7 @@ namespace AtosFMCG
             }
 
         /// <summary>Виконання дій при автозапуску</summary>
-        public void OnAutoStart() {}
+        public void OnAutoStart() { }
 
         #region Event handling
         /// <summary>Форму завантажено</summary>
@@ -82,7 +84,7 @@ namespace AtosFMCG
                 }
             }
 
-        private void AramisMainWindow_Shown(object sender, EventArgs e) {}
+        private void AramisMainWindow_Shown(object sender, EventArgs e) { }
         #endregion
 
         #region Головна панель
@@ -104,12 +106,12 @@ namespace AtosFMCG
         #region Обране
         private void openUsers_ItemClick(object sender, ItemClickEventArgs e)
             {
-            UserInterface.Current.ShowList(typeof (Users));
+            UserInterface.Current.ShowList(typeof(Users));
             }
 
         private void openReportsSetting_ItemClick(object sender, ItemClickEventArgs e)
             {
-            UserInterface.Current.ShowList(typeof (MatrixReports));
+            UserInterface.Current.ShowList(typeof(MatrixReports));
             }
 
         private void openConsts_ItemClick(object sender, ItemClickEventArgs e)
@@ -201,7 +203,7 @@ namespace AtosFMCG
                         showFailResultOfConnection();
                         }
                     }
-                    //Якщо сервер запущено і цю дію робить Адмін - відкрити вікно симулювання читання штрих-коду
+                //Якщо сервер запущено і цю дію робить Адмін - відкрити вікно симулювання читання штрих-коду
                 else if (SystemAramis.CurrentUser.Id == CatalogUsers.Admin.Id)
                     {
                     SendToTCD sendForm = new SendToTCD(smServer);
@@ -248,35 +250,44 @@ namespace AtosFMCG
 
         private void printPalletLabel_ItemClick(object sender, ItemClickEventArgs e)
             {
-            Window palletPrintForm = new Window();
-            PalletPrintForm label = new PalletPrintForm(
-                "Живчик 1л Апельсин",
-                15,
-                15678923,
-                new DateTime(2010, 1, 15),
-                new DateTime(2013, 05, 09),
-                new DateTime(2016, 10, 18),
-                "Іванопополус",
-                "55568408/965",
-                DateTime.Now);
-            label.UpdateLayout();
-            palletPrintForm.Width = 700;
-            palletPrintForm.Height = 500;
-            palletPrintForm.Content = label;
-            palletPrintForm.Show();
+            var tasks = new List<StickerInfo>()
+                {
+                new StickerInfo() {Nomenclature = "Живчик 1л Апельсин", Barcode = "jirweoriwer", CopiesQuantity = 1},
+                new StickerInfo() {Nomenclature = "Пиво светлое 0.5", Barcode = "ыва", CopiesQuantity = 2}
+                };
+
+            var stickersCreator = new StickersPrintingHelper(tasks, "Send To OneNote 2010");
+            stickersCreator.Print();
+
+            //Window palletPrintForm = new Window();
+            //PalletPrintForm label = new PalletPrintForm(
+            //    "Живчик 1л Апельсин",
+            //    15,
+            //    15678923,
+            //    new DateTime(2010, 1, 15),
+            //    new DateTime(2013, 05, 09),
+            //    new DateTime(2016, 10, 18),
+            //    "Іванопополус",
+            //    "55568408/965",
+            //    DateTime.Now);
+            //label.UpdateLayout();
+            //palletPrintForm.Width = 700;
+            //palletPrintForm.Height = 500;
+            //palletPrintForm.Content = label;
+            //palletPrintForm.Show();
             }
 
         private void tstInvoke_ItemClick(object sender, ItemClickEventArgs e)
             {
-            string result = InvokeStringMethod<string>("Test", new object[] {1.ToString(), "222"});
+            string result = InvokeStringMethod<string>("Test", new object[] { 1.ToString(), "222" });
             Console.Write(result);
             }
 
         public static T InvokeStringMethod<T>(string methodName, object[] args)
             {
-            Type calledType = typeof (ReceiveMessages);
+            Type calledType = typeof(ReceiveMessages);
 
-            return (T) calledType.InvokeMember(
+            return (T)calledType.InvokeMember(
                 methodName,
                 BindingFlags.InvokeMethod | BindingFlags.Public | BindingFlags.Static,
                 null, null, args);

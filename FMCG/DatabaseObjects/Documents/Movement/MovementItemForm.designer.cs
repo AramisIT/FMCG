@@ -78,10 +78,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbonStatusBar.ItemLinks.Add(this.OK);
             this.ribbonStatusBar.ItemLinks.Add(this.barButtonItem2);
             this.ribbonStatusBar.ItemLinks.Add(this.cancel);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 580);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 572);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(742, 23);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(742, 31);
             // 
             // OK
             // 
@@ -122,17 +122,17 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 18;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(742, 54);
-            this.ribbon.StatusBar = this.NomenclatureInfoButtonsBar;
+            this.ribbon.Size = new System.Drawing.Size(742, 49);
+            this.ribbon.StatusBar = this.ribbonStatusBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
             // 
             // NomenclatureInfoButtonsBar
             // 
             this.NomenclatureInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.NomenclatureInfoButtonsBar.Location = new System.Drawing.Point(0, 0);
+            this.NomenclatureInfoButtonsBar.Location = new System.Drawing.Point(0, -4);
             this.NomenclatureInfoButtonsBar.Name = "NomenclatureInfoButtonsBar";
             this.NomenclatureInfoButtonsBar.Ribbon = this.ribbon;
-            this.NomenclatureInfoButtonsBar.Size = new System.Drawing.Size(738, 23);
+            this.NomenclatureInfoButtonsBar.Size = new System.Drawing.Size(738, 27);
             // 
             // panelControl
             // 
@@ -146,7 +146,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl.Controls.Add(this.label);
             this.panelControl.Controls.Add(this.labelControl1);
             this.panelControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl.Location = new System.Drawing.Point(0, 54);
+            this.panelControl.Location = new System.Drawing.Point(0, 49);
             this.panelControl.Name = "panelControl";
             this.panelControl.Size = new System.Drawing.Size(742, 53);
             this.panelControl.TabIndex = 2;
@@ -188,7 +188,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.labelControl8.Location = new System.Drawing.Point(261, 11);
             this.labelControl8.Name = "labelControl8";
-            this.labelControl8.Size = new System.Drawing.Size(99, 13);
+            this.labelControl8.Size = new System.Drawing.Size(98, 13);
             this.labelControl8.TabIndex = 17;
             this.labelControl8.Text = "Документ-джерело";
             // 
@@ -206,7 +206,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.labelControl3.Location = new System.Drawing.Point(10, 11);
             this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(83, 13);
+            this.labelControl3.Size = new System.Drawing.Size(82, 13);
             this.labelControl3.TabIndex = 4;
             this.labelControl3.Text = "Стан документу";
             // 
@@ -222,7 +222,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.labelControl1.Location = new System.Drawing.Point(10, 34);
             this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(67, 13);
+            this.labelControl1.Size = new System.Drawing.Size(68, 13);
             this.labelControl1.TabIndex = 0;
             this.labelControl1.Text = "№ накладної";
             // 
@@ -233,7 +233,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.NomenclatureInfo.MainView = this.nomenclatureView;
             this.NomenclatureInfo.MenuManager = this.ribbon;
             this.NomenclatureInfo.Name = "NomenclatureInfo";
-            this.NomenclatureInfo.Size = new System.Drawing.Size(738, 407);
+            this.NomenclatureInfo.Size = new System.Drawing.Size(738, 404);
             this.NomenclatureInfo.TabIndex = 1;
             this.NomenclatureInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.nomenclatureView});
@@ -249,7 +249,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl1.Controls.Add(this.pictureEdit1);
             this.panelControl1.Controls.Add(this.Info);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelControl1.Location = new System.Drawing.Point(0, 560);
+            this.panelControl1.Location = new System.Drawing.Point(0, 552);
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(742, 20);
             this.panelControl1.TabIndex = 0;
@@ -307,9 +307,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.groupControl1.Controls.Add(this.NomenclatureInfo);
             this.groupControl1.Controls.Add(this.panelControl2);
             this.groupControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl1.Location = new System.Drawing.Point(0, 107);
+            this.groupControl1.Location = new System.Drawing.Point(0, 102);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(742, 453);
+            this.groupControl1.Size = new System.Drawing.Size(742, 450);
             this.groupControl1.TabIndex = 21;
             this.groupControl1.Text = "Номенклатура";
             // 
