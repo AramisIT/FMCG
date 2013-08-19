@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using Aramis.DatabaseConnector;
 using Aramis.UI.WinFormsDevXpress.Forms;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.HelperClasses.PDT;
@@ -252,11 +253,27 @@ namespace AtosFMCG
             {
             var tasks = new List<StickerInfo>()
                 {
-                new StickerInfo() {Nomenclature = "Живчик 1л Апельсин", Barcode = "jirweoriwer", CopiesQuantity = 1},
-                new StickerInfo() {Nomenclature = "Пиво светлое 0.5", Barcode = "ыва", CopiesQuantity = 2}
+                    new StickerInfo() {Nomenclature = "Живчик 1л Апельсин", Barcode = "ыва", CopiesQuantity = 1, Driver = "Жорняк", 
+                ReleaseDate = new DateTime(2013, 7,1),
+                HalpExpiryDate = new DateTime(2013, 8,30),
+                ExpiryDate = new DateTime(2013, 10,30),
+                AcceptionDate = DateTime.Now,
+                PacksCount = 150},
+                    new StickerInfo() {Nomenclature = "Пиво светлое 0.5", Barcode = "ыва", CopiesQuantity = 1, Driver = "Жорняк", 
+                ReleaseDate = new DateTime(2013, 7,1),
+                HalpExpiryDate = new DateTime(2013, 8,30),
+                ExpiryDate = new DateTime(2013, 10,30),
+                AcceptionDate = DateTime.Now,
+                PacksCount = 150},
+                    new StickerInfo() {Nomenclature = "Пиво темное 0.5", Barcode = "ыва", CopiesQuantity = 1, Driver = "Жорняк", 
+                ReleaseDate = new DateTime(2013, 7,1),
+                HalpExpiryDate = new DateTime(2013, 8,30),
+                ExpiryDate = new DateTime(2013, 10,30),
+                AcceptionDate = DateTime.Now,
+                PacksCount = 150}
                 };
 
-            var stickersCreator = new StickersPrintingHelper(tasks, "Send To OneNote 2010");
+            var stickersCreator = new StickersPrintingHelper(tasks, ThermoPrinters.GetCurrentPrinterName());
             stickersCreator.Print();
 
             //Window palletPrintForm = new Window();
