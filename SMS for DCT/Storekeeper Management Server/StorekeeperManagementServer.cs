@@ -47,21 +47,21 @@ namespace StorekeeperManagementServer
 
             #region Creating watcher for update folder
 
-            FileSystemWatcher updateFolderWatcher = new FileSystemWatcher();
-            try
-                {
-                updateFolderWatcher.Path = UpdateFolderName;
-                }
-            catch (Exception ex)
-                {
-                MessageBox.Show("Ошибка при создании \"file watcher\":" + ex.Message, "Error during starting SM server",
-                                MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-                }
-            updateFolderWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
-            updateFolderWatcher.Filter = "W*";
-            updateFolderWatcher.Created += NewUpdateDetected;
-            updateFolderWatcher.EnableRaisingEvents = true;
+            //FileSystemWatcher updateFolderWatcher = new FileSystemWatcher();
+            //try
+            //    {
+            //    updateFolderWatcher.Path = UpdateFolderName;
+            //    }
+            //catch (Exception ex)
+            //    {
+            //    MessageBox.Show("Ошибка при создании \"file watcher\":" + ex.Message, "Error during starting SM server",
+            //                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //    return;
+            //    }
+            //updateFolderWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
+            //updateFolderWatcher.Filter = "W*";
+            //updateFolderWatcher.Created += NewUpdateDetected;
+            //updateFolderWatcher.EnableRaisingEvents = true;
 
             #endregion
 

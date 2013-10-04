@@ -4,11 +4,13 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 using Aramis.Platform;
 using MatrixBuilding;
 using ReportView.Configuration;
 using ReportView.ReportModel;
 using ReportView.Utils;
+using RepositoryOfMatrixReportData;
 
 namespace AtosFMCG.TouchScreen.PalletSticker
     {
@@ -62,7 +64,7 @@ namespace AtosFMCG.TouchScreen.PalletSticker
             {
             string fileName = string.Format(@"{0}\{1}", SystemAramis.APPLICATION_PATH, @"TouchScreen\PalletSticker\StickerAdapter.xml");
             string xmlContent = File.ReadAllText(fileName);
-            MatrixAdapter adapter = new MatrixAdapter(new DesktopMatrixReportMainFactory(), System.Xml.Linq.XDocument.Parse(xmlContent).Root, null);
+            MatrixAdapter adapter = new MatrixAdapter(new DesktopMatrixReportMainFactory(), XDocument.Parse(xmlContent).Root, null, true);
 
             var sources = new Dictionary<string, DataTable>() { { "barCodeSourceTable", dataSource } }; ;
             var images = new Dictionary<string, MatrixReportImageSource>();

@@ -2,8 +2,9 @@ using System;
 using Aramis.Attributes;
 using Aramis.Core;
 using AtosFMCG.DatabaseObjects.Interfaces;
+using Catalogs;
 
-namespace AtosFMCG.DatabaseObjects.Catalogs
+namespace Catalogs
     {
     /// <summary>Водії</summary>
     [Catalog(Description = "Водії", GUID = "A28EF6BD-E24F-4215-9BBD-848ECF678129")]

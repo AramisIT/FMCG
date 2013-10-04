@@ -9,6 +9,8 @@ using Aramis.Platform;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
+using Catalogs;
+using Documents;
 
 namespace AtosFMCG.DatabaseObjects.Documents
     {

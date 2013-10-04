@@ -2,7 +2,7 @@ using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.Enums;
 
-namespace AtosFMCG.DatabaseObjects.Catalogs
+namespace Catalogs
     {
     /// <summary>Зайняті комірки</summary>
     [Catalog(Description = "Зайняті комірки", GUID = "AAA2F111-74B3-4081-A37B-260DF3DD1BB3", HierarchicType = HierarchicTypes.None, ShowCodeFieldInForm = false)]

@@ -2,13 +2,14 @@ using System;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
+using Aramis.Enums;
 using AtosFMCG.DatabaseObjects.Interfaces;
 using Catalogs;
 using Aramis.Platform;
 
-namespace AtosFMCG.DatabaseObjects.Catalogs
+namespace Catalogs
     {
-    [Catalog(Description = "Термо принтеры", GUID = "A0BBC4F1-AE34-476F-ACC5-FCF5BD859F17")]
+    [Catalog(Description = "Термо принтеры", GUID = "A0BBC4F1-AE34-476F-ACC5-FCF5BD859F17", HierarchicType = HierarchicTypes.None)]
     public class ThermoPrinters : CatalogTable
         {
         [DataField(Description = "Користувач", ShowInList = true)]

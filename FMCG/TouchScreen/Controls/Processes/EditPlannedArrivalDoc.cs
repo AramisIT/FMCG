@@ -9,9 +9,11 @@ using Aramis.UI.WinFormsDevXpress;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Documents;
 using AtosFMCG.TouchScreen.Events;
+using Catalogs;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
+using Documents;
 using TouchScreen.Models.Data;
 
 namespace AtosFMCG.TouchScreen.Controls
@@ -86,30 +88,8 @@ namespace AtosFMCG.TouchScreen.Controls
             invoiceDate.Text = NavigatedButton.SPACES_FOR_ICOx32 + Document.Date.ToShortDateString();
             invoiceNumber.Text = NavigatedButton.SPACES_FOR_ICOx32 + Document.IncomeNumber;
             driver.Text = setValueIntoButton(Document.Driver.Description);
-            car.Text = setValueIntoButton(Document.Car.Description); 
-
-            //Table
-            list = new List<NomenclatureData>();
-
-            foreach (DataRow row in Document.NomenclatureInfo.Rows)
-                {
-                Party party = new Party();
-                party.Read(row[Document.NomenclatureParty]);
-                Nomenclature nomenclature = new Nomenclature();
-                nomenclature.Read(row[Document.Nomenclature]);
-
-                NomenclatureData element = new NomenclatureData
-                                               {
-                                                   LineNumber = Convert.ToInt64(row["LineNumber"]),
-                                                   Description =
-                                                       new ObjectValue(nomenclature.Description, nomenclature.Id),
-                                                   Quantity = Convert.ToDouble(row[Document.NomenclatureCount]),
-                                                   Date = party.DateOfManufacture,
-                                               };
-                list.Add(element);
-                }
-
-            grid.DataSource = list;
+            car.Text = setValueIntoButton(Document.Car.Description);
+            choseWare(WaresTypes.Production);
             }
 
         /// <summary>Встановити значення для кнопки</summary>
@@ -226,7 +206,7 @@ namespace AtosFMCG.TouchScreen.Controls
         private void installDriverEditors()
             {
             SelectFromObjectList selectDriver = new SelectFromObjectList(
-                "водія", "Водій", UpdateDriver, SelectDriverValue, Back) {Dock = DockStyle.Fill};
+                "водія", "Водій", UpdateDriver, SelectDriverValue, Back) { Dock = DockStyle.Fill };
             editControlsArea.Controls.Add(selectDriver);
             }
 
@@ -259,7 +239,7 @@ namespace AtosFMCG.TouchScreen.Controls
         private void installCarEditors()
             {
             SelectFromObjectList selectDriver = new SelectFromObjectList(
-                "машину", "Машина", UpdateCar, SelectCarValue, Back) {Dock = DockStyle.Fill};
+                "машину", "Машина", UpdateCar, SelectCarValue, Back) { Dock = DockStyle.Fill };
             editControlsArea.Controls.Add(selectDriver);
             }
 
@@ -289,7 +269,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             Dictionary<long, Party> partyDic = new Dictionary<long, Party>();
 
-            foreach (NomenclatureData element in list)
+            foreach (NomenclatureData element in waresList)
                 {
                 if (element.Description != null && !partyDic.ContainsKey(element.Description.Id))
                     {
@@ -329,12 +309,11 @@ namespace AtosFMCG.TouchScreen.Controls
             }
 
         /// <summary>Конвертація списку елементів в таблицю</summary>
-        private void convertListToTable()
+        private void convertListsToTables()
             {
             Dictionary<long, Party> partyDic = gaetPartyForTable();
             Document.NomenclatureInfo.Rows.Clear();
-
-            foreach (NomenclatureData data in list)
+            foreach (NomenclatureData data in waresList)
                 {
                 if (data.Description != null && data.Description.Id != 0)
                     {
@@ -345,19 +324,33 @@ namespace AtosFMCG.TouchScreen.Controls
                     newRow.AddRowToTable(Document);
                     }
                 }
-
             Document.SetSubtableModified(Document.NomenclatureInfo.TableName);
+
+
+
+            Document.TareInfo.Rows.Clear();
+            foreach (NomenclatureData data in tareList)
+                {
+                if (data.Description != null && data.Description.Id != 0)
+                    {
+                    DataRow newRow = Document.TareInfo.GetNewRow(Document);
+                    newRow.SetRefValueToRowCell(Document, Document.Tare, data.Description.Id, typeof(Nomenclature));
+                    newRow[Document.TareCount] = data.Quantity;
+                    newRow.AddRowToTable(Document);
+                    }
+                }
+            Document.SetSubtableModified(Document.TareInfo.TableName);
             }
 
         /// <summary>Завершити/Зберегти</summary>
         private void finish_Click(object sender, EventArgs e)
             {
-            convertListToTable();
+            convertListsToTables();
             WritingResult result = Document.Write();
 
-            if(result != WritingResult.Success)
+            if (result != WritingResult.Success)
                 {
-                if(isEditMode)
+                if (isEditMode)
                     {
                     changeEditMode(false);
                     }
@@ -375,7 +368,7 @@ namespace AtosFMCG.TouchScreen.Controls
         private void exit_Click(object sender, EventArgs e)
             {
             onFinish(false, Document);
-            } 
+            }
         #endregion
         #endregion
 
@@ -424,19 +417,19 @@ namespace AtosFMCG.TouchScreen.Controls
 
             if (currSelectedRow != null)
                 {
-                EditedColumns selectedColumn = (EditedColumns) gridView.FocusedColumn.VisibleIndex;
+                EditedColumns selectedColumn = (EditedColumns)gridView.FocusedColumn.VisibleIndex;
 
                 switch (selectedColumn)
                     {
-                        case EditedColumns.Description:
-                            updateEditControl(changeNomenclatureData);
-                            break;
-                        case EditedColumns.Quantity:
-                            updateEditControl(installQuantityEditiors);
-                            break;
-                        case EditedColumns.Date:
-                            updateEditControl(installDateEditiors);
-                            break;
+                    case EditedColumns.Description:
+                        updateEditControl(changeNomenclatureData);
+                        break;
+                    case EditedColumns.Quantity:
+                        updateEditControl(installQuantityEditiors);
+                        break;
+                    case EditedColumns.Date:
+                        updateEditControl(installDateEditiors);
+                        break;
                     }
                 }
             }
@@ -444,6 +437,9 @@ namespace AtosFMCG.TouchScreen.Controls
         #region Edit table mode
         /// <summary>Режим редагування таблиці</summary>
         private bool isEditMode;
+
+        private List<NomenclatureData> tareList;
+        private List<NomenclatureData> waresList;
 
         /// <summary>Зміна режиму роботи з таблицею</summary>
         /// <param name="start"></param>
@@ -468,17 +464,17 @@ namespace AtosFMCG.TouchScreen.Controls
         private void changeNomenclatureData()
             {
             SelectFromObjectList selectNomenclature = new SelectFromObjectList(
-                "номенклатуру", "Номенклатура", UpdateNomenclature, SelectNomenclatureValue, Back)
-                                                          {Dock = DockStyle.Fill};
+                "номенклатуру", "Номенклатура", (enterValue) => UpdateNomenclature(enterValue, list.Equals(tareList)), SelectNomenclatureValue, Back) { Dock = DockStyle.Fill };
             editControlsArea.Controls.Add(selectNomenclature);
             selectNomenclature.FocusField();
             }
 
-        private DataTable UpdateNomenclature(string enterValue)
+        private DataTable UpdateNomenclature(string enterValue, bool isTare)
             {
             Query query = DB.NewQuery(
-                "SELECT Id,RTRIM(Description)Description FROM Nomenclature WHERE Description like '%'+@Description+'%' ORDER BY Description");
+                "SELECT Id,RTRIM(Description)Description FROM Nomenclature WHERE MarkForDeleting = 0 and IsTare = @IsTare and Description like '%'+@Description+'%' ORDER BY Description");
             query.AddInputParameter("Description", enterValue);
+            query.AddInputParameter("IsTare", isTare);
             DataTable table = query.SelectToTable();
 
             return table;
@@ -488,7 +484,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             NomenclatureData currentRow = selectedRow;
 
-            if (currentRow.Description !=null && currentRow.Description.Id == value.Key)
+            if (currentRow.Description != null && currentRow.Description.Id == value.Key)
                 {
                 editControlsArea.Controls.Clear();
                 }
@@ -532,7 +528,7 @@ namespace AtosFMCG.TouchScreen.Controls
         #region Quantity
         private void installQuantityEditiors()
             {
-            NumberEdit quantityEdit = new NumberEdit((int) selectedRow.Quantity, Back, FinishQuantityEdit);
+            NumberEdit quantityEdit = new NumberEdit((int)selectedRow.Quantity, Back, FinishQuantityEdit);
             quantityEdit.ValueIsChanged += quantityEdit_ValueIsChanged;
             editControlsArea.Controls.Add(quantityEdit);
             }
@@ -555,16 +551,16 @@ namespace AtosFMCG.TouchScreen.Controls
         private void deleteRow_Click(object sender, EventArgs e)
             {
             NomenclatureData selectedElement = selectedRow;
-            
+
             //Якщо строка виділена
-            if(selectedElement!=null)
+            if (selectedElement != null)
                 {
                 //Видалення
                 list.Remove(selectedElement);
                 //Оновлення номерів рядків
                 long index = selectedElement.LineNumber;
-                
-                for (int i = (int)selectedElement.LineNumber-1; i < list.Count; i++)
+
+                for (int i = (int)selectedElement.LineNumber - 1; i < list.Count; i++)
                     {
                     NomenclatureData element = list[i];
                     element.LineNumber = index++;
@@ -579,7 +575,7 @@ namespace AtosFMCG.TouchScreen.Controls
         /// <summary>Додавання нового рядка</summary>
         private void addRow_Click(object sender, EventArgs e)
             {
-            list.Add(new NomenclatureData{LineNumber = list.Count+1});
+            list.Add(new NomenclatureData { LineNumber = list.Count + 1 });
             grid.RefreshDataSource();
             updateSelectedRowInfo();
             }
@@ -588,7 +584,91 @@ namespace AtosFMCG.TouchScreen.Controls
         private void finishEditMode_Click(object sender, EventArgs e)
             {
             changeEditMode(false);
-            } 
+            }
         #endregion
+
+        private void waresButton_Click(object sender, EventArgs e)
+            {
+            choseWare(WaresTypes.Production);
+            }
+
+        enum WaresTypes
+            {
+            Tare,
+            Production
+            }
+
+        private void tareButton_Click(object sender, EventArgs e)
+            {
+            choseWare(WaresTypes.Tare);
+            }
+
+        private void choseWare(WaresTypes waresTypes)
+            {
+            switch (waresTypes)
+                {
+                case WaresTypes.Production:
+                    waresButton.Enabled = false;
+                    tareButton.Enabled = true;
+                    tareList = list;
+                    if (waresList != null)
+                        {
+                        list = waresList;
+                        }
+                    else
+                        {
+                        fillEditableTable(waresTypes);
+                        waresList = list;
+                        }
+                    break;
+
+                case WaresTypes.Tare:
+                    tareButton.Enabled = false;
+                    waresButton.Enabled = true;
+                    waresList = list;
+                    if (tareList != null)
+                        {
+                        list = tareList;
+                        }
+                    else
+                        {
+                        fillEditableTable(waresTypes);
+                        tareList = list;
+                        }
+                    break;
+                }
+
+            grid.DataSource = list;
+            editControlsArea.Controls.Clear();
+            }
+
+        private void fillEditableTable(WaresTypes waresTypes)
+            {
+            var isTare = waresTypes == WaresTypes.Tare;
+            var table = isTare ? Document.TareInfo : Document.NomenclatureInfo;
+
+            list = new List<NomenclatureData>();
+
+            foreach (DataRow row in table.Rows)
+                {
+                long nomemclatureId = (long)row[isTare ? Document.Tare : Document.Nomenclature];
+
+                NomenclatureData element = new NomenclatureData
+                    {
+                        LineNumber = Convert.ToInt64(row["LineNumber"]),
+                        Description = new ObjectValue(FastInput.GetCashedData(typeof(Nomenclature).Name).GetDescription(nomemclatureId), nomemclatureId),
+                        Quantity = Convert.ToDouble(row[isTare ? Document.TareCount :Document.NomenclatureCount])
+                    };
+
+                if (!isTare)
+                    {
+                    Party party = new Party();
+                    party.Read(row[Document.NomenclatureParty]);
+                    element.Date = party.DateOfManufacture;
+                    }
+
+                list.Add(element);
+                }
+            }
         }
     }

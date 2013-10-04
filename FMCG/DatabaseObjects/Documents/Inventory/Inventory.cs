@@ -9,8 +9,9 @@ using Aramis.SystemConfigurations;
 using Aramis.UI.WinFormsDevXpress;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.Enums;
+using Catalogs;
 
-namespace AtosFMCG.DatabaseObjects.Documents
+namespace Documents
     {
     /// <summary>Інвентаризація</summary>
     [Document(Description = "Інвентаризація", GUID = "0E87222E-830D-466A-826F-8ABBC4B36FEE", NumberType = NumberType.Int64, NumberIsReadonly = false)]

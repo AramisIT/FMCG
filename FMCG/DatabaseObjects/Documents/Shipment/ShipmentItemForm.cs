@@ -5,6 +5,7 @@ using Aramis.Enums;
 using Aramis.Attributes;
 using DevExpress.XtraBars;
 using DevExpress.XtraGrid.Columns;
+using Documents;
 
 namespace AtosFMCG.DatabaseObjects.Documents
     {

@@ -179,6 +179,8 @@ namespace AtosFMCG
         /// <summary>StorekeeperManagementServer </summary>
         private InfoForm smServer;
 
+        private TouchScreenMainForm touchScreenMainForm;
+
         private void serverState_ItemClick(object sender, ItemClickEventArgs e)
             {
             runSMServer();
@@ -245,8 +247,12 @@ namespace AtosFMCG
         #region Для тестів
         private void loadScreen_ItemClick(object sender, ItemClickEventArgs e)
             {
-            TouchScreenMainForm mainScreen = new TouchScreenMainForm();
-            mainScreen.Show();
+            if (touchScreenMainForm == null || touchScreenMainForm.IsDisposed)
+                {
+                touchScreenMainForm = new TouchScreenMainForm();
+                }
+            touchScreenMainForm.Show();
+            touchScreenMainForm.Focus();
             }
 
         private void printPalletLabel_ItemClick(object sender, ItemClickEventArgs e)
@@ -310,5 +316,10 @@ namespace AtosFMCG
                 null, null, args);
             }
         #endregion
+
+        private void starterUploadBarButtonItem_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            PlatformMethods.UploadLoaderFiles(true);
+            }
         }
     }

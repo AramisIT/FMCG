@@ -675,7 +675,7 @@
             // 
             this.nextYears.BackColor = System.Drawing.Color.Transparent;
             this.nextYears.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.nextYears.Image = global::AtosFMCG.Properties.Resources.next_back;
+            this.nextYears.Image = global::FMCG.Properties.Resources.next_back;
             this.nextYears.Location = new System.Drawing.Point(525, 628);
             this.nextYears.Name = "nextYears";
             this.nextYears.Size = new System.Drawing.Size(50, 57);
@@ -688,7 +688,7 @@
             // 
             this.prevYears.BackColor = System.Drawing.Color.Transparent;
             this.prevYears.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.prevYears.Image = global::AtosFMCG.Properties.Resources.prev_black;
+            this.prevYears.Image = global::FMCG.Properties.Resources.prev_black;
             this.prevYears.Location = new System.Drawing.Point(5, 628);
             this.prevYears.Name = "prevYears";
             this.prevYears.Size = new System.Drawing.Size(50, 57);

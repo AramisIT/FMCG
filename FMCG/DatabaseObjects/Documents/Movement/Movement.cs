@@ -8,11 +8,13 @@ using Aramis.Platform;
 using Aramis.SystemConfigurations;
 using Aramis.UI.WinFormsDevXpress;
 using AtosFMCG.DatabaseObjects.Catalogs;
+using AtosFMCG.DatabaseObjects.Documents;
 using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
 using AtosFMCG.HelperClasses;
+using Catalogs;
 
-namespace AtosFMCG.DatabaseObjects.Documents
+namespace Documents
     {
     /// <summary>Переміщення</summary>
     [Document(Description = "Переміщення", GUID = "015CC1EA-D666-431E-9D08-510395C78E4C", NumberType = NumberType.Int64, NumberIsReadonly = false)]

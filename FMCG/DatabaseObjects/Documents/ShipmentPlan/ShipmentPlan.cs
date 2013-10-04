@@ -11,8 +11,9 @@ using Aramis.UI.WinFormsDevXpress;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
+using Catalogs;
 
-namespace AtosFMCG.DatabaseObjects.Documents
+namespace Documents
     {
     /// <summary>План відвантаження</summary>
     [Document(Description = "План відвантаження", GUID = "029B0572-E5B5-48CD-9805-1211319A5633", NumberType = NumberType.String, NumberIsReadonly = false)]

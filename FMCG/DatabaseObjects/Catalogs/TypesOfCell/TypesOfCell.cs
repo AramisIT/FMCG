@@ -1,7 +1,7 @@
 using Aramis.Attributes;
 using Aramis.Core;
 
-namespace AtosFMCG.DatabaseObjects.Catalogs
+namespace Catalogs
     {
     /// <summary>“ипи ком≥рок</summary>
     [Catalog(Description = "“ипи ком≥рок", GUID = "A54A0C77-9677-4740-B3EC-5B9DB6EB3749")]

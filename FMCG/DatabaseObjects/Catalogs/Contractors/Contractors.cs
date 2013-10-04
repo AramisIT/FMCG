@@ -4,7 +4,7 @@ using Aramis.Core;
 using Aramis.Enums;
 using AtosFMCG.DatabaseObjects.Interfaces;
 
-namespace AtosFMCG.DatabaseObjects.Catalogs
+namespace Catalogs
     {
     /// <summary>Контрагенти</summary>
     [Catalog(Description = "Контрагенти", GUID = "AC76395E-4648-41F2-879D-E37F1CEF2500", DescriptionSize = 100, AllowEnterByPattern = true)]
@@ -32,8 +32,8 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
         private Guid z_Ref1C;
 
         /// <summary>Скорочена назва</summary>
-        [DataField(Description = "Скорочена назва", Size = 20)]
-        public string CutName
+        [DataField(Description = "Повна назва", Size = 100)]
+        public string FullName
             {
             get
                 {

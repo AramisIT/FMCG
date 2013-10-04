@@ -8,8 +8,8 @@
     <ProjectGuid>{987E5E20-27F6-4A99-BDAD-08159CC9B9D7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AtosFMCG</RootNamespace>
-    <AssemblyName>AtosFMCG</AssemblyName>
+    <RootNamespace>FMCG</RootNamespace>
+    <AssemblyName>FMCG</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -59,12 +59,17 @@
     <Reference Include="Attributes">
       <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\Attributes.dll</HintPath>
     </Reference>
-    <Reference Include="DBInteraction">
-      <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\DBInteraction.dll</HintPath>
+    <Reference Include="ConnectionCreatorInterface">
+      <HintPath>..\..\..\UTK\Aramis.NET\ConnectionCreatorInterface\bin\Release\ConnectionCreatorInterface.exe</HintPath>
+    </Reference>
+    <Reference Include="DBInteraction, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\UTK\Aramis.NET\DBInteraction\bin\Release\DBInteraction.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Data.v12.1, Version=12.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
+    <Reference Include="DevExpress.Printing.v12.1.Core, Version=12.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v12.1, Version=12.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -87,10 +92,10 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="ReportView">
-      <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\ReportView.dll</HintPath>
+      <HintPath>..\..\..\UTK\MatrixReport\ReportView\bin\Release\ReportView.dll</HintPath>
     </Reference>
-    <Reference Include="Storekeeper Management Server">
-      <HintPath>..\SMS for DCT\Storekeeper Management Server\bin\Release\Storekeeper Management Server.dll</HintPath>
+    <Reference Include="RepositoryOfMatrixReportData">
+      <HintPath>..\..\..\UTK\MatrixReport\ReportView\bin\Release\RepositoryOfMatrixReportData.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -101,7 +106,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="TableViewInterfaces">
-      <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\TableViewInterfaces.dll</HintPath>
+      <HintPath>..\..\..\UTK\MatrixReport\ReportView\bin\Release\TableViewInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -112,6 +117,7 @@
     <Compile Include="AramisMainWindow.Designer.cs">
       <DependentUpon>AramisMainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseObjects\Catalogs\Carriers.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Cells.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Cities.cs" />
     <Compile Include="DatabaseObjects\Catalogs\ClassifierUnits.cs" />
@@ -250,46 +256,46 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TouchScreen\Controls\NumberEdit.cs">
+    <Compile Include="TouchScreen\Controls\Editors\NumberEdit.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TouchScreen\Controls\NumberEdit.Designer.cs">
+    <Compile Include="TouchScreen\Controls\Editors\NumberEdit.Designer.cs">
       <DependentUpon>NumberEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="TouchScreen\Controls\DateEdit.cs">
+    <Compile Include="TouchScreen\Controls\Editors\DateEdit.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TouchScreen\Controls\DateEdit.Designer.cs">
+    <Compile Include="TouchScreen\Controls\Editors\DateEdit.Designer.cs">
       <DependentUpon>DateEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="TouchScreen\Controls\Message.cs">
+    <Compile Include="TouchScreen\Controls\Editors\Message.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TouchScreen\Controls\Message.Designer.cs">
+    <Compile Include="TouchScreen\Controls\Editors\Message.Designer.cs">
       <DependentUpon>Message.cs</DependentUpon>
     </Compile>
-    <Compile Include="TouchScreen\Controls\EditPlannedArrivalDoc.cs">
+    <Compile Include="TouchScreen\Controls\Processes\EditPlannedArrivalDoc.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TouchScreen\Controls\EditPlannedArrivalDoc.Designer.cs">
+    <Compile Include="TouchScreen\Controls\Processes\EditPlannedArrivalDoc.Designer.cs">
       <DependentUpon>EditPlannedArrivalDoc.cs</DependentUpon>
     </Compile>
-    <Compile Include="TouchScreen\Controls\EnterField.cs">
+    <Compile Include="TouchScreen\Controls\Editors\EnterField.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TouchScreen\Controls\EnterField.Designer.cs">
+    <Compile Include="TouchScreen\Controls\Editors\EnterField.Designer.cs">
       <DependentUpon>EnterField.cs</DependentUpon>
     </Compile>
-    <Compile Include="TouchScreen\Controls\NavigatedButton.cs">
+    <Compile Include="TouchScreen\Controls\Editors\NavigatedButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TouchScreen\Controls\NavigatedButton.Designer.cs">
+    <Compile Include="TouchScreen\Controls\Editors\NavigatedButton.Designer.cs">
       <DependentUpon>NavigatedButton.cs</DependentUpon>
     </Compile>
-    <Compile Include="TouchScreen\Controls\SelectFromObjectList.cs">
+    <Compile Include="TouchScreen\Controls\Editors\SelectFromObjectList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TouchScreen\Controls\SelectFromObjectList.Designer.cs">
+    <Compile Include="TouchScreen\Controls\Editors\SelectFromObjectList.Designer.cs">
       <DependentUpon>SelectFromObjectList.cs</DependentUpon>
     </Compile>
     <Compile Include="TouchScreen\Data\BaseData.cs" />
@@ -340,6 +346,7 @@
     </Content>
     <Content Include="TraceAramis.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <EmbeddedResource Include="AramisMainWindow.resx">
       <DependentUpon>AramisMainWindow.cs</DependentUpon>
@@ -360,22 +367,22 @@
     <EmbeddedResource Include="DatabaseObjects\Catalogs\Users\UsersItemForm.resx">
       <DependentUpon>UsersItemForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TouchScreen\Controls\NumberEdit.resx">
+    <EmbeddedResource Include="TouchScreen\Controls\Editors\NumberEdit.resx">
       <DependentUpon>NumberEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TouchScreen\Controls\DateEdit.resx">
+    <EmbeddedResource Include="TouchScreen\Controls\Editors\DateEdit.resx">
       <DependentUpon>DateEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TouchScreen\Controls\Message.resx">
+    <EmbeddedResource Include="TouchScreen\Controls\Editors\Message.resx">
       <DependentUpon>Message.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TouchScreen\Controls\EditPlannedArrivalDoc.resx">
+    <EmbeddedResource Include="TouchScreen\Controls\Processes\EditPlannedArrivalDoc.resx">
       <DependentUpon>EditPlannedArrivalDoc.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TouchScreen\Controls\EnterField.resx">
+    <EmbeddedResource Include="TouchScreen\Controls\Editors\EnterField.resx">
       <DependentUpon>EnterField.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TouchScreen\Controls\SelectFromObjectList.resx">
+    <EmbeddedResource Include="TouchScreen\Controls\Editors\SelectFromObjectList.resx">
       <DependentUpon>SelectFromObjectList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TouchScreen\MainScreen.resx">
@@ -515,6 +522,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SMS for DCT\Storekeeper Management Server\Storekeeper Management Server.csproj">
+      <Project>{719b4980-bfbb-4543-913e-b29ff80bcd58}</Project>
+      <Name>Storekeeper Management Server</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

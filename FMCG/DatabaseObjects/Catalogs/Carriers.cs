@@ -1,13 +1,16 @@
 ﻿using System;
 using Aramis.Attributes;
+using Aramis.DatabaseConnector;
+using Aramis.Enums;
 using Aramis.Core;
+using Aramis.SystemConfigurations;
 using AtosFMCG.DatabaseObjects.Interfaces;
+using Catalogs;
 
 namespace Catalogs
     {
-    /// <summary>Машини</summary>
-    [Catalog(Description = "Машини", GUID = "A44B32E2-FF6F-4F2B-867F-83C99817609B", DescriptionSize = 35)]
-    public class Cars : CatalogTable, ISyncWith1C
+    [Catalog(Description = "Перевізники", GUID = "ACA2C7F1-692B-4669-BEB6-C29D7A1789C6", DescriptionSize = 35, HierarchicType = HierarchicTypes.GroupsAndElements)]
+    public class Carriers : CatalogTable, ISyncWith1C
         {
         /// <summary>Посилання 1С</summary>
         [DataField(Description = "Посилання 1С", ShowInList = false)]
@@ -28,5 +31,11 @@ namespace Catalogs
                 }
             }
         private Guid z_Ref1C;
+
+        public Carriers()
+            : base()
+            {
+
+            }
         }
     }

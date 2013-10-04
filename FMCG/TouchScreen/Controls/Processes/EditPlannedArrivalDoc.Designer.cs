@@ -49,6 +49,8 @@
             this.navigatedButton2 = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.navigatedButton3 = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.exit = new System.Windows.Forms.Button();
+            this.waresButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
+            this.tareButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
             this.editPanel.SuspendLayout();
@@ -59,15 +61,14 @@
             this.editMode.BackColor = System.Drawing.Color.Bisque;
             this.editMode.Background = System.Drawing.Color.Bisque;
             this.editMode.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
-            this.editMode.Ico = global::AtosFMCG.Properties.Resources.edit;
-            this.editMode.Image = global::AtosFMCG.Properties.Resources.edit;
+            this.editMode.Ico = global::FMCG.Properties.Resources.edit;
+            this.editMode.Image = global::FMCG.Properties.Resources.edit;
             this.editMode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.editMode.IsEnabled = true;
-            this.editMode.Location = new System.Drawing.Point(3, 698);
+            this.editMode.Location = new System.Drawing.Point(219, 700);
             this.editMode.Name = "editMode";
-            this.editMode.Size = new System.Drawing.Size(210, 60);
+            this.editMode.Size = new System.Drawing.Size(98, 60);
             this.editMode.TabIndex = 40;
-            this.editMode.Text = "          Редагувати";
             this.editMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.editMode.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
             this.editMode.UseVisualStyleBackColor = false;
@@ -78,8 +79,8 @@
             this.car.BackColor = System.Drawing.Color.PowderBlue;
             this.car.Background = System.Drawing.Color.PowderBlue;
             this.car.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
-            this.car.Ico = global::AtosFMCG.Properties.Resources.car;
-            this.car.Image = global::AtosFMCG.Properties.Resources.car;
+            this.car.Ico = global::FMCG.Properties.Resources.car;
+            this.car.Image = global::FMCG.Properties.Resources.car;
             this.car.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.car.IsEnabled = true;
             this.car.Location = new System.Drawing.Point(219, 634);
@@ -97,8 +98,8 @@
             this.driver.BackColor = System.Drawing.Color.PowderBlue;
             this.driver.Background = System.Drawing.Color.PowderBlue;
             this.driver.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
-            this.driver.Ico = global::AtosFMCG.Properties.Resources.user;
-            this.driver.Image = global::AtosFMCG.Properties.Resources.user;
+            this.driver.Ico = global::FMCG.Properties.Resources.user;
+            this.driver.Image = global::FMCG.Properties.Resources.user;
             this.driver.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.driver.IsEnabled = true;
             this.driver.Location = new System.Drawing.Point(3, 634);
@@ -116,8 +117,8 @@
             this.invoiceDate.BackColor = System.Drawing.Color.PowderBlue;
             this.invoiceDate.Background = System.Drawing.Color.PowderBlue;
             this.invoiceDate.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
-            this.invoiceDate.Ico = global::AtosFMCG.Properties.Resources.date;
-            this.invoiceDate.Image = global::AtosFMCG.Properties.Resources.date;
+            this.invoiceDate.Ico = global::FMCG.Properties.Resources.date;
+            this.invoiceDate.Image = global::FMCG.Properties.Resources.date;
             this.invoiceDate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.invoiceDate.IsEnabled = true;
             this.invoiceDate.Location = new System.Drawing.Point(219, 568);
@@ -135,8 +136,8 @@
             this.invoiceNumber.BackColor = System.Drawing.Color.PowderBlue;
             this.invoiceNumber.Background = System.Drawing.Color.PowderBlue;
             this.invoiceNumber.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
-            this.invoiceNumber.Ico = global::AtosFMCG.Properties.Resources.number;
-            this.invoiceNumber.Image = global::AtosFMCG.Properties.Resources.number;
+            this.invoiceNumber.Ico = global::FMCG.Properties.Resources.number;
+            this.invoiceNumber.Image = global::FMCG.Properties.Resources.number;
             this.invoiceNumber.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.invoiceNumber.IsEnabled = true;
             this.invoiceNumber.Location = new System.Drawing.Point(3, 568);
@@ -161,15 +162,14 @@
             this.save.BackColor = System.Drawing.Color.LightGreen;
             this.save.Background = System.Drawing.Color.LightGreen;
             this.save.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
-            this.save.Ico = global::AtosFMCG.Properties.Resources.save;
-            this.save.Image = global::AtosFMCG.Properties.Resources.save;
+            this.save.Ico = global::FMCG.Properties.Resources.save;
+            this.save.Image = global::FMCG.Properties.Resources.save;
             this.save.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.save.IsEnabled = true;
-            this.save.Location = new System.Drawing.Point(219, 698);
+            this.save.Location = new System.Drawing.Point(330, 700);
             this.save.Name = "save";
-            this.save.Size = new System.Drawing.Size(209, 60);
+            this.save.Size = new System.Drawing.Size(98, 60);
             this.save.TabIndex = 42;
-            this.save.Text = "          Зберегти";
             this.save.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.save.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
             this.save.UseVisualStyleBackColor = false;
@@ -307,8 +307,8 @@
             this.finishEditMode.BackColor = System.Drawing.Color.LightGray;
             this.finishEditMode.Background = System.Drawing.Color.LightGray;
             this.finishEditMode.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
-            this.finishEditMode.Ico = global::AtosFMCG.Properties.Resources.finish;
-            this.finishEditMode.Image = global::AtosFMCG.Properties.Resources.finish;
+            this.finishEditMode.Ico = global::FMCG.Properties.Resources.finish;
+            this.finishEditMode.Image = global::FMCG.Properties.Resources.finish;
             this.finishEditMode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.finishEditMode.IsEnabled = true;
             this.finishEditMode.Location = new System.Drawing.Point(74, 565);
@@ -348,8 +348,8 @@
             this.navigatedButton2.BackColor = System.Drawing.Color.LightGreen;
             this.navigatedButton2.Background = System.Drawing.Color.LightGreen;
             this.navigatedButton2.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
-            this.navigatedButton2.Ico = global::AtosFMCG.Properties.Resources.addnew;
-            this.navigatedButton2.Image = global::AtosFMCG.Properties.Resources.addnew;
+            this.navigatedButton2.Ico = global::FMCG.Properties.Resources.addnew;
+            this.navigatedButton2.Image = global::FMCG.Properties.Resources.addnew;
             this.navigatedButton2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.navigatedButton2.IsEnabled = true;
             this.navigatedButton2.Location = new System.Drawing.Point(289, 499);
@@ -367,8 +367,8 @@
             this.navigatedButton3.BackColor = System.Drawing.Color.Bisque;
             this.navigatedButton3.Background = System.Drawing.Color.Bisque;
             this.navigatedButton3.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
-            this.navigatedButton3.Ico = global::AtosFMCG.Properties.Resources.delete;
-            this.navigatedButton3.Image = global::AtosFMCG.Properties.Resources.delete;
+            this.navigatedButton3.Ico = global::FMCG.Properties.Resources.delete;
+            this.navigatedButton3.Image = global::FMCG.Properties.Resources.delete;
             this.navigatedButton3.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.navigatedButton3.IsEnabled = true;
             this.navigatedButton3.Location = new System.Drawing.Point(74, 499);
@@ -385,7 +385,7 @@
             // 
             this.exit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.exit.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.exit.Image = global::AtosFMCG.Properties.Resources.Exit;
+            this.exit.Image = global::FMCG.Properties.Resources.Exit;
             this.exit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.exit.Location = new System.Drawing.Point(952, 3);
             this.exit.Name = "exit";
@@ -396,10 +396,46 @@
             this.exit.UseVisualStyleBackColor = false;
             this.exit.Click += new System.EventHandler(this.exit_Click);
             // 
+            // waresButton
+            // 
+            this.waresButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.waresButton.Background = System.Drawing.Color.PowderBlue;
+            this.waresButton.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.waresButton.Ico = null;
+            this.waresButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.waresButton.IsEnabled = true;
+            this.waresButton.Location = new System.Drawing.Point(3, 700);
+            this.waresButton.Name = "waresButton";
+            this.waresButton.Size = new System.Drawing.Size(98, 60);
+            this.waresButton.TabIndex = 50;
+            this.waresButton.Text = "Продукція";
+            this.waresButton.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
+            this.waresButton.UseVisualStyleBackColor = false;
+            this.waresButton.Click += new System.EventHandler(this.waresButton_Click);
+            // 
+            // tareButton
+            // 
+            this.tareButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.tareButton.Background = System.Drawing.Color.PowderBlue;
+            this.tareButton.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.tareButton.Ico = null;
+            this.tareButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tareButton.IsEnabled = true;
+            this.tareButton.Location = new System.Drawing.Point(115, 700);
+            this.tareButton.Name = "tareButton";
+            this.tareButton.Size = new System.Drawing.Size(98, 60);
+            this.tareButton.TabIndex = 51;
+            this.tareButton.Text = "Тара";
+            this.tareButton.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
+            this.tareButton.UseVisualStyleBackColor = false;
+            this.tareButton.Click += new System.EventHandler(this.tareButton_Click);
+            // 
             // EditPlannedArrivalDoc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.tareButton);
+            this.Controls.Add(this.waresButton);
             this.Controls.Add(this.exit);
             this.Controls.Add(this.grid);
             this.Controls.Add(this.invoiceNumber);
@@ -443,5 +479,7 @@
         private NavigatedButton navigatedButton3;
         private System.Windows.Forms.Label selectedRowInfo;
         private System.Windows.Forms.Button exit;
+        private NavigatedButton waresButton;
+        private NavigatedButton tareButton;
         }
     }

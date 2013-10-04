@@ -253,7 +253,7 @@
             // 
             this.backspace.BackColor = System.Drawing.Color.Transparent;
             this.backspace.Font = new System.Drawing.Font("Microsoft Sans Serif", 24.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.backspace.Image = global::AtosFMCG.Properties.Resources.left;
+            this.backspace.Image = global::FMCG.Properties.Resources.left;
             this.backspace.Location = new System.Drawing.Point(99, 282);
             this.backspace.Name = "backspace";
             this.backspace.Size = new System.Drawing.Size(90, 87);
@@ -268,8 +268,8 @@
             this.goPrev.BackColor = System.Drawing.Color.AntiqueWhite;
             this.goPrev.Background = System.Drawing.Color.AntiqueWhite;
             this.goPrev.Font = new System.Drawing.Font("Tahoma", 25F, System.Drawing.FontStyle.Bold);
-            this.goPrev.Ico = global::AtosFMCG.Properties.Resources.back641;
-            this.goPrev.Image = global::AtosFMCG.Properties.Resources.back641;
+            this.goPrev.Ico = global::FMCG.Properties.Resources.back641;
+            this.goPrev.Image = global::FMCG.Properties.Resources.back641;
             this.goPrev.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.goPrev.IsEnabled = true;
             this.goPrev.Location = new System.Drawing.Point(17, 634);
@@ -288,8 +288,8 @@
             this.goNext.BackColor = System.Drawing.Color.LightGreen;
             this.goNext.Background = System.Drawing.Color.LightGreen;
             this.goNext.Font = new System.Drawing.Font("Tahoma", 25F, System.Drawing.FontStyle.Bold);
-            this.goNext.Ico = global::AtosFMCG.Properties.Resources.next64;
-            this.goNext.Image = global::AtosFMCG.Properties.Resources.next64;
+            this.goNext.Ico = global::FMCG.Properties.Resources.next64;
+            this.goNext.Image = global::FMCG.Properties.Resources.next64;
             this.goNext.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.goNext.IsEnabled = true;
             this.goNext.Location = new System.Drawing.Point(297, 634);

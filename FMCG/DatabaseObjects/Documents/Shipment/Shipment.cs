@@ -6,8 +6,9 @@ using Aramis.Enums;
 using Aramis.Platform;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.Enums;
+using Catalogs;
 
-namespace AtosFMCG.DatabaseObjects.Documents
+namespace Documents
     {
     /// <summary>Відвантаження</summary>
     [Document(Description = "Відвантаження", GUID = "003741EB-2D7A-49FD-B711-92A039FB4832", NumberType = NumberType.Int64, NumberIsReadonly = false)]

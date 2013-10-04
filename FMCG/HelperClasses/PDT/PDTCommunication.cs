@@ -5,6 +5,7 @@ using Aramis.DatabaseConnector;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Documents;
 using Catalogs;
+using Documents;
 using pdtExternalStorage;
 
 namespace AtosFMCG.HelperClasses.PDT

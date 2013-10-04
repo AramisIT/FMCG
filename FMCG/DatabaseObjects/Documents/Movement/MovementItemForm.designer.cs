@@ -257,7 +257,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // pictureEdit1
             // 
             this.pictureEdit1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureEdit1.EditValue = global::AtosFMCG.Properties.Resources._1317825614_information_balloon;
+            this.pictureEdit1.EditValue = global::FMCG.Properties.Resources._1317825614_information_balloon;
             this.pictureEdit1.Location = new System.Drawing.Point(0, 0);
             this.pictureEdit1.MenuManager = this.ribbon;
             this.pictureEdit1.Name = "pictureEdit1";

@@ -2,6 +2,7 @@
 using Aramis.Core;
 using Aramis.Enums;
 using Aramis.UI.WinFormsDevXpress;
+using Catalogs;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.Ribbon;
 

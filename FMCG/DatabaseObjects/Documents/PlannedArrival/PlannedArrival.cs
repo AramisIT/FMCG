@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Windows.Documents;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.Enums;
@@ -7,11 +8,12 @@ using Aramis.Platform;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
+using Catalogs;
 
-namespace AtosFMCG.DatabaseObjects.Documents
+namespace Documents
     {
     /// <summary>План приходу</summary>
-    [Document(Description = "План приходу", GUID = "0455B8DB-F11B-4B3B-A727-D4E889A1EFCB", NumberType = NumberType.Int64, NumberIsReadonly = false)]
+    [Document(Description = "План приймання", GUID = "0455B8DB-F11B-4B3B-A727-D4E889A1EFCB", NumberType = NumberType.Int64, NumberIsReadonly = false)]
     public class PlannedArrival : DocumentTable, ISyncWith1C
         {
         #region Properties
@@ -57,7 +59,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private string z_IncomeNumber = string.Empty;
 
         /// <summary>Прихід від</summary>
-        [DataField(Description = "Прихід від", ShowInList = true)]
+        [DataField(Description = "Приймання від", ShowInList = true)]
         public TypesOfArrival TypeOfArrival
             {
             get
@@ -93,11 +95,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
         /// <summary>Перевізник</summary>
         [DataField(Description = "Перевізник", ShowInList = true, AllowOpenItem = true)]
-        public Contractors Carrier
+        public Carriers Carrier
             {
             get
                 {
-                return (Contractors)GetValueForObjectProperty("Carrier");
+                return (Carriers)GetValueForObjectProperty("Carrier");
                 }
             set
                 {
@@ -176,7 +178,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
         #region Table Tare
         /// <summary>Номенлатура</summary>
-        [Table(Columns = "Tare, TareMeasure, TareDate, TareCount, TarePrice, TareSum, TareParty", ShowLineNumberColumn = true)]
+        [Table(Columns = "Tare, TareMeasure, TareCount, TarePrice, TareSum, TareParty", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенлатура")]
         public DataTable TareInfo
             {
@@ -190,11 +192,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         /// <summary>Од.вим.</summary>
         [SubTableField(Description = "Од.вим.", PropertyType = typeof(Measures))]
         public DataColumn TareMeasure { get; set; }
-
-        /// <summary>Дата виробництва</summary>
-        [SubTableField(Description = "Дата виробництва", PropertyType = typeof(DateTime))]
-        public DataColumn TareDate { get; set; }
-
+        
         /// <summary>К-сть</summary>
         [SubTableField(Description = "К-сть", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
         public DataColumn TareCount { get; set; }
@@ -279,7 +277,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
                     fillTareRowData(currentRow);
                     }
                 }
-            } 
+            }
         #endregion
         }
     }

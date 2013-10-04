@@ -5,6 +5,7 @@ using Aramis.DatabaseConnector;
 using AtosFMCG.DatabaseObjects.Documents;
 using AtosFMCG.TouchScreen.Controls;
 using AtosFMCG.TouchScreen.Screens.Base;
+using Documents;
 using TouchScreen.Models.Data;
 
 namespace AtosFMCG.TouchScreen.Screens

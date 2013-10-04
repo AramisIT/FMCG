@@ -1,5 +1,6 @@
 using Aramis.DatabaseConnector;
 using AtosFMCG.DatabaseObjects.Catalogs;
+using Catalogs;
 
 namespace AtosFMCG.HelperClasses
     {

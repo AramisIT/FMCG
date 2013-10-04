@@ -102,7 +102,7 @@
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 10;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(477, 49);
+            this.ribbon.Size = new System.Drawing.Size(477, 54);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // Ok
@@ -136,10 +136,10 @@
             this.ribbonStatusBar.ItemLinks.Add(this.Ok);
             this.ribbonStatusBar.ItemLinks.Add(this.Write);
             this.ribbonStatusBar.ItemLinks.Add(this.Cancel);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 267);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 275);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(477, 31);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(477, 23);
             // 
             // RefreshMapsInfoButton
             // 
@@ -462,9 +462,9 @@
             this.panelControl1.Controls.Add(this.labelControl7);
             this.panelControl1.Controls.Add(this.StreetControl);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelControl1.Location = new System.Drawing.Point(0, 49);
+            this.panelControl1.Location = new System.Drawing.Point(0, 54);
             this.panelControl1.Name = "panelControl1";
-            this.panelControl1.Size = new System.Drawing.Size(477, 218);
+            this.panelControl1.Size = new System.Drawing.Size(477, 221);
             this.panelControl1.TabIndex = 35;
             // 
             // panelControl2

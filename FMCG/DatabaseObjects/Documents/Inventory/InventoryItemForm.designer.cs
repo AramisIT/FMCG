@@ -124,7 +124,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.createTask.Caption = "Сформувати завдання";
             this.createTask.Enabled = false;
-            this.createTask.Glyph = global::AtosFMCG.Properties.Resources.add;
+            this.createTask.Glyph = global::FMCG.Properties.Resources.add;
             this.createTask.Id = 18;
             this.createTask.Name = "createTask";
             this.createTask.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.createTask_ItemClick);
@@ -277,7 +277,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // pictureEdit1
             // 
             this.pictureEdit1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureEdit1.EditValue = global::AtosFMCG.Properties.Resources._1317825614_information_balloon;
+            this.pictureEdit1.EditValue = global::FMCG.Properties.Resources._1317825614_information_balloon;
             this.pictureEdit1.Location = new System.Drawing.Point(0, 0);
             this.pictureEdit1.MenuManager = this.ribbon;
             this.pictureEdit1.Name = "pictureEdit1";

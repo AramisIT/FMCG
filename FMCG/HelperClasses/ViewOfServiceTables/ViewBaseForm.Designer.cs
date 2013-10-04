@@ -76,7 +76,7 @@
             // pictureEdit1
             // 
             this.pictureEdit1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pictureEdit1.EditValue = global::AtosFMCG.Properties.Resources._1317825614_information_balloon;
+            this.pictureEdit1.EditValue = global::FMCG.Properties.Resources._1317825614_information_balloon;
             this.pictureEdit1.Location = new System.Drawing.Point(2, 2);
             this.pictureEdit1.Name = "pictureEdit1";
             this.pictureEdit1.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
@@ -91,7 +91,7 @@
             // 
             // refresh
             // 
-            this.refresh.Image = global::AtosFMCG.Properties.Resources.order;
+            this.refresh.Image = global::FMCG.Properties.Resources.order;
             this.refresh.Location = new System.Drawing.Point(225, 10);
             this.refresh.Name = "refresh";
             this.refresh.Size = new System.Drawing.Size(95, 23);

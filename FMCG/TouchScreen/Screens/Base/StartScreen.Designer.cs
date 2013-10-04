@@ -36,8 +36,8 @@
             this.PlannedArrivalProcess.BackColor = System.Drawing.Color.PowderBlue;
             this.PlannedArrivalProcess.Background = System.Drawing.Color.PowderBlue;
             this.PlannedArrivalProcess.Font = new System.Drawing.Font("Tahoma", 25F, System.Drawing.FontStyle.Bold);
-            this.PlannedArrivalProcess.Ico = global::AtosFMCG.Properties.Resources.package_add;
-            this.PlannedArrivalProcess.Image = global::AtosFMCG.Properties.Resources.package_add;
+            this.PlannedArrivalProcess.Ico = global::FMCG.Properties.Resources.package_add;
+            this.PlannedArrivalProcess.Image = global::FMCG.Properties.Resources.package_add;
             this.PlannedArrivalProcess.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.PlannedArrivalProcess.IsEnabled = true;
             this.PlannedArrivalProcess.Location = new System.Drawing.Point(262, 266);

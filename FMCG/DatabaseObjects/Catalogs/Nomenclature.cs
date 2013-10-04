@@ -4,10 +4,10 @@ using Aramis.Core;
 using Aramis.Enums;
 using AtosFMCG.DatabaseObjects.Interfaces;
 
-namespace AtosFMCG.DatabaseObjects.Catalogs
+namespace Catalogs
     {
     /// <summary>Номенклатура</summary>
-    [Catalog(Description = "Номенклатура", GUID = "A29CEC12-B241-4574-82BE-F6EACE352E24", HierarchicType = HierarchicTypes.None, ShowCodeFieldInForm = false)]
+    [Catalog(Description = "Номенклатура", GUID = "A29CEC12-B241-4574-82BE-F6EACE352E24", HierarchicType = HierarchicTypes.GroupsAndElements, ShowCodeFieldInForm = false, DescriptionSize = 100)]
     public class Nomenclature : CatalogTable, ISyncWith1C
         {
         #region Properties
@@ -30,6 +30,26 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
                 }
             }
         private Guid z_Ref1C;
+
+        [DataField(Description = "Кіль-ть у палеті", ShowInList = true)]
+        public int UnitsQuantityPerPallet
+            {
+            get
+                {
+                return z_UnitsQuantityPerPallet;
+                }
+            set
+                {
+                if (z_UnitsQuantityPerPallet == value)
+                    {
+                    return;
+                    }
+
+                z_UnitsQuantityPerPallet = value;
+                NotifyPropertyChanged("UnitsQuantityPerPallet");
+                }
+            }
+        private int z_UnitsQuantityPerPallet;
 
         /// <summary>Тара</summary>
         [DataField(Description = "Тара", ShowInList = true)]

@@ -4,7 +4,7 @@ using Aramis.Core;
 using Aramis.Enums;
 using Catalogs;
 
-namespace AtosFMCG.DatabaseObjects.Catalogs
+namespace Catalogs
     {
     /// <summary>Зайняті комірки</summary>
     [Catalog(Description = "Класифікатор одиниць виміру", GUID = "06906080-CA40-44F8-91A0-F2C700F44739", HierarchicType = HierarchicTypes.None, ShowCodeFieldInForm = false)]

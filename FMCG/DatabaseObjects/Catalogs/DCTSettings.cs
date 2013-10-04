@@ -5,7 +5,7 @@ using Aramis.Core;
 using Aramis.DatabaseConnector;
 using Aramis.Enums;
 
-namespace AtosFMCG.DatabaseObjects.Catalogs
+namespace Catalogs
     {
     /// <summary>Налаштування ТСД</summary>
     [Catalog(Description = "Налаштування ТСД", GUID = "A2339F64-F7D1-44C5-9E07-2598CC95172C", HierarchicType = HierarchicTypes.None, ShowCodeFieldInForm = false)]

@@ -171,7 +171,7 @@
             // scrollUp
             // 
             this.scrollUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.scrollUp.Image = global::AtosFMCG.Properties.Resources.up;
+            this.scrollUp.Image = global::FMCG.Properties.Resources.up;
             this.scrollUp.Location = new System.Drawing.Point(945, 149);
             this.scrollUp.Name = "scrollUp";
             this.scrollUp.Size = new System.Drawing.Size(65, 65);
@@ -182,7 +182,7 @@
             // scrollDown
             // 
             this.scrollDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.scrollDown.Image = global::AtosFMCG.Properties.Resources.down;
+            this.scrollDown.Image = global::FMCG.Properties.Resources.down;
             this.scrollDown.Location = new System.Drawing.Point(945, 590);
             this.scrollDown.Name = "scrollDown";
             this.scrollDown.Size = new System.Drawing.Size(65, 65);
@@ -196,8 +196,8 @@
             this.goNext.BackColor = System.Drawing.Color.LightGreen;
             this.goNext.Background = System.Drawing.Color.LightGreen;
             this.goNext.Font = new System.Drawing.Font("Tahoma", 25F, System.Drawing.FontStyle.Bold);
-            this.goNext.Ico = global::AtosFMCG.Properties.Resources.next64;
-            this.goNext.Image = global::AtosFMCG.Properties.Resources.next64;
+            this.goNext.Ico = global::FMCG.Properties.Resources.next64;
+            this.goNext.Image = global::FMCG.Properties.Resources.next64;
             this.goNext.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.goNext.IsEnabled = true;
             this.goNext.Location = new System.Drawing.Point(520, 671);
@@ -216,8 +216,8 @@
             this.goPrev.BackColor = System.Drawing.Color.AntiqueWhite;
             this.goPrev.Background = System.Drawing.Color.AntiqueWhite;
             this.goPrev.Font = new System.Drawing.Font("Tahoma", 25F, System.Drawing.FontStyle.Bold);
-            this.goPrev.Ico = global::AtosFMCG.Properties.Resources.back641;
-            this.goPrev.Image = global::AtosFMCG.Properties.Resources.back641;
+            this.goPrev.Ico = global::FMCG.Properties.Resources.back641;
+            this.goPrev.Image = global::FMCG.Properties.Resources.back641;
             this.goPrev.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.goPrev.IsEnabled = true;
             this.goPrev.Location = new System.Drawing.Point(240, 671);

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Data;
 using AtosFMCG.DatabaseObjects.Documents;
+using Documents;
 
 namespace AtosFMCG.TouchScreen.Events
     {

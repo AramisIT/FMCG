@@ -5,7 +5,7 @@ using Aramis.Core;
 using Aramis.DatabaseConnector;
 using AtosFMCG.DatabaseObjects.Interfaces;
 
-namespace AtosFMCG.DatabaseObjects.Catalogs
+namespace Catalogs
     {
     /// <summary>Партії</summary>
     [Catalog(Description = "Партії", GUID = "AEDDF72B-5CD8-4702-A464-A8439D345D11")]

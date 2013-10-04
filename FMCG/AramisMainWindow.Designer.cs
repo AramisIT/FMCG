@@ -55,6 +55,7 @@
             this.loadScreen = new DevExpress.XtraBars.BarButtonItem();
             this.printPalletLabel = new DevExpress.XtraBars.BarButtonItem();
             this.tstInvoke = new DevExpress.XtraBars.BarButtonItem();
+            this.starterUploadBarButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.mainPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.sysObjectsGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -63,6 +64,8 @@
             this.serviceTablesGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.dctServerGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.testGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.adminPropertiesPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.updatePageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
@@ -76,7 +79,7 @@
             // 
             this.ribbon.ApplicationButtonDropDownControl = this.applicationMenu1;
             this.ribbon.ApplicationButtonText = null;
-            this.ribbon.ApplicationIcon = global::AtosFMCG.Properties.Resources.TrayIcon;
+            this.ribbon.ApplicationIcon = global::FMCG.Properties.Resources.TrayIcon;
             this.ribbon.ExpandCollapseItem.Id = 0;
             this.ribbon.ExpandCollapseItem.Name = "";
             this.ribbon.Images = this.smallImagesCollection;
@@ -100,15 +103,17 @@
             this.openConsts,
             this.loadScreen,
             this.printPalletLabel,
-            this.tstInvoke});
+            this.tstInvoke,
+            this.starterUploadBarButtonItem});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 40;
+            this.ribbon.MaxItemId = 41;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
-            this.mainPage});
-            this.ribbon.Size = new System.Drawing.Size(1196, 144);
+            this.mainPage,
+            this.adminPropertiesPage});
+            this.ribbon.Size = new System.Drawing.Size(1196, 147);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             this.ribbon.Toolbar.ItemLinks.Add(this.ltlServerState);
             // 
@@ -129,7 +134,7 @@
             this.smallImagesCollection.Images.SetKeyName(31, "mail.png");
             this.smallImagesCollection.Images.SetKeyName(32, "on.png");
             this.smallImagesCollection.Images.SetKeyName(33, "star.png");
-            this.smallImagesCollection.InsertImage(global::AtosFMCG.Properties.Resources.rights, "rights", typeof(global::AtosFMCG.Properties.Resources), 34);
+            this.smallImagesCollection.InsertImage(global::FMCG.Properties.Resources.rights, "rights", typeof(global::FMCG.Properties.Resources), 34);
             this.smallImagesCollection.Images.SetKeyName(34, "rights");
             // 
             // openCatalogs
@@ -217,9 +222,9 @@
             this.serverState.LargeImageIndex = 4;
             this.serverState.Name = "serverState";
             toolTipTitleItem1.Text = "Сервер не запущено!";
-            toolTipItem1.Appearance.Image = global::AtosFMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem1.Appearance.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
             toolTipItem1.Appearance.Options.UseImage = true;
-            toolTipItem1.Image = global::AtosFMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem1.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
             toolTipItem1.LeftIndent = 6;
             toolTipItem1.Text = "Сервер роботи з ТЗД не запущено...";
             superToolTip1.Items.Add(toolTipTitleItem1);
@@ -230,7 +235,7 @@
             // openStockBalance
             // 
             this.openStockBalance.Caption = "Залишки на складі";
-            this.openStockBalance.Glyph = global::AtosFMCG.Properties.Resources.storage;
+            this.openStockBalance.Glyph = global::FMCG.Properties.Resources.storage;
             this.openStockBalance.Id = 29;
             this.openStockBalance.Name = "openStockBalance";
             this.openStockBalance.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openStockBalance_ItemClick);
@@ -238,7 +243,7 @@
             // openGoodsMoving
             // 
             this.openGoodsMoving.Caption = "Переміщення товару";
-            this.openGoodsMoving.Glyph = global::AtosFMCG.Properties.Resources.move;
+            this.openGoodsMoving.Glyph = global::FMCG.Properties.Resources.move;
             this.openGoodsMoving.Id = 30;
             this.openGoodsMoving.Name = "openGoodsMoving";
             this.openGoodsMoving.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openGoodsMoving_ItemClick);
@@ -246,7 +251,7 @@
             // openFilledCell
             // 
             this.openFilledCell.Caption = "Розміщення паллет";
-            this.openFilledCell.Glyph = global::AtosFMCG.Properties.Resources.order;
+            this.openFilledCell.Glyph = global::FMCG.Properties.Resources.order;
             this.openFilledCell.Id = 31;
             this.openFilledCell.Name = "openFilledCell";
             this.openFilledCell.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openFilledCell_ItemClick);
@@ -263,7 +268,7 @@
             // 
             this.openConsts.Caption = "Налаштування";
             this.openConsts.Id = 34;
-            this.openConsts.LargeGlyph = global::AtosFMCG.Properties.Resources._1303219717_Settings;
+            this.openConsts.LargeGlyph = global::FMCG.Properties.Resources._1303219717_Settings;
             this.openConsts.Name = "openConsts";
             this.openConsts.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openConsts_ItemClick);
             // 
@@ -289,6 +294,13 @@
             this.tstInvoke.Id = 39;
             this.tstInvoke.Name = "tstInvoke";
             this.tstInvoke.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.tstInvoke_ItemClick);
+            // 
+            // starterUploadBarButtonItem
+            // 
+            this.starterUploadBarButtonItem.Caption = "Загрузка файлов стартера";
+            this.starterUploadBarButtonItem.Id = 40;
+            this.starterUploadBarButtonItem.Name = "starterUploadBarButtonItem";
+            this.starterUploadBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.starterUploadBarButtonItem_ItemClick);
             // 
             // largeImagesCollection
             // 
@@ -371,12 +383,25 @@
             this.testGroup.Name = "testGroup";
             this.testGroup.Text = "Для тестів";
             // 
+            // adminPropertiesPage
+            // 
+            this.adminPropertiesPage.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.updatePageGroup});
+            this.adminPropertiesPage.Name = "adminPropertiesPage";
+            this.adminPropertiesPage.Text = "Настройки системы";
+            // 
+            // updatePageGroup
+            // 
+            this.updatePageGroup.ItemLinks.Add(this.starterUploadBarButtonItem);
+            this.updatePageGroup.Name = "updatePageGroup";
+            this.updatePageGroup.Text = "Обновление";
+            // 
             // ribbonStatusBar
             // 
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 553);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 561);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(1196, 31);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(1196, 23);
             // 
             // defaultLookAndFeel
             // 
@@ -449,5 +474,8 @@
         private DevExpress.XtraBars.BarButtonItem loadScreen;
         private DevExpress.XtraBars.BarButtonItem printPalletLabel;
         private DevExpress.XtraBars.BarButtonItem tstInvoke;
+        private DevExpress.XtraBars.Ribbon.RibbonPage adminPropertiesPage;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup updatePageGroup;
+        private DevExpress.XtraBars.BarButtonItem starterUploadBarButtonItem;
         }
     }

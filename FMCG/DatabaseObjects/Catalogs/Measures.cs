@@ -4,7 +4,7 @@ using Aramis.Core;
 using Aramis.DatabaseConnector;
 using AtosFMCG.DatabaseObjects.Interfaces;
 
-namespace AtosFMCG.DatabaseObjects.Catalogs
+namespace Catalogs
     {
     /// <summary>ќдиниц≥ вим≥ру</summary>
     [Catalog(Description = "ќдиниц≥ вим≥ру", GUID = "AAA9608E-2F23-4BB5-98C6-78BC782AE4DD", ShowCodeFieldInForm = false)]
