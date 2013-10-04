@@ -136,6 +136,7 @@
       <DependentUpon>ContractorsItemsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Catalogs\Cars.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\Stickers.cs" />
     <Compile Include="DatabaseObjects\Catalogs\ThermoPrinters.cs" />
     <Compile Include="DatabaseObjects\Catalogs\DCTSettings.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Party\Party.cs" />

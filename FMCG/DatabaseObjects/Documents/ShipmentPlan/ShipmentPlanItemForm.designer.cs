@@ -34,6 +34,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.OK = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             this.cancel = new DevExpress.XtraBars.BarButtonItem();
+            this.createMovement = new DevExpress.XtraBars.BarButtonItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.NomenclatureInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.panelControl = new DevExpress.XtraEditors.PanelControl();
@@ -68,7 +69,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
-            this.createMovement = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
             this.panelControl.SuspendLayout();
@@ -98,10 +98,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbonStatusBar.ItemLinks.Add(this.barButtonItem2);
             this.ribbonStatusBar.ItemLinks.Add(this.cancel);
             this.ribbonStatusBar.ItemLinks.Add(this.createMovement);
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 552);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 544);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(720, 23);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(720, 31);
             // 
             // OK
             // 
@@ -129,6 +129,14 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.cancel.Name = "cancel";
             this.cancel.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cancel_ItemClick);
             // 
+            // createMovement
+            // 
+            this.createMovement.Caption = "Сформувати переміщення";
+            this.createMovement.Id = 18;
+            this.createMovement.ImageIndex = 2;
+            this.createMovement.Name = "createMovement";
+            this.createMovement.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.createMovement_ItemClick);
+            // 
             // ribbon
             // 
             this.ribbon.ApplicationButtonText = null;
@@ -143,7 +151,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 19;
             this.ribbon.Name = "ribbon";
-            this.ribbon.Size = new System.Drawing.Size(720, 54);
+            this.ribbon.Size = new System.Drawing.Size(720, 49);
             this.ribbon.StatusBar = this.NomenclatureInfoButtonsBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
             // 
@@ -175,7 +183,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl.Controls.Add(this.IncomeNumber);
             this.panelControl.Controls.Add(this.labelControl1);
             this.panelControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelControl.Location = new System.Drawing.Point(0, 54);
+            this.panelControl.Location = new System.Drawing.Point(0, 49);
             this.panelControl.Name = "panelControl";
             this.panelControl.Size = new System.Drawing.Size(720, 110);
             this.panelControl.TabIndex = 0;
@@ -194,7 +202,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.labelControl8.Location = new System.Drawing.Point(366, 34);
             this.labelControl8.Name = "labelControl8";
-            this.labelControl8.Size = new System.Drawing.Size(83, 13);
+            this.labelControl8.Size = new System.Drawing.Size(82, 13);
             this.labelControl8.TabIndex = 14;
             this.labelControl8.Text = "Стан документу";
             // 
@@ -240,7 +248,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.labelControl6.Location = new System.Drawing.Point(10, 86);
             this.labelControl6.Name = "labelControl6";
-            this.labelControl6.Size = new System.Drawing.Size(27, 13);
+            this.labelControl6.Size = new System.Drawing.Size(28, 13);
             this.labelControl6.TabIndex = 10;
             this.labelControl6.Text = "Водій";
             // 
@@ -263,7 +271,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.labelControl5.Location = new System.Drawing.Point(366, 60);
             this.labelControl5.Name = "labelControl5";
-            this.labelControl5.Size = new System.Drawing.Size(56, 13);
+            this.labelControl5.Size = new System.Drawing.Size(57, 13);
             this.labelControl5.TabIndex = 8;
             this.labelControl5.Text = "Перевізник";
             // 
@@ -304,7 +312,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.labelControl3.Location = new System.Drawing.Point(10, 34);
             this.labelControl3.Name = "labelControl3";
-            this.labelControl3.Size = new System.Drawing.Size(98, 13);
+            this.labelControl3.Size = new System.Drawing.Size(99, 13);
             this.labelControl3.TabIndex = 4;
             this.labelControl3.Text = "Тип відвантаження";
             // 
@@ -341,7 +349,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.labelControl1.Location = new System.Drawing.Point(10, 8);
             this.labelControl1.Name = "labelControl1";
-            this.labelControl1.Size = new System.Drawing.Size(67, 13);
+            this.labelControl1.Size = new System.Drawing.Size(68, 13);
             this.labelControl1.TabIndex = 0;
             this.labelControl1.Text = "№ накладної";
             // 
@@ -351,7 +359,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl1.Controls.Add(this.pictureEdit1);
             this.panelControl1.Controls.Add(this.Info);
             this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelControl1.Location = new System.Drawing.Point(0, 532);
+            this.panelControl1.Location = new System.Drawing.Point(0, 524);
             this.panelControl1.Name = "panelControl1";
             this.panelControl1.Size = new System.Drawing.Size(720, 20);
             this.panelControl1.TabIndex = 0;
@@ -409,9 +417,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.groupControl1.Controls.Add(this.NomenclatureInfo);
             this.groupControl1.Controls.Add(this.panelControl2);
             this.groupControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupControl1.Location = new System.Drawing.Point(0, 164);
+            this.groupControl1.Location = new System.Drawing.Point(0, 159);
             this.groupControl1.Name = "groupControl1";
-            this.groupControl1.Size = new System.Drawing.Size(720, 368);
+            this.groupControl1.Size = new System.Drawing.Size(720, 365);
             this.groupControl1.TabIndex = 22;
             this.groupControl1.Text = "Номенклатура";
             // 
@@ -422,7 +430,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.NomenclatureInfo.MainView = this.nomenclatureView;
             this.NomenclatureInfo.MenuManager = this.ribbon;
             this.NomenclatureInfo.Name = "NomenclatureInfo";
-            this.NomenclatureInfo.Size = new System.Drawing.Size(716, 322);
+            this.NomenclatureInfo.Size = new System.Drawing.Size(716, 319);
             this.NomenclatureInfo.TabIndex = 1;
             this.NomenclatureInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.nomenclatureView});
@@ -486,14 +494,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem7.Id = 2;
             this.barButtonItem7.ImageIndex = 1;
             this.barButtonItem7.Name = "barButtonItem7";
-            // 
-            // createMovement
-            // 
-            this.createMovement.Caption = "Сформувати переміщення";
-            this.createMovement.Id = 18;
-            this.createMovement.ImageIndex = 2;
-            this.createMovement.Name = "createMovement";
-            this.createMovement.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.createMovement_ItemClick);
             // 
             // ShipmentPlanItemForm
             // 

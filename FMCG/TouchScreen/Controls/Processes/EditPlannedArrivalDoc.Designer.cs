@@ -60,17 +60,17 @@
             // 
             this.editMode.BackColor = System.Drawing.Color.Bisque;
             this.editMode.Background = System.Drawing.Color.Bisque;
-            this.editMode.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
             this.editMode.Ico = global::FMCG.Properties.Resources.edit;
             this.editMode.Image = global::FMCG.Properties.Resources.edit;
             this.editMode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.editMode.IsEnabled = true;
             this.editMode.Location = new System.Drawing.Point(219, 700);
             this.editMode.Name = "editMode";
-            this.editMode.Size = new System.Drawing.Size(98, 60);
+            this.editMode.Size = new System.Drawing.Size(105, 60);
             this.editMode.TabIndex = 40;
-            this.editMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.editMode.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
+            this.editMode.Text = "Редагувати";
+            this.editMode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.editMode.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Small;
             this.editMode.UseVisualStyleBackColor = false;
             this.editMode.SingleClick += new System.EventHandler(this.editMode_SingleClick);
             // 
@@ -161,17 +161,18 @@
             // 
             this.save.BackColor = System.Drawing.Color.LightGreen;
             this.save.Background = System.Drawing.Color.LightGreen;
-            this.save.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.save.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.save.Ico = global::FMCG.Properties.Resources.save;
             this.save.Image = global::FMCG.Properties.Resources.save;
             this.save.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.save.IsEnabled = true;
-            this.save.Location = new System.Drawing.Point(330, 700);
+            this.save.Location = new System.Drawing.Point(324, 700);
             this.save.Name = "save";
-            this.save.Size = new System.Drawing.Size(98, 60);
+            this.save.Size = new System.Drawing.Size(105, 60);
             this.save.TabIndex = 42;
-            this.save.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.save.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
+            this.save.Text = "Завершити";
+            this.save.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.save.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Small;
             this.save.UseVisualStyleBackColor = false;
             this.save.Click += new System.EventHandler(this.finish_Click);
             // 
@@ -406,7 +407,7 @@
             this.waresButton.IsEnabled = true;
             this.waresButton.Location = new System.Drawing.Point(3, 700);
             this.waresButton.Name = "waresButton";
-            this.waresButton.Size = new System.Drawing.Size(98, 60);
+            this.waresButton.Size = new System.Drawing.Size(105, 60);
             this.waresButton.TabIndex = 50;
             this.waresButton.Text = "Продукція";
             this.waresButton.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
@@ -421,9 +422,9 @@
             this.tareButton.Ico = null;
             this.tareButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tareButton.IsEnabled = true;
-            this.tareButton.Location = new System.Drawing.Point(115, 700);
+            this.tareButton.Location = new System.Drawing.Point(108, 700);
             this.tareButton.Name = "tareButton";
-            this.tareButton.Size = new System.Drawing.Size(98, 60);
+            this.tareButton.Size = new System.Drawing.Size(105, 60);
             this.tareButton.TabIndex = 51;
             this.tareButton.Text = "Тара";
             this.tareButton.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;

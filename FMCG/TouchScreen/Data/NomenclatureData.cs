@@ -6,7 +6,7 @@ namespace TouchScreen.Models.Data
         {
         public long LineNumber { get; set; }
         public ObjectValue Description { get; set; }
-        public double Quantity { get; set; }
+        public decimal Quantity { get; set; }
         public DateTime Date { get; set; }
         }
     }

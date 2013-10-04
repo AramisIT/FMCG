@@ -41,7 +41,7 @@
               CellValue="СВЗ" BehaviorOnDisplaying="Cut"/>
         <Cell ColumnsInterval="1" RowsInterval="4"
               FontSize="9" FontWeight="Normal" HorizontalAlignment="Center"  TextColor="#000000"
-              CellValue="548971" BehaviorOnDisplaying="Cut"/>
+              CellValue="Id" ValueType="Parameter" BehaviorOnDisplaying="Cut"/>
         <Cell ColumnsInterval="1" RowsInterval="5"
               FontSize="9.5" FontWeight="Normal" HorizontalAlignment="Left"  TextColor="#000000"
               CellValue="Дата виробництва:" BehaviorOnDisplaying="Cut"/>
@@ -66,7 +66,7 @@
         <Cell ColumnsInterval="1" RowsInterval="9"
               FontSize="9.5" FontWeight="Normal" HorizontalAlignment="Left"  TextColor="#000000"
               CellValue="AcceptionDate" ValueType="Parameter" BehaviorOnDisplaying="Cut" DateTimeFormat="Date"/>
-        <Cell ColumnsInterval="1" RowsInterval="1,3" CellValue="{BarCode}" ValueType="Template" BehaviorOnDisplaying="Cut">
+        <Cell ColumnsInterval="1" RowsInterval="1,3" CellValue=""  BehaviorOnDisplaying="Cut">
           <Image Location="0,0" Size="147,147" Name="BarCode" Type="QRCode"/>
         </Cell>
       </Cells>
@@ -85,6 +85,7 @@
             <DataParameter>AcceptionDate</DataParameter>
             <DataParameter>Driver</DataParameter>
             <DataParameter>PacksCount</DataParameter>
+            <DataParameter>Id</DataParameter>
           </Atom>
         </Atoms>
       </DetailsCreator>

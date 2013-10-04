@@ -31,7 +31,10 @@ namespace AtosFMCG.TouchScreen.PalletSticker
         internal bool Print()
             {
             var dataSource = initDataSource();
-
+            if (dataSource.Rows.Count == 0)
+                {
+                return true;
+                }
             var report = createMatrixReport(dataSource);
 
             return printMatrixReport(report);
@@ -48,6 +51,8 @@ namespace AtosFMCG.TouchScreen.PalletSticker
                 {
                 matrixReportPrintHelper.CustomPrint(matrix, "Этикетки на паллеты", printLandscape, printerName,
                     STICKER_WIDTH, STICKER_HEIGHT, showPreview);
+
+                //matrixReportPrintHelper.ShowPreview(matrix, "" ,false);
                 }
 
             catch (Exception exp)
@@ -93,17 +98,15 @@ namespace AtosFMCG.TouchScreen.PalletSticker
                 new DataColumn("HalpExpiryDate", typeof(DateTime)),
                 new DataColumn("ExpiryDate", typeof(DateTime)),
                 new DataColumn("AcceptionDate", typeof(DateTime)),
-                new DataColumn("Driver", typeof(string))
+                new DataColumn("Driver", typeof(string)),
+                new DataColumn("Id", typeof(long))
                 });
 
             foreach (var stickersTask in stickersTasks)
                 {
-                for (int i = 0; i < stickersTask.CopiesQuantity; i++)
-                    {
-                    dataSource.Rows.Add(stickersTask.Nomenclature, stickersTask.Barcode, stickersTask.PacksCount,
-                        stickersTask.ReleaseDate, stickersTask.HalpExpiryDate, stickersTask.ExpiryDate, stickersTask.AcceptionDate,
-                        stickersTask.Driver);
-                    }
+                dataSource.Rows.Add(stickersTask.Nomenclature, stickersTask.Barcode, stickersTask.PacksCount,
+                    stickersTask.ReleaseDate, stickersTask.HalpExpiryDate, stickersTask.ExpiryDate, stickersTask.AcceptionDate,
+                    stickersTask.Driver, stickersTask.Id);
                 }
 
             return dataSource;

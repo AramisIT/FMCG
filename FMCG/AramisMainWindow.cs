@@ -259,19 +259,19 @@ namespace AtosFMCG
             {
             var tasks = new List<StickerInfo>()
                 {
-                    new StickerInfo() {Nomenclature = "Живчик 1л Апельсин", Barcode = "ыва", CopiesQuantity = 1, Driver = "Жорняк", 
+                    new StickerInfo() {Nomenclature = "Живчик 1л Апельсин", Barcode = "ыва",  Driver = "Жорняк", 
                 ReleaseDate = new DateTime(2013, 7,1),
                 HalpExpiryDate = new DateTime(2013, 8,30),
                 ExpiryDate = new DateTime(2013, 10,30),
                 AcceptionDate = DateTime.Now,
                 PacksCount = 150},
-                    new StickerInfo() {Nomenclature = "Пиво светлое 0.5", Barcode = "ыва", CopiesQuantity = 1, Driver = "Жорняк", 
+                    new StickerInfo() {Nomenclature = "Пиво светлое 0.5", Barcode = "ыва",  Driver = "Жорняк", 
                 ReleaseDate = new DateTime(2013, 7,1),
                 HalpExpiryDate = new DateTime(2013, 8,30),
                 ExpiryDate = new DateTime(2013, 10,30),
                 AcceptionDate = DateTime.Now,
                 PacksCount = 150},
-                    new StickerInfo() {Nomenclature = "Пиво темное 0.5", Barcode = "ыва", CopiesQuantity = 1, Driver = "Жорняк", 
+                    new StickerInfo() {Nomenclature = "Пиво темное 0.5", Barcode = "ыва",  Driver = "Жорняк", 
                 ReleaseDate = new DateTime(2013, 7,1),
                 HalpExpiryDate = new DateTime(2013, 8,30),
                 ExpiryDate = new DateTime(2013, 10,30),

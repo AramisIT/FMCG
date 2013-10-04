@@ -63,7 +63,13 @@ namespace AtosFMCG.TouchScreen.Screens
         private static DataTable updateCarList(string enterValue)
             {
             Query query = DB.NewQuery(
-                    "SELECT Id,RTRIM(Description)Description FROM Cars WHERE Description like '%'+@CarNumber+'%'");
+                    @"
+select distinct pa.Car Id, RTRIM(c.Description) Description from PlannedArrival pa 
+join Cars c on c.Id = pa.Car
+where pa.State < 2 and pa.MarkForDeleting = 0 and c.Description like '%'+@CarNumber+'%'
+order by RTRIM(c.Description)
+");
+
             query.AddInputParameter("CarNumber", enterValue);
             DataTable table = query.SelectToTable();
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Windows.Documents;
 using Aramis.Attributes;
@@ -8,6 +9,7 @@ using Aramis.Platform;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
+using AtosFMCG.TouchScreen.PalletSticker;
 using Catalogs;
 
 namespace Documents
@@ -36,6 +38,27 @@ namespace Documents
                 }
             }
         private Guid z_Ref1C;
+
+        /// <summary>Стан документу</summary>
+        [DataField(Description = "Стан документу", ShowInList = true)]
+        public StatesOfDocument State
+            {
+            get
+                {
+                return z_State;
+                }
+            set
+                {
+                if (z_State == value)
+                    {
+                    return;
+                    }
+
+                z_State = value;
+                NotifyPropertyChanged("State");
+                }
+            }
+        private StatesOfDocument z_State;
 
         /// <summary>Вхідний номер/Номер накладної</summary>
         [DataField(Description = "№ накладної", ShowInList = true, NotEmpty = true)]
@@ -160,15 +183,15 @@ namespace Documents
         public DataColumn NomenclatureMeasure { get; set; }
 
         /// <summary>К-сть</summary>
-        [SubTableField(Description = "К-сть", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
+        [SubTableField(Description = "К-сть", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
         public DataColumn NomenclatureCount { get; set; }
 
         /// <summary>Ціна</summary>
-        [SubTableField(Description = "Ціна", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
+        [SubTableField(Description = "Ціна", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
         public DataColumn NomenclaturePrice { get; set; }
 
         /// <summary>Сума</summary>
-        [SubTableField(Description = "Сума", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2, StorageType = StorageTypes.Local)]
+        [SubTableField(Description = "Сума", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2, StorageType = StorageTypes.Local)]
         public DataColumn NomenclatureSum { get; set; }
 
         /// <summary>Партія</summary>
@@ -192,17 +215,17 @@ namespace Documents
         /// <summary>Од.вим.</summary>
         [SubTableField(Description = "Од.вим.", PropertyType = typeof(Measures))]
         public DataColumn TareMeasure { get; set; }
-        
+
         /// <summary>К-сть</summary>
-        [SubTableField(Description = "К-сть", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
+        [SubTableField(Description = "К-сть", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
         public DataColumn TareCount { get; set; }
 
         /// <summary>Ціна</summary>
-        [SubTableField(Description = "Ціна", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
+        [SubTableField(Description = "Ціна", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
         public DataColumn TarePrice { get; set; }
 
         /// <summary>Сума</summary>
-        [SubTableField(Description = "Сума", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2, StorageType = StorageTypes.Local)]
+        [SubTableField(Description = "Сума", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2, StorageType = StorageTypes.Local)]
         public DataColumn TareSum { get; set; }
 
         /// <summary>Партія</summary>
@@ -243,7 +266,7 @@ namespace Documents
 
         private void fillNomenclatureRowData(DataRow row)
             {
-            row[NomenclatureSum] = (double)row[NomenclatureCount] * (double)row[NomenclaturePrice];
+            row[NomenclatureSum] = (decimal)row[NomenclatureCount] * (decimal)row[NomenclaturePrice];
             }
 
         private void fillTareData()
@@ -256,7 +279,7 @@ namespace Documents
 
         private void fillTareRowData(DataRow row)
             {
-            row[TareSum] = (double)row[TareCount] * (double)row[TarePrice];
+            row[TareSum] = (decimal)row[TareCount] * (decimal)row[TarePrice];
             }
         #endregion
 
@@ -279,5 +302,97 @@ namespace Documents
                 }
             }
         #endregion
+
+        internal void PrintStickers()
+            {
+            var printTasks = createPrintTasks();
+            var stickersCreator = new StickersPrintingHelper(printTasks, ThermoPrinters.GetCurrentPrinterName());
+            stickersCreator.Print();
+            }
+
+        private List<StickerInfo> createPrintTasks()
+            {
+            var stickers = createStickers();
+            var result = new List<StickerInfo>();
+            stickers.ForEach(sticker =>
+                {
+                    var stickerInfo = new StickerInfo()
+                    {
+                        AcceptionDate = sticker.AcceptionDate,
+                        Barcode = sticker.Barcode,
+                        Driver = sticker.Driver.Description,
+                        ReleaseDate = sticker.ReleaseDate,
+                        ExpiryDate = sticker.ExpiryDate,
+                        HalpExpiryDate = sticker.HalpExpiryDate,
+                        Nomenclature = sticker.Nomenclature.Description,
+                        PacksCount = sticker.Quantity,
+                        Id = sticker.Id
+                    };
+                    result.Add(stickerInfo);
+                });
+
+            return result;
+            }
+
+        private List<Stickers> createStickers()
+            {
+            var result = new List<Stickers>();
+
+            foreach (DataRow row in NomenclatureInfo.Rows)
+                {
+                var nomenclatureCount = Convert.ToInt32(row[NomenclatureCount]);
+                var nomenclature = new Nomenclature();
+                nomenclature.Read((long)row[Nomenclature]);
+                var countInOnePalet = nomenclature.UnitsQuantityPerPallet;
+
+                var party = new Party();
+                party.Read((long)row[NomenclatureParty]);
+
+                var pallets = new List<int>();
+                while (nomenclatureCount > 0)
+                    {
+                    if (nomenclatureCount >= countInOnePalet)
+                        {
+                        nomenclatureCount -= countInOnePalet;
+                        pallets.Add(countInOnePalet);
+                        }
+                    else
+                        {
+                        pallets.Add(nomenclatureCount);
+                        nomenclatureCount = 0;
+                        }
+                    }
+
+                foreach (var unitsQuantity in pallets)
+                    {
+                    var newSticker = createSticker(nomenclature, party, unitsQuantity);
+                    if (newSticker == null)
+                        {
+                        return new List<Stickers>();
+                        }
+                    result.Add(newSticker);
+                    }
+                }
+
+            return result;
+            }
+
+        private Stickers createSticker(Nomenclature nomenclature, Party party, int unitsQuantity)
+            {
+            var sticker = new Stickers();
+            sticker.Nomenclature = nomenclature;
+            sticker.Quantity = unitsQuantity;
+            sticker.Driver = Driver;
+            sticker.AcceptionDate = Date;
+            sticker.ReleaseDate = party.DateOfManufacture;
+            sticker.ExpiryDate = party.TheDeadlineSuitability;
+            if (sticker.Write() != WritingResult.Success)
+                {
+                return null;
+                }
+            return sticker;
+            }
+
+
         }
     }

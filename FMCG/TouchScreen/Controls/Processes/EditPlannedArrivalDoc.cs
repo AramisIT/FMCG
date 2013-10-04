@@ -329,6 +329,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
 
             Document.TareInfo.Rows.Clear();
+            tareList = tareList ?? new List<NomenclatureData>();
             foreach (NomenclatureData data in tareList)
                 {
                 if (data.Description != null && data.Description.Id != 0)
@@ -359,6 +360,7 @@ namespace AtosFMCG.TouchScreen.Controls
             else
                 {
                 onFinish(true, Document);
+                Document.PrintStickers();
                 }
             }
         #endregion
@@ -657,7 +659,7 @@ namespace AtosFMCG.TouchScreen.Controls
                     {
                         LineNumber = Convert.ToInt64(row["LineNumber"]),
                         Description = new ObjectValue(FastInput.GetCashedData(typeof(Nomenclature).Name).GetDescription(nomemclatureId), nomemclatureId),
-                        Quantity = Convert.ToDouble(row[isTare ? Document.TareCount :Document.NomenclatureCount])
+                        Quantity = Convert.ToDecimal(row[isTare ? Document.TareCount : Document.NomenclatureCount])
                     };
 
                 if (!isTare)

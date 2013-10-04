@@ -19,8 +19,6 @@ namespace AtosFMCG.TouchScreen.PalletSticker
         public DateTime AcceptionDate { get; set; }
         public string Driver { get; set; }
 
-
-
-        public int CopiesQuantity { get; set; }
+        public long Id { get; set; }
         }
     }
