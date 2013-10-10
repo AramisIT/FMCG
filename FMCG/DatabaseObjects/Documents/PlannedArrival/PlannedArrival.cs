@@ -195,7 +195,7 @@ namespace Documents
         public DataColumn NomenclatureSum { get; set; }
 
         /// <summary>Партія</summary>
-        [SubTableField(Description = "Партія", PropertyType = typeof(Party))]
+        [SubTableField(Description = "Партія", PropertyType = typeof(Parties))]
         public DataColumn NomenclatureParty { get; set; }
         #endregion
 
@@ -229,7 +229,7 @@ namespace Documents
         public DataColumn TareSum { get; set; }
 
         /// <summary>Партія</summary>
-        [SubTableField(Description = "Партія", PropertyType = typeof(Party))]
+        [SubTableField(Description = "Партія", PropertyType = typeof(Parties))]
         public DataColumn TareParty { get; set; }
         #endregion
         #endregion
@@ -345,7 +345,7 @@ namespace Documents
                 nomenclature.Read((long)row[Nomenclature]);
                 var countInOnePalet = nomenclature.UnitsQuantityPerPallet;
 
-                var party = new Party();
+                var party = new Parties();
                 party.Read((long)row[NomenclatureParty]);
 
                 var pallets = new List<int>();
@@ -377,7 +377,7 @@ namespace Documents
             return result;
             }
 
-        private Stickers createSticker(Nomenclature nomenclature, Party party, int unitsQuantity)
+        private Stickers createSticker(Nomenclature nomenclature, Parties party, int unitsQuantity)
             {
             var sticker = new Stickers();
             sticker.Nomenclature = nomenclature;

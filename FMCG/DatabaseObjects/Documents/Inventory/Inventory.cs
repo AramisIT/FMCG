@@ -161,7 +161,7 @@ namespace Documents
         public DataColumn FactValue { get; set; }
 
         /// <summary>Партія</summary>
-        [SubTableField(Description = "Партія", PropertyType = typeof(Party))]
+        [SubTableField(Description = "Партія", PropertyType = typeof(Parties))]
         public DataColumn Party { get; set; }
 
         /// <summary>Комірка</summary>
@@ -233,7 +233,7 @@ WHERE g.WritingDate BETWEEN @StartDate AND @FinishDate");
                     newRow.SetRefValueToRowCell(this, Measure, row[Measure.ColumnName], typeof(Measures));
                     newRow[PlanValue] = row[PlanValue.ColumnName];
                     newRow.SetRefValueToRowCell(this, Cell, row[Cell.ColumnName], typeof(Cells));
-                    newRow.SetRefValueToRowCell(this, Party, row[Party.ColumnName], typeof(Party));
+                    newRow.SetRefValueToRowCell(this, Party, row[Party.ColumnName], typeof(Parties));
                     newRow.AddRowToTable(this);
                     }
                 }

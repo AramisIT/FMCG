@@ -126,7 +126,7 @@ WHERE d.BottleCount<>0 OR d.BoxCount<>0");
 FROM Inventory i
 JOIN SubInventoryNomenclatureInfo n ON n.IdDoc=i.Id
 LEFT JOIN Nomenclature nd ON nd.Id=n.Nomenclature
-LEFT JOIN Party p ON p.Id=n.Party
+LEFT JOIN Parties p ON p.Id=n.Party
 LEFT JOIN Measures m ON m.Id=n.Measure
 LEFT JOIN ClassifierUnits u ON u.Id=m.Classifier
 LEFT JOIN Cells c ON c.Id=n.Cell
@@ -259,7 +259,7 @@ PreparedData AS (
 	SELECT d.Id,d.Code,RTRIM(n.Description) Goods,CONVERT(VARCHAR(10),p.DateOfManufacture,104)Date,BoxCount,UnitCount,m.BaseCount,RTRIM(c.Description)Cell
 	FROM PreparedData d
 	LEFT JOIN Nomenclature n ON n.Id=d.Nomenclature
-	LEFT JOIN Party p ON p.Id=d.Party
+	LEFT JOIN Parties p ON p.Id=d.Party
 	LEFT JOIN Measures m ON m.Nomenclature=n.Id AND m.Classifier=@Box
 	LEFT JOIN Cells c ON c.Id=d.Cell)
 ,OrderDate AS (
@@ -318,7 +318,7 @@ ORDER BY o.RowNumber");
                                                         out long incomeDoc, out string date, out long cellId,
                                                         out string cell, out long palett)
             {
-            DateTime dateTime = Party.GetDateOfManufactureById(party);
+            DateTime dateTime = Parties.GetDateOfManufactureById(party);
             date = dateTime.ToShortDateString();
             KeyValuePair<long, string> cellData;
             Cells.GetNewCellForGoods(goods, dateTime, out cellData, out palett);

@@ -168,7 +168,7 @@ namespace Documents
         public DataColumn Quantity { get; set; }
 
         /// <summary>Партія</summary>
-        [SubTableField(Description = "Партія", PropertyType = typeof(Party))]
+        [SubTableField(Description = "Партія", PropertyType = typeof(Parties))]
         public DataColumn Party { get; set; }
         #endregion
         #endregion
@@ -309,7 +309,7 @@ FROM PreparedData");
                     newRow[movement.NomenclatureCode] = row["UniqueCode"];
                     newRow.SetRefValueToRowCell(movement, movement.Nomenclature, info.Nomenclature, typeof(Nomenclature));
                     newRow.SetRefValueToRowCell(movement, movement.NomenclatureMeasure, info.Measure, typeof(Measures));
-                    newRow.SetRefValueToRowCell(movement, movement.NomenclatureParty, info.Party, typeof(Party));
+                    newRow.SetRefValueToRowCell(movement, movement.NomenclatureParty, info.Party, typeof(Parties));
                     newRow[movement.NomenclatureCount] = quantity;
                     newRow.SetRefValueToRowCell(movement, movement.SourceCell, row["Cell"], typeof(Cells));
                     newRow.SetRefValueToRowCell(movement, movement.DestinationCell, Cells.Buyout.Id, typeof(Cells));

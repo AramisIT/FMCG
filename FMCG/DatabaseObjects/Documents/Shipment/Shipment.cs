@@ -171,7 +171,7 @@ namespace Documents
         public DataColumn Cell { get; set; }
 
         /// <summary>Партія</summary>
-        [SubTableField(Description = "Партія", PropertyType = typeof(Party))]
+        [SubTableField(Description = "Партія", PropertyType = typeof(Parties))]
         public DataColumn Party { get; set; }
 
         /// <summary>Тара</summary>

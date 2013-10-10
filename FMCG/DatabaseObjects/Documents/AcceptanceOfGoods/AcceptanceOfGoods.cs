@@ -223,7 +223,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         public DataColumn NomenclatureCell { get; set; }
 
         /// <summary>Партія</summary>
-        [SubTableField(Description = "Партія", PropertyType = typeof(Party))]
+        [SubTableField(Description = "Партія", PropertyType = typeof(Parties))]
         public DataColumn NomenclatureParty { get; set; }
 
         /// <summary>Тара</summary>
@@ -305,7 +305,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
                 }
             else
                 {
-                Party party = new Party();
+                Parties party = new Parties();
                 party.Read(partyId);
                 partyDic.Add(partyId, party.DateOfManufacture);
                 row[NomenclatureDate] = party.DateOfManufacture;

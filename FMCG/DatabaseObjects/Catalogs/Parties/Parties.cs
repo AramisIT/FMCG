@@ -9,7 +9,7 @@ namespace Catalogs
     {
     /// <summary>Партії</summary>
     [Catalog(Description = "Партії", GUID = "AEDDF72B-5CD8-4702-A464-A8439D345D11")]
-    public class Party : CatalogTable, ISyncWith1C
+    public class Parties : CatalogTable, ISyncWith1C
         {
         #region Properties
         /// <summary>Посилання 1С</summary>
@@ -151,7 +151,7 @@ namespace Catalogs
         #region static
         public static DateTime GetDateOfManufactureById(long partyId)
             {
-            Query query = DB.NewQuery("SELECT DateOfManufacture FROM Party WHERE Id=@Id");
+            Query query = DB.NewQuery("SELECT DateOfManufacture FROM Parties WHERE Id=@Id");
             query.AddInputParameter("Id", partyId);
             object date = query.SelectScalar();
 

@@ -9,7 +9,7 @@ using DevExpress.XtraBars.Ribbon;
 namespace AtosFMCG.DatabaseObjects.Catalogs
     {
     [View(DBObjectGuid = "AEDDF72B-5CD8-4702-A464-A8439D345D11", ViewType = ViewFormType.CatalogItem)]
-    public partial class PartyItemsForm : RibbonForm, IItemForm
+    public partial class PartiesItemsForm : RibbonForm, IItemForm
         {
         #region Firlds
         private CatalogTable item;
@@ -18,10 +18,10 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
             get { return item; }
             set { item = (CatalogTable)value; }
             }
-        public Party Catalog { get { return (Party)Item; } }
+        public Parties Catalog { get { return (Parties)Item; } }
         #endregion
 
-        public PartyItemsForm()
+        public PartiesItemsForm()
             {
             InitializeComponent();
             }

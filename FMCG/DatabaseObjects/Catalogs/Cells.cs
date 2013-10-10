@@ -80,7 +80,7 @@ AllowedCells AS (
 	SELECT DISTINCT f.PalletCode,f.PreviousCode,a.NomenclatureCell,p.DateOfManufacture NomenclatureDate
 	FROM FilledCell f
 	JOIN SubAcceptanceOfGoodsNomenclatureInfo a ON f.PalletCode=a.NomenclatureCode
-	JOIN Party p ON p.Id=a.NomenclatureParty
+	JOIN Parties p ON p.Id=a.NomenclatureParty
 	WHERE a.Nomenclature=@Goods)
 --
 ,PreparedData AS (

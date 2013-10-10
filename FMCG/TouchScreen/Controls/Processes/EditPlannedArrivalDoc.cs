@@ -265,15 +265,15 @@ namespace AtosFMCG.TouchScreen.Controls
 
         #region Save
         /// <summary>Отримати словник партій для всієї таблиці</summary>
-        private Dictionary<long, Party> gaetPartyForTable()
+        private Dictionary<long, Parties> gaetPartyForTable()
             {
-            Dictionary<long, Party> partyDic = new Dictionary<long, Party>();
+            Dictionary<long, Parties> partyDic = new Dictionary<long, Parties>();
 
             foreach (NomenclatureData element in waresList)
                 {
                 if (element.Description != null && !partyDic.ContainsKey(element.Description.Id))
                     {
-                    Party party = getPartyForNomenclatureByDate(element.Date, element.Description.Id);
+                    Parties party = getPartyForNomenclatureByDate(element.Date, element.Description.Id);
                     partyDic.Add(element.Description.Id, party);
                     }
                 }
@@ -285,13 +285,13 @@ namespace AtosFMCG.TouchScreen.Controls
         /// <param name="date">Дата</param>
         /// <param name="nomenclature">Номенлатура</param>
         /// <returns>Партія</returns>
-        private Party getPartyForNomenclatureByDate(DateTime date, long nomenclature)
+        private Parties getPartyForNomenclatureByDate(DateTime date, long nomenclature)
             {
-            Query query = DB.NewQuery(@"SELECT Id FROM Party WHERE Nomenclature=@Nomenclature AND CAST(DateOfManufacture AS DATE)=@Date");
+            Query query = DB.NewQuery(@"SELECT Id FROM Parties WHERE Nomenclature=@Nomenclature AND CAST(DateOfManufacture AS DATE)=@Date");
             query.AddInputParameter("Date", date.Date);
             query.AddInputParameter("Nomenclature", nomenclature);
             object id = query.SelectScalar();
-            Party party = new Party();
+            Parties party = new Parties();
 
             if (id == null)
                 {
@@ -311,7 +311,7 @@ namespace AtosFMCG.TouchScreen.Controls
         /// <summary>Конвертація списку елементів в таблицю</summary>
         private void convertListsToTables()
             {
-            Dictionary<long, Party> partyDic = gaetPartyForTable();
+            Dictionary<long, Parties> partyDic = gaetPartyForTable();
             Document.NomenclatureInfo.Rows.Clear();
             foreach (NomenclatureData data in waresList)
                 {
@@ -664,7 +664,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
                 if (!isTare)
                     {
-                    Party party = new Party();
+                    Parties party = new Parties();
                     party.Read(row[Document.NomenclatureParty]);
                     element.Date = party.DateOfManufacture;
                     }

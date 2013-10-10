@@ -28,7 +28,7 @@ FROM(
 	LEFT JOIN SubAcceptanceOfGoodsNomenclatureInfo a ON a.NomenclatureCode=f.PalletCode
 	LEFT JOIN AcceptanceOfGoods d ON d.Id=a.IdDoc
 	LEFT JOIN Nomenclature n ON n.Id=a.Nomenclature
-	LEFT JOIN Party p ON p.Id=a.NomenclatureParty
+	LEFT JOIN Parties p ON p.Id=a.NomenclatureParty
 	LEFT JOIN StockBalance b ON b.UniqueCode=f.PalletCode
 	LEFT JOIN Cells c ON c.Id=b.Cell)t
 WHERE t.RowNumber=1 AND Cell IS NOT NULL
