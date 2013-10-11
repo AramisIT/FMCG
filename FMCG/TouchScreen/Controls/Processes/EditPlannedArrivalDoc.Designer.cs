@@ -41,6 +41,7 @@
             this.Description = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Quantity = new DevExpress.XtraGrid.Columns.GridColumn();
             this.Date = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.shelfLifeDaysGridColumn = new DevExpress.XtraGrid.Columns.GridColumn();
             this.editPanel = new System.Windows.Forms.Panel();
             this.selectedRowInfo = new System.Windows.Forms.Label();
             this.finishEditMode = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
@@ -60,6 +61,7 @@
             // 
             this.editMode.BackColor = System.Drawing.Color.Bisque;
             this.editMode.Background = System.Drawing.Color.Bisque;
+            this.editMode.Font = new System.Drawing.Font("Tahoma", 8F);
             this.editMode.Ico = global::FMCG.Properties.Resources.edit;
             this.editMode.Image = global::FMCG.Properties.Resources.edit;
             this.editMode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -161,7 +163,7 @@
             // 
             this.save.BackColor = System.Drawing.Color.LightGreen;
             this.save.Background = System.Drawing.Color.LightGreen;
-            this.save.Font = new System.Drawing.Font("Tahoma", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.save.Font = new System.Drawing.Font("Tahoma", 8F);
             this.save.Ico = global::FMCG.Properties.Resources.save;
             this.save.Image = global::FMCG.Properties.Resources.save;
             this.save.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -215,7 +217,8 @@
             this.LineNumber,
             this.Description,
             this.Quantity,
-            this.Date});
+            this.Date,
+            this.shelfLifeDaysGridColumn});
             this.gridView.GridControl = this.grid;
             this.gridView.Name = "gridView";
             this.gridView.OptionsBehavior.Editable = false;
@@ -225,6 +228,7 @@
             this.gridView.RowHeight = 65;
             this.gridView.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_RowClick);
             this.gridView.FocusedColumnChanged += new DevExpress.XtraGrid.Views.Base.FocusedColumnChangedEventHandler(this.gridView_FocusedColumnChanged);
+            this.gridView.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridView_CustomColumnDisplayText);
             // 
             // LineNumber
             // 
@@ -242,7 +246,7 @@
             // 
             // Description
             // 
-            this.Description.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.Description.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Description.AppearanceCell.Options.UseFont = true;
             this.Description.Caption = "Найменування";
             this.Description.FieldName = "Description";
@@ -259,12 +263,12 @@
             this.Quantity.AppearanceCell.Options.UseFont = true;
             this.Quantity.AppearanceCell.Options.UseTextOptions = true;
             this.Quantity.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.Quantity.Caption = "К-сть";
+            this.Quantity.Caption = "К-ть";
             this.Quantity.FieldName = "Quantity";
             this.Quantity.Name = "Quantity";
             this.Quantity.Visible = true;
             this.Quantity.VisibleIndex = 2;
-            this.Quantity.Width = 90;
+            this.Quantity.Width = 67;
             // 
             // Date
             // 
@@ -277,7 +281,20 @@
             this.Date.Name = "Date";
             this.Date.Visible = true;
             this.Date.VisibleIndex = 3;
-            this.Date.Width = 125;
+            this.Date.Width = 80;
+            // 
+            // shelfLifeDaysGridColumn
+            // 
+            this.shelfLifeDaysGridColumn.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.shelfLifeDaysGridColumn.AppearanceCell.Options.UseFont = true;
+            this.shelfLifeDaysGridColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.shelfLifeDaysGridColumn.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            this.shelfLifeDaysGridColumn.Caption = "Срок хранения";
+            this.shelfLifeDaysGridColumn.FieldName = "ShelfLifeDays";
+            this.shelfLifeDaysGridColumn.Name = "shelfLifeDaysGridColumn";
+            this.shelfLifeDaysGridColumn.Visible = true;
+            this.shelfLifeDaysGridColumn.VisibleIndex = 4;
+            this.shelfLifeDaysGridColumn.Width = 70;
             // 
             // editPanel
             // 
@@ -482,5 +499,6 @@
         private System.Windows.Forms.Button exit;
         private NavigatedButton waresButton;
         private NavigatedButton tareButton;
+        private DevExpress.XtraGrid.Columns.GridColumn shelfLifeDaysGridColumn;
         }
     }

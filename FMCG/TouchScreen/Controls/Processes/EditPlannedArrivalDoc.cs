@@ -265,7 +265,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
         #region Save
         /// <summary>Отримати словник партій для всієї таблиці</summary>
-        private Dictionary<long, Parties> gaetPartyForTable()
+        private Dictionary<long, Parties> getPartyForTable()
             {
             Dictionary<long, Parties> partyDic = new Dictionary<long, Parties>();
 
@@ -311,7 +311,7 @@ namespace AtosFMCG.TouchScreen.Controls
         /// <summary>Конвертація списку елементів в таблицю</summary>
         private void convertListsToTables()
             {
-            Dictionary<long, Parties> partyDic = gaetPartyForTable();
+            Dictionary<long, Parties> partyDic = getPartyForTable();
             Document.NomenclatureInfo.Rows.Clear();
             foreach (NomenclatureData data in waresList)
                 {
@@ -670,6 +670,14 @@ namespace AtosFMCG.TouchScreen.Controls
                     }
 
                 list.Add(element);
+                }
+            }
+
+        private void gridView_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
+            {
+            if (e.Column == Quantity)
+                {
+                e.DisplayText = ((int)Math.Round(Convert.ToDecimal(e.Value), 0)).ToString();
                 }
             }
         }
