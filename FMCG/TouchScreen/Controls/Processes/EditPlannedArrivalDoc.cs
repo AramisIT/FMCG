@@ -41,8 +41,8 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             get
                 {
-                return gridView.FocusedRowHandle <= list.Count && gridView.FocusedRowHandle >= 0
-                           ? list[gridView.FocusedRowHandle]
+                return mainView.FocusedRowHandle <= list.Count && mainView.FocusedRowHandle >= 0
+                           ? list[mainView.FocusedRowHandle]
                            : null;
                 }
             }
@@ -382,7 +382,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
         private void gridView_RowClick(object sender, RowClickEventArgs e)
             {
-            GridHitInfo hitInfo = gridView.CalcHitInfo(new Point(e.X, e.Y));
+            GridHitInfo hitInfo = mainView.CalcHitInfo(new Point(e.X, e.Y));
 
             if (ModifierKeys != Keys.None)
                 {
@@ -419,7 +419,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
             if (currSelectedRow != null)
                 {
-                EditedColumns selectedColumn = (EditedColumns)gridView.FocusedColumn.VisibleIndex;
+                EditedColumns selectedColumn = (EditedColumns)mainView.FocusedColumn.VisibleIndex;
 
                 switch (selectedColumn)
                     {
@@ -673,7 +673,7 @@ namespace AtosFMCG.TouchScreen.Controls
                 }
             }
 
-        private void gridView_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
+        private void mainView_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
             {
             if (e.Column == Quantity)
                 {

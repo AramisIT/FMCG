@@ -36,12 +36,12 @@
             this.editControlsArea = new System.Windows.Forms.Panel();
             this.save = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.grid = new DevExpress.XtraGrid.GridControl();
-            this.gridView = new DevExpress.XtraGrid.Views.Grid.GridView();
-            this.LineNumber = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Description = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Quantity = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.Date = new DevExpress.XtraGrid.Columns.GridColumn();
-            this.shelfLifeDaysGridColumn = new DevExpress.XtraGrid.Columns.GridColumn();
+            this.mainView = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
+            this.LineNumber = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.Description = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.Quantity = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.Date = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.shelfLifeDaysGridColumn = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.editPanel = new System.Windows.Forms.Panel();
             this.selectedRowInfo = new System.Windows.Forms.Label();
             this.finishEditMode = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
@@ -52,8 +52,10 @@
             this.exit = new System.Windows.Forms.Button();
             this.waresButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.tareButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
+            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainView)).BeginInit();
             this.editPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -181,58 +183,60 @@
             // grid
             // 
             this.grid.Location = new System.Drawing.Point(3, 3);
-            this.grid.MainView = this.gridView;
+            this.grid.MainView = this.mainView;
             this.grid.Name = "grid";
             this.grid.Size = new System.Drawing.Size(425, 559);
             this.grid.TabIndex = 43;
             this.grid.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView});
+            this.mainView});
             // 
-            // gridView
+            // mainView
             // 
-            this.gridView.Appearance.FocusedCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(245)))), ((int)(((byte)(255)))));
-            this.gridView.Appearance.FocusedCell.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
-            this.gridView.Appearance.FocusedCell.Options.UseBackColor = true;
-            this.gridView.Appearance.FocusedCell.Options.UseFont = true;
-            this.gridView.Appearance.FocusedRow.BackColor = System.Drawing.Color.White;
-            this.gridView.Appearance.FocusedRow.BackColor2 = System.Drawing.Color.White;
-            this.gridView.Appearance.FocusedRow.ForeColor = System.Drawing.Color.Black;
-            this.gridView.Appearance.FocusedRow.Options.UseBackColor = true;
-            this.gridView.Appearance.FocusedRow.Options.UseForeColor = true;
-            this.gridView.Appearance.HeaderPanel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
-            this.gridView.Appearance.HeaderPanel.Options.UseFont = true;
-            this.gridView.Appearance.HeaderPanel.Options.UseTextOptions = true;
-            this.gridView.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.gridView.Appearance.HideSelectionRow.BackColor = System.Drawing.Color.White;
-            this.gridView.Appearance.HideSelectionRow.BackColor2 = System.Drawing.Color.White;
-            this.gridView.Appearance.HideSelectionRow.ForeColor = System.Drawing.Color.Black;
-            this.gridView.Appearance.HideSelectionRow.Options.UseBackColor = true;
-            this.gridView.Appearance.HideSelectionRow.Options.UseForeColor = true;
-            this.gridView.Appearance.SelectedRow.BackColor = System.Drawing.Color.White;
-            this.gridView.Appearance.SelectedRow.BackColor2 = System.Drawing.Color.White;
-            this.gridView.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
-            this.gridView.Appearance.SelectedRow.Options.UseBackColor = true;
-            this.gridView.Appearance.SelectedRow.Options.UseForeColor = true;
-            this.gridView.Columns.AddRange(new DevExpress.XtraGrid.Columns.GridColumn[] {
+            this.mainView.Appearance.FocusedCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(245)))), ((int)(((byte)(255)))));
+            this.mainView.Appearance.FocusedCell.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.mainView.Appearance.FocusedCell.Options.UseBackColor = true;
+            this.mainView.Appearance.FocusedCell.Options.UseFont = true;
+            this.mainView.Appearance.FocusedRow.BackColor = System.Drawing.Color.White;
+            this.mainView.Appearance.FocusedRow.BackColor2 = System.Drawing.Color.White;
+            this.mainView.Appearance.FocusedRow.ForeColor = System.Drawing.Color.Black;
+            this.mainView.Appearance.FocusedRow.Options.UseBackColor = true;
+            this.mainView.Appearance.FocusedRow.Options.UseForeColor = true;
+            this.mainView.Appearance.HeaderPanel.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.mainView.Appearance.HeaderPanel.Options.UseFont = true;
+            this.mainView.Appearance.HeaderPanel.Options.UseTextOptions = true;
+            this.mainView.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.mainView.Appearance.HideSelectionRow.BackColor = System.Drawing.Color.White;
+            this.mainView.Appearance.HideSelectionRow.BackColor2 = System.Drawing.Color.White;
+            this.mainView.Appearance.HideSelectionRow.ForeColor = System.Drawing.Color.Black;
+            this.mainView.Appearance.HideSelectionRow.Options.UseBackColor = true;
+            this.mainView.Appearance.HideSelectionRow.Options.UseForeColor = true;
+            this.mainView.Appearance.SelectedRow.BackColor = System.Drawing.Color.White;
+            this.mainView.Appearance.SelectedRow.BackColor2 = System.Drawing.Color.White;
+            this.mainView.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
+            this.mainView.Appearance.SelectedRow.Options.UseBackColor = true;
+            this.mainView.Appearance.SelectedRow.Options.UseForeColor = true;
+            this.mainView.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
+            this.gridBand1,
+            this.gridBand2});
+            this.mainView.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
             this.LineNumber,
             this.Description,
             this.Quantity,
             this.Date,
             this.shelfLifeDaysGridColumn});
-            this.gridView.GridControl = this.grid;
-            this.gridView.Name = "gridView";
-            this.gridView.OptionsBehavior.Editable = false;
-            this.gridView.OptionsBehavior.ReadOnly = true;
-            this.gridView.OptionsView.ShowGroupPanel = false;
-            this.gridView.OptionsView.ShowIndicator = false;
-            this.gridView.RowHeight = 65;
-            this.gridView.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.gridView_RowClick);
-            this.gridView.FocusedColumnChanged += new DevExpress.XtraGrid.Views.Base.FocusedColumnChangedEventHandler(this.gridView_FocusedColumnChanged);
-            this.gridView.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.gridView_CustomColumnDisplayText);
+            this.mainView.GridControl = this.grid;
+            this.mainView.Name = "mainView";
+            this.mainView.OptionsBehavior.Editable = false;
+            this.mainView.OptionsBehavior.ReadOnly = true;
+            this.mainView.OptionsView.ShowBands = false;
+            this.mainView.OptionsView.ShowGroupPanel = false;
+            this.mainView.OptionsView.ShowIndicator = false;
+            this.mainView.RowHeight = 30;
+            this.mainView.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.mainView_CustomColumnDisplayText);
             // 
             // LineNumber
             // 
-            this.LineNumber.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.LineNumber.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.LineNumber.AppearanceCell.Options.UseFont = true;
             this.LineNumber.AppearanceCell.Options.UseTextOptions = true;
             this.LineNumber.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -240,39 +244,38 @@
             this.LineNumber.FieldName = "LineNumber";
             this.LineNumber.Name = "LineNumber";
             this.LineNumber.OptionsColumn.AllowFocus = false;
+            this.LineNumber.RowCount = 2;
             this.LineNumber.Visible = true;
-            this.LineNumber.VisibleIndex = 0;
-            this.LineNumber.Width = 37;
+            this.LineNumber.Width = 33;
             // 
             // Description
             // 
-            this.Description.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Description.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F);
             this.Description.AppearanceCell.Options.UseFont = true;
             this.Description.Caption = "Найменування";
             this.Description.FieldName = "Description";
             this.Description.Name = "Description";
-            this.Description.OptionsColumn.AllowEdit = false;
             this.Description.OptionsColumn.ReadOnly = true;
+            this.Description.RowCount = 2;
             this.Description.Visible = true;
-            this.Description.VisibleIndex = 1;
-            this.Description.Width = 264;
+            this.Description.Width = 230;
             // 
             // Quantity
             // 
-            this.Quantity.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.Quantity.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Quantity.AppearanceCell.Options.UseFont = true;
             this.Quantity.AppearanceCell.Options.UseTextOptions = true;
             this.Quantity.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.Quantity.Caption = "К-ть";
             this.Quantity.FieldName = "Quantity";
             this.Quantity.Name = "Quantity";
+            this.Quantity.RowCount = 2;
             this.Quantity.Visible = true;
-            this.Quantity.VisibleIndex = 2;
             this.Quantity.Width = 67;
             // 
             // Date
             // 
-            this.Date.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 12F);
+            this.Date.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Date.AppearanceCell.Options.UseFont = true;
             this.Date.AppearanceCell.Options.UseTextOptions = true;
             this.Date.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
@@ -280,21 +283,23 @@
             this.Date.FieldName = "Date";
             this.Date.Name = "Date";
             this.Date.Visible = true;
-            this.Date.VisibleIndex = 3;
-            this.Date.Width = 80;
+            this.Date.Width = 95;
             // 
             // shelfLifeDaysGridColumn
             // 
-            this.shelfLifeDaysGridColumn.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.shelfLifeDaysGridColumn.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.shelfLifeDaysGridColumn.AppearanceCell.Options.UseFont = true;
+            this.shelfLifeDaysGridColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.shelfLifeDaysGridColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.shelfLifeDaysGridColumn.AppearanceHeader.Options.UseTextOptions = true;
+            this.shelfLifeDaysGridColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.shelfLifeDaysGridColumn.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
-            this.shelfLifeDaysGridColumn.Caption = "Срок хранения";
+            this.shelfLifeDaysGridColumn.Caption = "Срок хран. дни";
             this.shelfLifeDaysGridColumn.FieldName = "ShelfLifeDays";
             this.shelfLifeDaysGridColumn.Name = "shelfLifeDaysGridColumn";
+            this.shelfLifeDaysGridColumn.RowIndex = 1;
             this.shelfLifeDaysGridColumn.Visible = true;
-            this.shelfLifeDaysGridColumn.VisibleIndex = 4;
-            this.shelfLifeDaysGridColumn.Width = 70;
+            this.shelfLifeDaysGridColumn.Width = 95;
             // 
             // editPanel
             // 
@@ -448,6 +453,23 @@
             this.tareButton.UseVisualStyleBackColor = false;
             this.tareButton.Click += new System.EventHandler(this.tareButton_Click);
             // 
+            // gridBand1
+            // 
+            this.gridBand1.Caption = "gridBand1";
+            this.gridBand1.Columns.Add(this.LineNumber);
+            this.gridBand1.Columns.Add(this.Description);
+            this.gridBand1.Columns.Add(this.Quantity);
+            this.gridBand1.Name = "gridBand1";
+            this.gridBand1.Width = 328;
+            // 
+            // gridBand2
+            // 
+            this.gridBand2.Caption = "gridBand2";
+            this.gridBand2.Columns.Add(this.Date);
+            this.gridBand2.Columns.Add(this.shelfLifeDaysGridColumn);
+            this.gridBand2.Name = "gridBand2";
+            this.gridBand2.Width = 95;
+            // 
             // EditPlannedArrivalDoc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -468,7 +490,7 @@
             this.Size = new System.Drawing.Size(1014, 763);
             this.Load += new System.EventHandler(this.EditPlannedArrivalDoc_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainView)).EndInit();
             this.editPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -484,11 +506,6 @@
         private System.Windows.Forms.Panel editControlsArea;
         private NavigatedButton save;
         private DevExpress.XtraGrid.GridControl grid;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView;
-        private DevExpress.XtraGrid.Columns.GridColumn Description;
-        private DevExpress.XtraGrid.Columns.GridColumn LineNumber;
-        private DevExpress.XtraGrid.Columns.GridColumn Quantity;
-        private DevExpress.XtraGrid.Columns.GridColumn Date;
         private System.Windows.Forms.Panel editPanel;
         private NavigatedButton finishEditMode;
         private System.Windows.Forms.Label label3;
@@ -499,6 +516,13 @@
         private System.Windows.Forms.Button exit;
         private NavigatedButton waresButton;
         private NavigatedButton tareButton;
-        private DevExpress.XtraGrid.Columns.GridColumn shelfLifeDaysGridColumn;
+        private DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView mainView;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn LineNumber;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Description;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Quantity;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Date;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn shelfLifeDaysGridColumn;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
         }
     }
