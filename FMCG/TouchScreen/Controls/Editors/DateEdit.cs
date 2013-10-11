@@ -24,7 +24,7 @@ namespace AtosFMCG.TouchScreen.Controls
                 {
                 if (z_currentDate != value || z_currentDate == DateTime.MinValue)
                     {
-                    if (z_currentDate != DateTime.MinValue)
+                    //if (z_currentDate != DateTime.MinValue)
                         {
                         OnDateIsChanged(new ValueIsChangedArgs<DateTime>(value));
                         }

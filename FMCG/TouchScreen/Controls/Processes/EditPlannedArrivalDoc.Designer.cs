@@ -37,9 +37,11 @@
             this.save = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.grid = new DevExpress.XtraGrid.GridControl();
             this.mainView = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
+            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.LineNumber = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Description = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Quantity = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.Date = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.shelfLifeDaysGridColumn = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.editPanel = new System.Windows.Forms.Panel();
@@ -52,8 +54,6 @@
             this.exit = new System.Windows.Forms.Button();
             this.waresButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.tareButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
-            this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainView)).BeginInit();
             this.editPanel.SuspendLayout();
@@ -232,7 +232,18 @@
             this.mainView.OptionsView.ShowGroupPanel = false;
             this.mainView.OptionsView.ShowIndicator = false;
             this.mainView.RowHeight = 30;
+            this.mainView.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.mainView_RowClick);
+            this.mainView.FocusedColumnChanged += new DevExpress.XtraGrid.Views.Base.FocusedColumnChangedEventHandler(this.mainView_FocusedColumnChanged);
             this.mainView.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.mainView_CustomColumnDisplayText);
+            // 
+            // gridBand1
+            // 
+            this.gridBand1.Caption = "gridBand1";
+            this.gridBand1.Columns.Add(this.LineNumber);
+            this.gridBand1.Columns.Add(this.Description);
+            this.gridBand1.Columns.Add(this.Quantity);
+            this.gridBand1.Name = "gridBand1";
+            this.gridBand1.Width = 328;
             // 
             // LineNumber
             // 
@@ -246,7 +257,7 @@
             this.LineNumber.OptionsColumn.AllowFocus = false;
             this.LineNumber.RowCount = 2;
             this.LineNumber.Visible = true;
-            this.LineNumber.Width = 33;
+            this.LineNumber.Width = 32;
             // 
             // Description
             // 
@@ -258,7 +269,7 @@
             this.Description.OptionsColumn.ReadOnly = true;
             this.Description.RowCount = 2;
             this.Description.Visible = true;
-            this.Description.Width = 230;
+            this.Description.Width = 228;
             // 
             // Quantity
             // 
@@ -271,7 +282,15 @@
             this.Quantity.Name = "Quantity";
             this.Quantity.RowCount = 2;
             this.Quantity.Visible = true;
-            this.Quantity.Width = 67;
+            this.Quantity.Width = 68;
+            // 
+            // gridBand2
+            // 
+            this.gridBand2.Caption = "gridBand2";
+            this.gridBand2.Columns.Add(this.Date);
+            this.gridBand2.Columns.Add(this.shelfLifeDaysGridColumn);
+            this.gridBand2.Name = "gridBand2";
+            this.gridBand2.Width = 92;
             // 
             // Date
             // 
@@ -280,10 +299,12 @@
             this.Date.AppearanceCell.Options.UseTextOptions = true;
             this.Date.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.Date.Caption = "Дата";
+            this.Date.DisplayFormat.FormatString = "d";
+            this.Date.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.Date.FieldName = "Date";
             this.Date.Name = "Date";
             this.Date.Visible = true;
-            this.Date.Width = 95;
+            this.Date.Width = 92;
             // 
             // shelfLifeDaysGridColumn
             // 
@@ -299,7 +320,7 @@
             this.shelfLifeDaysGridColumn.Name = "shelfLifeDaysGridColumn";
             this.shelfLifeDaysGridColumn.RowIndex = 1;
             this.shelfLifeDaysGridColumn.Visible = true;
-            this.shelfLifeDaysGridColumn.Width = 95;
+            this.shelfLifeDaysGridColumn.Width = 92;
             // 
             // editPanel
             // 
@@ -452,23 +473,6 @@
             this.tareButton.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
             this.tareButton.UseVisualStyleBackColor = false;
             this.tareButton.Click += new System.EventHandler(this.tareButton_Click);
-            // 
-            // gridBand1
-            // 
-            this.gridBand1.Caption = "gridBand1";
-            this.gridBand1.Columns.Add(this.LineNumber);
-            this.gridBand1.Columns.Add(this.Description);
-            this.gridBand1.Columns.Add(this.Quantity);
-            this.gridBand1.Name = "gridBand1";
-            this.gridBand1.Width = 328;
-            // 
-            // gridBand2
-            // 
-            this.gridBand2.Caption = "gridBand2";
-            this.gridBand2.Columns.Add(this.Date);
-            this.gridBand2.Columns.Add(this.shelfLifeDaysGridColumn);
-            this.gridBand2.Name = "gridBand2";
-            this.gridBand2.Width = 95;
             // 
             // EditPlannedArrivalDoc
             // 

@@ -23,7 +23,7 @@ namespace AtosFMCG.TouchScreen.Controls
         {
         #region Veriables
         /// <summary>Колонки таблиці для редагування</summary>
-        private enum EditedColumns { Description = 1, Quantity, Date }
+        private enum EditedColumns { Description = 1, Quantity, Date, ShelfLife }
         /// <summary>Максимальна к-сть літер, що відображається в кнопці</summary>
         private const int MAX_BTN_TEXT_LENGTH = 13;
         /// <summary>Документ "План приходу"</summary>
@@ -273,7 +273,7 @@ namespace AtosFMCG.TouchScreen.Controls
                 {
                 if (element.Description != null && !partyDic.ContainsKey(element.Description.Id))
                     {
-                    Parties party = getPartyForNomenclatureByDate(element.Date, element.Description.Id);
+                    Parties party = getPartyForNomenclatureByDate(element.Date, element.Description.Id, element.ShelfLifeDays);
                     partyDic.Add(element.Description.Id, party);
                     }
                 }
@@ -285,7 +285,7 @@ namespace AtosFMCG.TouchScreen.Controls
         /// <param name="date">Дата</param>
         /// <param name="nomenclature">Номенлатура</param>
         /// <returns>Партія</returns>
-        private Parties getPartyForNomenclatureByDate(DateTime date, long nomenclature)
+        private Parties getPartyForNomenclatureByDate(DateTime date, long nomenclature, int shelfLifeDays)
             {
             Query query = DB.NewQuery(@"SELECT Id FROM Parties WHERE Nomenclature=@Nomenclature AND CAST(DateOfManufacture AS DATE)=@Date");
             query.AddInputParameter("Date", date.Date);
@@ -297,7 +297,7 @@ namespace AtosFMCG.TouchScreen.Controls
                 {
                 party.DateOfManufacture = date;
                 party.Nomenclature = (Nomenclature)new Nomenclature().Read(nomenclature);
-                party.FillAddData();
+                party.FillAddData(shelfLifeDays);
                 party.Write();
                 }
             else
@@ -322,6 +322,14 @@ namespace AtosFMCG.TouchScreen.Controls
                     newRow[Document.NomenclatureCount] = data.Quantity;
                     newRow.SetRefValueToRowCell(Document, Document.NomenclatureParty, partyDic[data.Description.Id]);
                     newRow.AddRowToTable(Document);
+
+                    var nomenclature = new Nomenclature();
+                    nomenclature.Read(data.Description.Id);
+                    if (nomenclature.ShelfLife != data.ShelfLifeDays)
+                        {
+                        nomenclature.ShelfLife = data.ShelfLifeDays;
+                        nomenclature.Write();
+                        }
                     }
                 }
             Document.SetSubtableModified(Document.NomenclatureInfo.TableName);
@@ -375,12 +383,12 @@ namespace AtosFMCG.TouchScreen.Controls
         #endregion
 
         #region EditTableData
-        private void gridView_FocusedColumnChanged(object sender, FocusedColumnChangedEventArgs e)
+        private void mainView_FocusedColumnChanged(object sender, FocusedColumnChangedEventArgs e)
             {
             startCellValueEditig();
             }
 
-        private void gridView_RowClick(object sender, RowClickEventArgs e)
+        private void mainView_RowClick(object sender, RowClickEventArgs e)
             {
             GridHitInfo hitInfo = mainView.CalcHitInfo(new Point(e.X, e.Y));
 
@@ -431,6 +439,10 @@ namespace AtosFMCG.TouchScreen.Controls
                         break;
                     case EditedColumns.Date:
                         updateEditControl(installDateEditiors);
+                        break;
+
+                    case EditedColumns.ShelfLife:
+                        updateEditControl(installShelfLifeEditiors);
                         break;
                     }
                 }
@@ -535,6 +547,8 @@ namespace AtosFMCG.TouchScreen.Controls
             editControlsArea.Controls.Add(quantityEdit);
             }
 
+
+
         private void FinishQuantityEdit(string newValue)
             {
             showMessage("К-сть змінено!");
@@ -546,6 +560,19 @@ namespace AtosFMCG.TouchScreen.Controls
             grid.RefreshDataSource();
             }
         #endregion
+
+        // Shelf life
+        private void installShelfLifeEditiors()
+            {
+            NumberEdit quantityEdit = new NumberEdit((int)selectedRow.ShelfLifeDays, Back, (newValue) => showMessage("Термін придатності змінено!"));
+            quantityEdit.ValueIsChanged += (sender, e) =>
+            {
+                selectedRow.ShelfLifeDays = e.Value;
+                grid.RefreshDataSource();
+            };
+            editControlsArea.Controls.Add(quantityEdit);
+            }
+
         #endregion
 
         #region Edit table
@@ -651,15 +678,37 @@ namespace AtosFMCG.TouchScreen.Controls
 
             list = new List<NomenclatureData>();
 
+            if (isTare)
+                {
+                Date.Visible = false;
+                shelfLifeDaysGridColumn.Visible = false;
+                }
+
             foreach (DataRow row in table.Rows)
                 {
                 long nomemclatureId = (long)row[isTare ? Document.Tare : Document.Nomenclature];
 
+                string nomenclatureDescription = null;
+                var shelfLifeDays = 0;
+
+                if (isTare)
+                    {
+                    nomenclatureDescription = FastInput.GetCashedData(typeof(Nomenclature).Name).GetDescription(nomemclatureId);
+                    }
+                else
+                    {
+                    var nomenclature = new Nomenclature();
+                    nomenclature.Read(nomemclatureId);
+                    nomenclatureDescription = nomenclature.Description;
+                    shelfLifeDays = nomenclature.ShelfLife;
+                    }
+
                 NomenclatureData element = new NomenclatureData
                     {
                         LineNumber = Convert.ToInt64(row["LineNumber"]),
-                        Description = new ObjectValue(FastInput.GetCashedData(typeof(Nomenclature).Name).GetDescription(nomemclatureId), nomemclatureId),
-                        Quantity = Convert.ToDecimal(row[isTare ? Document.TareCount : Document.NomenclatureCount])
+                        Description = new ObjectValue(nomenclatureDescription, nomemclatureId),
+                        Quantity = Convert.ToDecimal(row[isTare ? Document.TareCount : Document.NomenclatureCount]),
+                        ShelfLifeDays = shelfLifeDays
                     };
 
                 if (!isTare)
@@ -675,10 +724,25 @@ namespace AtosFMCG.TouchScreen.Controls
 
         private void mainView_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
             {
+            object value = null;
+
             if (e.Column == Quantity)
                 {
-                e.DisplayText = ((int)Math.Round(Convert.ToDecimal(e.Value), 0)).ToString();
+                value = ((int)Math.Round(Convert.ToDecimal(e.Value), 0));
+                }
+            else if (e.Column == Date)
+                {
+                var currentDate = (DateTime)e.Value;
+                value = DateTime.MinValue.Equals(currentDate) ? string.Empty : currentDate.ToString("dd.MM.yy");
+                }
+
+            if (value != null)
+                {
+                e.DisplayText = value.ToString();
                 }
             }
+
+
+
         }
     }
