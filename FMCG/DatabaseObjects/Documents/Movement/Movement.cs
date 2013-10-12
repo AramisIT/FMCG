@@ -108,7 +108,7 @@ namespace Documents
         #endregion
 
         #region Table Nomenclature
-        /// <summary>Номенлатура</summary>
+        /// <summary>Номенклатура</summary>
         [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureCount, SourceCell, DestinationCell, RowState, IsTare", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo

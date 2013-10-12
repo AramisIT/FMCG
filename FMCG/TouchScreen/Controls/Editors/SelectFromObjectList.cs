@@ -4,11 +4,12 @@ using System.Data;
 using System.Windows.Forms;
 using AtosFMCG.TouchScreen.Events;
 using DevExpress.XtraGrid.Views.Base;
+using FMCG.TouchScreen.Controls.Editors;
 
 namespace AtosFMCG.TouchScreen.Controls
     {
     /// <summary>Вибір зі списку об'єктів</summary>
-    public partial class SelectFromObjectList : UserControl
+    public partial class SelectFromObjectList : UserControl, IVerticalScroll
         {
         #region Veriables
         /// <summary>Оновлення списку</summary>
@@ -63,13 +64,13 @@ namespace AtosFMCG.TouchScreen.Controls
                 object rowIdValue = selectedRow[Id.Name];
                 object rowDescValue = selectedRow[Description.Name];
 
-                value= new KeyValuePair<long, string>(Convert.ToInt64(rowIdValue), rowDescValue.ToString());
+                value = new KeyValuePair<long, string>(Convert.ToInt64(rowIdValue), rowDescValue.ToString());
                 return true;
                 }
 
             value = new KeyValuePair<long, string>();
             return false;
-            } 
+            }
 
         #endregion
 
@@ -77,7 +78,7 @@ namespace AtosFMCG.TouchScreen.Controls
         /// <summary>Змінено обраний рядок</summary>
         private void gridView_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
             {
-            if(!grid.Visible)
+            if (!grid.Visible)
                 {
                 grid.Visible = true;
                 }
@@ -112,7 +113,7 @@ namespace AtosFMCG.TouchScreen.Controls
         private void goNext_Click(object sender, EventArgs e)
             {
             KeyValuePair<long, string> selectedRowValue;
-            
+
             if (SelectedRowValue(out selectedRowValue))
                 {
                 selectValueFromList(selectedRowValue);
@@ -143,7 +144,34 @@ namespace AtosFMCG.TouchScreen.Controls
         private void scrollDown_Click(object sender, EventArgs e)
             {
             gridView.TopRowIndex = gridView.TopRowIndex + 1;
-            } 
+            }
         #endregion
+
+        public event Action ScrollUp;
+
+        public event Action ScrollDown;
+
+        private void button2_Click(object sender, EventArgs e)
+            {
+            if (ScrollUp != null)
+                {
+                ScrollUp();
+                }
+            }
+
+        private void button1_Click(object sender, EventArgs e)
+            {
+            if (ScrollDown != null)
+                {
+                ScrollDown();
+                }
+            }
+
+        private void SelectFromObjectList_Paint(object sender, PaintEventArgs e)
+            {
+            this.Paint -= SelectFromObjectList_Paint;
+            button1.Visible = ScrollUp != null;
+            button2.Visible = ScrollUp != null;
+            }
         }
     }

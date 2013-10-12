@@ -190,9 +190,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
         #endregion
 
         #region Table Nomeclature
-        /// <summary>Номенлатура</summary>
+        /// <summary>Номенклатура</summary>
         [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureDate, NomenclatureCount, NomenclatureCell, IsTare", ShowLineNumberColumn = true)]
-        [DataField(Description = "Номенлатура")]
+        [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {
             get { return GetSubtable("NomenclatureInfo"); }
@@ -202,8 +202,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
         [SubTableField(Description = "Код вантажу", PropertyType = typeof(long))]
         public DataColumn NomenclatureCode { get; set; }
 
-        /// <summary>Номенлатура</summary>
-        [SubTableField(Description = "Номенлатура", PropertyType = typeof(Nomenclature))]
+        /// <summary>Номенклатура</summary>
+        [SubTableField(Description = "Номенклатура", PropertyType = typeof(Nomenclature))]
         public DataColumn Nomenclature { get; set; }
 
         /// <summary>Од.вим.</summary>

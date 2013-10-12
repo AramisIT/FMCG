@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using AtosFMCG.TouchScreen.Events;
+using FMCG.TouchScreen.Controls.Editors;
 
 namespace AtosFMCG.TouchScreen.Controls
     {
     /// <summary>Едітор цілого числа</summary>
-    public partial class NumberEdit : UserControl
+    public partial class NumberEdit : UserControl, IVerticalScroll
         {
         /// <summary>Назад</summary>
         private readonly GoDelegate goBack;
@@ -141,5 +142,32 @@ namespace AtosFMCG.TouchScreen.Controls
             finishFieldEditiong(inputField.Text);
             } 
         #endregion
+
+        private void scrollUp_Click(object sender, EventArgs e)
+            {
+            if (ScrollUp != null)
+                {
+                ScrollUp();
+                }
+            }
+
+        private void scrollDown_Click(object sender, EventArgs e)
+            {
+            if (ScrollDown != null)
+                {
+                ScrollDown();
+                }
+            }
+
+        public event Action ScrollUp;
+
+        public event Action ScrollDown;
+
+        private void NumberEdit_Paint(object sender, PaintEventArgs e)
+            {
+            this.Paint -= NumberEdit_Paint;
+            scrollUp.Visible = ScrollUp != null;
+            scrollDown.Visible = ScrollUp != null;
+            }
         }
     }

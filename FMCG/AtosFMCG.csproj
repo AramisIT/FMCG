@@ -258,6 +258,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TouchScreen\Controls\Editors\IVerticalScroll.cs" />
     <Compile Include="TouchScreen\Controls\Editors\NumberEdit.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -343,7 +344,7 @@
     </Compile>
     <Compile Include="UIConfigurator.cs" />
     <Content Include="TouchScreen\PalletSticker\StickerAdapter.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
     <Content Include="TraceAramis.xml">

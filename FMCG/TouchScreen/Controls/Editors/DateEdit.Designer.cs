@@ -78,6 +78,8 @@
             this.nextYears = new System.Windows.Forms.Button();
             this.prevYears = new System.Windows.Forms.Button();
             this.today = new System.Windows.Forms.Button();
+            this.scrollDown = new System.Windows.Forms.Button();
+            this.scrollUp = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -710,10 +712,32 @@
             this.today.UseVisualStyleBackColor = true;
             this.today.Click += new System.EventHandler(this.today_Click);
             // 
+            // scrollDown
+            // 
+            this.scrollDown.Image = global::FMCG.Properties.Resources.down;
+            this.scrollDown.Location = new System.Drawing.Point(0, 71);
+            this.scrollDown.Name = "scrollDown";
+            this.scrollDown.Size = new System.Drawing.Size(65, 65);
+            this.scrollDown.TabIndex = 56;
+            this.scrollDown.UseVisualStyleBackColor = true;
+            this.scrollDown.Click += new System.EventHandler(this.scrollDown_Click);
+            // 
+            // scrollUp
+            // 
+            this.scrollUp.Image = global::FMCG.Properties.Resources.up;
+            this.scrollUp.Location = new System.Drawing.Point(0, 0);
+            this.scrollUp.Name = "scrollUp";
+            this.scrollUp.Size = new System.Drawing.Size(65, 65);
+            this.scrollUp.TabIndex = 55;
+            this.scrollUp.UseVisualStyleBackColor = true;
+            this.scrollUp.Click += new System.EventHandler(this.scrollUp_Click);
+            // 
             // DateEdit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.scrollDown);
+            this.Controls.Add(this.scrollUp);
             this.Controls.Add(this.today);
             this.Controls.Add(this.nextYears);
             this.Controls.Add(this.prevYears);
@@ -766,6 +790,7 @@
             this.Controls.Add(this.button1);
             this.Name = "DateEdit";
             this.Size = new System.Drawing.Size(580, 755);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.DateEdit_Paint);
             this.ResumeLayout(false);
 
             }
@@ -822,5 +847,7 @@
         private System.Windows.Forms.Button prevYears;
         private System.Windows.Forms.Button nextYears;
         private System.Windows.Forms.Button today;
+        private System.Windows.Forms.Button scrollDown;
+        private System.Windows.Forms.Button scrollUp;
         }
     }

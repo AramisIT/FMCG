@@ -147,16 +147,16 @@ namespace Documents
             }
 
         #region Table Nomeclature
-        /// <summary>Номенлатура</summary>
+        /// <summary>Номенклатура</summary>
         [Table(Columns = "Nomenclature, Measure, Quantity, Party", ShowLineNumberColumn = true)]
-        [DataField(Description = "Номенлатура")]
+        [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {
             get { return GetSubtable("NomenclatureInfo"); }
             }
 
-        /// <summary>Номенлатура</summary>
-        [SubTableField(Description = "Номенлатура", PropertyType = typeof(Nomenclature))]
+        /// <summary>Номенклатура</summary>
+        [SubTableField(Description = "Номенклатура", PropertyType = typeof(Nomenclature))]
         public DataColumn Nomenclature { get; set; }
 
         /// <summary>Од.вим.</summary>

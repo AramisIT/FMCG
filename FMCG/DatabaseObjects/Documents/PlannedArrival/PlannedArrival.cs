@@ -15,7 +15,7 @@ using Catalogs;
 namespace Documents
     {
     /// <summary>План приходу</summary>
-    [Document(Description = "План приймання", GUID = "0455B8DB-F11B-4B3B-A727-D4E889A1EFCB", NumberType = NumberType.Int64, NumberIsReadonly = false)]
+    [Document(Description = "План приймання", GUID = "0455B8DB-F11B-4B3B-A727-D4E889A1EFCB", NumberType = NumberType.Int64, NumberIsReadonly = false, ShowLastModifiedDateInList = true)]
     public class PlannedArrival : DocumentTable, ISyncWith1C
         {
         #region Properties
@@ -166,16 +166,16 @@ namespace Documents
             }
 
         #region Table Nomeclature
-        /// <summary>Номенлатура</summary>
+        /// <summary>Номенклатура</summary>
         [Table(Columns = "Nomenclature, NomenclatureMeasure, NomenclatureCount, NomenclaturePrice, NomenclatureSum, NomenclatureParty", ShowLineNumberColumn = true)]
-        [DataField(Description = "Номенлатура")]
+        [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {
             get { return GetSubtable("NomenclatureInfo"); }
             }
 
-        /// <summary>Номенлатура</summary>
-        [SubTableField(Description = "Номенлатура", PropertyType = typeof(Nomenclature))]
+        /// <summary>Номенклатура</summary>
+        [SubTableField(Description = "Номенклатура", PropertyType = typeof(Nomenclature))]
         public DataColumn Nomenclature { get; set; }
 
         /// <summary>Од.вим.</summary>
@@ -200,16 +200,16 @@ namespace Documents
         #endregion
 
         #region Table Tare
-        /// <summary>Номенлатура</summary>
+        /// <summary>Номенклатура</summary>
         [Table(Columns = "Tare, TareMeasure, TareCount, TarePrice, TareSum, TareParty", ShowLineNumberColumn = true)]
-        [DataField(Description = "Номенлатура")]
+        [DataField(Description = "Номенклатура")]
         public DataTable TareInfo
             {
             get { return GetSubtable("TareInfo"); }
             }
 
-        /// <summary>Номенлатура</summary>
-        [SubTableField(Description = "Номенлатура", PropertyType = typeof(Nomenclature))]
+        /// <summary>Номенклатура</summary>
+        [SubTableField(Description = "Номенклатура", PropertyType = typeof(Nomenclature))]
         public DataColumn Tare { get; set; }
 
         /// <summary>Од.вим.</summary>
@@ -344,6 +344,7 @@ namespace Documents
                 var nomenclature = new Nomenclature();
                 nomenclature.Read((long)row[Nomenclature]);
                 var countInOnePalet = nomenclature.UnitsQuantityPerPallet;
+                var countInOnePack = nomenclature.UnitsQuantityPerPack;
 
                 var party = new Parties();
                 party.Read((long)row[NomenclatureParty]);
@@ -354,11 +355,17 @@ namespace Documents
                     if (nomenclatureCount >= countInOnePalet)
                         {
                         nomenclatureCount -= countInOnePalet;
-                        pallets.Add(countInOnePalet);
+                        var packsCount = countInOnePack == 0 ? 0 : (int)(countInOnePalet / countInOnePack);
+                        pallets.Add(packsCount);
                         }
                     else
                         {
-                        pallets.Add(nomenclatureCount);
+                        var packsCount = countInOnePack == 0 ? 0 : (int)(nomenclatureCount / countInOnePack);
+                        if (countInOnePack != 0 && nomenclatureCount % countInOnePack > 0)
+                            {
+                            packsCount++;
+                            }
+                        pallets.Add(packsCount);
                         nomenclatureCount = 0;
                         }
                     }

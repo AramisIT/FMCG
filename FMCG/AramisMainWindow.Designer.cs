@@ -64,11 +64,13 @@
             this.serviceTablesGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.dctServerGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.testGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.adminPropertiesPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.updatePageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
+            this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).BeginInit();
@@ -112,8 +114,9 @@
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
             this.mainPage,
+            this.ribbonPage1,
             this.adminPropertiesPage});
-            this.ribbon.Size = new System.Drawing.Size(1196, 147);
+            this.ribbon.Size = new System.Drawing.Size(1196, 144);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             this.ribbon.Toolbar.ItemLinks.Add(this.ltlServerState);
             // 
@@ -383,25 +386,32 @@
             this.testGroup.Name = "testGroup";
             this.testGroup.Text = "Для тестів";
             // 
+            // ribbonPage1
+            // 
+            this.ribbonPage1.Name = "ribbonPage1";
+            this.ribbonPage1.Text = "ribbonPage1";
+            // 
             // adminPropertiesPage
             // 
             this.adminPropertiesPage.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.updatePageGroup});
+            this.updatePageGroup,
+            this.updGroup});
             this.adminPropertiesPage.Name = "adminPropertiesPage";
             this.adminPropertiesPage.Text = "Настройки системы";
             // 
             // updatePageGroup
             // 
-            this.updatePageGroup.ItemLinks.Add(this.starterUploadBarButtonItem);
+            this.updatePageGroup.ItemLinks.Add(this.openRights);
+            this.updatePageGroup.ItemLinks.Add(this.delMarked);
             this.updatePageGroup.Name = "updatePageGroup";
             this.updatePageGroup.Text = "Обновление";
             // 
             // ribbonStatusBar
             // 
-            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 561);
+            this.ribbonStatusBar.Location = new System.Drawing.Point(0, 553);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(1196, 23);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(1196, 31);
             // 
             // defaultLookAndFeel
             // 
@@ -414,6 +424,17 @@
             this.barButtonItem4.ImageIndex = 1;
             this.barButtonItem4.LargeImageIndex = 0;
             this.barButtonItem4.Name = "barButtonItem4";
+            // 
+            // ribbonPageGroup1
+            // 
+            this.ribbonPageGroup1.ItemLinks.Add(this.UpdateDBStructureButton);
+            this.ribbonPageGroup1.ItemLinks.Add(this.FastDBUpdateButton);
+            this.ribbonPageGroup1.ItemLinks.Add(this.updateSystem);
+            this.ribbonPageGroup1.ItemLinks.Add(this.delMarked);
+            this.ribbonPageGroup1.ItemLinks.Add(this.openRights);
+            this.ribbonPageGroup1.Name = "ribbonPageGroup1";
+            this.ribbonPageGroup1.ShowCaptionButton = false;
+            this.ribbonPageGroup1.Text = "Оновлення";
             // 
             // AramisMainWindow
             // 
@@ -430,7 +451,6 @@
             this.Text = "ATOS FMCG";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.AramisMainWindow_Load);
-            this.Shown += new System.EventHandler(this.AramisMainWindow_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).EndInit();
@@ -477,5 +497,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonPage adminPropertiesPage;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup updatePageGroup;
         private DevExpress.XtraBars.BarButtonItem starterUploadBarButtonItem;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
+        private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
         }
     }

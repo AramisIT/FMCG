@@ -42,7 +42,7 @@
             this.Description = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.Quantity = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
-            this.Date = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.dateColumn = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.shelfLifeDaysGridColumn = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.editPanel = new System.Windows.Forms.Panel();
             this.selectedRowInfo = new System.Windows.Forms.Label();
@@ -54,6 +54,8 @@
             this.exit = new System.Windows.Forms.Button();
             this.waresButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.tareButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
+            this.scrollDown = new System.Windows.Forms.Button();
+            this.scrollUp = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainView)).BeginInit();
             this.editPanel.SuspendLayout();
@@ -77,6 +79,7 @@
             this.editMode.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Small;
             this.editMode.UseVisualStyleBackColor = false;
             this.editMode.SingleClick += new System.EventHandler(this.editMode_SingleClick);
+            
             // 
             // car
             // 
@@ -222,9 +225,10 @@
             this.LineNumber,
             this.Description,
             this.Quantity,
-            this.Date,
+            this.dateColumn,
             this.shelfLifeDaysGridColumn});
             this.mainView.GridControl = this.grid;
+            this.mainView.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never;
             this.mainView.Name = "mainView";
             this.mainView.OptionsBehavior.Editable = false;
             this.mainView.OptionsBehavior.ReadOnly = true;
@@ -232,6 +236,7 @@
             this.mainView.OptionsView.ShowGroupPanel = false;
             this.mainView.OptionsView.ShowIndicator = false;
             this.mainView.RowHeight = 30;
+            this.mainView.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never;
             this.mainView.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.mainView_RowClick);
             this.mainView.FocusedColumnChanged += new DevExpress.XtraGrid.Views.Base.FocusedColumnChangedEventHandler(this.mainView_FocusedColumnChanged);
             this.mainView.CustomColumnDisplayText += new DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventHandler(this.mainView_CustomColumnDisplayText);
@@ -287,24 +292,24 @@
             // gridBand2
             // 
             this.gridBand2.Caption = "gridBand2";
-            this.gridBand2.Columns.Add(this.Date);
+            this.gridBand2.Columns.Add(this.dateColumn);
             this.gridBand2.Columns.Add(this.shelfLifeDaysGridColumn);
             this.gridBand2.Name = "gridBand2";
             this.gridBand2.Width = 92;
             // 
-            // Date
+            // dateColumn
             // 
-            this.Date.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.Date.AppearanceCell.Options.UseFont = true;
-            this.Date.AppearanceCell.Options.UseTextOptions = true;
-            this.Date.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.Date.Caption = "Дата";
-            this.Date.DisplayFormat.FormatString = "d";
-            this.Date.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
-            this.Date.FieldName = "Date";
-            this.Date.Name = "Date";
-            this.Date.Visible = true;
-            this.Date.Width = 92;
+            this.dateColumn.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateColumn.AppearanceCell.Options.UseFont = true;
+            this.dateColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.dateColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.dateColumn.Caption = "Дата";
+            this.dateColumn.DisplayFormat.FormatString = "d";
+            this.dateColumn.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+            this.dateColumn.FieldName = "Date";
+            this.dateColumn.Name = "dateColumn";
+            this.dateColumn.Visible = true;
+            this.dateColumn.Width = 92;
             // 
             // shelfLifeDaysGridColumn
             // 
@@ -474,6 +479,24 @@
             this.tareButton.UseVisualStyleBackColor = false;
             this.tareButton.Click += new System.EventHandler(this.tareButton_Click);
             // 
+            // scrollDown
+            // 
+            this.scrollDown.Image = global::FMCG.Properties.Resources.down;
+            this.scrollDown.Location = new System.Drawing.Point(0, 71);
+            this.scrollDown.Name = "scrollDown";
+            this.scrollDown.Size = new System.Drawing.Size(65, 65);
+            this.scrollDown.TabIndex = 10;
+            this.scrollDown.UseVisualStyleBackColor = true;
+            // 
+            // scrollUp
+            // 
+            this.scrollUp.Image = global::FMCG.Properties.Resources.up;
+            this.scrollUp.Location = new System.Drawing.Point(0, 0);
+            this.scrollUp.Name = "scrollUp";
+            this.scrollUp.Size = new System.Drawing.Size(65, 65);
+            this.scrollUp.TabIndex = 9;
+            this.scrollUp.UseVisualStyleBackColor = true;
+            // 
             // EditPlannedArrivalDoc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -524,9 +547,11 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn LineNumber;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Description;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Quantity;
-        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Date;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn dateColumn;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn shelfLifeDaysGridColumn;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
+        private System.Windows.Forms.Button scrollDown;
+        private System.Windows.Forms.Button scrollUp;
         }
     }

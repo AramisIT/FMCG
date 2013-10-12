@@ -9,7 +9,7 @@ using Aramis.Platform;
 
 namespace Catalogs
     {
-    [Catalog(Description = "Термо принтеры", GUID = "A0BBC4F1-AE34-476F-ACC5-FCF5BD859F17", HierarchicType = HierarchicTypes.None)]
+    [Catalog(Description = "Термо принтеры", GUID = "A0BBC4F1-AE34-476F-ACC5-FCF5BD859F17", HierarchicType = HierarchicTypes.None, DescriptionSize = 100)]
     public class ThermoPrinters : CatalogTable
         {
         [DataField(Description = "Користувач", ShowInList = true)]

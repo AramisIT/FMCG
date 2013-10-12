@@ -44,6 +44,8 @@
             this.topicLabel = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.backspace = new System.Windows.Forms.Button();
+            this.scrollDown = new System.Windows.Forms.Button();
+            this.scrollUp = new System.Windows.Forms.Button();
             this.goPrev = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.goNext = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.panel1.SuspendLayout();
@@ -262,6 +264,26 @@
             this.backspace.UseVisualStyleBackColor = false;
             this.backspace.Click += new System.EventHandler(this.backspace_Click);
             // 
+            // scrollDown
+            // 
+            this.scrollDown.Image = global::FMCG.Properties.Resources.down;
+            this.scrollDown.Location = new System.Drawing.Point(0, 71);
+            this.scrollDown.Name = "scrollDown";
+            this.scrollDown.Size = new System.Drawing.Size(65, 65);
+            this.scrollDown.TabIndex = 59;
+            this.scrollDown.UseVisualStyleBackColor = true;
+            this.scrollDown.Click += new System.EventHandler(this.scrollDown_Click);
+            // 
+            // scrollUp
+            // 
+            this.scrollUp.Image = global::FMCG.Properties.Resources.up;
+            this.scrollUp.Location = new System.Drawing.Point(0, 0);
+            this.scrollUp.Name = "scrollUp";
+            this.scrollUp.Size = new System.Drawing.Size(65, 65);
+            this.scrollUp.TabIndex = 58;
+            this.scrollUp.UseVisualStyleBackColor = true;
+            this.scrollUp.Click += new System.EventHandler(this.scrollUp_Click);
+            // 
             // goPrev
             // 
             this.goPrev.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
@@ -306,6 +328,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.scrollDown);
+            this.Controls.Add(this.scrollUp);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.topicLabel);
             this.Controls.Add(this.goPrev);
@@ -314,6 +338,7 @@
             this.Controls.Add(this.inputField);
             this.Name = "NumberEdit";
             this.Size = new System.Drawing.Size(580, 755);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.NumberEdit_Paint);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -340,5 +365,7 @@
         private System.Windows.Forms.Label topicLabel;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button backspace;
+        private System.Windows.Forms.Button scrollDown;
+        private System.Windows.Forms.Button scrollUp;
         }
     }

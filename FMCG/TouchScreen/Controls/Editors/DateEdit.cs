@@ -3,11 +3,12 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using AtosFMCG.TouchScreen.Events;
+using FMCG.TouchScreen.Controls.Editors;
 
 namespace AtosFMCG.TouchScreen.Controls
     {
     /// <summary>Контрол вибору дати</summary>
-    public partial class DateEdit : UserControl
+    public partial class DateEdit : UserControl, IVerticalScroll
         {
         #region Variables
         /// <summary>Шаблон для років</summary>
@@ -316,6 +317,33 @@ namespace AtosFMCG.TouchScreen.Controls
                     (button.Width - 12 * additionalText.Length) / 2,
                     button.Height - 30);
                 }
+            }
+
+        public event Action ScrollUp;
+
+        public event Action ScrollDown;
+
+        private void scrollUp_Click(object sender, EventArgs e)
+            {
+            if (ScrollUp != null)
+                {
+                ScrollUp();
+                }
+            }
+
+        private void scrollDown_Click(object sender, EventArgs e)
+            {
+            if (ScrollDown != null)
+                {
+                ScrollDown();
+                }
+            }
+
+        private void DateEdit_Paint(object sender, PaintEventArgs e)
+            {
+            this.Paint -= DateEdit_Paint;
+            scrollUp.Visible = ScrollUp != null;
+            scrollDown.Visible = ScrollUp != null;
             }
         }
     }

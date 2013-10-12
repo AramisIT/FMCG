@@ -142,9 +142,9 @@ namespace Documents
             }
 
         #region Table Nomeclature
-        /// <summary>Номенлатура</summary>
+        /// <summary>Номенклатура</summary>
         [Table(Columns = "Code, Nomenclature, Measure, Quantity, Party, Cell, IsTare", ShowLineNumberColumn = true)]
-        [DataField(Description = "Номенлатура")]
+        [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {
             get { return GetSubtable("NomenclatureInfo"); }
@@ -154,8 +154,8 @@ namespace Documents
         [SubTableField(Description = "Код вантажу", PropertyType = typeof(long))]
         public DataColumn Code { get; set; }
 
-        /// <summary>Номенлатура</summary>
-        [SubTableField(Description = "Номенлатура", PropertyType = typeof(Nomenclature))]
+        /// <summary>Номенклатура</summary>
+        [SubTableField(Description = "Номенклатура", PropertyType = typeof(Nomenclature))]
         public DataColumn Nomenclature { get; set; }
 
         /// <summary>Од.вим.</summary>

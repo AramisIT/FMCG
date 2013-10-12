@@ -61,6 +61,7 @@ namespace AtosFMCG
         /// <summary>Форму завантажено</summary>
         private void AramisMainWindow_Load(object sender, EventArgs e)
             {
+            return;
             openByAdmnin = SystemAramis.CurrentUser.Ref == CatalogUsers.Admin;
 
             //Приховати системні (тестові та інш.) групи 
@@ -70,22 +71,21 @@ namespace AtosFMCG
             serviceTablesGroup.Visible = openByAdmnin;
 
             //ТСД сервер
-            bool isManagerOfDCT = SystemAramis.CurrentUser.Roles.Rows.Cast<DataRow>().Any(
-                row => Convert.ToInt64(row["Role"]) == Users.ManagerOfDCT.Id);
-            if (openByAdmnin || isManagerOfDCT)
-                {
-                ltlServerState.Visibility = BarItemVisibility.Always;
-                runSMServer();
-                dctServerGroup.Visible = true;
-                }
-            else
-                {
-                ltlServerState.Visibility = BarItemVisibility.Never;
-                dctServerGroup.Visible = false;
-                }
+            //bool isManagerOfDCT = SystemAramis.CurrentUser.Roles.Rows.Cast<DataRow>().Any(
+            //    row => Convert.ToInt64(row["Role"]) == Users.ManagerOfDCT.Id);
+            //if (openByAdmnin || isManagerOfDCT)
+            //    {
+            //    ltlServerState.Visibility = BarItemVisibility.Always;
+            //    runSMServer();
+            //    dctServerGroup.Visible = true;
+            //    }
+            //else
+            //    {
+            //    ltlServerState.Visibility = BarItemVisibility.Never;
+            //    dctServerGroup.Visible = false;
+            //    }
             }
 
-        private void AramisMainWindow_Shown(object sender, EventArgs e) { }
         #endregion
 
         #region Головна панель

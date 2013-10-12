@@ -14,12 +14,13 @@ using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
 using Documents;
+using FMCG.TouchScreen.Controls.Editors;
 using TouchScreen.Models.Data;
 
 namespace AtosFMCG.TouchScreen.Controls
     {
     /// <summary>Редагування документу "План приходу"</summary>
-    public partial class EditPlannedArrivalDoc : UserControl
+    public partial class EditPlannedArrivalDoc : UserControl, IVerticalScroll
         {
         #region Veriables
         /// <summary>Колонки таблиці для редагування</summary>
@@ -53,6 +54,7 @@ namespace AtosFMCG.TouchScreen.Controls
         public EditPlannedArrivalDoc()
             {
             InitializeComponent();
+            assignScrollHandlers(this);
             }
 
         /// <summary>Редагування документу "План приходу"</summary>
@@ -63,6 +65,15 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             plannedData = data;
             onFinish = finish;
+            }
+
+        private const int VISIBLE_ROWS_COUNT = 8;
+
+        private void updateVerticalScrollVisibility()
+            {
+            bool showVerticalScroll = list != null && list.Count > VISIBLE_ROWS_COUNT;
+            scrollUp.Visible = showVerticalScroll;
+            scrollDown.Visible = showVerticalScroll;
             }
 
         private void EditPlannedArrivalDoc_Load(object sender, EventArgs e)
@@ -167,6 +178,7 @@ namespace AtosFMCG.TouchScreen.Controls
                                             Dock = DockStyle.Fill
                                         };
             enterField.FieldValueIsChanged += enterField_FieldValueIsChanged;
+            assignScrollHandlers(enterField);
             editControlsArea.Controls.Add(enterField);
             }
 
@@ -187,7 +199,26 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             DateEdit dateEdit = new DateEdit(Document.Date);
             dateEdit.DateIsChanged += dateEdit_DateIsChanged;
+            assignScrollHandlers(dateEdit);
             editControlsArea.Controls.Add(dateEdit);
+            }
+
+        private void assignScrollHandlers(IVerticalScroll verticalScroll)
+            {
+            if (list == null || list.Count <= VISIBLE_ROWS_COUNT)
+                {
+                return;
+                }
+
+            verticalScroll.ScrollUp += () =>
+                {
+                    mainView.TopRowIndex--;
+                };
+
+            verticalScroll.ScrollDown += () =>
+                {
+                    mainView.TopRowIndex++;
+                };
             }
 
         private void dateEdit_DateIsChanged(object sender, ValueIsChangedArgs<DateTime> e)
@@ -207,6 +238,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             SelectFromObjectList selectDriver = new SelectFromObjectList(
                 "водія", "Водій", UpdateDriver, SelectDriverValue, Back) { Dock = DockStyle.Fill };
+            assignScrollHandlers(selectDriver);
             editControlsArea.Controls.Add(selectDriver);
             }
 
@@ -240,6 +272,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             SelectFromObjectList selectDriver = new SelectFromObjectList(
                 "машину", "Машина", UpdateCar, SelectCarValue, Back) { Dock = DockStyle.Fill };
+            assignScrollHandlers(selectDriver);
             editControlsArea.Controls.Add(selectDriver);
             }
 
@@ -283,7 +316,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
         /// <summary>Отримати партію для номенталатури на обрану дату</summary>
         /// <param name="date">Дата</param>
-        /// <param name="nomenclature">Номенлатура</param>
+        /// <param name="nomenclature">Номенклатура</param>
         /// <returns>Партія</returns>
         private Parties getPartyForNomenclatureByDate(DateTime date, long nomenclature, int shelfLifeDays)
             {
@@ -479,6 +512,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             SelectFromObjectList selectNomenclature = new SelectFromObjectList(
                 "номенклатуру", "Номенклатура", (enterValue) => UpdateNomenclature(enterValue, list.Equals(tareList)), SelectNomenclatureValue, Back) { Dock = DockStyle.Fill };
+            assignScrollHandlers(selectNomenclature);
             editControlsArea.Controls.Add(selectNomenclature);
             selectNomenclature.FocusField();
             }
@@ -529,6 +563,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             DateEdit dateEdit = new DateEdit(selectedRow.Date);
             dateEdit.DateIsChanged += date_DateIsChanged;
+            assignScrollHandlers(dateEdit);
             editControlsArea.Controls.Add(dateEdit);
             }
 
@@ -544,6 +579,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             NumberEdit quantityEdit = new NumberEdit((int)selectedRow.Quantity, Back, FinishQuantityEdit);
             quantityEdit.ValueIsChanged += quantityEdit_ValueIsChanged;
+            assignScrollHandlers(quantityEdit);
             editControlsArea.Controls.Add(quantityEdit);
             }
 
@@ -570,6 +606,7 @@ namespace AtosFMCG.TouchScreen.Controls
                 selectedRow.ShelfLifeDays = e.Value;
                 grid.RefreshDataSource();
             };
+            assignScrollHandlers(quantityEdit);
             editControlsArea.Controls.Add(quantityEdit);
             }
 
@@ -599,6 +636,7 @@ namespace AtosFMCG.TouchScreen.Controls
                 grid.RefreshDataSource();
                 updateSelectedRowInfo();
                 }
+            updateVerticalScrollVisibility();
             }
 
         /// <summary>Додавання нового рядка</summary>
@@ -607,6 +645,7 @@ namespace AtosFMCG.TouchScreen.Controls
             list.Add(new NomenclatureData { LineNumber = list.Count + 1 });
             grid.RefreshDataSource();
             updateSelectedRowInfo();
+            updateVerticalScrollVisibility();
             }
 
         /// <summary>Вихід з режиму редагування таблиці</summary>
@@ -634,41 +673,51 @@ namespace AtosFMCG.TouchScreen.Controls
 
         private void choseWare(WaresTypes waresTypes)
             {
-            switch (waresTypes)
-                {
-                case WaresTypes.Production:
-                    waresButton.Enabled = false;
-                    tareButton.Enabled = true;
-                    tareList = list;
-                    if (waresList != null)
-                        {
-                        list = waresList;
-                        }
-                    else
-                        {
-                        fillEditableTable(waresTypes);
-                        waresList = list;
-                        }
-                    break;
+            var isProductuin = waresTypes == WaresTypes.Production;
 
-                case WaresTypes.Tare:
-                    tareButton.Enabled = false;
-                    waresButton.Enabled = true;
+            if (isProductuin)
+                {
+                waresButton.Enabled = false;
+                tareButton.Enabled = true;
+                tareList = list;
+                if (waresList != null)
+                    {
+                    list = waresList;
+                    }
+                else
+                    {
+                    fillEditableTable(waresTypes);
                     waresList = list;
-                    if (tareList != null)
-                        {
-                        list = tareList;
-                        }
-                    else
-                        {
-                        fillEditableTable(waresTypes);
-                        tareList = list;
-                        }
-                    break;
+                    }
+
+                shelfLifeDaysGridColumn.RowIndex = 1;
                 }
+            else
+                {
+                tareButton.Enabled = false;
+                waresButton.Enabled = true;
+                waresList = list;
+                if (tareList != null)
+                    {
+                    list = tareList;
+                    }
+                else
+                    {
+                    fillEditableTable(waresTypes);
+                    tareList = list;
+                    }
+                }
+
+
+            dateColumn.Visible = isProductuin;
+            shelfLifeDaysGridColumn.Visible = isProductuin;
+
 
             grid.DataSource = list;
             editControlsArea.Controls.Clear();
+            updateVerticalScrollVisibility();
+            editControlsArea.Controls.Add(scrollUp);
+            editControlsArea.Controls.Add(scrollDown);
             }
 
         private void fillEditableTable(WaresTypes waresTypes)
@@ -677,12 +726,6 @@ namespace AtosFMCG.TouchScreen.Controls
             var table = isTare ? Document.TareInfo : Document.NomenclatureInfo;
 
             list = new List<NomenclatureData>();
-
-            if (isTare)
-                {
-                Date.Visible = false;
-                shelfLifeDaysGridColumn.Visible = false;
-                }
 
             foreach (DataRow row in table.Rows)
                 {
@@ -730,7 +773,7 @@ namespace AtosFMCG.TouchScreen.Controls
                 {
                 value = ((int)Math.Round(Convert.ToDecimal(e.Value), 0));
                 }
-            else if (e.Column == Date)
+            else if (e.Column == dateColumn)
                 {
                 var currentDate = (DateTime)e.Value;
                 value = DateTime.MinValue.Equals(currentDate) ? string.Empty : currentDate.ToString("dd.MM.yy");
@@ -742,7 +785,25 @@ namespace AtosFMCG.TouchScreen.Controls
                 }
             }
 
+        private void scrollUp_Click(object sender, EventArgs e)
+            {
+            if (ScrollUp != null)
+                {
+                ScrollUp();
+                }
+            }
 
+        private void scrollDown_Click(object sender, EventArgs e)
+            {
+            if (ScrollDown != null)
+                {
+                ScrollDown();
+                }
+            }
+
+        public event Action ScrollUp;
+
+        public event Action ScrollDown;
 
         }
     }

@@ -32,6 +32,8 @@
             this.oldValue = new System.Windows.Forms.Label();
             this.inputField = new System.Windows.Forms.TextBox();
             this.topic = new System.Windows.Forms.Label();
+            this.scrollDown = new System.Windows.Forms.Button();
+            this.scrollUp = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,14 +85,37 @@
             this.topic.Text = "label1";
             this.topic.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // scrollDown
+            // 
+            this.scrollDown.Image = global::FMCG.Properties.Resources.down;
+            this.scrollDown.Location = new System.Drawing.Point(0, 69);
+            this.scrollDown.Name = "scrollDown";
+            this.scrollDown.Size = new System.Drawing.Size(65, 65);
+            this.scrollDown.TabIndex = 8;
+            this.scrollDown.UseVisualStyleBackColor = true;
+            this.scrollDown.Click += new System.EventHandler(this.scrollDown_Click);
+            // 
+            // scrollUp
+            // 
+            this.scrollUp.Image = global::FMCG.Properties.Resources.up;
+            this.scrollUp.Location = new System.Drawing.Point(0, -2);
+            this.scrollUp.Name = "scrollUp";
+            this.scrollUp.Size = new System.Drawing.Size(65, 65);
+            this.scrollUp.TabIndex = 7;
+            this.scrollUp.UseVisualStyleBackColor = true;
+            this.scrollUp.Click += new System.EventHandler(this.scrollUp_Click);
+            // 
             // EnterField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.scrollDown);
+            this.Controls.Add(this.scrollUp);
             this.Controls.Add(this.panel1);
             this.Name = "EnterField";
             this.Size = new System.Drawing.Size(401, 281);
             this.Load += new System.EventHandler(this.EnterField_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.EnterField_Paint);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.ResumeLayout(false);
@@ -103,5 +128,7 @@
         private System.Windows.Forms.TextBox inputField;
         private System.Windows.Forms.Label topic;
         private System.Windows.Forms.Label oldValue;
+        private System.Windows.Forms.Button scrollDown;
+        private System.Windows.Forms.Button scrollUp;
         }
     }

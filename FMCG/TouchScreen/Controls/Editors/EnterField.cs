@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
 using AtosFMCG.TouchScreen.Events;
+using FMCG.TouchScreen.Controls.Editors;
 
 namespace AtosFMCG.TouchScreen.Controls
     {
     /// <summary>Поле для вводу</summary>
-    public partial class EnterField : UserControl
+    public partial class EnterField : UserControl, IVerticalScroll
         {
         #region Properties
         /// <summary>Введене значення</summary>
@@ -15,7 +16,7 @@ namespace AtosFMCG.TouchScreen.Controls
             set { inputField.Text = value; }
             }
         /// <summary>Заголовок/назва/інформація</summary>
-        public string Topic { set { topic.Text = value; } } 
+        public string Topic { set { topic.Text = value; } }
         #endregion
 
         /// <summary>Поле для вводу</summary>
@@ -39,7 +40,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             OnFieldValueIsChanged(new ValueIsChangedArgs<string>(inputField.Text));
             }
-        
+
         /// <summary>Сфокусуватись на полі вводу</summary>
         public void FocusField()
             {
@@ -55,11 +56,38 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             EventHandler<ValueIsChangedArgs<string>> handler = FieldValueIsChanged;
 
-            if(handler!=null)
+            if (handler != null)
                 {
                 handler(this, e);
                 }
             }
         #endregion
+
+        public event Action ScrollUp;
+
+        public event Action ScrollDown;
+
+        private void scrollUp_Click(object sender, EventArgs e)
+            {
+            if (ScrollUp != null)
+                {
+                ScrollUp();
+                }
+            }
+
+        private void scrollDown_Click(object sender, EventArgs e)
+            {
+            if (ScrollDown != null)
+                {
+                ScrollDown();
+                }
+            }
+
+        private void EnterField_Paint(object sender, PaintEventArgs e)
+            {
+            this.Paint -= EnterField_Paint;
+            scrollUp.Visible = ScrollUp != null;
+            scrollDown.Visible = ScrollUp != null;
+            }
         }
     }

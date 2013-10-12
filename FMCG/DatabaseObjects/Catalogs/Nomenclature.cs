@@ -12,7 +12,7 @@ namespace Catalogs
         {
         #region Properties
         /// <summary>Посилання 1С</summary>
-        [DataField(Description = "Посилання 1С", ShowInList = false)]
+        [DataField(Description = "Посилання 1С", ShowInList = false, ShowInForm = false)]
         public Guid Ref1C
             {
             get
@@ -50,6 +50,26 @@ namespace Catalogs
                 }
             }
         private int z_UnitsQuantityPerPallet;
+
+        [DataField(Description = "Кіль-ть в упаковці", ShowInList = true)]
+        public int UnitsQuantityPerPack
+            {
+            get
+                {
+                return z_UnitsQuantityPerPack;
+                }
+            set
+                {
+                if (z_UnitsQuantityPerPack == value)
+                    {
+                    return;
+                    }
+
+                z_UnitsQuantityPerPack = value;
+                NotifyPropertyChanged("UnitsQuantityPerPack");
+                }
+            }
+        private int z_UnitsQuantityPerPack;
 
         /// <summary>Тара</summary>
         [DataField(Description = "Тара", ShowInList = true)]
