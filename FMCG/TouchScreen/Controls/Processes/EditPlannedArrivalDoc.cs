@@ -23,8 +23,22 @@ namespace AtosFMCG.TouchScreen.Controls
     public partial class EditPlannedArrivalDoc : UserControl, IVerticalScroll
         {
         #region Veriables
+
         /// <summary>Колонки таблиці для редагування</summary>
-        private enum EditedColumns { Description = 1, Quantity, Date, ShelfLife }
+        private enum EditedColumns
+            {
+            Description = 1,
+            Quantity,
+            Date,
+            ShelfLife,
+            StandartPalletsCount,
+            NonStandartPalletsCount,
+            StandartPalletCountPer1,
+            NonStandartPalletCountPer1,
+            UnitsOnNotFullPallet,
+            UnitsOnNotFullNonStandartPallet
+            }
+
         /// <summary>Максимальна к-сть літер, що відображається в кнопці</summary>
         private const int MAX_BTN_TEXT_LENGTH = 13;
         /// <summary>Документ "План приходу"</summary>
@@ -78,6 +92,8 @@ namespace AtosFMCG.TouchScreen.Controls
 
         private void EditPlannedArrivalDoc_Load(object sender, EventArgs e)
             {
+            mainView.HorzScrollVisibility = ScrollVisibility.Never;
+
             if (!isLoaded)
                 {
                 fillInitData(plannedData);
@@ -401,7 +417,7 @@ namespace AtosFMCG.TouchScreen.Controls
             else
                 {
                 onFinish(true, Document);
-                Document.PrintStickers();
+                Document.PrintStickers(waresList);
                 }
             }
         #endregion
@@ -475,8 +491,59 @@ namespace AtosFMCG.TouchScreen.Controls
                         break;
 
                     case EditedColumns.ShelfLife:
-                        updateEditControl(installShelfLifeEditiors);
+                        updateEditControl(() =>
+                            {
+                                installNumberEditEditior(selectedRow.ShelfLifeDays, (enteredValue) =>
+                                    {
+                                        selectedRow.ShelfLifeDays = enteredValue;
+                                    }, "Термін придатності змінено!");
+                            });
                         break;
+
+                    case EditedColumns.StandartPalletsCount:
+                        updateEditControl(() => installNumberEditEditior(selectedRow.StandartPalletsCount, (enteredValue) =>
+                            {
+                                selectedRow.StandartPalletsCount = enteredValue;
+                                selectedRow.UpdateQuantity();
+                            }, "Кіль-сть стандартних палет змінено!"));
+                        break;
+
+                    case EditedColumns.NonStandartPalletsCount:
+                        updateEditControl(() => installNumberEditEditior(selectedRow.NonStandartPalletsCount, (enteredValue) =>
+                            {
+                                selectedRow.NonStandartPalletsCount = enteredValue;
+                                selectedRow.UpdateQuantity();
+                            }, "Кіль-сть нестандартних палет змінено!"));
+                        break;
+
+                    case EditedColumns.StandartPalletCountPer1:
+                        editControlsArea.Controls.Clear();
+                        break;
+
+                    case EditedColumns.NonStandartPalletCountPer1:
+                        updateEditControl(() => installNumberEditEditior(selectedRow.NonStandartPalletCountPer1, (enteredValue) =>
+                            {
+                                selectedRow.NonStandartPalletCountPer1 = enteredValue;
+                                selectedRow.UpdateQuantity();
+                            }, "Кількість од. на нестандарт. пал. змінено!"));
+                        break;
+
+                    case EditedColumns.UnitsOnNotFullPallet:
+                        updateEditControl(() => installNumberEditEditior(selectedRow.UnitsOnNotFullPallet, (enteredValue) =>
+                            {
+                                selectedRow.UnitsOnNotFullPallet = enteredValue;
+                                selectedRow.UpdateQuantity();
+                            }, "Кількість од. на неповній палеті змінено!"));
+                        break;
+
+                    case EditedColumns.UnitsOnNotFullNonStandartPallet:
+                        updateEditControl(() => installNumberEditEditior(selectedRow.UnitsOnNotFullNonStandartPallet, (enteredValue) =>
+                            {
+                                selectedRow.UnitsOnNotFullNonStandartPallet = enteredValue;
+                                selectedRow.UpdateQuantity();
+                            }, "Кіль-ть од. на неповній нестандартній пал. змінено!"));
+                        break;
+
                     }
                 }
             }
@@ -597,15 +664,15 @@ namespace AtosFMCG.TouchScreen.Controls
             }
         #endregion
 
-        // Shelf life
-        private void installShelfLifeEditiors()
+        private void installNumberEditEditior(int startValue, Action<int> setResultValue, string endMessageText)
             {
-            NumberEdit quantityEdit = new NumberEdit((int)selectedRow.ShelfLifeDays, Back, (newValue) => showMessage("Термін придатності змінено!"));
+            NumberEdit quantityEdit = new NumberEdit(startValue, Back, (newValue) => showMessage(endMessageText));
             quantityEdit.ValueIsChanged += (sender, e) =>
-            {
-                selectedRow.ShelfLifeDays = e.Value;
-                grid.RefreshDataSource();
-            };
+                {
+                    setResultValue(e.Value);
+                    grid.RefreshDataSource();
+                };
+
             assignScrollHandlers(quantityEdit);
             editControlsArea.Controls.Add(quantityEdit);
             }
@@ -674,6 +741,7 @@ namespace AtosFMCG.TouchScreen.Controls
         private void choseWare(WaresTypes waresTypes)
             {
             var isProductuin = waresTypes == WaresTypes.Production;
+            setVisibilityForMainColumns(true);
 
             if (isProductuin)
                 {
@@ -691,6 +759,10 @@ namespace AtosFMCG.TouchScreen.Controls
                     }
 
                 shelfLifeDaysGridColumn.RowIndex = 1;
+
+                nonStandartPalletsCountColumn.RowIndex = 1;
+                nonStandartPalletCountPer1Column.RowIndex = 1;
+                unitsOnNotFullNonStandartPalletColumn.RowIndex = 1;
                 }
             else
                 {
@@ -712,6 +784,17 @@ namespace AtosFMCG.TouchScreen.Controls
             dateColumn.Visible = isProductuin;
             shelfLifeDaysGridColumn.Visible = isProductuin;
 
+            standartPalletsCountColumn.Visible = isProductuin;
+            nonStandartPalletsCountColumn.Visible = isProductuin;
+
+            standartPalletCountPer1Column.Visible = isProductuin;
+            nonStandartPalletCountPer1Column.Visible = isProductuin;
+
+            unitsOnNotFullPalletColumn.Visible = isProductuin;
+            unitsOnNotFullNonStandartPalletColumn.Visible = isProductuin;
+
+
+            palletsCountButton.Enabled = isProductuin;
 
             grid.DataSource = list;
             editControlsArea.Controls.Clear();
@@ -733,6 +816,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
                 string nomenclatureDescription = null;
                 var shelfLifeDays = 0;
+                var unitsQuantityPerPallet = 0;
 
                 if (isTare)
                     {
@@ -744,6 +828,7 @@ namespace AtosFMCG.TouchScreen.Controls
                     nomenclature.Read(nomemclatureId);
                     nomenclatureDescription = nomenclature.Description;
                     shelfLifeDays = nomenclature.ShelfLife;
+                    unitsQuantityPerPallet = nomenclature.UnitsQuantityPerPallet;
                     }
 
                 NomenclatureData element = new NomenclatureData
@@ -751,7 +836,8 @@ namespace AtosFMCG.TouchScreen.Controls
                         LineNumber = Convert.ToInt64(row["LineNumber"]),
                         Description = new ObjectValue(nomenclatureDescription, nomemclatureId),
                         Quantity = Convert.ToDecimal(row[isTare ? Document.TareCount : Document.NomenclatureCount]),
-                        ShelfLifeDays = shelfLifeDays
+                        ShelfLifeDays = shelfLifeDays,
+                        StandartPalletCountPer1 = unitsQuantityPerPallet
                     };
 
                 if (!isTare)
@@ -805,5 +891,17 @@ namespace AtosFMCG.TouchScreen.Controls
 
         public event Action ScrollDown;
 
+        private bool mainColumnsVisible = true;
+
+        private void palletsCountButton_Click(object sender, EventArgs e)
+            {
+            mainColumnsVisible = !mainColumnsVisible;
+            setVisibilityForMainColumns(mainColumnsVisible);
+            }
+
+        private void setVisibilityForMainColumns(bool visible)
+            {
+            mainView.MakeColumnVisible(visible ? this.LineNumber : this.unitsOnNotFullPalletColumn);
+            }
         }
     }

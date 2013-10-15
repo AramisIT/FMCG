@@ -11,6 +11,7 @@ using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
 using AtosFMCG.TouchScreen.PalletSticker;
 using Catalogs;
+using TouchScreen.Models.Data;
 
 namespace Documents
     {
@@ -303,16 +304,16 @@ namespace Documents
             }
         #endregion
 
-        internal void PrintStickers()
+        internal void PrintStickers(List<NomenclatureData> wareList)
             {
-            var printTasks = createPrintTasks();
+            var printTasks = createPrintTasks(wareList);
             var stickersCreator = new StickersPrintingHelper(printTasks, ThermoPrinters.GetCurrentPrinterName());
             stickersCreator.Print();
             }
 
-        private List<StickerInfo> createPrintTasks()
+        private List<StickerInfo> createPrintTasks(List<NomenclatureData> wareList)
             {
-            var stickers = createStickers();
+            var stickers = createStickers(wareList);
             var result = new List<StickerInfo>();
             stickers.ForEach(sticker =>
                 {
@@ -334,41 +335,33 @@ namespace Documents
             return result;
             }
 
-        private List<Stickers> createStickers()
+        private List<Stickers> createStickers(List<NomenclatureData> wareList)
             {
             var result = new List<Stickers>();
 
-            foreach (DataRow row in NomenclatureInfo.Rows)
+            for (int rowIndex = 0; rowIndex < NomenclatureInfo.Rows.Count; rowIndex++)
                 {
+                DataRow row = NomenclatureInfo.Rows[rowIndex];
+
                 var nomenclatureCount = Convert.ToInt32(row[NomenclatureCount]);
                 var nomenclature = new Nomenclature();
                 nomenclature.Read((long)row[Nomenclature]);
                 var countInOnePalet = nomenclature.UnitsQuantityPerPallet;
                 var countInOnePack = nomenclature.UnitsQuantityPerPack;
+                if (countInOnePack == 0)
+                    {
+                    countInOnePack = 1;// to avoid division by zero
+                    }
 
                 var party = new Parties();
                 party.Read((long)row[NomenclatureParty]);
 
-                var pallets = new List<int>();
-                while (nomenclatureCount > 0)
-                    {
-                    if (nomenclatureCount >= countInOnePalet)
-                        {
-                        nomenclatureCount -= countInOnePalet;
-                        var packsCount = countInOnePack == 0 ? 0 : (int)(countInOnePalet / countInOnePack);
-                        pallets.Add(packsCount);
-                        }
-                    else
-                        {
-                        var packsCount = countInOnePack == 0 ? 0 : (int)(nomenclatureCount / countInOnePack);
-                        if (countInOnePack != 0 && nomenclatureCount % countInOnePack > 0)
-                            {
-                            packsCount++;
-                            }
-                        pallets.Add(packsCount);
-                        nomenclatureCount = 0;
-                        }
-                    }
+
+                var nomenclatureData = wareList[rowIndex];
+                var createSpecificStikers = nomenclatureData.StandartPalletsCount > 0 ||
+                                            nomenclatureData.NonStandartPalletsCount > 0;
+
+                var pallets = createSpecificStikers ? buildNonStandartQuantitiesList(nomenclatureData, countInOnePack) : buildStandartQuantitiesList(nomenclatureCount, countInOnePalet, countInOnePack);
 
                 foreach (var unitsQuantity in pallets)
                     {
@@ -382,6 +375,59 @@ namespace Documents
                 }
 
             return result;
+            }
+
+        private List<int> buildNonStandartQuantitiesList(NomenclatureData nomenclatureData, int countInOnePack)
+            {
+            var pallets = new List<int>();
+
+            for (int stickerIndex = 0; stickerIndex < nomenclatureData.StandartPalletsCount; stickerIndex++)
+                {
+                pallets.Add(nomenclatureData.StandartPalletCountPer1 / countInOnePack);
+                }
+
+            if (nomenclatureData.UnitsOnNotFullPallet > 0)
+                {
+                pallets.Add(nomenclatureData.UnitsOnNotFullPallet / countInOnePack);
+                }
+
+            for (int stickerIndex = 0; stickerIndex < nomenclatureData.NonStandartPalletsCount; stickerIndex++)
+                {
+                pallets.Add(nomenclatureData.NonStandartPalletCountPer1 / countInOnePack);
+                }
+
+            if (nomenclatureData.UnitsOnNotFullNonStandartPallet > 0)
+                {
+                pallets.Add(nomenclatureData.UnitsOnNotFullNonStandartPallet / countInOnePack);
+                }
+
+            return pallets;
+            }
+
+        private List<int> buildStandartQuantitiesList(int nomenclatureCount, int countInOnePalet, int countInOnePack)
+            {
+            var pallets = new List<int>();
+            while (nomenclatureCount > 0)
+                {
+                if (nomenclatureCount >= countInOnePalet)
+                    {
+                    nomenclatureCount -= countInOnePalet;
+                    var packsCount = countInOnePack == 0 ? 0 : (int)(countInOnePalet / countInOnePack);
+                    pallets.Add(packsCount);
+                    }
+                else
+                    {
+                    var packsCount = countInOnePack == 0 ? 0 : (int)(nomenclatureCount / countInOnePack);
+                    if (countInOnePack != 0 && nomenclatureCount % countInOnePack > 0)
+                        {
+                        packsCount++;
+                        }
+                    pallets.Add(packsCount);
+                    nomenclatureCount = 0;
+                    }
+                }
+
+            return pallets;
             }
 
         private Stickers createSticker(Nomenclature nomenclature, Parties party, int unitsQuantity)

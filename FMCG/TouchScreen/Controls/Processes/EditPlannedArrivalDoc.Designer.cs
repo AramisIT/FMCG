@@ -44,6 +44,15 @@
             this.gridBand2 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
             this.dateColumn = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.shelfLifeDaysGridColumn = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand3 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.standartPalletsCountColumn = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.nonStandartPalletsCountColumn = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand4 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.standartPalletCountPer1Column = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.nonStandartPalletCountPer1Column = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.gridBand5 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
+            this.unitsOnNotFullPalletColumn = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
+            this.unitsOnNotFullNonStandartPalletColumn = new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn();
             this.editPanel = new System.Windows.Forms.Panel();
             this.selectedRowInfo = new System.Windows.Forms.Label();
             this.finishEditMode = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
@@ -56,6 +65,7 @@
             this.tareButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.scrollDown = new System.Windows.Forms.Button();
             this.scrollUp = new System.Windows.Forms.Button();
+            this.palletsCountButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainView)).BeginInit();
             this.editPanel.SuspendLayout();
@@ -79,7 +89,6 @@
             this.editMode.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Small;
             this.editMode.UseVisualStyleBackColor = false;
             this.editMode.SingleClick += new System.EventHandler(this.editMode_SingleClick);
-            
             // 
             // car
             // 
@@ -128,11 +137,11 @@
             this.invoiceDate.Image = global::FMCG.Properties.Resources.date;
             this.invoiceDate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.invoiceDate.IsEnabled = true;
-            this.invoiceDate.Location = new System.Drawing.Point(219, 568);
+            this.invoiceDate.Location = new System.Drawing.Point(137, 568);
             this.invoiceDate.Name = "invoiceDate";
-            this.invoiceDate.Size = new System.Drawing.Size(210, 60);
+            this.invoiceDate.Size = new System.Drawing.Size(158, 60);
             this.invoiceDate.TabIndex = 37;
-            this.invoiceDate.Text = "          Дата накладної";
+            this.invoiceDate.Text = "          Дата";
             this.invoiceDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.invoiceDate.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
             this.invoiceDate.UseVisualStyleBackColor = false;
@@ -149,7 +158,7 @@
             this.invoiceNumber.IsEnabled = true;
             this.invoiceNumber.Location = new System.Drawing.Point(3, 568);
             this.invoiceNumber.Name = "invoiceNumber";
-            this.invoiceNumber.Size = new System.Drawing.Size(210, 60);
+            this.invoiceNumber.Size = new System.Drawing.Size(132, 60);
             this.invoiceNumber.TabIndex = 36;
             this.invoiceNumber.Text = "          Номер накладної";
             this.invoiceNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -220,15 +229,24 @@
             this.mainView.Appearance.SelectedRow.Options.UseForeColor = true;
             this.mainView.Bands.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.GridBand[] {
             this.gridBand1,
-            this.gridBand2});
+            this.gridBand2,
+            this.gridBand3,
+            this.gridBand4,
+            this.gridBand5});
             this.mainView.Columns.AddRange(new DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn[] {
             this.LineNumber,
             this.Description,
             this.Quantity,
             this.dateColumn,
-            this.shelfLifeDaysGridColumn});
+            this.shelfLifeDaysGridColumn,
+            this.standartPalletsCountColumn,
+            this.nonStandartPalletsCountColumn,
+            this.standartPalletCountPer1Column,
+            this.nonStandartPalletCountPer1Column,
+            this.unitsOnNotFullPalletColumn,
+            this.unitsOnNotFullNonStandartPalletColumn});
             this.mainView.GridControl = this.grid;
-            this.mainView.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never;
+            this.mainView.HorzScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always;
             this.mainView.Name = "mainView";
             this.mainView.OptionsBehavior.Editable = false;
             this.mainView.OptionsBehavior.ReadOnly = true;
@@ -260,6 +278,7 @@
             this.LineNumber.FieldName = "LineNumber";
             this.LineNumber.Name = "LineNumber";
             this.LineNumber.OptionsColumn.AllowFocus = false;
+            this.LineNumber.OptionsColumn.ReadOnly = true;
             this.LineNumber.RowCount = 2;
             this.LineNumber.Visible = true;
             this.LineNumber.Width = 32;
@@ -285,6 +304,7 @@
             this.Quantity.Caption = "К-ть";
             this.Quantity.FieldName = "Quantity";
             this.Quantity.Name = "Quantity";
+            this.Quantity.OptionsColumn.ReadOnly = true;
             this.Quantity.RowCount = 2;
             this.Quantity.Visible = true;
             this.Quantity.Width = 68;
@@ -308,6 +328,7 @@
             this.dateColumn.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
             this.dateColumn.FieldName = "Date";
             this.dateColumn.Name = "dateColumn";
+            this.dateColumn.OptionsColumn.ReadOnly = true;
             this.dateColumn.Visible = true;
             this.dateColumn.Width = 92;
             // 
@@ -323,9 +344,127 @@
             this.shelfLifeDaysGridColumn.Caption = "Срок хран. дни";
             this.shelfLifeDaysGridColumn.FieldName = "ShelfLifeDays";
             this.shelfLifeDaysGridColumn.Name = "shelfLifeDaysGridColumn";
+            this.shelfLifeDaysGridColumn.OptionsColumn.ReadOnly = true;
             this.shelfLifeDaysGridColumn.RowIndex = 1;
             this.shelfLifeDaysGridColumn.Visible = true;
             this.shelfLifeDaysGridColumn.Width = 92;
+            // 
+            // gridBand3
+            // 
+            this.gridBand3.Caption = "gridBand3";
+            this.gridBand3.Columns.Add(this.standartPalletsCountColumn);
+            this.gridBand3.Columns.Add(this.nonStandartPalletsCountColumn);
+            this.gridBand3.Name = "gridBand3";
+            this.gridBand3.Width = 115;
+            // 
+            // standartPalletsCountColumn
+            // 
+            this.standartPalletsCountColumn.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.standartPalletsCountColumn.AppearanceCell.Options.UseFont = true;
+            this.standartPalletsCountColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.standartPalletsCountColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.standartPalletsCountColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.standartPalletsCountColumn.AppearanceHeader.Options.UseFont = true;
+            this.standartPalletsCountColumn.Caption = "Кол-во палл.";
+            this.standartPalletsCountColumn.FieldName = "StandartPalletsCount";
+            this.standartPalletsCountColumn.Name = "standartPalletsCountColumn";
+            this.standartPalletsCountColumn.OptionsColumn.ReadOnly = true;
+            this.standartPalletsCountColumn.Visible = true;
+            this.standartPalletsCountColumn.Width = 115;
+            // 
+            // nonStandartPalletsCountColumn
+            // 
+            this.nonStandartPalletsCountColumn.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nonStandartPalletsCountColumn.AppearanceCell.Options.UseFont = true;
+            this.nonStandartPalletsCountColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.nonStandartPalletsCountColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.nonStandartPalletsCountColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nonStandartPalletsCountColumn.AppearanceHeader.Options.UseFont = true;
+            this.nonStandartPalletsCountColumn.Caption = "Кол. евро п.";
+            this.nonStandartPalletsCountColumn.FieldName = "NonStandartPalletsCount";
+            this.nonStandartPalletsCountColumn.Name = "nonStandartPalletsCountColumn";
+            this.nonStandartPalletsCountColumn.OptionsColumn.ReadOnly = true;
+            this.nonStandartPalletsCountColumn.RowIndex = 1;
+            this.nonStandartPalletsCountColumn.Visible = true;
+            this.nonStandartPalletsCountColumn.Width = 115;
+            // 
+            // gridBand4
+            // 
+            this.gridBand4.Caption = "gridBand4";
+            this.gridBand4.Columns.Add(this.standartPalletCountPer1Column);
+            this.gridBand4.Columns.Add(this.nonStandartPalletCountPer1Column);
+            this.gridBand4.Name = "gridBand4";
+            this.gridBand4.Width = 128;
+            // 
+            // standartPalletCountPer1Column
+            // 
+            this.standartPalletCountPer1Column.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.standartPalletCountPer1Column.AppearanceCell.Options.UseFont = true;
+            this.standartPalletCountPer1Column.AppearanceCell.Options.UseTextOptions = true;
+            this.standartPalletCountPer1Column.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.standartPalletCountPer1Column.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.standartPalletCountPer1Column.AppearanceHeader.Options.UseFont = true;
+            this.standartPalletCountPer1Column.Caption = "Ед. в палл.";
+            this.standartPalletCountPer1Column.FieldName = "StandartPalletCountPer1";
+            this.standartPalletCountPer1Column.Name = "standartPalletCountPer1Column";
+            this.standartPalletCountPer1Column.OptionsColumn.ReadOnly = true;
+            this.standartPalletCountPer1Column.Visible = true;
+            this.standartPalletCountPer1Column.Width = 128;
+            // 
+            // nonStandartPalletCountPer1Column
+            // 
+            this.nonStandartPalletCountPer1Column.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nonStandartPalletCountPer1Column.AppearanceCell.Options.UseFont = true;
+            this.nonStandartPalletCountPer1Column.AppearanceCell.Options.UseTextOptions = true;
+            this.nonStandartPalletCountPer1Column.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.nonStandartPalletCountPer1Column.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nonStandartPalletCountPer1Column.AppearanceHeader.Options.UseFont = true;
+            this.nonStandartPalletCountPer1Column.Caption = "Ед. на евро п.";
+            this.nonStandartPalletCountPer1Column.FieldName = "NonStandartPalletCountPer1";
+            this.nonStandartPalletCountPer1Column.Name = "nonStandartPalletCountPer1Column";
+            this.nonStandartPalletCountPer1Column.OptionsColumn.ReadOnly = true;
+            this.nonStandartPalletCountPer1Column.RowIndex = 1;
+            this.nonStandartPalletCountPer1Column.Visible = true;
+            this.nonStandartPalletCountPer1Column.Width = 128;
+            // 
+            // gridBand5
+            // 
+            this.gridBand5.Caption = "gridBand5";
+            this.gridBand5.Columns.Add(this.unitsOnNotFullPalletColumn);
+            this.gridBand5.Columns.Add(this.unitsOnNotFullNonStandartPalletColumn);
+            this.gridBand5.Name = "gridBand5";
+            this.gridBand5.Width = 163;
+            // 
+            // unitsOnNotFullPalletColumn
+            // 
+            this.unitsOnNotFullPalletColumn.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.unitsOnNotFullPalletColumn.AppearanceCell.Options.UseFont = true;
+            this.unitsOnNotFullPalletColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.unitsOnNotFullPalletColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.unitsOnNotFullPalletColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.unitsOnNotFullPalletColumn.AppearanceHeader.Options.UseFont = true;
+            this.unitsOnNotFullPalletColumn.Caption = "Остаток на пал.";
+            this.unitsOnNotFullPalletColumn.FieldName = "UnitsOnNotFullPallet";
+            this.unitsOnNotFullPalletColumn.Name = "unitsOnNotFullPalletColumn";
+            this.unitsOnNotFullPalletColumn.OptionsColumn.ReadOnly = true;
+            this.unitsOnNotFullPalletColumn.Visible = true;
+            this.unitsOnNotFullPalletColumn.Width = 163;
+            // 
+            // unitsOnNotFullNonStandartPalletColumn
+            // 
+            this.unitsOnNotFullNonStandartPalletColumn.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.unitsOnNotFullNonStandartPalletColumn.AppearanceCell.Options.UseFont = true;
+            this.unitsOnNotFullNonStandartPalletColumn.AppearanceCell.Options.UseTextOptions = true;
+            this.unitsOnNotFullNonStandartPalletColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.unitsOnNotFullNonStandartPalletColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.unitsOnNotFullNonStandartPalletColumn.AppearanceHeader.Options.UseFont = true;
+            this.unitsOnNotFullNonStandartPalletColumn.Caption = "Остаток на евро п.";
+            this.unitsOnNotFullNonStandartPalletColumn.FieldName = "UnitsOnNotFullNonStandartPallet";
+            this.unitsOnNotFullNonStandartPalletColumn.Name = "unitsOnNotFullNonStandartPalletColumn";
+            this.unitsOnNotFullNonStandartPalletColumn.OptionsColumn.ReadOnly = true;
+            this.unitsOnNotFullNonStandartPalletColumn.RowIndex = 1;
+            this.unitsOnNotFullNonStandartPalletColumn.Visible = true;
+            this.unitsOnNotFullNonStandartPalletColumn.Width = 163;
             // 
             // editPanel
             // 
@@ -497,10 +636,28 @@
             this.scrollUp.TabIndex = 9;
             this.scrollUp.UseVisualStyleBackColor = true;
             // 
+            // palletsCountButton
+            // 
+            this.palletsCountButton.BackColor = System.Drawing.Color.PowderBlue;
+            this.palletsCountButton.Background = System.Drawing.Color.PowderBlue;
+            this.palletsCountButton.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
+            this.palletsCountButton.Ico = null;
+            this.palletsCountButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.palletsCountButton.IsEnabled = true;
+            this.palletsCountButton.Location = new System.Drawing.Point(297, 568);
+            this.palletsCountButton.Name = "palletsCountButton";
+            this.palletsCountButton.Size = new System.Drawing.Size(131, 60);
+            this.palletsCountButton.TabIndex = 52;
+            this.palletsCountButton.Text = "<--     -->";
+            this.palletsCountButton.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
+            this.palletsCountButton.UseVisualStyleBackColor = false;
+            this.palletsCountButton.Click += new System.EventHandler(this.palletsCountButton_Click);
+            // 
             // EditPlannedArrivalDoc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.palletsCountButton);
             this.Controls.Add(this.tareButton);
             this.Controls.Add(this.waresButton);
             this.Controls.Add(this.exit);
@@ -549,9 +706,19 @@
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn Quantity;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn dateColumn;
         private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn shelfLifeDaysGridColumn;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
-        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
         private System.Windows.Forms.Button scrollDown;
         private System.Windows.Forms.Button scrollUp;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn standartPalletsCountColumn;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn nonStandartPalletsCountColumn;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn standartPalletCountPer1Column;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn nonStandartPalletCountPer1Column;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn unitsOnNotFullPalletColumn;
+        private DevExpress.XtraGrid.Views.BandedGrid.BandedGridColumn unitsOnNotFullNonStandartPalletColumn;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand1;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand2;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand3;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
+        private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
+        private NavigatedButton palletsCountButton;
         }
     }
