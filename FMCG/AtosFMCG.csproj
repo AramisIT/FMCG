@@ -344,7 +344,8 @@
     </Compile>
     <Compile Include="UIConfigurator.cs" />
     <None Include="images\Touchscreen 32.png" />
-    <None Include="images\PlannedArrival 32.png" />
+    <None Include="images\AcceptancePlan 32.png" />
+    <None Include="images\Acceptance 32.png" />
     <Content Include="TouchScreen\PalletSticker\StickerAdapter.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
