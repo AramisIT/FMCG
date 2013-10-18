@@ -323,6 +323,16 @@ namespace FMCG.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap PlannedArrival_32 {
+            get {
+                object obj = ResourceManager.GetObject("PlannedArrival 32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap prev_black {
             get {
                 object obj = ResourceManager.GetObject("prev_black", resourceCulture);
@@ -366,6 +376,16 @@ namespace FMCG.Properties {
         internal static System.Drawing.Bitmap storage {
             get {
                 object obj = ResourceManager.GetObject("storage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap Touchscreen_32 {
+            get {
+                object obj = ResourceManager.GetObject("Touchscreen 32", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

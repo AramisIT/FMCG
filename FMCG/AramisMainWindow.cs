@@ -21,6 +21,7 @@ using DevExpress.LookAndFeel;
 using Aramis.SystemConfigurations;
 using Aramis.UI;
 using Aramis;
+using Documents;
 using StorekeeperManagementServer;
 
 namespace AtosFMCG
@@ -320,6 +321,16 @@ namespace AtosFMCG
         private void starterUploadBarButtonItem_ItemClick(object sender, ItemClickEventArgs e)
             {
             PlatformMethods.UploadLoaderFiles(true);
+            }
+
+        private void barButtonItem3_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(PlannedArrival));
+            }
+
+        private void barButtonItem5_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(AcceptanceOfGoods));
             }
         }
     }

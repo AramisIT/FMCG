@@ -12,7 +12,7 @@ using AtosFMCG.Enums;
 using Catalogs;
 using Documents;
 
-namespace AtosFMCG.DatabaseObjects.Documents
+namespace Documents
     {
     /// <summary>Приймання товару</summary>
     [Document(Description = "Приймання товару", GUID = "0ACBC4E6-5486-4F2E-B207-3E8D012A080B", NumberType = NumberType.Int64, NumberIsReadonly = false)]
