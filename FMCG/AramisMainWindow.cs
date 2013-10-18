@@ -62,11 +62,11 @@ namespace AtosFMCG
         /// <summary>Форму завантажено</summary>
         private void AramisMainWindow_Load(object sender, EventArgs e)
             {
-            return;
-            openByAdmnin = SystemAramis.CurrentUser.Ref == CatalogUsers.Admin;
+            openByAdmnin = SystemAramis.CurrentUserAdmin;
 
+            adminPropertiesPage.Visible = openByAdmnin;
             //Приховати системні (тестові та інш.) групи 
-            updGroup.Visible = openByAdmnin;
+           // updGroup.Visible = openByAdmnin;
             favGroup.Visible = openByAdmnin;
             testGroup.Visible = openByAdmnin;
             serviceTablesGroup.Visible = openByAdmnin;
@@ -331,6 +331,11 @@ namespace AtosFMCG
         private void barButtonItem5_ItemClick(object sender, ItemClickEventArgs e)
             {
             UserInterface.Current.ShowList(typeof(AcceptanceOfGoods));
+            }
+
+        private void barButtonItem6_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            PlatformMethods.UploadLoaderFiles(true);
             }
         }
     }

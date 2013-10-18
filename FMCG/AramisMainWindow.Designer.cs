@@ -30,9 +30,9 @@
             {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AramisMainWindow));
-            DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
-            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
-            DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
+            DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
             this.smallImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
@@ -60,23 +60,24 @@
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
-            this.mainPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
-            this.sysObjectsGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.favGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.updGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.serviceTablesGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.dctServerGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.testGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.mainPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.sysObjectsGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.favGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.serviceTablesGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.dctServerGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.testGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.adminPropertiesPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
+            this.updGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.updatePageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).BeginInit();
@@ -115,10 +116,11 @@
             this.starterUploadBarButtonItem,
             this.barButtonItem1,
             this.barButtonItem3,
-            this.barButtonItem5});
+            this.barButtonItem5,
+            this.barButtonItem6});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 44;
+            this.ribbon.MaxItemId = 45;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
@@ -233,15 +235,15 @@
             this.serverState.Id = 28;
             this.serverState.LargeImageIndex = 4;
             this.serverState.Name = "serverState";
-            toolTipTitleItem1.Text = "Сервер не запущено!";
-            toolTipItem1.Appearance.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
-            toolTipItem1.Appearance.Options.UseImage = true;
-            toolTipItem1.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
-            toolTipItem1.LeftIndent = 6;
-            toolTipItem1.Text = "Сервер роботи з ТЗД не запущено...";
-            superToolTip1.Items.Add(toolTipTitleItem1);
-            superToolTip1.Items.Add(toolTipItem1);
-            this.serverState.SuperTip = superToolTip1;
+            toolTipTitleItem2.Text = "Сервер не запущено!";
+            toolTipItem2.Appearance.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem2.Appearance.Options.UseImage = true;
+            toolTipItem2.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem2.LeftIndent = 6;
+            toolTipItem2.Text = "Сервер роботи з ТЗД не запущено...";
+            superToolTip2.Items.Add(toolTipTitleItem2);
+            superToolTip2.Items.Add(toolTipItem2);
+            this.serverState.SuperTip = superToolTip2;
             this.serverState.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.serverState_ItemClick);
             // 
             // openStockBalance
@@ -359,66 +361,6 @@
             this.largeImagesCollection.Images.SetKeyName(31, "stock_task.png");
             this.largeImagesCollection.Images.SetKeyName(32, "1311149276_3d bar chart.png");
             // 
-            // mainPage
-            // 
-            this.mainPage.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.sysObjectsGroup,
-            this.favGroup,
-            this.updGroup,
-            this.serviceTablesGroup,
-            this.dctServerGroup,
-            this.testGroup});
-            this.mainPage.Name = "mainPage";
-            this.mainPage.Text = "Головна панель";
-            // 
-            // sysObjectsGroup
-            // 
-            this.sysObjectsGroup.ItemLinks.Add(this.openCatalogs);
-            this.sysObjectsGroup.ItemLinks.Add(this.openDocuments);
-            this.sysObjectsGroup.Name = "sysObjectsGroup";
-            this.sysObjectsGroup.Text = "Об\'єкти системи";
-            // 
-            // favGroup
-            // 
-            this.favGroup.ItemLinks.Add(this.openUsers);
-            this.favGroup.ItemLinks.Add(this.openReportsSetting);
-            this.favGroup.ItemLinks.Add(this.openConsts);
-            this.favGroup.Name = "favGroup";
-            this.favGroup.Text = "Обране";
-            // 
-            // updGroup
-            // 
-            this.updGroup.ItemLinks.Add(this.UpdateDBStructureButton);
-            this.updGroup.ItemLinks.Add(this.FastDBUpdateButton);
-            this.updGroup.ItemLinks.Add(this.updateSystem);
-            this.updGroup.ItemLinks.Add(this.delMarked);
-            this.updGroup.ItemLinks.Add(this.openRights);
-            this.updGroup.Name = "updGroup";
-            this.updGroup.ShowCaptionButton = false;
-            this.updGroup.Text = "Оновлення";
-            // 
-            // serviceTablesGroup
-            // 
-            this.serviceTablesGroup.ItemLinks.Add(this.openStockBalance);
-            this.serviceTablesGroup.ItemLinks.Add(this.openGoodsMoving);
-            this.serviceTablesGroup.ItemLinks.Add(this.openFilledCell);
-            this.serviceTablesGroup.Name = "serviceTablesGroup";
-            this.serviceTablesGroup.Text = "Службові таблиці";
-            // 
-            // dctServerGroup
-            // 
-            this.dctServerGroup.ItemLinks.Add(this.serverState);
-            this.dctServerGroup.Name = "dctServerGroup";
-            this.dctServerGroup.Text = "ТЗД сервер";
-            // 
-            // testGroup
-            // 
-            this.testGroup.ItemLinks.Add(this.loadScreen);
-            this.testGroup.ItemLinks.Add(this.printPalletLabel);
-            this.testGroup.ItemLinks.Add(this.tstInvoke);
-            this.testGroup.Name = "testGroup";
-            this.testGroup.Text = "Для тестів";
-            // 
             // ribbonPage1
             // 
             this.ribbonPage1.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
@@ -445,20 +387,78 @@
             this.ribbonPageGroup4.Name = "ribbonPageGroup4";
             this.ribbonPageGroup4.Text = "Звіти";
             // 
+            // mainPage
+            // 
+            this.mainPage.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
+            this.sysObjectsGroup,
+            this.favGroup,
+            this.serviceTablesGroup,
+            this.dctServerGroup,
+            this.testGroup});
+            this.mainPage.Name = "mainPage";
+            this.mainPage.Text = "Головна панель";
+            // 
+            // sysObjectsGroup
+            // 
+            this.sysObjectsGroup.ItemLinks.Add(this.openCatalogs);
+            this.sysObjectsGroup.ItemLinks.Add(this.openDocuments);
+            this.sysObjectsGroup.Name = "sysObjectsGroup";
+            this.sysObjectsGroup.Text = "Об\'єкти системи";
+            // 
+            // favGroup
+            // 
+            this.favGroup.ItemLinks.Add(this.openUsers);
+            this.favGroup.ItemLinks.Add(this.openReportsSetting);
+            this.favGroup.Name = "favGroup";
+            this.favGroup.Text = "Обране";
+            // 
+            // serviceTablesGroup
+            // 
+            this.serviceTablesGroup.ItemLinks.Add(this.openStockBalance);
+            this.serviceTablesGroup.ItemLinks.Add(this.openGoodsMoving);
+            this.serviceTablesGroup.ItemLinks.Add(this.openFilledCell);
+            this.serviceTablesGroup.Name = "serviceTablesGroup";
+            this.serviceTablesGroup.Text = "Службові таблиці";
+            // 
+            // dctServerGroup
+            // 
+            this.dctServerGroup.ItemLinks.Add(this.serverState);
+            this.dctServerGroup.Name = "dctServerGroup";
+            this.dctServerGroup.Text = "ТЗД сервер";
+            // 
+            // testGroup
+            // 
+            this.testGroup.ItemLinks.Add(this.loadScreen);
+            this.testGroup.ItemLinks.Add(this.printPalletLabel);
+            this.testGroup.ItemLinks.Add(this.tstInvoke);
+            this.testGroup.Name = "testGroup";
+            this.testGroup.Text = "Для тестів";
+            // 
             // adminPropertiesPage
             // 
             this.adminPropertiesPage.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
-            this.updatePageGroup,
-            this.updGroup});
+            this.updGroup,
+            this.updatePageGroup});
             this.adminPropertiesPage.Name = "adminPropertiesPage";
             this.adminPropertiesPage.Text = "Настройки системы";
+            // 
+            // updGroup
+            // 
+            this.updGroup.ItemLinks.Add(this.UpdateDBStructureButton);
+            this.updGroup.ItemLinks.Add(this.FastDBUpdateButton);
+            this.updGroup.ItemLinks.Add(this.updateSystem);
+            this.updGroup.ItemLinks.Add(this.barButtonItem6);
+            this.updGroup.Name = "updGroup";
+            this.updGroup.ShowCaptionButton = false;
+            this.updGroup.Text = "Оновлення";
             // 
             // updatePageGroup
             // 
             this.updatePageGroup.ItemLinks.Add(this.openRights);
             this.updatePageGroup.ItemLinks.Add(this.delMarked);
+            this.updatePageGroup.ItemLinks.Add(this.openConsts);
             this.updatePageGroup.Name = "updatePageGroup";
-            this.updatePageGroup.Text = "Обновление";
+            this.updatePageGroup.Text = "Настройки";
             // 
             // ribbonStatusBar
             // 
@@ -489,6 +489,13 @@
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.ShowCaptionButton = false;
             this.ribbonPageGroup1.Text = "Оновлення";
+            // 
+            // barButtonItem6
+            // 
+            this.barButtonItem6.Caption = "Загрузка стартера";
+            this.barButtonItem6.Id = 44;
+            this.barButtonItem6.Name = "barButtonItem6";
+            this.barButtonItem6.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem6_ItemClick);
             // 
             // AramisMainWindow
             // 
@@ -559,5 +566,6 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem3;
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem6;
         }
     }
