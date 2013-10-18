@@ -50,6 +50,7 @@ namespace AtosFMCG.TouchScreen.Controls
         #region Support
         public void FocusField()
             {
+            this.Focus();
             inputField.Focus();
             inputField.SelectAll();
             }

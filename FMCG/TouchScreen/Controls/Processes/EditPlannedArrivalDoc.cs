@@ -56,9 +56,13 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             get
                 {
-                return mainView.FocusedRowHandle <= list.Count && mainView.FocusedRowHandle >= 0
-                           ? list[mainView.FocusedRowHandle]
-                           : null;
+                if (list != null
+                    && mainView.FocusedRowHandle <= list.Count && mainView.FocusedRowHandle >= 0)
+                    {
+                    return list[mainView.GetFocusedDataSourceRowIndex()];
+                    }
+
+                return NomenclatureData.ZeroValue;
                 }
             }
         #endregion
@@ -92,6 +96,8 @@ namespace AtosFMCG.TouchScreen.Controls
 
         private void EditPlannedArrivalDoc_Load(object sender, EventArgs e)
             {
+            grid.Width = 425;
+            updateSelectedRowInfo();
             mainView.HorzScrollVisibility = ScrollVisibility.Never;
 
             if (!isLoaded)
@@ -113,7 +119,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
             //Fields
             invoiceDate.Text = NavigatedButton.SPACES_FOR_ICOx32 + Document.Date.ToShortDateString();
-            invoiceNumber.Text = NavigatedButton.SPACES_FOR_ICOx32 + Document.IncomeNumber;
+            invoiceNumber.Text = Document.IncomeNumber;
             driver.Text = setValueIntoButton(Document.Driver.Description);
             car.Text = setValueIntoButton(Document.Car.Description);
             choseWare(WaresTypes.Production);
@@ -468,6 +474,8 @@ namespace AtosFMCG.TouchScreen.Controls
                                            selectedData.Quantity,
                                            selectedData.Date.ToShortDateString())
                                        : string.Empty;
+
+            currentNomenclatureLabel.Text = (selectedRow.Description ?? new ObjectValue(string.Empty, 0)).Description;
             }
 
         private void startCellValueEditig()
@@ -484,20 +492,20 @@ namespace AtosFMCG.TouchScreen.Controls
                         updateEditControl(changeNomenclatureData);
                         break;
                     case EditedColumns.Quantity:
-                        updateEditControl(installQuantityEditiors);
+                        updateEditControl(() => installNumberEditEditior(selectedRow.Quantity, (enteredValue) =>
+                        {
+                            selectedRow.Quantity = enteredValue;
+                        }, "Кіль-сть змінено!"));
                         break;
                     case EditedColumns.Date:
                         updateEditControl(installDateEditiors);
                         break;
 
                     case EditedColumns.ShelfLife:
-                        updateEditControl(() =>
+                        updateEditControl(() => installNumberEditEditior(selectedRow.ShelfLifeDays, (enteredValue) =>
                             {
-                                installNumberEditEditior(selectedRow.ShelfLifeDays, (enteredValue) =>
-                                    {
-                                        selectedRow.ShelfLifeDays = enteredValue;
-                                    }, "Термін придатності змінено!");
-                            });
+                                selectedRow.ShelfLifeDays = enteredValue;
+                            }, "Термін придатності змінено!"));
                         break;
 
                     case EditedColumns.StandartPalletsCount:
@@ -622,6 +630,8 @@ namespace AtosFMCG.TouchScreen.Controls
                 grid.RefreshDataSource();
                 showMessage("Обрано нову номенклатуру!", value.Value);
                 }
+
+            updateSelectedRowInfo();
             }
         #endregion
 
@@ -637,29 +647,6 @@ namespace AtosFMCG.TouchScreen.Controls
         private void date_DateIsChanged(object sender, ValueIsChangedArgs<DateTime> e)
             {
             selectedRow.Date = e.Value;
-            grid.RefreshDataSource();
-            }
-        #endregion
-
-        #region Quantity
-        private void installQuantityEditiors()
-            {
-            NumberEdit quantityEdit = new NumberEdit((int)selectedRow.Quantity, Back, FinishQuantityEdit);
-            quantityEdit.ValueIsChanged += quantityEdit_ValueIsChanged;
-            assignScrollHandlers(quantityEdit);
-            editControlsArea.Controls.Add(quantityEdit);
-            }
-
-
-
-        private void FinishQuantityEdit(string newValue)
-            {
-            showMessage("К-сть змінено!");
-            }
-
-        private void quantityEdit_ValueIsChanged(object sender, ValueIsChangedArgs<int> e)
-            {
-            selectedRow.Quantity = e.Value;
             grid.RefreshDataSource();
             }
         #endregion
@@ -801,6 +788,8 @@ namespace AtosFMCG.TouchScreen.Controls
             updateVerticalScrollVisibility();
             editControlsArea.Controls.Add(scrollUp);
             editControlsArea.Controls.Add(scrollDown);
+
+            updateSelectedRowInfo();
             }
 
         private void fillEditableTable(WaresTypes waresTypes)
@@ -835,10 +824,11 @@ namespace AtosFMCG.TouchScreen.Controls
                     {
                         LineNumber = Convert.ToInt64(row["LineNumber"]),
                         Description = new ObjectValue(nomenclatureDescription, nomemclatureId),
-                        Quantity = Convert.ToDecimal(row[isTare ? Document.TareCount : Document.NomenclatureCount]),
                         ShelfLifeDays = shelfLifeDays,
                         StandartPalletCountPer1 = unitsQuantityPerPallet
                     };
+
+                element.Quantity = Convert.ToInt32(row[isTare ? Document.TareCount : Document.NomenclatureCount]);
 
                 if (!isTare)
                     {
@@ -855,11 +845,7 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             object value = null;
 
-            if (e.Column == Quantity)
-                {
-                value = ((int)Math.Round(Convert.ToDecimal(e.Value), 0));
-                }
-            else if (e.Column == dateColumn)
+            if (e.Column == dateColumn)
                 {
                 var currentDate = (DateTime)e.Value;
                 value = DateTime.MinValue.Equals(currentDate) ? string.Empty : currentDate.ToString("dd.MM.yy");

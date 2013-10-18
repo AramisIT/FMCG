@@ -66,6 +66,7 @@
             this.scrollDown = new System.Windows.Forms.Button();
             this.scrollUp = new System.Windows.Forms.Button();
             this.palletsCountButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
+            this.currentNomenclatureLabel = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainView)).BeginInit();
             this.editPanel.SuspendLayout();
@@ -80,9 +81,9 @@
             this.editMode.Image = global::FMCG.Properties.Resources.edit;
             this.editMode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.editMode.IsEnabled = true;
-            this.editMode.Location = new System.Drawing.Point(219, 700);
+            this.editMode.Location = new System.Drawing.Point(219, 710);
             this.editMode.Name = "editMode";
-            this.editMode.Size = new System.Drawing.Size(105, 60);
+            this.editMode.Size = new System.Drawing.Size(105, 50);
             this.editMode.TabIndex = 40;
             this.editMode.Text = "Редагувати";
             this.editMode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -99,9 +100,9 @@
             this.car.Image = global::FMCG.Properties.Resources.car;
             this.car.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.car.IsEnabled = true;
-            this.car.Location = new System.Drawing.Point(219, 634);
+            this.car.Location = new System.Drawing.Point(219, 654);
             this.car.Name = "car";
-            this.car.Size = new System.Drawing.Size(210, 60);
+            this.car.Size = new System.Drawing.Size(210, 50);
             this.car.TabIndex = 39;
             this.car.Text = "          Машинашшшшшшш";
             this.car.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -118,9 +119,9 @@
             this.driver.Image = global::FMCG.Properties.Resources.user;
             this.driver.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.driver.IsEnabled = true;
-            this.driver.Location = new System.Drawing.Point(3, 634);
+            this.driver.Location = new System.Drawing.Point(3, 654);
             this.driver.Name = "driver";
-            this.driver.Size = new System.Drawing.Size(210, 60);
+            this.driver.Size = new System.Drawing.Size(210, 50);
             this.driver.TabIndex = 38;
             this.driver.Text = "          Водій";
             this.driver.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -137,9 +138,9 @@
             this.invoiceDate.Image = global::FMCG.Properties.Resources.date;
             this.invoiceDate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.invoiceDate.IsEnabled = true;
-            this.invoiceDate.Location = new System.Drawing.Point(137, 568);
+            this.invoiceDate.Location = new System.Drawing.Point(137, 598);
             this.invoiceDate.Name = "invoiceDate";
-            this.invoiceDate.Size = new System.Drawing.Size(158, 60);
+            this.invoiceDate.Size = new System.Drawing.Size(158, 50);
             this.invoiceDate.TabIndex = 37;
             this.invoiceDate.Text = "          Дата";
             this.invoiceDate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -152,15 +153,13 @@
             this.invoiceNumber.BackColor = System.Drawing.Color.PowderBlue;
             this.invoiceNumber.Background = System.Drawing.Color.PowderBlue;
             this.invoiceNumber.Font = new System.Drawing.Font("Tahoma", 11F, System.Drawing.FontStyle.Bold);
-            this.invoiceNumber.Ico = global::FMCG.Properties.Resources.number;
-            this.invoiceNumber.Image = global::FMCG.Properties.Resources.number;
+            this.invoiceNumber.Ico = null;
             this.invoiceNumber.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.invoiceNumber.IsEnabled = true;
-            this.invoiceNumber.Location = new System.Drawing.Point(3, 568);
+            this.invoiceNumber.Location = new System.Drawing.Point(3, 598);
             this.invoiceNumber.Name = "invoiceNumber";
-            this.invoiceNumber.Size = new System.Drawing.Size(132, 60);
+            this.invoiceNumber.Size = new System.Drawing.Size(132, 50);
             this.invoiceNumber.TabIndex = 36;
-            this.invoiceNumber.Text = "          Номер накладної";
             this.invoiceNumber.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.invoiceNumber.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
             this.invoiceNumber.UseVisualStyleBackColor = false;
@@ -182,9 +181,9 @@
             this.save.Image = global::FMCG.Properties.Resources.save;
             this.save.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.save.IsEnabled = true;
-            this.save.Location = new System.Drawing.Point(324, 700);
+            this.save.Location = new System.Drawing.Point(324, 710);
             this.save.Name = "save";
-            this.save.Size = new System.Drawing.Size(105, 60);
+            this.save.Size = new System.Drawing.Size(105, 50);
             this.save.TabIndex = 42;
             this.save.Text = "Завершити";
             this.save.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -194,7 +193,7 @@
             // 
             // grid
             // 
-            this.grid.Location = new System.Drawing.Point(3, 3);
+            this.grid.Location = new System.Drawing.Point(3, 33);
             this.grid.MainView = this.mainView;
             this.grid.Name = "grid";
             this.grid.Size = new System.Drawing.Size(425, 559);
@@ -204,12 +203,13 @@
             // 
             // mainView
             // 
-            this.mainView.Appearance.FocusedCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(245)))), ((int)(((byte)(255)))));
-            this.mainView.Appearance.FocusedCell.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold);
+            this.mainView.Appearance.FocusedCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.mainView.Appearance.FocusedCell.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.mainView.Appearance.FocusedCell.ForeColor = System.Drawing.Color.Black;
             this.mainView.Appearance.FocusedCell.Options.UseBackColor = true;
             this.mainView.Appearance.FocusedCell.Options.UseFont = true;
-            this.mainView.Appearance.FocusedRow.BackColor = System.Drawing.Color.White;
-            this.mainView.Appearance.FocusedRow.BackColor2 = System.Drawing.Color.White;
+            this.mainView.Appearance.FocusedCell.Options.UseForeColor = true;
+            this.mainView.Appearance.FocusedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.mainView.Appearance.FocusedRow.ForeColor = System.Drawing.Color.Black;
             this.mainView.Appearance.FocusedRow.Options.UseBackColor = true;
             this.mainView.Appearance.FocusedRow.Options.UseForeColor = true;
@@ -217,13 +217,11 @@
             this.mainView.Appearance.HeaderPanel.Options.UseFont = true;
             this.mainView.Appearance.HeaderPanel.Options.UseTextOptions = true;
             this.mainView.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.mainView.Appearance.HideSelectionRow.BackColor = System.Drawing.Color.White;
-            this.mainView.Appearance.HideSelectionRow.BackColor2 = System.Drawing.Color.White;
+            this.mainView.Appearance.HideSelectionRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.mainView.Appearance.HideSelectionRow.ForeColor = System.Drawing.Color.Black;
             this.mainView.Appearance.HideSelectionRow.Options.UseBackColor = true;
             this.mainView.Appearance.HideSelectionRow.Options.UseForeColor = true;
-            this.mainView.Appearance.SelectedRow.BackColor = System.Drawing.Color.White;
-            this.mainView.Appearance.SelectedRow.BackColor2 = System.Drawing.Color.White;
+            this.mainView.Appearance.SelectedRow.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
             this.mainView.Appearance.SelectedRow.ForeColor = System.Drawing.Color.Black;
             this.mainView.Appearance.SelectedRow.Options.UseBackColor = true;
             this.mainView.Appearance.SelectedRow.Options.UseForeColor = true;
@@ -253,7 +251,7 @@
             this.mainView.OptionsView.ShowBands = false;
             this.mainView.OptionsView.ShowGroupPanel = false;
             this.mainView.OptionsView.ShowIndicator = false;
-            this.mainView.RowHeight = 30;
+            this.mainView.RowHeight = 25;
             this.mainView.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never;
             this.mainView.RowClick += new DevExpress.XtraGrid.Views.Grid.RowClickEventHandler(this.mainView_RowClick);
             this.mainView.FocusedColumnChanged += new DevExpress.XtraGrid.Views.Base.FocusedColumnChangedEventHandler(this.mainView_FocusedColumnChanged);
@@ -274,6 +272,8 @@
             this.LineNumber.AppearanceCell.Options.UseFont = true;
             this.LineNumber.AppearanceCell.Options.UseTextOptions = true;
             this.LineNumber.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.LineNumber.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.LineNumber.AppearanceHeader.Options.UseFont = true;
             this.LineNumber.Caption = " ";
             this.LineNumber.FieldName = "LineNumber";
             this.LineNumber.Name = "LineNumber";
@@ -287,6 +287,8 @@
             // 
             this.Description.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 9.75F);
             this.Description.AppearanceCell.Options.UseFont = true;
+            this.Description.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Description.AppearanceHeader.Options.UseFont = true;
             this.Description.Caption = "Найменування";
             this.Description.FieldName = "Description";
             this.Description.Name = "Description";
@@ -301,7 +303,11 @@
             this.Quantity.AppearanceCell.Options.UseFont = true;
             this.Quantity.AppearanceCell.Options.UseTextOptions = true;
             this.Quantity.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.Quantity.Caption = "К-ть";
+            this.Quantity.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Quantity.AppearanceHeader.Options.UseFont = true;
+            this.Quantity.Caption = "Кільк-ть";
+            this.Quantity.DisplayFormat.FormatString = "{0:n0}";
+            this.Quantity.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.Quantity.FieldName = "Quantity";
             this.Quantity.Name = "Quantity";
             this.Quantity.OptionsColumn.ReadOnly = true;
@@ -323,6 +329,8 @@
             this.dateColumn.AppearanceCell.Options.UseFont = true;
             this.dateColumn.AppearanceCell.Options.UseTextOptions = true;
             this.dateColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.dateColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.dateColumn.AppearanceHeader.Options.UseFont = true;
             this.dateColumn.Caption = "Дата";
             this.dateColumn.DisplayFormat.FormatString = "d";
             this.dateColumn.DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
@@ -338,6 +346,8 @@
             this.shelfLifeDaysGridColumn.AppearanceCell.Options.UseFont = true;
             this.shelfLifeDaysGridColumn.AppearanceCell.Options.UseTextOptions = true;
             this.shelfLifeDaysGridColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            this.shelfLifeDaysGridColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.shelfLifeDaysGridColumn.AppearanceHeader.Options.UseFont = true;
             this.shelfLifeDaysGridColumn.AppearanceHeader.Options.UseTextOptions = true;
             this.shelfLifeDaysGridColumn.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
             this.shelfLifeDaysGridColumn.AppearanceHeader.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
@@ -366,6 +376,8 @@
             this.standartPalletsCountColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.standartPalletsCountColumn.AppearanceHeader.Options.UseFont = true;
             this.standartPalletsCountColumn.Caption = "Кол-во палл.";
+            this.standartPalletsCountColumn.DisplayFormat.FormatString = "{0:n0}";
+            this.standartPalletsCountColumn.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.standartPalletsCountColumn.FieldName = "StandartPalletsCount";
             this.standartPalletsCountColumn.Name = "standartPalletsCountColumn";
             this.standartPalletsCountColumn.OptionsColumn.ReadOnly = true;
@@ -381,6 +393,8 @@
             this.nonStandartPalletsCountColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.nonStandartPalletsCountColumn.AppearanceHeader.Options.UseFont = true;
             this.nonStandartPalletsCountColumn.Caption = "Кол. евро п.";
+            this.nonStandartPalletsCountColumn.DisplayFormat.FormatString = "{0:n0}";
+            this.nonStandartPalletsCountColumn.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.nonStandartPalletsCountColumn.FieldName = "NonStandartPalletsCount";
             this.nonStandartPalletsCountColumn.Name = "nonStandartPalletsCountColumn";
             this.nonStandartPalletsCountColumn.OptionsColumn.ReadOnly = true;
@@ -405,6 +419,8 @@
             this.standartPalletCountPer1Column.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.standartPalletCountPer1Column.AppearanceHeader.Options.UseFont = true;
             this.standartPalletCountPer1Column.Caption = "Ед. в палл.";
+            this.standartPalletCountPer1Column.DisplayFormat.FormatString = "{0:n0}";
+            this.standartPalletCountPer1Column.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.standartPalletCountPer1Column.FieldName = "StandartPalletCountPer1";
             this.standartPalletCountPer1Column.Name = "standartPalletCountPer1Column";
             this.standartPalletCountPer1Column.OptionsColumn.ReadOnly = true;
@@ -420,6 +436,8 @@
             this.nonStandartPalletCountPer1Column.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.nonStandartPalletCountPer1Column.AppearanceHeader.Options.UseFont = true;
             this.nonStandartPalletCountPer1Column.Caption = "Ед. на евро п.";
+            this.nonStandartPalletCountPer1Column.DisplayFormat.FormatString = "{0:n0}";
+            this.nonStandartPalletCountPer1Column.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.nonStandartPalletCountPer1Column.FieldName = "NonStandartPalletCountPer1";
             this.nonStandartPalletCountPer1Column.Name = "nonStandartPalletCountPer1Column";
             this.nonStandartPalletCountPer1Column.OptionsColumn.ReadOnly = true;
@@ -444,6 +462,8 @@
             this.unitsOnNotFullPalletColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.unitsOnNotFullPalletColumn.AppearanceHeader.Options.UseFont = true;
             this.unitsOnNotFullPalletColumn.Caption = "Остаток на пал.";
+            this.unitsOnNotFullPalletColumn.DisplayFormat.FormatString = "{0:n0}";
+            this.unitsOnNotFullPalletColumn.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.unitsOnNotFullPalletColumn.FieldName = "UnitsOnNotFullPallet";
             this.unitsOnNotFullPalletColumn.Name = "unitsOnNotFullPalletColumn";
             this.unitsOnNotFullPalletColumn.OptionsColumn.ReadOnly = true;
@@ -459,6 +479,8 @@
             this.unitsOnNotFullNonStandartPalletColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.unitsOnNotFullNonStandartPalletColumn.AppearanceHeader.Options.UseFont = true;
             this.unitsOnNotFullNonStandartPalletColumn.Caption = "Остаток на евро п.";
+            this.unitsOnNotFullNonStandartPalletColumn.DisplayFormat.FormatString = "{0:n0}";
+            this.unitsOnNotFullNonStandartPalletColumn.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.unitsOnNotFullNonStandartPalletColumn.FieldName = "UnitsOnNotFullNonStandartPallet";
             this.unitsOnNotFullNonStandartPalletColumn.Name = "unitsOnNotFullNonStandartPalletColumn";
             this.unitsOnNotFullNonStandartPalletColumn.OptionsColumn.ReadOnly = true;
@@ -592,9 +614,9 @@
             this.waresButton.Ico = null;
             this.waresButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.waresButton.IsEnabled = true;
-            this.waresButton.Location = new System.Drawing.Point(3, 700);
+            this.waresButton.Location = new System.Drawing.Point(3, 710);
             this.waresButton.Name = "waresButton";
-            this.waresButton.Size = new System.Drawing.Size(105, 60);
+            this.waresButton.Size = new System.Drawing.Size(105, 50);
             this.waresButton.TabIndex = 50;
             this.waresButton.Text = "Продукція";
             this.waresButton.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
@@ -609,9 +631,9 @@
             this.tareButton.Ico = null;
             this.tareButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.tareButton.IsEnabled = true;
-            this.tareButton.Location = new System.Drawing.Point(108, 700);
+            this.tareButton.Location = new System.Drawing.Point(108, 710);
             this.tareButton.Name = "tareButton";
-            this.tareButton.Size = new System.Drawing.Size(105, 60);
+            this.tareButton.Size = new System.Drawing.Size(105, 50);
             this.tareButton.TabIndex = 51;
             this.tareButton.Text = "Тара";
             this.tareButton.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
@@ -644,19 +666,29 @@
             this.palletsCountButton.Ico = null;
             this.palletsCountButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.palletsCountButton.IsEnabled = true;
-            this.palletsCountButton.Location = new System.Drawing.Point(297, 568);
+            this.palletsCountButton.Location = new System.Drawing.Point(297, 598);
             this.palletsCountButton.Name = "palletsCountButton";
-            this.palletsCountButton.Size = new System.Drawing.Size(131, 60);
+            this.palletsCountButton.Size = new System.Drawing.Size(131, 50);
             this.palletsCountButton.TabIndex = 52;
             this.palletsCountButton.Text = "<--     -->";
             this.palletsCountButton.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Normal;
             this.palletsCountButton.UseVisualStyleBackColor = false;
             this.palletsCountButton.Click += new System.EventHandler(this.palletsCountButton_Click);
             // 
+            // currentNomenclatureLabel
+            // 
+            this.currentNomenclatureLabel.Appearance.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.currentNomenclatureLabel.Location = new System.Drawing.Point(3, 10);
+            this.currentNomenclatureLabel.Name = "currentNomenclatureLabel";
+            this.currentNomenclatureLabel.Size = new System.Drawing.Size(88, 16);
+            this.currentNomenclatureLabel.TabIndex = 53;
+            this.currentNomenclatureLabel.Text = "Живчик 2,5 л";
+            // 
             // EditPlannedArrivalDoc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.currentNomenclatureLabel);
             this.Controls.Add(this.palletsCountButton);
             this.Controls.Add(this.tareButton);
             this.Controls.Add(this.waresButton);
@@ -677,6 +709,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.mainView)).EndInit();
             this.editPanel.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
             }
 
@@ -720,5 +753,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand4;
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
         private NavigatedButton palletsCountButton;
+        private DevExpress.XtraEditors.LabelControl currentNomenclatureLabel;
         }
     }
