@@ -8,7 +8,7 @@ using Catalogs;
 
 namespace Catalogs
     {
-    [Catalog(Description = "Этикетки на паллеты", GUID = "A1204B4B-57D3-4771-B78A-E0B868D896D6", DescriptionSize = 75, HierarchicType = HierarchicTypes.None)]
+    [Catalog(Description = "Этикетки на паллеты", GUID = "A1204B4B-57D3-4771-B78A-E0B868D896D6", DescriptionSize = 75, HierarchicType = HierarchicTypes.None, ShowCreationDate = true, ShowCodeFieldInForm = false, ShowCodeFieldInList = false)]
     public class Stickers : CatalogTable
         {
         [DataField(Description = "Номенклатура", ShowInList = true)]
@@ -82,7 +82,7 @@ namespace Catalogs
             get
                 {
                 var bestBeforeDay = (int)((TimeSpan)(ExpiryDate.Date - ReleaseDate.Date)).TotalDays;
-                return ReleaseDate.AddDays(bestBeforeDay/2);
+                return ReleaseDate.AddDays(bestBeforeDay / 2);
                 }
             }
 
@@ -104,6 +104,25 @@ namespace Catalogs
                 }
             }
         private DateTime z_ExpiryDate;
+
+        [DataField(Description = "Код этикетки", ReadOnly = true, StorageType = StorageTypes.Local)]
+        public long StickerCode
+            {
+            get
+                {
+                return z_StickerCode;
+                }
+            set
+                {
+                if (z_StickerCode == value)
+                    {
+                    return;
+                    }
+                z_StickerCode = value;
+                NotifyPropertyChanged("StickerCode");
+                }
+            }
+        private long z_StickerCode;
 
         [DataField(Description = "Дата приемки", ShowInList = false)]
         public DateTime AcceptionDate
@@ -137,8 +156,14 @@ namespace Catalogs
                 }
             }
 
+        protected override void InitItemBeforeShowing()
+            {
+            base.InitItemBeforeShowing();
+            StickerCode = Id;
+            }
+
         public Stickers()
-            :base()
+            : base()
             {
             BeforeWriting += Stickers_BeforeWriting;
             }

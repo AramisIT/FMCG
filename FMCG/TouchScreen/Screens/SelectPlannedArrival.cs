@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Text;
 using System.Windows.Forms;
 using Aramis.DatabaseConnector;
 using AtosFMCG.DatabaseObjects.Documents;
@@ -10,12 +12,11 @@ using TouchScreen.Models.Data;
 
 namespace AtosFMCG.TouchScreen.Screens
     {
-    /// <summary>Сортована продукція</summary>
-    public partial class SelectPlannedArrival : BasePlannedArrival
+    public partial class SelectAcceptancePlan : BaseAcceptancePlan
         {
         #region Init
         /// <summary>Сортована продукція</summary>
-        public SelectPlannedArrival(PlannedArrivalData data)
+        public SelectAcceptancePlan(AcceptancePlanData data)
             : base(data)
             {
             InitializeComponent();
@@ -64,7 +65,7 @@ namespace AtosFMCG.TouchScreen.Screens
             {
             Query query = DB.NewQuery(
                     @"
-select distinct pa.Car Id, RTRIM(c.Description) Description from PlannedArrival pa 
+select distinct pa.Car Id, RTRIM(c.Description) Description from AcceptancePlan pa 
 join Cars c on c.Id = pa.Car
 where pa.State < 2 and pa.MarkForDeleting = 0 and c.Description like '%'+@CarNumber+'%'
 order by RTRIM(c.Description)
@@ -97,10 +98,10 @@ order by RTRIM(c.Description)
         private DataTable updateIncoiceList(string enterValue)
             {
             Query query = DB.NewQuery(@"
-SELECT p.Id,RTRIM('№'+CAST(p.IncomeNumber AS VARCHAR)) Description 
-FROM PlannedArrival p 
+SELECT p.Id,RTRIM('№ '+CAST(p.SupplierIncomeNumber AS VARCHAR)) Description 
+FROM AcceptancePlan p 
 WHERE 
-    CAST(p.IncomeNumber AS VARCHAR) like '%'+@Number+'%'
+    CAST(p.SupplierIncomeNumber AS VARCHAR) like '%'+@Number+'%'
     AND Car=@Car");
             query.AddInputParameter("Number", enterValue);
             query.AddInputParameter("Car", ScreenData.Car.Key);
@@ -111,11 +112,36 @@ WHERE
 
         private void selectInvoiceValue(KeyValuePair<long, string> value)
             {
-            ScreenData.Invoice = value;
-            installNewPage(new EditPlannedArrivalDoc(ScreenData, Finish));
+            if (checkNomenclature(value.Key))
+                {
+                ScreenData.Invoice = value;
+                installNewPage(new EditAcceptancePlanDoc(ScreenData, Finish));
+                }
             }
 
-        private void Finish(bool isSaved, PlannedArrival document)
+        private bool checkNomenclature(long acceptancePlanId)
+            {
+            const string sql = @"select rtrim(nom.Description) Nomenclature from SubAcceptancePlanNomenclatureInfo n 
+join Nomenclature nom on n.IdDoc = @Id and nom.Id = n.Nomenclature
+where nom.UnitsQuantityPerPack=0 or nom.UnitsQuantityPerPallet=0
+order by nom.Description";
+            var q = DB.NewQuery(sql);
+            q.AddInputParameter("Id", acceptancePlanId);
+            var wrongNomenclatureList = q.SelectToList<string>();
+
+            if (wrongNomenclatureList.Count == 0)
+                {
+                return true;
+                }
+
+            var warningMessage = new StringBuilder("Необходимо ввести количество на паллете, количество в упаковке для следующей номенклатуры:\r\n");
+            warningMessage.AppendLine();
+            wrongNomenclatureList.ForEach(nomenclature => warningMessage.AppendLine(nomenclature));
+            warningMessage.ToString().WarningBox();
+            return false;
+            }
+
+        private void Finish(bool isSaved, AcceptancePlan document)
             {
             goToStartPage();
             }

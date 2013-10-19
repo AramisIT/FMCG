@@ -21,10 +21,10 @@ declare @docRef as uniqueidentifier = cast(@DocRefStr as uniqueidentifier);
 
 declare @IdDoc bigint;
 
-select top 1 @IdDoc = Id from PlannedArrival where Ref1C = @docRef
+select top 1 @IdDoc = Id from AcceptancePlan where Ref1C = @docRef
 
 select goods.LineNumber, nom.Ref1C NomenclatureRef, goods.NomenclatureCount, p.DateOfManufacture PartyDate 
-from dbo.SubPlannedArrivalNomenclatureInfo goods
+from dbo.SubAcceptancePlanNomenclatureInfo goods
 join Nomenclature nom on nom.Id = goods.Nomenclature
 join Parties p on p.Id = goods.NomenclatureParty
 where goods.IdDoc = @IdDoc
@@ -44,10 +44,10 @@ declare @docRef as uniqueidentifier = cast(@DocRefStr as uniqueidentifier);
 
 declare @IdDoc bigint;
 
-select top 1 @IdDoc = Id from PlannedArrival where Ref1C = @docRef
+select top 1 @IdDoc = Id from AcceptancePlan where Ref1C = @docRef
 
 select tare.LineNumber, nom.Ref1C NomenclatureRef, tare.TareCount 
-from dbo.SubPlannedArrivalTareInfo tare
+from dbo.SubAcceptancePlanTareInfo tare
 join Nomenclature nom on nom.Id = tare.Tare
 
 where tare.IdDoc = @IdDoc

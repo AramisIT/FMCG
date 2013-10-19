@@ -229,8 +229,8 @@ namespace AtosFMCG
             serverState.SuperTip.Items.Clear();
             serverState.SuperTip.Items.Add("Сервер для роботи з ТЗД запущено!");
 
-            ltlServerState.ImageIndex = 20;
-            ltlServerState.Caption = "Сервер для роботи з ТЗД запущено!";
+            //ltlServerState.ImageIndex = 20;
+            //ltlServerState.Caption = "Сервер для роботи з ТЗД запущено!";
             }
 
         private void showFailResultOfConnection()
@@ -240,8 +240,8 @@ namespace AtosFMCG
             serverState.SuperTip.Items.Clear();
             serverState.SuperTip.Items.Add("Сервер для роботи з ТЗД не зміг запуститись!");
 
-            ltlServerState.ImageIndex = 1;
-            ltlServerState.Caption = "Сервер для роботи з ТЗД не зміг запуститись!";
+            //ltlServerState.ImageIndex = 1;
+            //ltlServerState.Caption = "Сервер для роботи з ТЗД не зміг запуститись!";
             }
         #endregion
 
@@ -325,7 +325,7 @@ namespace AtosFMCG
 
         private void barButtonItem3_ItemClick(object sender, ItemClickEventArgs e)
             {
-            UserInterface.Current.ShowList(typeof(PlannedArrival));
+            UserInterface.Current.ShowList(typeof(AcceptancePlan));
             }
 
         private void barButtonItem5_ItemClick(object sender, ItemClickEventArgs e)

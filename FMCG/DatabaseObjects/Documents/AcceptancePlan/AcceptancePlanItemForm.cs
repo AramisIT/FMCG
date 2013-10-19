@@ -9,7 +9,7 @@ using Documents;
 namespace AtosFMCG.DatabaseObjects.Documents
     {
     [View(DBObjectGuid = "0455B8DB-F11B-4B3B-A727-D4E889A1EFCB", ViewType = ViewFormType.DocItem)]
-    public partial class PlannedArrivalItemForm : DevExpress.XtraBars.Ribbon.RibbonForm, IItemForm
+    public partial class AcceptancePlanItemForm : DevExpress.XtraBars.Ribbon.RibbonForm, IItemForm
         {
         #region Fields
         private DocumentTable item;
@@ -18,13 +18,13 @@ namespace AtosFMCG.DatabaseObjects.Documents
             get { return item; }
             set { item = (DocumentTable)value; }
             }
-        public PlannedArrival Document
+        public AcceptancePlan Document
             {
-            get { return (PlannedArrival)item; }
+            get { return (AcceptancePlan)item; }
             }
         #endregion
 
-        public PlannedArrivalItemForm()
+        public AcceptancePlanItemForm()
             {
             InitializeComponent();
             }
@@ -74,5 +74,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             TryCancel();
             }
         #endregion
+
+       
+
+      
         }
     }

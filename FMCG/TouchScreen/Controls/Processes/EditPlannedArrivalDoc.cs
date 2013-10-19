@@ -20,7 +20,7 @@ using TouchScreen.Models.Data;
 namespace AtosFMCG.TouchScreen.Controls
     {
     /// <summary>Редагування документу "План приходу"</summary>
-    public partial class EditPlannedArrivalDoc : UserControl, IVerticalScroll
+    public partial class EditAcceptancePlanDoc : UserControl, IVerticalScroll
         {
         #region Veriables
 
@@ -42,13 +42,13 @@ namespace AtosFMCG.TouchScreen.Controls
         /// <summary>Максимальна к-сть літер, що відображається в кнопці</summary>
         private const int MAX_BTN_TEXT_LENGTH = 13;
         /// <summary>Документ "План приходу"</summary>
-        private PlannedArrival Document;
+        private AcceptancePlan Document;
         /// <summary>Дія при завершені роботи з документом</summary>
-        private readonly FinishEditPlannedArrivalDelegate onFinish;
+        private readonly FinishEditAcceptancePlanDelegate onFinish;
         /// <summary>Список номеналутари (аналог таблиці)</summary>
         private List<NomenclatureData> list;
         /// <summary>Початкові дані для визначення документу</summary>
-        private readonly PlannedArrivalData plannedData;
+        private readonly AcceptancePlanData plannedData;
         /// <summary>Чи завантажено форму</summary>
         private bool isLoaded;
         /// <summary>Обрана строка для редагування</summary>
@@ -69,7 +69,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
         #region Init
         /// <summary>Редагування документу "План приходу"</summary>
-        public EditPlannedArrivalDoc()
+        public EditAcceptancePlanDoc()
             {
             InitializeComponent();
             assignScrollHandlers(this);
@@ -78,7 +78,7 @@ namespace AtosFMCG.TouchScreen.Controls
         /// <summary>Редагування документу "План приходу"</summary>
         /// <param name="data">Початкові дані для визначення документу</param>
         /// <param name="finish">Дія при завершені роботи з документом</param>
-        public EditPlannedArrivalDoc(PlannedArrivalData data, FinishEditPlannedArrivalDelegate finish)
+        public EditAcceptancePlanDoc(AcceptancePlanData data, FinishEditAcceptancePlanDelegate finish)
             : this()
             {
             plannedData = data;
@@ -94,7 +94,7 @@ namespace AtosFMCG.TouchScreen.Controls
             scrollDown.Visible = showVerticalScroll;
             }
 
-        private void EditPlannedArrivalDoc_Load(object sender, EventArgs e)
+        private void EditAcceptancePlanDoc_Load(object sender, EventArgs e)
             {
             grid.Width = 425;
             updateSelectedRowInfo();
@@ -111,10 +111,10 @@ namespace AtosFMCG.TouchScreen.Controls
         #region Fill
         /// <summary>Заповнення форми даними ініціалізації</summary>
         /// <param name="data">Дані</param>
-        private void fillInitData(PlannedArrivalData data)
+        private void fillInitData(AcceptancePlanData data)
             {
             //Document
-            Document = new PlannedArrival();
+            Document = new AcceptancePlan();
             Document.Read(data.Invoice.Key);
 
             //Fields
@@ -595,7 +595,11 @@ namespace AtosFMCG.TouchScreen.Controls
         private DataTable UpdateNomenclature(string enterValue, bool isTare)
             {
             Query query = DB.NewQuery(
-                "SELECT Id,RTRIM(Description)Description FROM Nomenclature WHERE MarkForDeleting = 0 and IsTare = @IsTare and Description like '%'+@Description+'%' ORDER BY Description");
+                @"SELECT Id,RTRIM(Description)Description FROM Nomenclature 
+                WHERE MarkForDeleting = 0 and IsTare = @IsTare 
+                and (@IsTare = 1 or (UnitsQuantityPerPallet>0 and UnitsQuantityPerPack>0))
+                and Description like '%'+@Description+'%' 
+                ORDER BY Description");
             query.AddInputParameter("Description", enterValue);
             query.AddInputParameter("IsTare", isTare);
             DataTable table = query.SelectToTable();

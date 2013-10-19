@@ -136,15 +136,17 @@ namespace AtosFMCG.TouchScreen.Controls
             }
         #endregion
 
+        private const int SCROLL_ROWS_QUANTITY = 8;
+
         #region Scroll
         private void scrollUp_Click(object sender, EventArgs e)
             {
-            gridView.TopRowIndex = gridView.TopRowIndex - 1;
+            gridView.TopRowIndex -= SCROLL_ROWS_QUANTITY;
             }
 
         private void scrollDown_Click(object sender, EventArgs e)
             {
-            gridView.TopRowIndex = gridView.TopRowIndex + 1;
+            gridView.TopRowIndex += SCROLL_ROWS_QUANTITY;
             }
         #endregion
 

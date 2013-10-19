@@ -17,7 +17,7 @@ namespace Documents
     {
     /// <summary>План приходу</summary>
     [Document(Description = "План приймання", GUID = "0455B8DB-F11B-4B3B-A727-D4E889A1EFCB", NumberType = NumberType.Int64, NumberIsReadonly = false, ShowLastModifiedDateInList = true)]
-    public class PlannedArrival : DocumentTable, ISyncWith1C
+    public class AcceptancePlan : DocumentTable, ISyncWith1C
         {
         #region Properties
         /// <summary>Посилання 1С</summary>
@@ -62,7 +62,7 @@ namespace Documents
         private StatesOfDocument z_State;
 
         /// <summary>Вхідний номер/Номер накладної</summary>
-        [DataField(Description = "№ накладної", ShowInList = true, NotEmpty = true)]
+        [DataField(Description = "№ накладної 1C", ShowInList = true, NotEmpty = true)]
         public string IncomeNumber
             {
             get
@@ -81,6 +81,27 @@ namespace Documents
                 }
             }
         private string z_IncomeNumber = string.Empty;
+
+        /// <summary>Номер накладної постачальника</summary>
+        [DataField(Description = "Номер накладної постачальника", ShowInList = true)]
+        public string SupplierIncomeNumber
+            {
+            get
+                {
+                return z_SupplierIncomeNumber;
+                }
+            set
+                {
+                if (z_SupplierIncomeNumber == value)
+                    {
+                    return;
+                    }
+
+                z_SupplierIncomeNumber = value;
+                NotifyPropertyChanged("SupplierIncomeNumber");
+                }
+            }
+        private string z_SupplierIncomeNumber = string.Empty;
 
         /// <summary>Прихід від</summary>
         [DataField(Description = "Приймання від", ShowInList = true)]
@@ -250,7 +271,7 @@ namespace Documents
             {
             base.InitItemBeforeShowing();
 
-            TableRowChanged += PlannedArrival_TableRowChanged;
+            TableRowChanged += AcceptancePlan_TableRowChanged;
             fillNomenclatureData();
             fillTareData();
             }
@@ -285,7 +306,7 @@ namespace Documents
         #endregion
 
         #region Changed
-        void PlannedArrival_TableRowChanged(DataTable dataTable, DataColumn currentColumn, DataRow currentRow)
+        void AcceptancePlan_TableRowChanged(DataTable dataTable, DataColumn currentColumn, DataRow currentRow)
             {
             if (dataTable.Equals(NomenclatureInfo))
                 {
@@ -303,6 +324,12 @@ namespace Documents
                 }
             }
         #endregion
+
+        protected override void OnCopyCreated(long baseObjectId)
+            {
+            base.OnCopyCreated(baseObjectId);
+            Ref1C = Guid.Empty;
+            }
 
         internal void PrintStickers(List<NomenclatureData> wareList)
             {

@@ -99,7 +99,7 @@
             // gridView
             // 
             this.gridView.Appearance.FocusedCell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(245)))), ((int)(((byte)(255)))));
-            this.gridView.Appearance.FocusedCell.Font = new System.Drawing.Font("Tahoma", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.gridView.Appearance.FocusedCell.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.gridView.Appearance.FocusedCell.ForeColor = System.Drawing.Color.Black;
             this.gridView.Appearance.FocusedCell.Options.UseBackColor = true;
             this.gridView.Appearance.FocusedCell.Options.UseFont = true;
@@ -115,13 +115,13 @@
             this.gridView.Name = "gridView";
             this.gridView.OptionsView.ShowGroupPanel = false;
             this.gridView.OptionsView.ShowIndicator = false;
-            this.gridView.RowHeight = 65;
+            this.gridView.RowHeight = 50;
             this.gridView.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Never;
             this.gridView.FocusedRowChanged += new DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventHandler(this.gridView_FocusedRowChanged);
             // 
             // Description
             // 
-            this.Description.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 18F);
+            this.Description.AppearanceCell.Font = new System.Drawing.Font("Tahoma", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Description.AppearanceCell.Options.UseFont = true;
             this.Description.FieldName = "Description";
             this.Description.Name = "Description";

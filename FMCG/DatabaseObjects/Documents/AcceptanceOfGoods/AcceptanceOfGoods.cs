@@ -42,11 +42,11 @@ namespace Documents
 
         /// <summary>Джерело </summary>
         [DataField(Description = "Джерело ", ShowInList = true, AllowOpenItem = true)]
-        public PlannedArrival Source
+        public AcceptancePlan Source
             {
             get
                 {
-                return (PlannedArrival)GetValueForObjectProperty("Source");
+                return (AcceptancePlan)GetValueForObjectProperty("Source");
                 }
             set
                 {

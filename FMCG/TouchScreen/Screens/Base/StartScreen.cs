@@ -13,9 +13,9 @@ namespace AtosFMCG.TouchScreen.Screens.Base
         }
 
         #region Процеси
-        private void PlannedArrivalProcess_Click(object sender, EventArgs e)
+        private void AcceptancePlanProcess_Click(object sender, EventArgs e)
         {
-            GoToScreen(new SelectPlannedArrival(new PlannedArrivalData()));
+            GoToScreen(new SelectAcceptancePlan(new AcceptancePlanData()));
         }
         #endregion
     }

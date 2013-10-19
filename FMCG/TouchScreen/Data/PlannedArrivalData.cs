@@ -3,7 +3,7 @@
 namespace TouchScreen.Models.Data
 {
     /// <summary>План приходу (основні дані для вибору документу)</summary>
-    public class PlannedArrivalData : BaseData
+    public class AcceptancePlanData : BaseData
         {
         /// <summary>Машина</summary>
         public KeyValuePair<long, string> Car { get; set; }

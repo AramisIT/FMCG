@@ -25,12 +25,13 @@ namespace AtosFMCG.TouchScreen.Controls
                 {
                 if (z_currentDate != value || z_currentDate == DateTime.MinValue)
                     {
-                    //if (z_currentDate != DateTime.MinValue)
-                        {
-                        OnDateIsChanged(new ValueIsChangedArgs<DateTime>(value));
-                        }
+                    var resultDate = value.Year == 1 && !value.Equals(DateTime.MinValue) ?
+                        new DateTime(DateTime.Now.Year, value.Month, value.Day) : value;
 
-                    z_currentDate = value;
+
+                    OnDateIsChanged(new ValueIsChangedArgs<DateTime>(resultDate));
+
+                    z_currentDate = resultDate;
                     newValue.Text = string.Concat("Введено дату: ", z_currentDate.ToShortDateString());
                     }
                 }

@@ -128,9 +128,10 @@
             this.ribbonPage1,
             this.mainPage,
             this.adminPropertiesPage});
+            this.ribbon.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2010;
+            this.ribbon.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
             this.ribbon.Size = new System.Drawing.Size(1196, 144);
             this.ribbon.StatusBar = this.ribbonStatusBar;
-            this.ribbon.Toolbar.ItemLinks.Add(this.ltlServerState);
             // 
             // applicationMenu1
             // 

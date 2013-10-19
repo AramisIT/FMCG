@@ -21,7 +21,7 @@ namespace AtosFMCG.HelperClasses.PDT
 
 SELECT DISTINCT c.Id, RTRIM(c.Description)Description
 FROM AcceptanceOfGoods a
-JOIN PlannedArrival p ON p.Id=a.Source
+JOIN AcceptancePlan p ON p.Id=a.Source
 JOIN Cars c ON c.Id=p.Car
 WHERE a.MarkForDeleting=0 AND a.State=0 AND @Today=CAST(p.Date AS DATE)");
             table = query.SelectToTable();
@@ -175,7 +175,7 @@ WHERE i.State=0 AND i.MarkForDeleting=0 AND n.FactValue=0 AND CAST(i.Date AS DAT
 WITH
 Data AS (
 	SELECT 'Acceptance' Type,COUNT(1) Count
-	FROM PlannedArrival p
+	FROM AcceptancePlan p
 	LEFT JOIN AcceptanceOfGoods a ON a.Source=p.Id
 	WHERE a.State<3 AND p.MarkForDeleting=0 AND @Today=CAST(p.Date AS DATE)
 	
@@ -344,8 +344,8 @@ WITH
 PlanData AS (
 	SELECT a.Id,SUM(n.NomenclatureCount) Count
 	FROM AcceptanceOfGoods a
-	JOIN PlannedArrival p ON p.Id=a.Source
-	JOIN SubPlannedArrivalNomenclatureInfo n ON n.IdDoc=p.Id
+	JOIN AcceptancePlan p ON p.Id=a.Source
+	JOIN SubAcceptancePlanNomenclatureInfo n ON n.IdDoc=p.Id
 	WHERE 
 		a.MarkForDeleting=0 AND 
 		a.State=0 AND 
@@ -355,7 +355,7 @@ PlanData AS (
 ,FactData AS(
 	SELECT a.Id,SUM(n.NomenclatureCount) Count
 	FROM AcceptanceOfGoods a
-	JOIN PlannedArrival p ON p.Id=a.Source
+	JOIN AcceptancePlan p ON p.Id=a.Source
 	JOIN SubAcceptanceOfGoodsNomenclatureInfo n ON n.IdDoc=a.Id
 	WHERE
 		a.MarkForDeleting=0 AND
@@ -371,7 +371,7 @@ SELECT
 FROM AcceptanceOfGoods a 
 LEFT JOIN PlanData p ON p.Id=a.Id
 LEFT JOIN FactData f ON f.Id=a.Id
-JOIN PlannedArrival pa ON pa.Id=a.Source
+JOIN AcceptancePlan pa ON pa.Id=a.Source
 WHERE 
 	a.MarkForDeleting=0
 	AND a.State<>4 -- 4='Завершено'

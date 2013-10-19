@@ -1,6 +1,6 @@
 ﻿namespace AtosFMCG.TouchScreen.Controls
     {
-    partial class EditPlannedArrivalDoc
+    partial class EditAcceptancePlanDoc
         {
         /// <summary> 
         /// Required designer variable.
@@ -373,7 +373,7 @@
             this.standartPalletsCountColumn.AppearanceCell.Options.UseFont = true;
             this.standartPalletsCountColumn.AppearanceCell.Options.UseTextOptions = true;
             this.standartPalletsCountColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.standartPalletsCountColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.standartPalletsCountColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.standartPalletsCountColumn.AppearanceHeader.Options.UseFont = true;
             this.standartPalletsCountColumn.Caption = "Кол-во палл.";
             this.standartPalletsCountColumn.DisplayFormat.FormatString = "{0:n0}";
@@ -390,9 +390,9 @@
             this.nonStandartPalletsCountColumn.AppearanceCell.Options.UseFont = true;
             this.nonStandartPalletsCountColumn.AppearanceCell.Options.UseTextOptions = true;
             this.nonStandartPalletsCountColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.nonStandartPalletsCountColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nonStandartPalletsCountColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.nonStandartPalletsCountColumn.AppearanceHeader.Options.UseFont = true;
-            this.nonStandartPalletsCountColumn.Caption = "Кол. евро п.";
+            this.nonStandartPalletsCountColumn.Caption = "Кол-во нест п.";
             this.nonStandartPalletsCountColumn.DisplayFormat.FormatString = "{0:n0}";
             this.nonStandartPalletsCountColumn.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.nonStandartPalletsCountColumn.FieldName = "NonStandartPalletsCount";
@@ -416,7 +416,7 @@
             this.standartPalletCountPer1Column.AppearanceCell.Options.UseFont = true;
             this.standartPalletCountPer1Column.AppearanceCell.Options.UseTextOptions = true;
             this.standartPalletCountPer1Column.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.standartPalletCountPer1Column.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.standartPalletCountPer1Column.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.standartPalletCountPer1Column.AppearanceHeader.Options.UseFont = true;
             this.standartPalletCountPer1Column.Caption = "Ед. в палл.";
             this.standartPalletCountPer1Column.DisplayFormat.FormatString = "{0:n0}";
@@ -433,9 +433,9 @@
             this.nonStandartPalletCountPer1Column.AppearanceCell.Options.UseFont = true;
             this.nonStandartPalletCountPer1Column.AppearanceCell.Options.UseTextOptions = true;
             this.nonStandartPalletCountPer1Column.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.nonStandartPalletCountPer1Column.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.nonStandartPalletCountPer1Column.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.nonStandartPalletCountPer1Column.AppearanceHeader.Options.UseFont = true;
-            this.nonStandartPalletCountPer1Column.Caption = "Ед. на евро п.";
+            this.nonStandartPalletCountPer1Column.Caption = "Ед. на нест п.";
             this.nonStandartPalletCountPer1Column.DisplayFormat.FormatString = "{0:n0}";
             this.nonStandartPalletCountPer1Column.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.nonStandartPalletCountPer1Column.FieldName = "NonStandartPalletCountPer1";
@@ -459,7 +459,7 @@
             this.unitsOnNotFullPalletColumn.AppearanceCell.Options.UseFont = true;
             this.unitsOnNotFullPalletColumn.AppearanceCell.Options.UseTextOptions = true;
             this.unitsOnNotFullPalletColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.unitsOnNotFullPalletColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.unitsOnNotFullPalletColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.unitsOnNotFullPalletColumn.AppearanceHeader.Options.UseFont = true;
             this.unitsOnNotFullPalletColumn.Caption = "Остаток на пал.";
             this.unitsOnNotFullPalletColumn.DisplayFormat.FormatString = "{0:n0}";
@@ -476,9 +476,9 @@
             this.unitsOnNotFullNonStandartPalletColumn.AppearanceCell.Options.UseFont = true;
             this.unitsOnNotFullNonStandartPalletColumn.AppearanceCell.Options.UseTextOptions = true;
             this.unitsOnNotFullNonStandartPalletColumn.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-            this.unitsOnNotFullNonStandartPalletColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.unitsOnNotFullNonStandartPalletColumn.AppearanceHeader.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.unitsOnNotFullNonStandartPalletColumn.AppearanceHeader.Options.UseFont = true;
-            this.unitsOnNotFullNonStandartPalletColumn.Caption = "Остаток на евро п.";
+            this.unitsOnNotFullNonStandartPalletColumn.Caption = "Остаток на нест п.";
             this.unitsOnNotFullNonStandartPalletColumn.DisplayFormat.FormatString = "{0:n0}";
             this.unitsOnNotFullNonStandartPalletColumn.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
             this.unitsOnNotFullNonStandartPalletColumn.FieldName = "UnitsOnNotFullNonStandartPallet";
@@ -684,7 +684,7 @@
             this.currentNomenclatureLabel.TabIndex = 53;
             this.currentNomenclatureLabel.Text = "Живчик 2,5 л";
             // 
-            // EditPlannedArrivalDoc
+            // EditAcceptancePlanDoc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -702,9 +702,9 @@
             this.Controls.Add(this.car);
             this.Controls.Add(this.editMode);
             this.Controls.Add(this.editPanel);
-            this.Name = "EditPlannedArrivalDoc";
+            this.Name = "EditAcceptancePlanDoc";
             this.Size = new System.Drawing.Size(1014, 763);
-            this.Load += new System.EventHandler(this.EditPlannedArrivalDoc_Load);
+            this.Load += new System.EventHandler(this.EditAcceptancePlanDoc_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainView)).EndInit();
             this.editPanel.ResumeLayout(false);

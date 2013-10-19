@@ -1,6 +1,6 @@
 ﻿namespace AtosFMCG.TouchScreen.Screens
     {
-    partial class SelectPlannedArrival
+    partial class SelectAcceptancePlan
         {
         /// <summary>
         /// Required designer variable.
