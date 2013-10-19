@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Aramis.Attributes;
 using Aramis.DatabaseConnector;
 using Aramis.Enums;
 using Aramis.Core;
 using Aramis.SystemConfigurations;
+using AtosFMCG.TouchScreen.PalletSticker;
 using Catalogs;
 
 namespace Catalogs
@@ -174,6 +176,23 @@ namespace Catalogs
                 {
                 Description = string.Format("{0} - {2}; кол-во - {1}", Nomenclature.Description, Quantity, ExpiryDate.ToString(DATE_FORMAT));
                 }
+            }
+
+        public void Print(DatabaseObject item)
+            {
+            printSticker(item as Stickers);
+            }
+
+        private void printSticker(Stickers sticker)
+            {
+            var stickersCreator = new StickersPrintingHelper(new List<Stickers>() { sticker }, ThermoPrinters.GetCurrentPrinterName());
+            stickersCreator.Print();
+            }
+
+        public override Dictionary<string, Action<DatabaseObject>> GetActions()
+            {
+            var actions = new Dictionary<string, Action<DatabaseObject>>() { { "Друк", Print } };
+            return actions;
             }
         }
     }

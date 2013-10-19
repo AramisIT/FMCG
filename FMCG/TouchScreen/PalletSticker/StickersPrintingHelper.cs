@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using Aramis.Platform;
+using Catalogs;
 using MatrixBuilding;
 using ReportView.Configuration;
 using ReportView.ReportModel;
@@ -25,6 +26,34 @@ namespace AtosFMCG.TouchScreen.PalletSticker
             this.printerName = printerName;
             }
 
+        public StickersPrintingHelper(List<Stickers> stickersTasks, string printerName)
+            {
+            this.stickersTasks = createStickersTasks(stickersTasks);
+            this.printerName = printerName;
+            }
+
+        private List<StickerInfo> createStickersTasks(List<Stickers> stickers)
+            {
+            var result = new List<StickerInfo>();
+            stickers.ForEach(sticker =>
+            {
+                var stickerInfo = new StickerInfo()
+                {
+                    AcceptionDate = sticker.AcceptionDate,
+                    Barcode = sticker.Barcode,
+                    Driver = sticker.Driver.Description,
+                    ReleaseDate = sticker.ReleaseDate,
+                    ExpiryDate = sticker.ExpiryDate,
+                    HalpExpiryDate = sticker.HalpExpiryDate,
+                    Nomenclature = sticker.Nomenclature.Description,
+                    PacksCount = sticker.Quantity,
+                    Id = sticker.Id
+                };
+                result.Add(stickerInfo);
+            });
+
+            return result;
+            }
         private List<StickerInfo> stickersTasks;
         private string printerName;
 

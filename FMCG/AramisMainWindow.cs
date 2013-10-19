@@ -337,5 +337,10 @@ namespace AtosFMCG
             {
             PlatformMethods.UploadLoaderFiles(true);
             }
+
+        private void barButtonItem7_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(Stickers));
+            }
         }
     }

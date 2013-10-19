@@ -333,33 +333,9 @@ namespace Documents
 
         internal void PrintStickers(List<NomenclatureData> wareList)
             {
-            var printTasks = createPrintTasks(wareList);
-            var stickersCreator = new StickersPrintingHelper(printTasks, ThermoPrinters.GetCurrentPrinterName());
-            stickersCreator.Print();
-            }
-
-        private List<StickerInfo> createPrintTasks(List<NomenclatureData> wareList)
-            {
             var stickers = createStickers(wareList);
-            var result = new List<StickerInfo>();
-            stickers.ForEach(sticker =>
-                {
-                    var stickerInfo = new StickerInfo()
-                    {
-                        AcceptionDate = sticker.AcceptionDate,
-                        Barcode = sticker.Barcode,
-                        Driver = sticker.Driver.Description,
-                        ReleaseDate = sticker.ReleaseDate,
-                        ExpiryDate = sticker.ExpiryDate,
-                        HalpExpiryDate = sticker.HalpExpiryDate,
-                        Nomenclature = sticker.Nomenclature.Description,
-                        PacksCount = sticker.Quantity,
-                        Id = sticker.Id
-                    };
-                    result.Add(stickerInfo);
-                });
-
-            return result;
+            var stickersCreator = new StickersPrintingHelper(stickers, ThermoPrinters.GetCurrentPrinterName());
+            stickersCreator.Print();
             }
 
         private List<Stickers> createStickers(List<NomenclatureData> wareList)
