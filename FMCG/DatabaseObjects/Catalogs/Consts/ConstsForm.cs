@@ -14,7 +14,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
         {
             processPage,
             systemPage,
-            dctSettings
+            pdtSettings
         }
 
         private readonly ConstsPages FirstPage;

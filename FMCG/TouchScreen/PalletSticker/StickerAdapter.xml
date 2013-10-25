@@ -10,9 +10,9 @@
     <Layout Name="BarCode_DETAILS" StartNewPage="True" >
       <Rows>
         <Row Height="32" />
-        <Row Height="46" />
-        <Row Height="46" />
-        <Row Height="46" />
+        <Row Height="76" />
+        <Row Height="36" />
+        <Row Height="26" />
         <Row Height="25" />
         <!--240px-->
         <Row Height="23" />
@@ -34,7 +34,7 @@
               CellValue="Nomenclature"  ValueType="Parameter" BehaviorOnDisplaying="Wrap"/>
         <Cell ColumnsInterval="2" RowsInterval="1"
               FontSize="16" FontWeight="Normal" HorizontalAlignment="Center"  TextColor="#000000"
-              CellValue="{PacksCount} УП"  ValueType="Template" BehaviorOnDisplaying="Cut"/>
+              CellValue="{PacksCount} УП&#xA;&#xA;{UnitsQuantity}"  ValueType="Template" BehaviorOnDisplaying="Cut"/>
         <Cell ColumnsInterval="2" RowsInterval="2"
               FontSize="16" FontWeight="Normal" HorizontalAlignment="Center"  TextColor="#000000"
               CellValue="СВЗ" BehaviorOnDisplaying="Cut"/>
@@ -82,6 +82,7 @@
             <DataParameter>AcceptionDate</DataParameter>
             <DataParameter>Driver</DataParameter>
             <DataParameter>PacksCount</DataParameter>
+            <DataParameter>UnitsQuantity</DataParameter>
             <DataParameter>Id</DataParameter>
           </Atom>
         </Atoms>

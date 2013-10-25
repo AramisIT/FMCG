@@ -9,7 +9,7 @@ namespace Catalogs
     {
     /// <summary>Налаштування ТСД</summary>
     [Catalog(Description = "Налаштування ТСД", GUID = "A2339F64-F7D1-44C5-9E07-2598CC95172C", HierarchicType = HierarchicTypes.None, ShowCodeFieldInForm = false)]
-    public class DCTSettings : CatalogTable
+    public class PDTSettings : CatalogTable
         {
         #region Properties
         /// <summary>Дозволений IP</summary>
@@ -39,7 +39,7 @@ namespace Catalogs
         public static ArrayList AllowedIPs()
             {
             const string IP_COLUMN = "AllowedIP";
-            string command = string.Format("SELECT DISTINCT RTRIM(AllowIP) {0} FROM {1}", IP_COLUMN, typeof(DCTSettings).Name);
+            string command = string.Format("SELECT DISTINCT RTRIM(AllowIP) {0} FROM {1}", IP_COLUMN, typeof(PDTSettings).Name);
             Query query = DB.NewQuery(command);
             DataTable table = query.SelectToTable();
 

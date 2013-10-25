@@ -18,7 +18,6 @@ namespace TouchScreen.Models.Data
             set
                 {
                 quantity = value;
-                updatePalletQuantity();
                 }
             }
         public DateTime Date { get; set; }
@@ -45,7 +44,7 @@ namespace TouchScreen.Models.Data
                        + NonStandartPalletsCount * NonStandartPalletCountPer1 + UnitsOnNotFullNonStandartPallet;
             }
 
-        private void updatePalletQuantity()
+        public void UpdatePalletQuantity()
             {
             NonStandartPalletsCount = 0;
             UnitsOnNotFullNonStandartPallet = 0;

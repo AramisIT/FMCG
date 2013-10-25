@@ -9,6 +9,7 @@ namespace AtosFMCG.TouchScreen.PalletSticker
         {
         public string Nomenclature { get; set; }
         public int PacksCount { get; set; }
+        public int UnitsQuantity { get; set; }
         public string Barcode { get; set; }
 
 

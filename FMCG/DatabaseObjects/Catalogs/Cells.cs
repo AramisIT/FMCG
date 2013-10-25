@@ -46,7 +46,7 @@ namespace Catalogs
         #region Предопределенные элементы
         private const string CATALOG_NAME = "Cells";
 
-        /// <summary>Ящик</summary>
+        /// <summary>Викуп</summary>
         public static DBObjectRef Buyout
             {
             get

@@ -70,7 +70,7 @@
             this.sysObjectsGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.favGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.serviceTablesGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.dctServerGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.pdtServerGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.testGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.adminPropertiesPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.updGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -412,7 +412,7 @@
             this.sysObjectsGroup,
             this.favGroup,
             this.serviceTablesGroup,
-            this.dctServerGroup,
+            this.pdtServerGroup,
             this.testGroup});
             this.mainPage.Name = "mainPage";
             this.mainPage.Text = "Головна панель";
@@ -441,9 +441,9 @@
             // 
             // dctServerGroup
             // 
-            this.dctServerGroup.ItemLinks.Add(this.serverState);
-            this.dctServerGroup.Name = "dctServerGroup";
-            this.dctServerGroup.Text = "ТЗД сервер";
+            this.pdtServerGroup.ItemLinks.Add(this.serverState);
+            this.pdtServerGroup.Name = "dctServerGroup";
+            this.pdtServerGroup.Text = "ТЗД сервер";
             // 
             // testGroup
             // 
@@ -563,7 +563,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup favGroup;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup testGroup;
         private DevExpress.XtraBars.BarButtonItem serverState;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup dctServerGroup;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup pdtServerGroup;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup serviceTablesGroup;
         private DevExpress.XtraBars.BarButtonItem openStockBalance;
         private DevExpress.XtraBars.BarButtonItem openGoodsMoving;

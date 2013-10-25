@@ -52,14 +52,14 @@ namespace Catalogs
         private const string CATALOG_NAME = "Roles";
 
         /// <summary>Менеджер ТСД</summary>
-        public static DBObjectRef ManagerOfDCT
+        public static DBObjectRef ManagerOfPDT
             {
             get
                 {
-                return z_ManagerOfDCT ?? (z_ManagerOfDCT = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "Менеджер ТСД"));
+                return z_ManagerOfPDT ?? (z_ManagerOfPDT = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "Менеджер ТСД"));
                 }
             }
-        private static DBObjectRef z_ManagerOfDCT;
+        private static DBObjectRef z_ManagerOfPDT;
         #endregion
         }
     }

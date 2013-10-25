@@ -364,11 +364,12 @@ namespace Documents
                 var createSpecificStikers = nomenclatureData.StandartPalletsCount > 0 ||
                                             nomenclatureData.NonStandartPalletsCount > 0;
 
+                // список кортежей: первый элемент - кол-во упаковок, второй - количество штук
                 var pallets = createSpecificStikers ? buildNonStandartQuantitiesList(nomenclatureData, countInOnePack) : buildStandartQuantitiesList(nomenclatureCount, countInOnePalet, countInOnePack);
 
                 foreach (var unitsQuantity in pallets)
                     {
-                    var newSticker = createSticker(nomenclature, party, unitsQuantity);
+                    var newSticker = createSticker(nomenclature, party, unitsQuantity.Item1, unitsQuantity.Item2);
                     if (newSticker == null)
                         {
                         return new List<Stickers>();
@@ -380,43 +381,43 @@ namespace Documents
             return result;
             }
 
-        private List<int> buildNonStandartQuantitiesList(NomenclatureData nomenclatureData, int countInOnePack)
+        private List<Tuple<int, int>> buildNonStandartQuantitiesList(NomenclatureData nomenclatureData, int countInOnePack)
             {
-            var pallets = new List<int>();
+            var pallets = new List<Tuple<int, int>>();
 
             for (int stickerIndex = 0; stickerIndex < nomenclatureData.StandartPalletsCount; stickerIndex++)
                 {
-                pallets.Add(nomenclatureData.StandartPalletCountPer1 / countInOnePack);
+                pallets.Add(new Tuple<int, int>(nomenclatureData.StandartPalletCountPer1 / countInOnePack, nomenclatureData.StandartPalletCountPer1));
                 }
 
             if (nomenclatureData.UnitsOnNotFullPallet > 0)
                 {
-                pallets.Add(nomenclatureData.UnitsOnNotFullPallet / countInOnePack);
+                pallets.Add(new Tuple<int, int>(nomenclatureData.UnitsOnNotFullPallet / countInOnePack, nomenclatureData.UnitsOnNotFullPallet));
                 }
 
             for (int stickerIndex = 0; stickerIndex < nomenclatureData.NonStandartPalletsCount; stickerIndex++)
                 {
-                pallets.Add(nomenclatureData.NonStandartPalletCountPer1 / countInOnePack);
+                pallets.Add(new Tuple<int, int>(nomenclatureData.NonStandartPalletCountPer1 / countInOnePack, nomenclatureData.NonStandartPalletCountPer1));
                 }
 
             if (nomenclatureData.UnitsOnNotFullNonStandartPallet > 0)
                 {
-                pallets.Add(nomenclatureData.UnitsOnNotFullNonStandartPallet / countInOnePack);
+                pallets.Add(new Tuple<int, int>(nomenclatureData.UnitsOnNotFullNonStandartPallet / countInOnePack, nomenclatureData.UnitsOnNotFullNonStandartPallet));
                 }
 
             return pallets;
             }
 
-        private List<int> buildStandartQuantitiesList(int nomenclatureCount, int countInOnePalet, int countInOnePack)
+        private List<Tuple<int, int>> buildStandartQuantitiesList(int nomenclatureCount, int countInOnePalet, int countInOnePack)
             {
-            var pallets = new List<int>();
+            var pallets = new List<Tuple<int, int>>();
             while (nomenclatureCount > 0)
                 {
                 if (nomenclatureCount >= countInOnePalet)
                     {
                     nomenclatureCount -= countInOnePalet;
                     var packsCount = countInOnePack == 0 ? 0 : (int)(countInOnePalet / countInOnePack);
-                    pallets.Add(packsCount);
+                    pallets.Add(new Tuple<int, int>(packsCount, countInOnePalet));
                     }
                 else
                     {
@@ -425,7 +426,7 @@ namespace Documents
                         {
                         packsCount++;
                         }
-                    pallets.Add(packsCount);
+                    pallets.Add(new Tuple<int, int>(packsCount, nomenclatureCount));
                     nomenclatureCount = 0;
                     }
                 }
@@ -433,11 +434,12 @@ namespace Documents
             return pallets;
             }
 
-        private Stickers createSticker(Nomenclature nomenclature, Parties party, int unitsQuantity)
+        private Stickers createSticker(Nomenclature nomenclature, Parties party, int packsQuantity, int unitsQuantity)
             {
             var sticker = new Stickers();
             sticker.Nomenclature = nomenclature;
-            sticker.Quantity = unitsQuantity;
+            sticker.Quantity = packsQuantity;
+            sticker.UnitsQuantity = unitsQuantity;
             sticker.Driver = Driver;
             sticker.AcceptionDate = Date;
             sticker.ReleaseDate = party.DateOfManufacture;

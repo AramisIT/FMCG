@@ -195,7 +195,7 @@ namespace AtosFMCG
                 //Якщо сервер не запущено - запустити
                 if (smServer == null || !smServer.IsRun)
                     {
-                    smServer = new InfoForm(ReceiveMessages.ReceiveMessage, DCTSettings.AllowedIPs(), Consts.ServerIP,
+                    smServer = new InfoForm(ReceiveMessages.ReceiveMessage, PDTSettings.AllowedIPs(), Consts.ServerIP,
                                             Consts.UpdateFolderName);
 
                     if (smServer.IsRun)

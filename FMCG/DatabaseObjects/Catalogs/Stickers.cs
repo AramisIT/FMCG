@@ -39,7 +39,7 @@ namespace Catalogs
                 }
             }
 
-        [DataField(Description = "Количество единиц", ShowInList = true)]
+        [DataField(Description = "Количество упаковок", ShowInList = true)]
         public int Quantity
             {
             get
@@ -58,6 +58,26 @@ namespace Catalogs
                 }
             }
         private int z_Quantity;
+
+        [DataField(Description = "Количество единиц", ShowInList = true)]
+        public int UnitsQuantity
+            {
+            get
+                {
+                return z_UnitsQuantity;
+                }
+            set
+                {
+                if (z_UnitsQuantity == value)
+                    {
+                    return;
+                    }
+
+                z_UnitsQuantity = value;
+                NotifyPropertyChanged("UnitsQuantity");
+                }
+            }
+        private int z_UnitsQuantity;
 
         [DataField(Description = "Дата производства", ShowInList = false)]
         public DateTime ReleaseDate
@@ -150,10 +170,11 @@ namespace Catalogs
             {
             get
                 {
-                return string.Format("{0}$${1}$${2}$${3}$${4}$${5}$${6}", Id, Nomenclature.Id, Driver.Id, Quantity.ToString(),
+                return string.Format("{0}$${1}$${2}$${3}$${4}$${5}$${6}$${7}", Id, Nomenclature.Id, Driver.Id, Quantity,
                     ReleaseDate.ToString(DATE_FORMAT),
                     ExpiryDate.ToString(DATE_FORMAT),
-                    AcceptionDate.ToString(DATE_FORMAT)
+                    AcceptionDate.ToString(DATE_FORMAT),
+                    UnitsQuantity
                     );
                 }
             }

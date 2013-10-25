@@ -47,6 +47,7 @@ namespace AtosFMCG.TouchScreen.PalletSticker
                     HalpExpiryDate = sticker.HalpExpiryDate,
                     Nomenclature = sticker.Nomenclature.Description,
                     PacksCount = sticker.Quantity,
+                    UnitsQuantity = sticker.UnitsQuantity,
                     Id = sticker.Id
                 };
                 result.Add(stickerInfo);
@@ -123,6 +124,7 @@ namespace AtosFMCG.TouchScreen.PalletSticker
                 new DataColumn("Nomenclature", typeof(string)), 
                 new DataColumn("BarCode", typeof(string)),
                 new DataColumn("PacksCount", typeof(int)), 
+                new DataColumn("UnitsQuantity", typeof(int)), 
                 new DataColumn("ReleaseDate", typeof(DateTime)),
                 new DataColumn("HalpExpiryDate", typeof(DateTime)),
                 new DataColumn("ExpiryDate", typeof(DateTime)),
@@ -133,7 +135,7 @@ namespace AtosFMCG.TouchScreen.PalletSticker
 
             foreach (var stickersTask in stickersTasks)
                 {
-                dataSource.Rows.Add(stickersTask.Nomenclature, stickersTask.Barcode, stickersTask.PacksCount,
+                dataSource.Rows.Add(stickersTask.Nomenclature, stickersTask.Barcode, stickersTask.PacksCount, stickersTask.UnitsQuantity,
                     stickersTask.ReleaseDate, stickersTask.HalpExpiryDate, stickersTask.ExpiryDate, stickersTask.AcceptionDate,
                     stickersTask.Driver, stickersTask.Id);
                 }

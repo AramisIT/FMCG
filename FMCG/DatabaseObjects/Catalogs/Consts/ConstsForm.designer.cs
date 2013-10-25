@@ -40,7 +40,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.labelControl32 = new DevExpress.XtraEditors.LabelControl();
             this.processPage = new DevExpress.XtraTab.XtraTabPage();
             this.PermitInstallPalletManually = new DevExpress.XtraEditors.CheckEdit();
-            this.dctSettings = new DevExpress.XtraTab.XtraTabPage();
+            this.pdtSettings = new DevExpress.XtraTab.XtraTabPage();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.UpdateFolderName = new DevExpress.XtraEditors.TextEdit();
@@ -55,7 +55,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             ((System.ComponentModel.ISupportInitialize)(this.OriginalDatabaseName.Properties)).BeginInit();
             this.processPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PermitInstallPalletManually.Properties)).BeginInit();
-            this.dctSettings.SuspendLayout();
+            this.pdtSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UpdateFolderName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ServerIP.Properties)).BeginInit();
             this.SuspendLayout();
@@ -120,7 +120,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.xtraTabControl.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.processPage,
             this.systemPage,
-            this.dctSettings});
+            this.pdtSettings});
             // 
             // systemPage
             // 
@@ -186,15 +186,15 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             // 
             // dctSettings
             // 
-            this.dctSettings.Controls.Add(this.label2);
-            this.dctSettings.Controls.Add(this.label1);
-            this.dctSettings.Controls.Add(this.UpdateFolderName);
-            this.dctSettings.Controls.Add(this.labelControl2);
-            this.dctSettings.Controls.Add(this.ServerIP);
-            this.dctSettings.Controls.Add(this.labelControl1);
-            this.dctSettings.Name = "dctSettings";
-            this.dctSettings.Size = new System.Drawing.Size(480, 325);
-            this.dctSettings.Text = "Налаштування ТСД";
+            this.pdtSettings.Controls.Add(this.label2);
+            this.pdtSettings.Controls.Add(this.label1);
+            this.pdtSettings.Controls.Add(this.UpdateFolderName);
+            this.pdtSettings.Controls.Add(this.labelControl2);
+            this.pdtSettings.Controls.Add(this.ServerIP);
+            this.pdtSettings.Controls.Add(this.labelControl1);
+            this.pdtSettings.Name = "dctSettings";
+            this.pdtSettings.Size = new System.Drawing.Size(480, 325);
+            this.pdtSettings.Text = "Налаштування ТСД";
             // 
             // label2
             // 
@@ -288,8 +288,8 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             ((System.ComponentModel.ISupportInitialize)(this.OriginalDatabaseName.Properties)).EndInit();
             this.processPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PermitInstallPalletManually.Properties)).EndInit();
-            this.dctSettings.ResumeLayout(false);
-            this.dctSettings.PerformLayout();
+            this.pdtSettings.ResumeLayout(false);
+            this.pdtSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UpdateFolderName.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ServerIP.Properties)).EndInit();
             this.ResumeLayout(false);
@@ -310,7 +310,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
         private DevExpress.XtraEditors.TextEdit OriginalDatabaseName;
         private DevExpress.XtraTab.XtraTabPage processPage;
         private DevExpress.XtraEditors.CheckEdit PermitInstallPalletManually;
-        private DevExpress.XtraTab.XtraTabPage dctSettings;
+        private DevExpress.XtraTab.XtraTabPage pdtSettings;
         private DevExpress.XtraEditors.TextEdit UpdateFolderName;
         private DevExpress.XtraEditors.LabelControl labelControl2;
         private DevExpress.XtraEditors.TextEdit ServerIP;

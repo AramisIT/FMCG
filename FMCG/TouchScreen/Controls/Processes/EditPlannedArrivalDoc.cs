@@ -495,6 +495,7 @@ namespace AtosFMCG.TouchScreen.Controls
                         updateEditControl(() => installNumberEditEditior(selectedRow.Quantity, (enteredValue) =>
                         {
                             selectedRow.Quantity = enteredValue;
+                            selectedRow.UpdatePalletQuantity();
                         }, "Кіль-сть змінено!"));
                         break;
                     case EditedColumns.Date:
