@@ -5,12 +5,10 @@ using Aramis.Enums;
 namespace Catalogs
     {
     /// <summary>Зайняті комірки</summary>
-    [Catalog(Description = "Зайняті комірки", GUID = "AAA2F111-74B3-4081-A37B-260DF3DD1BB3", HierarchicType = HierarchicTypes.None, ShowCodeFieldInForm = false)]
-    public class FilledCell : CatalogTable
+    [Catalog(Description = "Предыдущие паллеты", GUID = "AAA2F111-74B3-4081-A37B-260DF3DD1BB3", HierarchicType = HierarchicTypes.None, ShowCodeFieldInForm = false)]
+    public class PreviousPallets : CatalogTable
         {
-        #region Properties
-        /// <summary>ID коду товару</summary>
-        [DataField(Description = "ID коду товару", ShowInList = true, Unique = true)]
+        [DataField(Description = "Идентификатор паллеты", ShowInList = true, Unique = true)]
         public long PalletCode
             {
             get
@@ -30,8 +28,7 @@ namespace Catalogs
             }
         private long z_PalletCode;
 
-        /// <summary>ІД батьківського коду товару</summary>
-        [DataField(Description = "ІД батьківського коду товару", ShowInList = true)]
+        [DataField(Description = "Идентификатор предыдущей паллеты", ShowInList = true)]
         public long PreviousCode
             {
             get
@@ -50,6 +47,5 @@ namespace Catalogs
                 }
             }
         private long z_PreviousCode;
-        #endregion
         }
     }

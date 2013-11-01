@@ -18,7 +18,7 @@ namespace AtosFMCG.HelperClasses
         public static void EstablishPalletToCell(long palletCode, long previous = 0)
             {
             //Створити запис (на поточний момент створити елемент довідника)
-            FilledCell filledCell = new FilledCell
+            PreviousPallets filledCell = new PreviousPallets
                                         {
                                             Description = "Розміщення паллет з ТСД",
                                             PalletCode = palletCode,

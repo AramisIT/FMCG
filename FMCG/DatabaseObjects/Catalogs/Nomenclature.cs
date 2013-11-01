@@ -11,7 +11,7 @@ namespace Catalogs
     public class Nomenclature : CatalogTable, ISyncWith1C
         {
         #region Properties
-        /// <summary>Посилання 1С</summary>
+
         [DataField(Description = "Посилання 1С", ShowInList = false, ShowInForm = false)]
         public Guid Ref1C
             {
@@ -30,6 +30,19 @@ namespace Catalogs
                 }
             }
         private Guid z_Ref1C;
+
+        [DataField(Description = "Вид упаковки", ShowInList = true)]
+        public Nomenclature BoxType
+            {
+            get
+                {
+                return (Nomenclature)GetValueForObjectProperty("BoxType");
+                }
+            set
+                {
+                SetValueForObjectProperty("BoxType", value);
+                }
+            }
 
         [DataField(Description = "Кіль-ть у палеті", ShowInList = true)]
         public int UnitsQuantityPerPallet

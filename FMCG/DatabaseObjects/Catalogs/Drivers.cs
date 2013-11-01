@@ -34,14 +34,14 @@ namespace Catalogs
         [DataField(Description = "Перевізник", ShowInList = true)]
         public Contractors Currier
             {
-                get
-                    {
-                        return (Contractors)GetValueForObjectProperty("Currier");
-                    }
-                set
-                    {
-                        SetValueForObjectProperty("Currier", value);
-                    }
+            get
+                {
+                return (Contractors)GetValueForObjectProperty("Currier");
+                }
+            set
+                {
+                SetValueForObjectProperty("Currier", value);
+                }
             }
         }
     }

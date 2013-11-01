@@ -191,7 +191,7 @@ namespace Documents
 
         #region Table Nomeclature
         /// <summary>Номенклатура</summary>
-        [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureDate, NomenclatureCount, NomenclatureCell, IsTare", ShowLineNumberColumn = true)]
+        [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureDate, NomenclaturePlan, NomenclatureFact, NomenclatureCell, IsTare", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {
@@ -215,8 +215,12 @@ namespace Documents
         public DataColumn NomenclatureDate { get; set; }
 
         /// <summary>К-сть</summary>
-        [SubTableField(Description = "К-сть", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
-        public DataColumn NomenclatureCount { get; set; }
+        [SubTableField(Description = "План", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
+        public DataColumn NomenclaturePlan { get; set; }
+
+        /// <summary>К-сть</summary>
+        [SubTableField(Description = "Факт", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
+        public DataColumn NomenclatureFact { get; set; }
 
         /// <summary>Комірка</summary>
         [SubTableField(Description = "Комірка", PropertyType = typeof(Cells))]
@@ -232,7 +236,7 @@ namespace Documents
         #endregion
         #endregion
 
-        #region DocumentTable
+        
         readonly Dictionary<long, bool> tareDic = new Dictionary<long,bool>();
         readonly Dictionary<long, DateTime> partyDic = new Dictionary<long, DateTime>();
 
@@ -256,9 +260,7 @@ namespace Documents
             fillSourceData();
             fillingTare();
             }
-        #endregion
-
-        #region Filling
+      
         private void fillSourceData()
             {
             IncomeNumber = Source.IncomeNumber;
@@ -311,7 +313,7 @@ namespace Documents
                 row[NomenclatureDate] = party.DateOfManufacture;
                 }
             }
-        #endregion
+     
 
         #region Changed
         void AcceptanceOfGoods_ValueOfObjectPropertyChanged(string propertyName)
@@ -348,7 +350,6 @@ namespace Documents
             }
         #endregion
 
-        #region newCodeNumber
         private static long newCodeNumber
             {
             get
@@ -376,6 +377,6 @@ JOIN SubAcceptanceOfGoodsNomenclatureInfo s ON s.IdDoc=a.Id");
 
             return code == null ? 1 : Convert.ToInt64(code);
             } 
-        #endregion
+       
         }
     }
