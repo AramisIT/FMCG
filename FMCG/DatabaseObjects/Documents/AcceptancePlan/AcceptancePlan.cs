@@ -6,6 +6,7 @@ using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.Enums;
 using Aramis.Platform;
+using Aramis.UI.WinFormsDevXpress;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
@@ -152,7 +153,6 @@ namespace Documents
                 }
             }
 
-        /// <summary>Водій</summary>
         [DataField(Description = "Водій", ShowInList = true, AllowOpenItem = true)]
         public Drivers Driver
             {
@@ -166,7 +166,6 @@ namespace Documents
                 }
             }
 
-        /// <summary>Машина</summary>
         [DataField(Description = "Машина", ShowInList = true, AllowOpenItem = true)]
         public Cars Car
             {
@@ -254,6 +253,21 @@ namespace Documents
         [SubTableField(Description = "Партія", PropertyType = typeof(Parties))]
         public DataColumn TareParty { get; set; }
         #endregion
+
+        #region Stickers
+
+        [Table(Columns = "Sticker")]
+        [DataField(Description = "Этикетки")]
+        public DataTable Stickers
+            {
+            get { return GetSubtable("Stickers"); }
+            }
+
+        [SubTableField(Description = "Этикетка", PropertyType = typeof(Stickers))]
+        public DataColumn Sticker { get; set; }
+
+        #endregion
+
         #endregion
 
         #region DocumentTable
@@ -334,6 +348,21 @@ namespace Documents
         internal void PrintStickers(List<NomenclatureData> wareList)
             {
             var stickers = createStickers(wareList);
+
+            Stickers.Rows.Clear();
+            stickers.ForEach(sticker =>
+                {
+                    var row = Stickers.GetNewRow(this);
+                    row.SetRefValueToRowCell(this, Sticker, sticker);
+                    row.AddRowToTable(this);
+                });
+
+            if (Write() != WritingResult.Success)
+                {
+                "Невдала спроба запису документу. Спробуйте ще раз".WarningBox();
+                return;
+                }
+
             var stickersCreator = new StickersPrintingHelper(stickers, ThermoPrinters.GetCurrentPrinterName());
             stickersCreator.Print();
             }
@@ -364,12 +393,12 @@ namespace Documents
                 var createSpecificStikers = nomenclatureData.StandartPalletsCount > 0 ||
                                             nomenclatureData.NonStandartPalletsCount > 0;
 
-                // список кортежей: первый элемент - кол-во упаковок, второй - количество штук
+                // список кортежей: первый элемент - кол-во упаковок, второй - количество штук, третий - Id поддона
                 var pallets = createSpecificStikers ? buildNonStandartQuantitiesList(nomenclatureData, countInOnePack) : buildStandartQuantitiesList(nomenclatureCount, countInOnePalet, countInOnePack);
 
                 foreach (var unitsQuantity in pallets)
                     {
-                    var newSticker = createSticker(nomenclature, party, unitsQuantity.Item1, unitsQuantity.Item2);
+                    var newSticker = createSticker(nomenclature, party, unitsQuantity.Item1, unitsQuantity.Item2, unitsQuantity.Item3);
                     if (newSticker == null)
                         {
                         return new List<Stickers>();
@@ -381,43 +410,43 @@ namespace Documents
             return result;
             }
 
-        private List<Tuple<int, int>> buildNonStandartQuantitiesList(NomenclatureData nomenclatureData, int countInOnePack)
+        private List<Tuple<int, int, long>> buildNonStandartQuantitiesList(NomenclatureData nomenclatureData, int countInOnePack)
             {
-            var pallets = new List<Tuple<int, int>>();
+            var pallets = new List<Tuple<int, int, long>>();
 
             for (int stickerIndex = 0; stickerIndex < nomenclatureData.StandartPalletsCount; stickerIndex++)
                 {
-                pallets.Add(new Tuple<int, int>(nomenclatureData.StandartPalletCountPer1 / countInOnePack, nomenclatureData.StandartPalletCountPer1));
+                pallets.Add(new Tuple<int, int, long>(nomenclatureData.StandartPalletCountPer1 / countInOnePack, nomenclatureData.StandartPalletCountPer1, Consts.StandartTray.Id));
                 }
 
             if (nomenclatureData.UnitsOnNotFullPallet > 0)
                 {
-                pallets.Add(new Tuple<int, int>(nomenclatureData.UnitsOnNotFullPallet / countInOnePack, nomenclatureData.UnitsOnNotFullPallet));
+                pallets.Add(new Tuple<int, int, long>(nomenclatureData.UnitsOnNotFullPallet / countInOnePack, nomenclatureData.UnitsOnNotFullPallet, Consts.StandartTray.Id));
                 }
 
             for (int stickerIndex = 0; stickerIndex < nomenclatureData.NonStandartPalletsCount; stickerIndex++)
                 {
-                pallets.Add(new Tuple<int, int>(nomenclatureData.NonStandartPalletCountPer1 / countInOnePack, nomenclatureData.NonStandartPalletCountPer1));
+                pallets.Add(new Tuple<int, int, long>(nomenclatureData.NonStandartPalletCountPer1 / countInOnePack, nomenclatureData.NonStandartPalletCountPer1, Consts.NonStandartTray.Id));
                 }
 
             if (nomenclatureData.UnitsOnNotFullNonStandartPallet > 0)
                 {
-                pallets.Add(new Tuple<int, int>(nomenclatureData.UnitsOnNotFullNonStandartPallet / countInOnePack, nomenclatureData.UnitsOnNotFullNonStandartPallet));
+                pallets.Add(new Tuple<int, int, long>(nomenclatureData.UnitsOnNotFullNonStandartPallet / countInOnePack, nomenclatureData.UnitsOnNotFullNonStandartPallet, Consts.NonStandartTray.Id));
                 }
 
             return pallets;
             }
 
-        private List<Tuple<int, int>> buildStandartQuantitiesList(int nomenclatureCount, int countInOnePalet, int countInOnePack)
+        private List<Tuple<int, int, long>> buildStandartQuantitiesList(int nomenclatureCount, int countInOnePalet, int countInOnePack)
             {
-            var pallets = new List<Tuple<int, int>>();
+            var pallets = new List<Tuple<int, int, long>>();
             while (nomenclatureCount > 0)
                 {
                 if (nomenclatureCount >= countInOnePalet)
                     {
                     nomenclatureCount -= countInOnePalet;
                     var packsCount = countInOnePack == 0 ? 0 : (int)(countInOnePalet / countInOnePack);
-                    pallets.Add(new Tuple<int, int>(packsCount, countInOnePalet));
+                    pallets.Add(new Tuple<int, int, long>(packsCount, countInOnePalet, Consts.StandartTray.Id));
                     }
                 else
                     {
@@ -426,7 +455,7 @@ namespace Documents
                         {
                         packsCount++;
                         }
-                    pallets.Add(new Tuple<int, int>(packsCount, nomenclatureCount));
+                    pallets.Add(new Tuple<int, int, long>(packsCount, nomenclatureCount, Consts.StandartTray.Id));
                     nomenclatureCount = 0;
                     }
                 }
@@ -434,13 +463,17 @@ namespace Documents
             return pallets;
             }
 
-        private Stickers createSticker(Nomenclature nomenclature, Parties party, int packsQuantity, int unitsQuantity)
+        private Stickers createSticker(Nomenclature nomenclature, Parties party, int packsQuantity, int unitsQuantity, long trayId)
             {
             var sticker = new Stickers();
             sticker.Nomenclature = nomenclature;
             sticker.Quantity = packsQuantity;
             sticker.UnitsQuantity = unitsQuantity;
             sticker.Driver = Driver;
+            if (trayId > 0)
+                {
+                sticker.SetRef("Tray", trayId);
+                }
             sticker.AcceptionDate = Date;
             sticker.ReleaseDate = party.DateOfManufacture;
             sticker.ExpiryDate = party.TheDeadlineSuitability;
@@ -450,7 +483,5 @@ namespace Documents
                 }
             return sticker;
             }
-
-
         }
     }

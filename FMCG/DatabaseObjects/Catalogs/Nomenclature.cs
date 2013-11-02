@@ -128,3 +128,14 @@ namespace Catalogs
         #endregion
         }
     }
+
+namespace Catalogs
+    {
+    public static class NomenclatureExtentions
+        {
+        public static bool IsKeg(this Nomenclature nomenclature)
+            {
+            return nomenclature.UnitsQuantityPerPack <= 1;
+            }
+        }
+    }

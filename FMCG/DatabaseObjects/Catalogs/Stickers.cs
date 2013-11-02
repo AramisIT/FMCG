@@ -26,6 +26,19 @@ namespace Catalogs
                 }
             }
 
+        [DataField(Description = "Піддон", ShowInList = true)]
+        public Nomenclature Tray
+            {
+            get
+                {
+                return (Nomenclature)GetValueForObjectProperty("Tray");
+                }
+            set
+                {
+                SetValueForObjectProperty("Tray", value);
+                }
+            }
+
         [DataField(Description = "Водитель", ShowInList = true)]
         public Drivers Driver
             {
@@ -39,6 +52,9 @@ namespace Catalogs
                 }
             }
 
+        /// <summary>
+        /// Количество упаковок
+        /// </summary>
         [DataField(Description = "Количество упаковок", ShowInList = true)]
         public int Quantity
             {
@@ -59,6 +75,9 @@ namespace Catalogs
             }
         private int z_Quantity;
 
+        /// <summary>
+        /// Количество единиц
+        /// </summary>
         [DataField(Description = "Количество единиц", ShowInList = true)]
         public int UnitsQuantity
             {

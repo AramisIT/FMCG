@@ -6,6 +6,7 @@ using Aramis.Core;
 using Aramis.DatabaseConnector;
 using Aramis.Enums;
 using Aramis.Platform;
+using Aramis.UI.WinFormsDevXpress;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
@@ -16,7 +17,7 @@ namespace Documents
     {
     /// <summary>Приймання товару</summary>
     [Document(Description = "Приймання товару", GUID = "0ACBC4E6-5486-4F2E-B207-3E8D012A080B", NumberType = NumberType.Int64, NumberIsReadonly = false)]
-    public class AcceptanceOfGoods : DocumentTable,IIncomeOwner
+    public class AcceptanceOfGoods : DocumentTable
         {
         #region Properties
         /// <summary>Стан документу</summary>
@@ -40,20 +41,6 @@ namespace Documents
             }
         private StatesOfDocument z_State;
 
-        /// <summary>Джерело </summary>
-        [DataField(Description = "Джерело ", ShowInList = true, AllowOpenItem = true)]
-        public AcceptancePlan Source
-            {
-            get
-                {
-                return (AcceptancePlan)GetValueForObjectProperty("Source");
-                }
-            set
-                {
-                SetValueForObjectProperty("Source", value);
-                }
-            }
-
         #region StorageType = StorageTypes.Local
         /// <summary>Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)</summary>
         [DataField(Description = "Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)", ShowInList = true, StorageType = StorageTypes.Local)]
@@ -62,68 +49,18 @@ namespace Documents
             get { return string.Concat(Responsible.Description, ' ', Date.ToString()); }
             }
 
-        /// <summary>Номер накладної</summary>
-        [DataField(Description = "Номер накладної", ShowInList = true, StorageType = StorageTypes.Local)]
-        public string IncomeNumber
+        [DataField(Description = "Контрагент", ShowInList = true, AllowOpenItem = true)]
+        public Contractors Contractor
             {
             get
                 {
-                return z_IncomeNumber;
+                return (Contractors)GetValueForObjectProperty("Contractor");
                 }
             set
                 {
-                if (z_IncomeNumber == value)
-                    {
-                    return;
-                    }
-
-                z_IncomeNumber = value;
-                NotifyPropertyChanged("IncomeNumber");
+                SetValueForObjectProperty("Contractor", value);
                 }
             }
-        private string z_IncomeNumber = string.Empty;
-
-        /// <summary>Дата накладної</summary>
-        [DataField(Description = "Дата накладної", ShowInList = true, StorageType = StorageTypes.Local)]
-        public string IncomeDate
-            {
-            get
-                {
-                return z_IncomeDate;
-                }
-            set
-                {
-                if (z_IncomeDate == value)
-                    {
-                    return;
-                    }
-
-                z_IncomeDate = value;
-                NotifyPropertyChanged("IncomeDate");
-                }
-            }
-        private string z_IncomeDate = string.Empty;
-
-        /// <summary>Контрагент</summary>
-        [DataField(Description = "Контрагент", ShowInList = true, StorageType = StorageTypes.Local)]
-        public string Contractor
-            {
-            get
-                {
-                return z_Contractor;
-                }
-            set
-                {
-                if (z_Contractor == value)
-                    {
-                    return;
-                    }
-
-                z_Contractor = value;
-                NotifyPropertyChanged("Contractor");
-                }
-            }
-        private string z_Contractor = string.Empty;
 
         /// <summary>Перевізник</summary>
         [DataField(Description = "Перевізник", ShowInList = true, StorageType = StorageTypes.Local)]
@@ -146,47 +83,33 @@ namespace Documents
             }
         private string z_Carrier = string.Empty;
 
-        /// <summary>Водій</summary>
-        [DataField(Description = "Водій", ShowInList = true, StorageType = StorageTypes.Local)]
-        public string Driver
+
+        [DataField(Description = "Водій", ShowInList = true, AllowOpenItem = true)]
+        public Drivers Driver
             {
             get
                 {
-                return z_Driver;
+                return (Drivers)GetValueForObjectProperty("Driver");
                 }
             set
                 {
-                if (z_Driver == value)
-                    {
-                    return;
-                    }
-
-                z_Driver = value;
-                NotifyPropertyChanged("Driver");
+                SetValueForObjectProperty("Driver", value);
                 }
             }
-        private string z_Driver = string.Empty;
 
-        /// <summary>Машина</summary>
-        [DataField(Description = "Машина", ShowInList = true, StorageType = StorageTypes.Local)]
-        public string Car
+        [DataField(Description = "Машина", ShowInList = true, AllowOpenItem = true)]
+        public Cars Car
             {
             get
                 {
-                return z_Car;
+                return (Cars)GetValueForObjectProperty("Car");
                 }
             set
                 {
-                if (z_Car == value)
-                    {
-                    return;
-                    }
-
-                z_Car = value;
-                NotifyPropertyChanged("Car");
+                SetValueForObjectProperty("Car", value);
                 }
             }
-        private string z_Car = string.Empty; 
+
         #endregion
 
         #region Table Nomeclature
@@ -231,13 +154,24 @@ namespace Documents
         public DataColumn NomenclatureParty { get; set; }
 
         /// <summary>Тара</summary>
-        [SubTableField(Description = "Тара", PropertyType = typeof(bool), StorageType =  StorageTypes.Local, ReadOnly = true)]
+        [SubTableField(Description = "Тара", PropertyType = typeof(bool), StorageType = StorageTypes.Local, ReadOnly = true)]
         public DataColumn IsTare { get; set; }
         #endregion
+
+        [Table(Columns = "AcceptancePlan")]
+        [DataField(Description = "Плани приймання")]
+        public DataTable Plans
+            {
+            get { return GetSubtable("Plans"); }
+            }
+
+        [SubTableField(Description = "План приймання", PropertyType = typeof(AcceptancePlan))]
+        public DataColumn AcceptancePlan { get; set; }
+
         #endregion
 
-        
-        readonly Dictionary<long, bool> tareDic = new Dictionary<long,bool>();
+
+        readonly Dictionary<long, bool> tareDic = new Dictionary<long, bool>();
         readonly Dictionary<long, DateTime> partyDic = new Dictionary<long, DateTime>();
 
         protected override WritingResult CheckingBeforeWriting()
@@ -254,21 +188,9 @@ namespace Documents
             {
             base.InitItemBeforeShowing();
 
-            ValueOfObjectPropertyChanged += AcceptanceOfGoods_ValueOfObjectPropertyChanged;
             TableRowChanged += AcceptanceOfGoods_TableRowChanged;
             TableRowAdded += AcceptanceOfGoods_TableRowAdded;
-            fillSourceData();
             fillingTare();
-            }
-      
-        private void fillSourceData()
-            {
-            IncomeNumber = Source.IncomeNumber;
-            IncomeDate = Source.Id==0 ? string.Empty : Source.Date.ToShortDateString();
-            Contractor = Source.Contractor.Description;
-            Carrier = Source.Carrier.Description;
-            Driver = Source.Driver.Description;
-            Car = Source.Car.Description;
             }
 
         private void fillingTare()
@@ -282,9 +204,9 @@ namespace Documents
 
         private void fillTareInRow(DataRow row)
             {
-            long nomenclatureId = (long) row[Nomenclature];
+            long nomenclatureId = (long)row[Nomenclature];
 
-            if(tareDic.ContainsKey(nomenclatureId))
+            if (tareDic.ContainsKey(nomenclatureId))
                 {
                 row[IsTare] = tareDic[nomenclatureId];
                 }
@@ -313,22 +235,13 @@ namespace Documents
                 row[NomenclatureDate] = party.DateOfManufacture;
                 }
             }
-     
+
 
         #region Changed
-        void AcceptanceOfGoods_ValueOfObjectPropertyChanged(string propertyName)
-            {
-            switch (propertyName)
-                {
-                    case "Source":
-                        fillSourceData();
-                        break;
-                }
-            }
 
         void AcceptanceOfGoods_TableRowAdded(DataTable dataTable, DataRow currentRow)
             {
-            if(dataTable.Equals(NomenclatureInfo))
+            if (dataTable.Equals(NomenclatureInfo))
                 {
                 currentRow[NomenclatureCode] = newCodeNumber;
                 }
@@ -336,13 +249,13 @@ namespace Documents
 
         void AcceptanceOfGoods_TableRowChanged(DataTable dataTable, DataColumn currentColumn, DataRow currentRow)
             {
-            if(dataTable.Equals(NomenclatureInfo))
+            if (dataTable.Equals(NomenclatureInfo))
                 {
                 if (currentColumn.Equals(Nomenclature))
                     {
                     fillTareInRow(currentRow);
                     }
-                else if(currentColumn.Equals(NomenclatureParty))
+                else if (currentColumn.Equals(NomenclatureParty))
                     {
                     fillDateInRow(currentRow);
                     }
@@ -354,7 +267,7 @@ namespace Documents
             {
             get
                 {
-                if(z_NewCodeNumber==0)
+                if (z_NewCodeNumber == 0)
                     {
                     z_NewCodeNumber = GetNewCode();
                     }
@@ -376,7 +289,77 @@ JOIN SubAcceptanceOfGoodsNomenclatureInfo s ON s.IdDoc=a.Id");
             object code = query.SelectScalar();
 
             return code == null ? 1 : Convert.ToInt64(code);
-            } 
-       
+            }
+
+        private void fillPlan(DateTime planDocsDate)
+            {
+            var q = DB.NewQuery(@"select Id from AcceptancePlan
+
+where CAST([Date] as date) = @Date
+and Driver = @Driver
+and Car = @Car
+and MarkForDeleting = 0");
+            q.AddInputParameter("Date", planDocsDate.StartOfDay());
+            q.AddInputParameter("Driver", Driver.Id);
+            q.AddInputParameter("Car", Car.Id);
+            Plans.Rows.Clear();
+            q.Foreach(qResult => addPlanDocument(Convert.ToInt64(qResult[0])));
+            }
+
+        private void addPlanDocument(long acceptancePlanId)
+            {
+            var row = Plans.GetNewRow(this);
+            row[AcceptancePlan] = acceptancePlanId;
+            row.AddRowToTable(this);
+
+            var acceptancePlan = new AcceptancePlan();
+            acceptancePlan.Read(acceptancePlanId);
+            foreach (DataRow stickerRow in acceptancePlan.Stickers.Rows)
+                {
+                var sticker = new Stickers();
+                sticker.Read(stickerRow[acceptancePlan.Sticker]);
+                addWaresFromSticker(sticker);
+                }
+            }
+
+        private void addWaresFromSticker(Stickers sticker)
+            {
+            Cells cell = sticker.Nomenclature.IsKeg() ? Consts.RedemptionCell : new Cells();
+
+            addWareRow(sticker, cell, sticker.Nomenclature, sticker.UnitsQuantity);
+            addWareRow(sticker, cell, sticker.Nomenclature.BoxType, sticker.Quantity);
+            addWareRow(sticker, cell, sticker.Tray, 1);
+            }
+
+        private void addWareRow(Stickers sticker, Cells cell, Nomenclature nomenclature, int quantity)
+            {
+            if (quantity > 0 && !nomenclature.Empty)
+                {
+                var row = NomenclatureInfo.GetNewRow(this);
+
+                row[Nomenclature] = nomenclature.Id;
+                row[NomenclaturePlan] = quantity;
+                row[NomenclatureCode] = sticker.Id;
+                row[NomenclatureCell] = cell.Id;
+
+                row.AddRowToTable(this);
+                }
+            }
+
+        internal static void CreateNewAcceptance(AcceptancePlan acceptancePlan)
+            {
+            if (!@"Створити ""Приймання товару""".Ask()) return;
+
+            var acceptance = new AcceptanceOfGoods();
+            acceptance.Date = DateTime.Now;
+            acceptance.Driver = acceptancePlan.Driver;
+            acceptance.Car = acceptancePlan.Car;
+            acceptance.Contractor = acceptancePlan.Contractor;
+            acceptance.fillPlan(acceptancePlan.Date);
+            if (acceptance.Write() != WritingResult.Success)
+                {
+                @"Невдала спроба запису документу ""Приймання товару""!".WarningBox();
+                }
+            }
         }
     }

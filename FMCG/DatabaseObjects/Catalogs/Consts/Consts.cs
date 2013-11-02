@@ -78,5 +78,115 @@
             }
         private static string z_UpdateFolderName;
         #endregion
+
+        /// <summary>
+        /// Ячейка "Выкуп - буфер"
+        /// </summary>
+        public static Cells RedemptionCell
+            {
+            get
+                {
+                lock (locker)
+                    {
+                    return (Cells)GetValueForObjectProperty("RedemptionCell");
+                    }
+                }
+            set
+                {
+                lock (locker)
+                    {
+                    SetValueForObjectProperty("RedemptionCell", value);
+                    }
+                }
+            }
+
+
+        #region Tare
+        
+        /// <summary>
+        /// Стандартный поддон
+        /// </summary>
+        public static Nomenclature StandartTray
+            {
+            get
+                {
+                lock (locker)
+                    {
+                    return (Nomenclature)GetValueForObjectProperty("StandartTray");
+                    }
+                }
+            set
+                {
+                lock (locker)
+                    {
+                    SetValueForObjectProperty("StandartTray", value);
+                    }
+                }
+            }
+
+        /// <summary>
+        /// Нестандартный поддон (обычно евро)
+        /// </summary>
+        public static Nomenclature NonStandartTray
+            {
+            get
+                {
+                lock (locker)
+                    {
+                    return (Nomenclature)GetValueForObjectProperty("NonStandartTray");
+                    }
+                }
+            set
+                {
+                lock (locker)
+                    {
+                    SetValueForObjectProperty("NonStandartTray", value);
+                    }
+                }
+            }
+
+        /// <summary>
+        /// Стандартная прокладка
+        /// </summary>
+        public static Nomenclature StandartLiner
+            {
+            get
+                {
+                lock (locker)
+                    {
+                    return (Nomenclature)GetValueForObjectProperty("StandartLiner");
+                    }
+                }
+            set
+                {
+                lock (locker)
+                    {
+                    SetValueForObjectProperty("StandartLiner", value);
+                    }
+                }
+            }
+
+        /// <summary>
+        /// Нестандартная прокладка
+        /// </summary>
+        public static Nomenclature NonStandartLiner
+            {
+            get
+                {
+                lock (locker)
+                    {
+                    return (Nomenclature)GetValueForObjectProperty("NonStandartLiner");
+                    }
+                }
+            set
+                {
+                lock (locker)
+                    {
+                    SetValueForObjectProperty("NonStandartLiner", value);
+                    }
+                }
+            } 
+
+        #endregion
         }
     }

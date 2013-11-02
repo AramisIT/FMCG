@@ -4,7 +4,7 @@ namespace TouchScreen.Models.Data
     {
     public class NomenclatureData
         {
-        public int quantity;
+        private int quantity;
 
         public long LineNumber { get; set; }
         public ObjectValue Description { get; set; }

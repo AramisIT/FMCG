@@ -75,8 +75,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             }
         #endregion
 
-       
-
-      
+        private void createAcceptanceButtonItem_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            AcceptanceOfGoods.CreateNewAcceptance(Document);
+            }
         }
     }

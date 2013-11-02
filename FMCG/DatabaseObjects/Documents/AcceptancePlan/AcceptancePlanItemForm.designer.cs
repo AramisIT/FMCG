@@ -34,9 +34,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.OK = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
             this.cancel = new DevExpress.XtraBars.BarButtonItem();
+            this.createAcceptanceButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
-            this.TareInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
+            this.StickersBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.NomenclatureInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
+            this.TareInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.panelControl = new DevExpress.XtraEditors.PanelControl();
             this.SupplierIncomeNumber = new DevExpress.XtraEditors.TextEdit();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
@@ -63,12 +65,18 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
             this.TareInfo = new DevExpress.XtraGrid.GridControl();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.stickersTabPage = new DevExpress.XtraTab.XtraTabPage();
+            this.Stickers = new DevExpress.XtraGrid.GridControl();
+            this.gridView3 = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
             this.pictureEdit1 = new DevExpress.XtraEditors.PictureEdit();
             this.Info = new DevExpress.XtraEditors.LabelControl();
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
             this.panelControl.SuspendLayout();
@@ -90,6 +98,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.xtraTabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TareInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
+            this.stickersTabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Stickers)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
             this.panelControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureEdit1.Properties)).BeginInit();
@@ -100,6 +111,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbonStatusBar.ItemLinks.Add(this.OK);
             this.ribbonStatusBar.ItemLinks.Add(this.barButtonItem2);
             this.ribbonStatusBar.ItemLinks.Add(this.cancel);
+            this.ribbonStatusBar.ItemLinks.Add(this.createAcceptanceButtonItem);
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 477);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
@@ -131,6 +143,13 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.cancel.Name = "cancel";
             this.cancel.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.cancel_ItemClick);
             // 
+            // createAcceptanceButtonItem
+            // 
+            this.createAcceptanceButtonItem.Caption = "Створити \"Приймання товару\"";
+            this.createAcceptanceButtonItem.Id = 18;
+            this.createAcceptanceButtonItem.Name = "createAcceptanceButtonItem";
+            this.createAcceptanceButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.createAcceptanceButtonItem_ItemClick);
+            // 
             // ribbon
             // 
             this.ribbon.ApplicationButtonText = null;
@@ -140,21 +159,22 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.ExpandCollapseItem,
             this.OK,
             this.barButtonItem2,
-            this.cancel});
+            this.cancel,
+            this.createAcceptanceButtonItem});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 18;
+            this.ribbon.MaxItemId = 19;
             this.ribbon.Name = "ribbon";
             this.ribbon.Size = new System.Drawing.Size(903, 49);
-            this.ribbon.StatusBar = this.NomenclatureInfoButtonsBar;
+            this.ribbon.StatusBar = this.TareInfoButtonsBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
             // 
-            // TareInfoButtonsBar
+            // StickersBar
             // 
-            this.TareInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TareInfoButtonsBar.Location = new System.Drawing.Point(0, 0);
-            this.TareInfoButtonsBar.Name = "TareInfoButtonsBar";
-            this.TareInfoButtonsBar.Ribbon = this.ribbon;
-            this.TareInfoButtonsBar.Size = new System.Drawing.Size(897, 27);
+            this.StickersBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.StickersBar.Location = new System.Drawing.Point(0, 0);
+            this.StickersBar.Name = "StickersBar";
+            this.StickersBar.Ribbon = this.ribbon;
+            this.StickersBar.Size = new System.Drawing.Size(897, 27);
             // 
             // NomenclatureInfoButtonsBar
             // 
@@ -163,6 +183,14 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.NomenclatureInfoButtonsBar.Name = "NomenclatureInfoButtonsBar";
             this.NomenclatureInfoButtonsBar.Ribbon = this.ribbon;
             this.NomenclatureInfoButtonsBar.Size = new System.Drawing.Size(897, 27);
+            // 
+            // TareInfoButtonsBar
+            // 
+            this.TareInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.TareInfoButtonsBar.Location = new System.Drawing.Point(0, 0);
+            this.TareInfoButtonsBar.Name = "TareInfoButtonsBar";
+            this.TareInfoButtonsBar.Ribbon = this.ribbon;
+            this.TareInfoButtonsBar.Size = new System.Drawing.Size(897, 27);
             // 
             // panelControl
             // 
@@ -382,7 +410,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.tabControl1.TabIndex = 3;
             this.tabControl1.TabPages.AddRange(new DevExpress.XtraTab.XtraTabPage[] {
             this.xtraTabPage1,
-            this.xtraTabPage2});
+            this.xtraTabPage2,
+            this.stickersTabPage});
             // 
             // xtraTabPage1
             // 
@@ -433,6 +462,31 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.gridView2.GridControl = this.TareInfo;
             this.gridView2.Name = "gridView2";
+            // 
+            // stickersTabPage
+            // 
+            this.stickersTabPage.Controls.Add(this.Stickers);
+            this.stickersTabPage.Controls.Add(this.StickersBar);
+            this.stickersTabPage.Name = "stickersTabPage";
+            this.stickersTabPage.Size = new System.Drawing.Size(897, 296);
+            this.stickersTabPage.Text = "Этикетки";
+            // 
+            // Stickers
+            // 
+            this.Stickers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Stickers.Location = new System.Drawing.Point(0, 27);
+            this.Stickers.MainView = this.gridView3;
+            this.Stickers.MenuManager = this.ribbon;
+            this.Stickers.Name = "Stickers";
+            this.Stickers.Size = new System.Drawing.Size(897, 269);
+            this.Stickers.TabIndex = 5;
+            this.Stickers.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridView3});
+            // 
+            // gridView3
+            // 
+            this.gridView3.GridControl = this.Stickers;
+            this.gridView3.Name = "gridView3";
             // 
             // panelControl1
             // 
@@ -493,6 +547,29 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem4.ImageIndex = 1;
             this.barButtonItem4.Name = "barButtonItem4";
             // 
+            // barButtonItem5
+            // 
+            this.barButtonItem5.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+            this.barButtonItem5.Caption = "OK";
+            this.barButtonItem5.Id = 0;
+            this.barButtonItem5.ImageIndex = 0;
+            this.barButtonItem5.Name = "barButtonItem5";
+            // 
+            // barButtonItem6
+            // 
+            this.barButtonItem6.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+            this.barButtonItem6.Caption = "Записати";
+            this.barButtonItem6.Id = 1;
+            this.barButtonItem6.Name = "barButtonItem6";
+            // 
+            // barButtonItem7
+            // 
+            this.barButtonItem7.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+            this.barButtonItem7.Caption = "Відміна";
+            this.barButtonItem7.Id = 2;
+            this.barButtonItem7.ImageIndex = 1;
+            this.barButtonItem7.Name = "barButtonItem7";
+            // 
             // AcceptancePlanItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -531,6 +608,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.xtraTabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TareInfo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
+            this.stickersTabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Stickers)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
             this.panelControl1.ResumeLayout(false);
             this.panelControl1.PerformLayout();
@@ -580,5 +660,13 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private DevExpress.XtraEditors.LabelControl labelControl8;
         private DevExpress.XtraEditors.TextEdit SupplierIncomeNumber;
         private DevExpress.XtraEditors.LabelControl labelControl9;
+        private DevExpress.XtraTab.XtraTabPage stickersTabPage;
+        private DevExpress.XtraBars.Ribbon.RibbonStatusBar StickersBar;
+        private DevExpress.XtraGrid.GridControl Stickers;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView3;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem5;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem6;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem7;
+        private DevExpress.XtraBars.BarButtonItem createAcceptanceButtonItem;
     }
 }

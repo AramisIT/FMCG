@@ -424,8 +424,39 @@ namespace AtosFMCG.TouchScreen.Controls
                 {
                 onFinish(true, Document);
                 Document.PrintStickers(waresList);
+                if (isLastPlan(Document))
+                    {
+                    AcceptanceOfGoods.CreateNewAcceptance(Document);
+                    }
                 }
             }
+
+        private bool isLastPlan(AcceptancePlan document)
+            {
+            var q = DB.NewQuery(@"with caps as (
+select Id from AcceptancePlan
+
+where CAST([Date] as date) = @Date
+and Driver = @Driver
+and Car = @Car
+and MarkForDeleting = 0
+), stickersCount as ( 
+ select caps.Id, count(stickers.LineNumber) stickersCount
+ 
+ from caps
+ left join SubAcceptancePlanStickers stickers on caps.Id = stickers.IdDoc
+ group by caps.Id
+ )
+ 
+ select count(*) quantity from stickersCount where stickersCount = 0");
+            q.AddInputParameter("Date", document.Date.StartOfDay());
+            q.AddInputParameter("Driver", document.Driver.Id);
+            q.AddInputParameter("Car", document.Car.Id);
+            var plansCount = q.SelectScalar();
+
+            return q.ThrowedException == null && Convert.ToInt32(plansCount) == 0;
+            }
+
         #endregion
 
         #region Exit
@@ -526,7 +557,11 @@ namespace AtosFMCG.TouchScreen.Controls
                         break;
 
                     case EditedColumns.StandartPalletCountPer1:
-                        editControlsArea.Controls.Clear();
+                        updateEditControl(() => installNumberEditEditior(selectedRow.StandartPalletCountPer1, (enteredValue) =>
+                        {
+                            selectedRow.StandartPalletCountPer1 = enteredValue;
+                            selectedRow.UpdateQuantity();
+                        }, "Кількість од. на стандарт. пал. змінено!"));
                         break;
 
                     case EditedColumns.NonStandartPalletCountPer1:
@@ -804,46 +839,128 @@ namespace AtosFMCG.TouchScreen.Controls
 
             list = new List<NomenclatureData>();
 
-            foreach (DataRow row in table.Rows)
+            if (table.Rows.Count > 0)
                 {
-                long nomemclatureId = (long)row[isTare ? Document.Tare : Document.Nomenclature];
-
-                string nomenclatureDescription = null;
-                var shelfLifeDays = 0;
-                var unitsQuantityPerPallet = 0;
-
-                if (isTare)
+                foreach (DataRow row in table.Rows)
                     {
-                    nomenclatureDescription = FastInput.GetCashedData(typeof(Nomenclature).Name).GetDescription(nomemclatureId);
+                    long nomemclatureId = (long)row[isTare ? Document.Tare : Document.Nomenclature];
+
+                    string nomenclatureDescription = null;
+                    var shelfLifeDays = 0;
+                    var unitsQuantityPerPallet = 0;
+
+                    if (isTare)
+                        {
+                        nomenclatureDescription =
+                            FastInput.GetCashedData(typeof(Nomenclature).Name).GetDescription(nomemclatureId);
+                        }
+                    else
+                        {
+                        var nomenclature = new Nomenclature();
+                        nomenclature.Read(nomemclatureId);
+                        nomenclatureDescription = nomenclature.Description;
+                        shelfLifeDays = nomenclature.ShelfLife;
+                        unitsQuantityPerPallet = nomenclature.UnitsQuantityPerPallet;
+                        }
+
+                    NomenclatureData element = new NomenclatureData
+                        {
+                            LineNumber = Convert.ToInt64(row["LineNumber"]),
+                            Description = new ObjectValue(nomenclatureDescription, nomemclatureId),
+                            ShelfLifeDays = shelfLifeDays,
+                            StandartPalletCountPer1 = unitsQuantityPerPallet
+                        };
+
+                    element.Quantity = Convert.ToInt32(row[isTare ? Document.TareCount : Document.NomenclatureCount]);
+
+                    if (!isTare)
+                        {
+                        Parties party = new Parties();
+                        party.Read(row[Document.NomenclatureParty]);
+                        element.Date = party.DateOfManufacture;
+                        element.UpdatePalletQuantity();
+                        }
+
+                    list.Add(element);
                     }
-                else
-                    {
-                    var nomenclature = new Nomenclature();
-                    nomenclature.Read(nomemclatureId);
-                    nomenclatureDescription = nomenclature.Description;
-                    shelfLifeDays = nomenclature.ShelfLife;
-                    unitsQuantityPerPallet = nomenclature.UnitsQuantityPerPallet;
-                    }
-
-                NomenclatureData element = new NomenclatureData
-                    {
-                        LineNumber = Convert.ToInt64(row["LineNumber"]),
-                        Description = new ObjectValue(nomenclatureDescription, nomemclatureId),
-                        ShelfLifeDays = shelfLifeDays,
-                        StandartPalletCountPer1 = unitsQuantityPerPallet
-                    };
-
-                element.Quantity = Convert.ToInt32(row[isTare ? Document.TareCount : Document.NomenclatureCount]);
-
-                if (!isTare)
-                    {
-                    Parties party = new Parties();
-                    party.Read(row[Document.NomenclatureParty]);
-                    element.Date = party.DateOfManufacture;
-                    }
-
-                list.Add(element);
                 }
+            else if (isTare)
+                {
+                computeTare();
+                }
+            }
+
+        private void computeTare()
+            {
+            var tareDictionary = new Dictionary<long, NomenclatureData>();
+
+            foreach (var nomenclatureData in waresList)
+                {
+                NomenclatureData tare;
+                if (getBoxes(nomenclatureData.Description.Id, nomenclatureData.Quantity, out tare))
+                    {
+                    NomenclatureData existsTare;
+                    if (tareDictionary.TryGetValue(tare.Description.Id, out existsTare))
+                        {
+                        existsTare.Quantity += tare.Quantity;
+                        }
+                    else
+                        {
+                        tareDictionary.Add(tare.Description.Id, tare);
+                        }
+                    }
+
+                var standartTrays = nomenclatureData.StandartPalletsCount + (nomenclatureData.UnitsOnNotFullPallet > 0 ? 1 : 0);
+                addTrays(tareDictionary, standartTrays, Consts.StandartTray);
+
+                var nonStandartTrays = nomenclatureData.NonStandartPalletsCount + (nomenclatureData.UnitsOnNotFullNonStandartPallet > 0 ? 1 : 0);
+                addTrays(tareDictionary, nonStandartTrays, Consts.NonStandartTray);
+                }
+
+            long lineNumber = 0;
+            foreach (var tare in tareDictionary.Values)
+                {
+                lineNumber++;
+                tare.LineNumber = lineNumber;
+                list.Add(tare);
+                }
+            }
+
+        private void addTrays(Dictionary<long, NomenclatureData> tareDictionary, int standartTrays, Nomenclature nomenclatureTray)
+            {
+            if (standartTrays < 1) return;
+            NomenclatureData tare;
+            if (tareDictionary.TryGetValue(nomenclatureTray.Id, out tare))
+                {
+                tare.Quantity += standartTrays;
+                }
+            else
+                {
+                tare = new NomenclatureData()
+                    {
+                        Description = new ObjectValue(nomenclatureTray.Description, nomenclatureTray.Id),
+                        Quantity = standartTrays
+                    };
+                tareDictionary.Add(nomenclatureTray.Id, tare);
+                }
+            }
+
+        private bool getBoxes(long nomenclatureId, int units, out NomenclatureData tare)
+            {
+            var nomenclature = new Nomenclature();
+            nomenclature.Read(nomenclatureId);
+
+            if (nomenclature.IsKeg() || nomenclature.BoxType.Empty)
+                {
+                tare = null;
+                return false;
+                }
+
+            tare = new NomenclatureData();
+            tare.Description = new ObjectValue(nomenclature.BoxType.Description, nomenclature.BoxType.Id);
+            tare.Quantity = units / nomenclature.UnitsQuantityPerPack;
+
+            return true;
             }
 
         private void mainView_CustomColumnDisplayText(object sender, CustomColumnDisplayTextEventArgs e)
