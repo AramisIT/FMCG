@@ -8,7 +8,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WMS_client</RootNamespace>
-    <AssemblyName>WMS client</AssemblyName>
+    <AssemblyName>Aramis WMS client</AssemblyName>
     <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PlatformFamilyName>WindowsCE</PlatformFamilyName>
     <PlatformID>E2BECB1F-8C8C-41ba-B736-9BE7D946A398</PlatformID>
@@ -143,11 +143,14 @@
   <ItemGroup>
     <Content Include="Base\PackageConvertation.dll" />
     <Content Include="media_player.ico" />
+    <Content Include="ServerIP.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\pdtExternalStorage\pdtExternalStorage.csproj">
+    <ProjectReference Include="..\PDT_API\PDT_API.csproj">
       <Project>{A95D2C09-B66D-48E4-B50C-D43B886CB862}</Project>
-      <Name>pdtExternalStorage</Name>
+      <Name>PDT_API</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Condition="'$(TargetFrameworkVersion)' == 'v1.0'" Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.v1.targets" />

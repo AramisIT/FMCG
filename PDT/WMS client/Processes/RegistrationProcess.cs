@@ -15,7 +15,7 @@ namespace WMS_client.Processes
 
         public override void DrawControls()
         {
-            MainProcess.CreateLabel("”в≥йд≥ть в систему", 19, 165, 211, MobileFontSize.Large);
+            MainProcess.CreateLabel("”в≥йд≥ть до системи", 19, 165, 211, MobileFontSize.Large);
             MainProcess.ToDoCommand = "–ег≥страц≥€";
             MainProcess.CreateButton("¬х≥д", 10, 275, 220, 35, "¬х≥д", () => OnBarcode(string.Empty));
         }

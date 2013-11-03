@@ -72,19 +72,20 @@ namespace AtosFMCG
             serviceTablesGroup.Visible = openByAdmnin;
 
             //ТСД сервер
-            //bool isManagerOfDCT = SystemAramis.CurrentUser.Roles.Rows.Cast<DataRow>().Any(
-            //    row => Convert.ToInt64(row["Role"]) == Users.ManagerOfDCT.Id);
-            //if (openByAdmnin || isManagerOfDCT)
-            //    {
-            //    ltlServerState.Visibility = BarItemVisibility.Always;
-            //    runSMServer();
-            //    dctServerGroup.Visible = true;
-            //    }
-            //else
-            //    {
-            //    ltlServerState.Visibility = BarItemVisibility.Never;
-            //    dctServerGroup.Visible = false;
-            //    }
+            bool isManagerOfDCT = SystemAramis.CurrentUser.Roles.Rows.Cast<DataRow>().Any(
+                row => Convert.ToInt64(row["Role"]) == Users.ManagerOfPDT.Id);
+
+            if (openByAdmnin || isManagerOfDCT)
+                {
+                ltlServerState.Visibility = BarItemVisibility.Always;
+                runSMServer();
+                pdtServerGroup.Visible = true;
+                }
+            else
+                {
+                ltlServerState.Visibility = BarItemVisibility.Never;
+                pdtServerGroup.Visible = false;
+                }
             }
 
         #endregion
@@ -187,12 +188,10 @@ namespace AtosFMCG
             runSMServer();
             }
 
-        /// <summary>Запуск серверу showSuccessResultOfConnection</summary>
         private void runSMServer()
             {
             try
                 {
-                //Якщо сервер не запущено - запустити
                 if (smServer == null || !smServer.IsRun)
                     {
                     smServer = new InfoForm(ReceiveMessages.ReceiveMessage, PDTSettings.AllowedIPs(), Consts.ServerIP,

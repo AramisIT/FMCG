@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WMS client", "WMS client\WMS client.csproj", "{00A68012-89FA-4E19-8156-D2292ABC588D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pdtExternalStorage", "pdtExternalStorage\pdtExternalStorage.csproj", "{A95D2C09-B66D-48E4-B50C-D43B886CB862}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDT_API", "PDT_API\PDT_API.csproj", "{A95D2C09-B66D-48E4-B50C-D43B886CB862}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -60,6 +60,7 @@
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -79,7 +80,6 @@
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).BeginInit();
@@ -351,6 +351,13 @@
             this.barButtonItem6.Name = "barButtonItem6";
             this.barButtonItem6.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem6_ItemClick);
             // 
+            // barButtonItem7
+            // 
+            this.barButtonItem7.Caption = "Этикетки";
+            this.barButtonItem7.Id = 45;
+            this.barButtonItem7.Name = "barButtonItem7";
+            this.barButtonItem7.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem7_ItemClick);
+            // 
             // largeImagesCollection
             // 
             this.largeImagesCollection.ImageSize = new System.Drawing.Size(32, 32);
@@ -439,7 +446,7 @@
             this.serviceTablesGroup.Name = "serviceTablesGroup";
             this.serviceTablesGroup.Text = "Службові таблиці";
             // 
-            // dctServerGroup
+            // ServerGroup
             // 
             this.pdtServerGroup.ItemLinks.Add(this.serverState);
             this.pdtServerGroup.Name = "dctServerGroup";
@@ -508,13 +515,6 @@
             this.ribbonPageGroup1.ShowCaptionButton = false;
             this.ribbonPageGroup1.Text = "Оновлення";
             // 
-            // barButtonItem7
-            // 
-            this.barButtonItem7.Caption = "Этикетки";
-            this.barButtonItem7.Id = 45;
-            this.barButtonItem7.Name = "barButtonItem7";
-            this.barButtonItem7.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem7_ItemClick);
-            // 
             // AramisMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -563,7 +563,7 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup favGroup;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup testGroup;
         private DevExpress.XtraBars.BarButtonItem serverState;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup pdtServerGroup;
+        
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup serviceTablesGroup;
         private DevExpress.XtraBars.BarButtonItem openStockBalance;
         private DevExpress.XtraBars.BarButtonItem openGoodsMoving;
@@ -587,5 +587,6 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem6;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup5;
         private DevExpress.XtraBars.BarButtonItem barButtonItem7;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup pdtServerGroup;
         }
     }

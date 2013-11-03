@@ -85,9 +85,9 @@
     <Reference Include="Extensions">
       <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="pdtExternalStorage, Version=1.0.4860.24754, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FMCG PDT Client API, Version=1.0.5055.18104, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\PDT\pdtExternalStorage\bin\Release\pdtExternalStorage.dll</HintPath>
+      <HintPath>..\PDT\PDT_API\bin\Release\FMCG PDT Client API.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
