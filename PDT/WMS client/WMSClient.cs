@@ -400,7 +400,7 @@ namespace WMS_client
 
         public void onChange(object obj, EventArgs e)
             {
-            MessageBox.Show(((TextBox) obj).Text);
+            MessageBox.Show(((TextBox)obj).Text);
             }
 
         public void OnExit()
@@ -450,7 +450,7 @@ namespace WMS_client
                     {
                     return null;
                     }
-                if (result.GetType() == typeof (object[]) && result.Length == 1 && result[0] == null)
+                if (result.GetType() == typeof(object[]) && result.Length == 1 && result[0] == null)
                     return null;
                 return result;
                 }
@@ -471,7 +471,7 @@ namespace WMS_client
             {
             NeedToUpdate = true;
 
-            if (Process.GetType() == typeof (RegistrationProcess))
+            if (Process.GetType() == typeof(RegistrationProcess))
                 {
                 MainForm.PerformInMainThread = Updating;
                 MainForm.PerformMainThreadEvent();
@@ -543,8 +543,18 @@ namespace WMS_client
             ClearControls();
             User = 0;
             User = 12;
-            //Process = new SelectingProcess(this);
-            Process = new RegistrationProcess(this);
+            bool isDebugMode = false;
+#if DEBUG
+           // isDebugMode = true;
+#endif
+            if (isDebugMode)
+                {
+                Process = new FormDesignProcess(this);
+                }
+            else
+                {
+                Process = new RegistrationProcess(this);
+                }
             }
 
         public void Exit()

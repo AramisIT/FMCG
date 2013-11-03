@@ -113,7 +113,7 @@ namespace WMS_client
             switch (color)
             {
                 case MobileFontColors.Default:
-                    Control.ForeColor = Color.Black;
+                    Control.ForeColor = GRAY_COLOR;
                     break;
                 case MobileFontColors.Info:
                     Control.ForeColor = Color.DarkGreen;

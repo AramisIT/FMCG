@@ -15,14 +15,14 @@ namespace WMS_client.Processes
             : base(MainProcess)
             {
             Data = new SelectionData("Відбір товару");
-            IsLoad = true;
+            isLoading = true;
             DrawControls();
             }
 
         #region Override methods
         public override sealed void DrawControls()
             {
-            if (IsLoad)
+            if (isLoading)
                 {
                 selectDoc();
                 }

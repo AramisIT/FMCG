@@ -39,6 +39,39 @@ namespace Catalogs
                 }
             }
 
+        [DataField(Description = "Прокладка", ShowInList = true)]
+        public Nomenclature Liner
+            {
+            get
+                {
+                return (Nomenclature)GetValueForObjectProperty("Liner");
+                }
+            set
+                {
+                SetValueForObjectProperty("Liner", value);
+                }
+            }
+
+        [DataField(Description = "Кількість прокладок", ShowInList = true)]
+        public int LinersQuantity
+            {
+            get
+                {
+                return z_LinersQuantity;
+                }
+            set
+                {
+                if (z_LinersQuantity == value)
+                    {
+                    return;
+                    }
+
+                z_LinersQuantity = value;
+                NotifyPropertyChanged("LinersQuantity");
+                }
+            }
+        private int z_LinersQuantity;
+
         [DataField(Description = "Водитель", ShowInList = true)]
         public Drivers Driver
             {

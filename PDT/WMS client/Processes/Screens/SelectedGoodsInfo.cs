@@ -22,7 +22,7 @@ namespace WMS_client.Processes.BaseScreen
             MainProcess.ToDoCommand = data.Topic;
             navigateToScreen = nextScr;
             editMode = false;
-            IsLoad = true;
+            isLoading = true;
             DrawControls();
             }
 
@@ -34,14 +34,14 @@ namespace WMS_client.Processes.BaseScreen
             MainProcess.ToDoCommand = data.Topic;
             navigateToScreen = nextScr;
             editMode = edit;
-            IsLoad = true;
+            isLoading = true;
             DrawControls();
         }
 
         #region Override methods
         public override sealed void DrawControls()
             {
-            if (IsLoad)
+            if (isLoading)
                 {
                 MainProcess.ToDoCommand = processData.Topic;
                 //Комірка

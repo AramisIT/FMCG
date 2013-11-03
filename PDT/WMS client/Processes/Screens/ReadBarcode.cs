@@ -20,7 +20,7 @@ namespace WMS_client.Processes.BaseScreen
             goBackMessage = backMsg;
             navigateToNextScreen = nextScr;
 
-            IsLoad = true;
+            isLoading = true;
             DrawControls();
             }
 
@@ -33,14 +33,14 @@ namespace WMS_client.Processes.BaseScreen
             goBackMessage = backMsg;
             navigateToNextScreen = nextScr;
 
-            IsLoad = true;
+            isLoading = true;
             DrawControls();
         }
 
         #region Override methods
         public override sealed void DrawControls()
             {
-            if (IsLoad)
+            if (isLoading)
                 {
                 int top = 175;
 

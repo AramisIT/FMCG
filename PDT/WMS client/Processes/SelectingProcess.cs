@@ -48,6 +48,8 @@ namespace WMS_client.Processes
                 }
             }
 
+       
+
         public override void OnBarcode(string Barcode) {}
 
         public override void OnHotKey(KeyAction TypeOfAction)

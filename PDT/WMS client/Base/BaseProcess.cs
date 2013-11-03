@@ -6,7 +6,7 @@ namespace WMS_client
     public abstract class BaseProcess
         {
         #region Public fields
-        protected bool IsLoad;
+        protected bool isLoading;
         public object[] Parameters;
         public WMSClient MainProcess;
         public ProcessType BusinessProcessType;

@@ -174,10 +174,9 @@ WHERE i.State=0 AND i.MarkForDeleting=0 AND n.FactValue=0 AND CAST(i.Date AS DAT
 
 WITH
 Data AS (
-	SELECT 'Acceptance' Type,COUNT(1) Count
-	FROM AcceptancePlan p
-	LEFT JOIN AcceptanceOfGoods a ON a.Source=p.Id
-	WHERE a.State<3 AND p.MarkForDeleting=0 AND @Today=CAST(p.Date AS DATE)
+	SELECT 'Acceptance' Type, COUNT(1) Count
+	FROM AcceptanceOfGoods a
+	WHERE a.State<=1 AND a.MarkForDeleting=0 
 	
 	UNION ALL
 	

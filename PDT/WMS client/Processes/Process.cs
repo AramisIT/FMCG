@@ -14,6 +14,8 @@ namespace WMS_client.Processes
             Data = Activator.CreateInstance<T>();
             }
 
+      
+
         #region Override methods
         public override void OnHotKey(KeyAction TypeOfAction)
             {

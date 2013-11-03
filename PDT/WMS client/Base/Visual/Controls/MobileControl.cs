@@ -1,7 +1,11 @@
+using System.Drawing;
+
 namespace WMS_client
 {
     public abstract class MobileControl
     {
+        protected static readonly Color GRAY_COLOR = Color.FromArgb(70, 70, 70); 
+
         #region Public fields
         public string Name
         {

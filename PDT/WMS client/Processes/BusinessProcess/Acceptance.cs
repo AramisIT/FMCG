@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Linq;
 using WMS_client.Processes.BaseScreen;
 using System.Collections.Generic;
@@ -9,40 +10,73 @@ namespace WMS_client.Processes
     /// <summary>Приймання товару</summary>
     public class Acceptance : Process<AcceptanceData>
         {
+        private MobileLabel nomenclatureLabel;
+        private MobileControl packsCountTextBox;
+        private MobileControl unitsCountTextBox;
+        private MobileButton trayButton;
+        private MobileControl linersQuantityTextBox;
+        private MobileButton linerButton;
+        private MobileLabel cellLabel;
         private const string INVALID_BARCODE_MSG = "Відсканований штрих-код не вірний";
 
         /// <summary>Приймання товару</summary>
         public Acceptance(WMSClient MainProcess)
             : base(MainProcess)
             {
-            IsLoad = true;
-            DrawControls();
+            ToDoCommand = "Приймання товару";
             }
 
         #region Override methods
         public override sealed void DrawControls()
             {
-            if (IsLoad)
-                {
-                DataTable table;
-                List<TableData> listOfElements = new List<TableData>();
+            int top = 42;
+            const int delta = 27;
 
-                if (GetCarsForAcceptance(out table))
-                    {
-                    listOfElements.AddRange(
-                        from DataRow row in table.Rows
-                        select
-                            new TableData(
-                            Convert.ToInt64(row[ID_COLUMN_NAME]),
-                            row[DESCRIPTION_COLUMN_NAME].ToString(),
-                            string.Empty));
-                    }
-                MainProcess.Process = new SelectTableList(
-                    MainProcess, selectCar, Data.Topic, "Машина", listOfElements, "До вибору процесів (Esc)", true);
-                }
+            top += delta;
+            nomenclatureLabel = MainProcess.CreateLabel("<номенклатура>", 5, top, 230,
+               MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
+
+            top += delta;
+
+            MainProcess.CreateLabel("упаковок:", 5, top, 80,
+               MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
+            packsCountTextBox = MainProcess.CreateTextBox(90, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
+
+            MainProcess.CreateLabel("+ шт.:", 135, top, 55,
+               MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
+            unitsCountTextBox = MainProcess.CreateTextBox(185, top, 50, string.Empty, ControlsStyle.LabelNormal, null, false);
+
+            top += delta + delta;
+            trayButton = MainProcess.CreateButton("<піддон>", 5, top, 230, 35, "modelButton", trayButton_Click,
+               new PropertyButtonInfo() { PropertyName = "Tray", PropertyDescription = "Тип піддону" });
+
+            top += delta + delta;
+            MainProcess.CreateLabel("Кількість прокладок:", 5, top, 180,
+               MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
+            linersQuantityTextBox = MainProcess.CreateTextBox(190, top, 45, string.Empty, ControlsStyle.LabelNormal, null, false);
+
+            top += delta;
+            linerButton = MainProcess.CreateButton("<тип прокладки>", 5, top, 230, 35, "modelButton", linerButton_Click,
+               new PropertyButtonInfo() { PropertyName = "Liner", PropertyDescription = "Тип прокладки" });
+
+            top += delta + delta;
+            MainProcess.CreateLabel("Комірка:", 5, top, 80,
+               MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
+            cellLabel = MainProcess.CreateLabel("<?>", 95, top, 140,
+               MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             }
 
-        public override void OnBarcode(string Barcode) {}
+        private void trayButton_Click(object sender)
+            {
+
+            }
+
+        private void linerButton_Click(object sender)
+            {
+
+            }
+
+        public override void OnBarcode(string Barcode) { }
         #endregion
 
         #region Stages

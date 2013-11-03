@@ -62,14 +62,14 @@ namespace WMS_client.Processes.BaseScreen
                                                  new DataColumn(ID_COLUMN, typeof (long))
                                              });
 
-            IsLoad = true;
+            isLoading = true;
             DrawControls();
         }
 
         #region Override methods
         public override sealed void DrawControls()
             {
-            if (IsLoad)
+            if (isLoading)
                 {
                 int tableHeight = 230;
 

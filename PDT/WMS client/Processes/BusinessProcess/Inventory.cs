@@ -13,14 +13,14 @@ namespace WMS_client.Processes
         public Inventory(WMSClient MainProcess)
             : base(MainProcess)
             {
-            IsLoad = true;
+            isLoading = true;
             DrawControls();
             }
 
         #region Override methods
         public override sealed void DrawControls()
             {
-            if (IsLoad)
+            if (isLoading)
                 {
                 palletScaning();
                 }

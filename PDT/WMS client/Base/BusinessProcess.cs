@@ -14,6 +14,18 @@ namespace WMS_client
             : base(MainProcess, CellName, CellBarcode, FormNumber) {}
         #endregion
 
+        protected string ToDoCommand
+            {
+            get
+                {
+                return MainProcess.ToDoCommand;
+                }
+            set
+                {
+                MainProcess.ToDoCommand = value;
+                }
+            }
+
         #region Implemention of IRemoteCommunications
         /// <summary>Отримати список машин для "Приймання товару"</summary>
         /// <returns>Таблиця (Id, Description)</returns>
@@ -30,6 +42,32 @@ namespace WMS_client
             table = null;
             return false;
             }
+
+        /// <summary>К-сть документів, що чекають обробки</summary>
+        /// <param name="acceptanceDocCount">К-сть документів "Прийманя"</param>
+        /// <param name="inventoryDocCount">К-сть документів "Інветаризація"</param>
+        /// <param name="selectionDocCount">К-сть документів "Відбір"</param>
+        /// <param name="movementDocCount">К-сть документів "Переміщення"</param>
+        public void GetCountOfDocuments(out string acceptanceDocCount, out string inventoryDocCount,
+                                        out string selectionDocCount, out string movementDocCount)
+            {
+            PerformQuery("GetCountOfDocuments");
+
+            if (IsExistParameters)
+                {
+                acceptanceDocCount = Parameters[0].ToString();
+                inventoryDocCount = Parameters[1].ToString();
+                selectionDocCount = Parameters[2].ToString();
+                movementDocCount = Parameters[3].ToString();
+                return;
+                }
+
+            acceptanceDocCount = 0.ToString();
+            inventoryDocCount = 0.ToString();
+            selectionDocCount = 0.ToString();
+            movementDocCount = 0.ToString();
+            }
+
 
         /// <summary>Отримати місце розміщення зі штрихкоду</summary>
         /// <param name="barcode">Штрихкод</param>
@@ -135,30 +173,7 @@ namespace WMS_client
             return false;
             }
 
-        /// <summary>К-сть документів, що чекають обробки</summary>
-        /// <param name="acceptanceDocCount">К-сть документів "Прийманя"</param>
-        /// <param name="inventoryDocCount">К-сть документів "Інветаризація"</param>
-        /// <param name="selectionDocCount">К-сть документів "Відбір"</param>
-        /// <param name="movementDocCount">К-сть документів "Переміщення"</param>
-        public void GetCountOfDocuments(out string acceptanceDocCount, out string inventoryDocCount,
-                                        out string selectionDocCount, out string movementDocCount)
-            {
-            PerformQuery("GetCountOfDocuments");
-
-            if (IsExistParameters)
-                {
-                acceptanceDocCount = Parameters[0].ToString();
-                inventoryDocCount = Parameters[1].ToString();
-                selectionDocCount = Parameters[2].ToString();
-                movementDocCount = Parameters[3].ToString();
-                return;
-                }
-
-            acceptanceDocCount = 0.ToString();
-            inventoryDocCount = 0.ToString();
-            selectionDocCount = 0.ToString();
-            movementDocCount = 0.ToString();
-        }
+        
 
         /// <summary>Інформація про ПЕРШУ паллету (тут строка) для відбору</summary>
         /// <param name="contractor">Контрагент</param>

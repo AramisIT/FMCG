@@ -103,6 +103,7 @@
     <Compile Include="Processes\BusinessProcess\Selection.cs" />
     <Compile Include="Processes\BusinessProcess\Inventory.cs" />
     <Compile Include="Processes\BusinessProcess\Movement.cs" />
+    <Compile Include="Processes\FormDesignProcess.cs" />
     <Compile Include="Processes\ProcessData\AcceptanceData.cs" />
     <Compile Include="Processes\ProcessData\InventoryData.cs" />
     <Compile Include="Processes\ProcessData\MovementData.cs" />
@@ -138,6 +139,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Processes\RegistrationProcess.cs" />
+    <Compile Include="PropertyButtonInfo.cs" />
     <Compile Include="WMSClient.cs" />
   </ItemGroup>
   <ItemGroup>

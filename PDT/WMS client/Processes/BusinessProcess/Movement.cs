@@ -11,14 +11,14 @@ namespace WMS_client.Processes
             : base(MainProcess)
             {
             Data.Topic = "Переміщення";
-            IsLoad = true;
+            isLoading = true;
             DrawControls();
             }
 
         #region Override methods
         public override sealed void DrawControls()
             {
-            if (IsLoad)
+            if (isLoading)
                 {
                 chooseGoods();
                 }
