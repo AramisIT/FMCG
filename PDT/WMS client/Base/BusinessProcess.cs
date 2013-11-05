@@ -1,10 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Windows.Forms;
 using pdtExternalStorage;
 
 namespace WMS_client
     {
-    public abstract class BusinessProcess : BaseProcess, IRemoteCommunications
+    public abstract class BusinessProcess : BaseProcess
         {
         #region Constructors
         protected BusinessProcess(WMSClient MainProcess, int FormNumber)
@@ -43,30 +45,7 @@ namespace WMS_client
             return false;
             }
 
-        /// <summary>К-сть документів, що чекають обробки</summary>
-        /// <param name="acceptanceDocCount">К-сть документів "Прийманя"</param>
-        /// <param name="inventoryDocCount">К-сть документів "Інветаризація"</param>
-        /// <param name="selectionDocCount">К-сть документів "Відбір"</param>
-        /// <param name="movementDocCount">К-сть документів "Переміщення"</param>
-        public void GetCountOfDocuments(out string acceptanceDocCount, out string inventoryDocCount,
-                                        out string selectionDocCount, out string movementDocCount)
-            {
-            PerformQuery("GetCountOfDocuments");
-
-            if (IsExistParameters)
-                {
-                acceptanceDocCount = Parameters[0].ToString();
-                inventoryDocCount = Parameters[1].ToString();
-                selectionDocCount = Parameters[2].ToString();
-                movementDocCount = Parameters[3].ToString();
-                return;
-                }
-
-            acceptanceDocCount = 0.ToString();
-            inventoryDocCount = 0.ToString();
-            selectionDocCount = 0.ToString();
-            movementDocCount = 0.ToString();
-            }
+        
 
 
         /// <summary>Отримати місце розміщення зі штрихкоду</summary>
@@ -384,6 +363,28 @@ namespace WMS_client
             id = 0;
             return false;
             }
+
+        protected bool SelectFromList(List<CatalogItem> list, out CatalogItem selectedItem)
+            {
+            return SelectFromList(list, -1, out selectedItem);
+            }
+
+        protected bool SelectFromList(List<CatalogItem> list, int selectedIndex, out CatalogItem selectedItem)
+            {
+            var selectingItemForm = new WMS_client.Base.Visual.SelectingItem();
+            selectingItemForm.DataSource = list;
+            selectingItemForm.SelectedIndex = selectedIndex;
+            
+            if (selectingItemForm.ShowDialog() == DialogResult.OK)
+                {
+                selectedItem = list[selectingItemForm.SelectedIndex < 0 ? 0 : selectingItemForm.SelectedIndex];
+                return true;
+                }
+
+            selectedItem = null;
+            return false;
+            }
+
         #endregion
         }
     }

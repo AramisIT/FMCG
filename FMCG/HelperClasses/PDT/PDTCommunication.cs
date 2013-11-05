@@ -166,7 +166,7 @@ WHERE i.State=0 AND i.MarkForDeleting=0 AND n.FactValue=0 AND CAST(i.Date AS DAT
         /// <param name="inventoryDocCount">К-сть документів "Інветаризація"</param>
         /// <param name="selectionDocCount">К-сть документів "Відбір"</param>
         /// <param name="movementDocCount">К-сть документів "Переміщення"</param>
-        public void GetCountOfDocuments(out string acceptanceDocCount, out string inventoryDocCount,
+        public bool GetCountOfDocuments(out string acceptanceDocCount, out string inventoryDocCount,
                                         out string selectionDocCount, out string movementDocCount)
             {
             //Умова відбору: Стан = "Заплановано" + Не помічений на видалення + На сьогодні
@@ -216,6 +216,8 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Movement])) 
                 selectionDocCount = result[TypesOfProcess.Selection.ToString()].ToString();
                 movementDocCount = result[TypesOfProcess.Movement.ToString()].ToString();
                 }
+
+            return true;
             }
 
         /// <summary>Інформація про ПЕРШУ паллету (тут строка) для відбору</summary>
@@ -547,8 +549,8 @@ JOIN (SELECT Id FROM Documents WHERE Total=Finished)d ON i.Id=d.Id");
         public bool CheckPalletBarcodeForMoving(string barcode, bool cellIsAccepted, out long palletId, out bool isCell)
             {
             return BarcodeWorker.CheckPalletBarcodeForMoving(barcode, cellIsAccepted, out palletId, out isCell);
-            }        
-        
+            }
+
         /// <summary>Перевірити комірку інвентаризації</summary>
         /// <param name="barcode">Штрих-код</param>
         /// <param name="cellId">ID комірки</param>
@@ -609,6 +611,56 @@ FROM LastPalletInCell ");
         public bool GetDataAboutMovingPallet(int palletId, out string goods, out DateTime date, out double boxCount, out double bottleCount)
             {
             throw new NotImplementedException();
+            }
+
+        public bool GetTareTable(out DataTable tareTable)
+            {
+            tareTable = new DataTable();
+            tareTable.Columns.AddRange(new DataColumn[]{new DataColumn("Description", typeof(string)),
+                new DataColumn("Id", typeof(long)),
+                new DataColumn("TareType", typeof(int)) });
+
+            tareTable.Rows.Add(Consts.StandartTray.Description, Consts.StandartTray.Id, 1);
+            tareTable.Rows.Add(Consts.NonStandartTray.Description, Consts.NonStandartTray.Id, 1);
+
+            tareTable.Rows.Add(Consts.StandartLiner.Description, Consts.StandartLiner.Id, 2);
+            tareTable.Rows.Add(Consts.NonStandartLiner.Description, Consts.NonStandartLiner.Id, 2);
+
+            return true;
+            }
+
+
+        public bool GetStickerData(long acceptanceId, long stickerId, 
+                out string nomenclatureDescription, out string trayDescription, out long trayId, 
+                out int unitsPerBox, out long cellId, out string cellDescription)
+            {
+            var sticker = new Stickers();
+            sticker.Read(stickerId);
+
+            nomenclatureDescription = sticker.Nomenclature.Description;
+            trayDescription = sticker.Tray.Description;
+            trayId = sticker.Tray.Id;
+            unitsPerBox = sticker.Nomenclature.UnitsQuantityPerPack;
+
+            cellId = 0;
+            cellDescription = string.Empty;
+
+            return true;
+            }
+
+
+        public bool GetAcceptanceId(long stickerId, out long acceptanceId)
+            {
+            var q = DB.NewQuery(@"select top 1 info.IdDoc 
+
+from SubAcceptanceOfGoodsNomenclatureInfo info
+where NomenclatureCode = @StickerCode");
+
+            q.AddInputParameter("StickerCode", stickerId);
+            var resultObj = q.SelectScalar();
+
+            acceptanceId = resultObj == null ? 0 : Convert.ToInt64(resultObj);
+            return acceptanceId > 0;
             }
         }
     }

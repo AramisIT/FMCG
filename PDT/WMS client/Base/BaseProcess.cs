@@ -91,9 +91,9 @@ namespace WMS_client
 
             }
 
-        public void ShowMessage(string msg)
+        public void ShowMessage(string message)
             {
-            MessageBox.Show(msg.ToUpper(), "aramis wms");
+            WMSClient.Current.ShowMessage(message);
             }
 
         public bool ShowQuery(string msg)

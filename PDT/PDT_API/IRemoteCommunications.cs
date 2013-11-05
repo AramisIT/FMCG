@@ -51,7 +51,7 @@ namespace pdtExternalStorage
         /// <param name="inventoryDocCount">К-сть документів "Інветаризація"</param>
         /// <param name="selectionDocCount">К-сть документів "Відбір"</param>
         /// <param name="movementDocCount">К-сть документів "Переміщення"</param>
-        void GetCountOfDocuments(out string acceptanceDocCount, out string inventoryDocCount,
+        bool GetCountOfDocuments(out string acceptanceDocCount, out string inventoryDocCount,
                                  out string selectionDocCount,
                                  out string movementDocCount);
 
@@ -143,5 +143,11 @@ namespace pdtExternalStorage
         /// <param name="barcode">Штрих-код</param>
         /// <param name="id">ІД комірки</param>
         bool CheckCellFormShipment(string barcode, out long id);
+
+        bool GetTareTable(out DataTable tareTable);
+
+        bool GetStickerData(long acceptanceId, long stickerId, out string nomenclatureDescription, out string trayDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription);
+
+        bool GetAcceptanceId(long stickerId, out long acceptanceId);
         }
     }

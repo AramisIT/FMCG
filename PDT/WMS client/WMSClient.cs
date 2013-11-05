@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Threading;
+using pdtExternalStorage;
 using StorekeeperManagementServer;
 using System.IO;
 using WMS_client.Processes;
@@ -58,6 +59,12 @@ namespace WMS_client
 
     public class WMSClient
         {
+        public static WMSClient Current
+            {
+            get;
+            private set;
+            }
+
         #region Public fields
         public OnScanDelegate OnBarcode;
         public bool NeedToUpdate = false;
@@ -79,9 +86,18 @@ namespace WMS_client
                     {
                     MainForm.Command.Text = value.ToUpper();
                     }
-                RefreshPicture();
+                refreshPicture();
                 }
             }
+
+        public static IRemoteCommunications ServerInteraction
+            {
+            get
+                {
+                return new ServerInteraction();
+                }
+            }
+
         public int LastLabelKey = -1;
         public string LastDoc = null;
         public ServerAgent ConnectionAgent;
@@ -100,9 +116,11 @@ namespace WMS_client
             {
             User = 0;
             MainForm = Form;
+            Current = this;
+            start();
             }
 
-        public void Start()
+        private void start()
             {
 
             #region Чтение IP-адреса сервера
@@ -181,13 +199,8 @@ namespace WMS_client
             System.Diagnostics.Process.Start(PathToFile, string.Empty);
             MainForm.Close();
             }
-
-        public MobileControl GetControl(string ControlName)
-            {
-            return ControlsArray.FirstOrDefault(control => control.Name == ControlName);
-            }
-
-        public void RefreshPicture()
+         
+        private void refreshPicture()
             {
             MainForm.Refresh();
             }
@@ -334,27 +347,27 @@ namespace WMS_client
         #endregion
 
         #region CreateTextBox
-        public MobileControl CreateTextBox(int left, int top, int width, string controlName, ControlsStyle style,
+        public MobileTextBox CreateTextBox(int left, int top, int width, string controlName, ControlsStyle style,
                                            bool isPasswordField)
             {
             return CreateTextBox(left, top, width, controlName, style, null, isPasswordField, true);
             }
 
-        public MobileControl CreateTextBox(int left, int top, int width, string controlName, ControlsStyle style,
+        public MobileTextBox CreateTextBox(int left, int top, int width, string controlName, ControlsStyle style,
                                            OnEventHandlingDelegate ProcTarget, bool isTextField)
             {
             return CreateTextBox(left, top, width, controlName, style, ProcTarget, false, isTextField);
             }
 
-        public MobileControl CreateTextBox(int left, int top, int width, string controlName, ControlsStyle style)
+        public MobileTextBox CreateTextBox(int left, int top, int width, string controlName, ControlsStyle style)
             {
             return CreateTextBox(left, top, width, controlName, style, null, false, true);
             }
 
-        public MobileControl CreateTextBox(int left, int top, int width, string controlName, ControlsStyle style,
+        public MobileTextBox CreateTextBox(int left, int top, int width, string controlName, ControlsStyle style,
                                            OnEventHandlingDelegate ProcTarget, bool isPasswordField, bool isTextField)
             {
-            MobileControl NewControl = new MobileTextBox(MainForm, left, top, width, controlName, style, ProcTarget,
+            var NewControl = new MobileTextBox(MainForm, left, top, width, controlName, style, ProcTarget,
                                                          isPasswordField, isTextField);
             ControlsArray.Add(NewControl);
             return NewControl;
@@ -397,19 +410,7 @@ namespace WMS_client
         #endregion
 
         #endregion
-
-        public void onChange(object obj, EventArgs e)
-            {
-            MessageBox.Show(((TextBox)obj).Text);
-            }
-
-        public void OnExit()
-            {
-            MainForm.HotKeyAgent.UnRegisterKeys();
-            AgentThread.Abort();
-            ConnectionAgent.CloseAll();
-            }
-
+         
         public object[] PerformQuery(string QueryName, params object[] Parameters)
             {
 
@@ -567,5 +568,10 @@ namespace WMS_client
             }
         #endregion
         #endregion
+
+        internal void ShowMessage(string message)
+            {
+            MessageBox.Show(message.ToUpper(), "aramis wms");
+            }
         }
     }

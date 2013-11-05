@@ -218,16 +218,23 @@ namespace Catalogs
         private DateTime z_AcceptionDate;
 
         private const string DATE_FORMAT = "dd.MM.yy";
+        [DataField(Description = "Штрих-код", StorageType = StorageTypes.Local, ReadOnly = true)]
         public string Barcode
             {
             get
                 {
-                return string.Format("{0}$${1}$${2}$${3}$${4}$${5}$${6}$${7}", Id, Nomenclature.Id, Driver.Id, Quantity,
+                var result = string.Format("{0}$${1}$${2}$${3}$${4}$${5}$${6}$${7}", Id, Nomenclature.Id, Driver.Id, Quantity,
                     ReleaseDate.ToString(DATE_FORMAT),
                     ExpiryDate.ToString(DATE_FORMAT),
                     AcceptionDate.ToString(DATE_FORMAT),
-                    UnitsQuantity
+                    UnitsQuantity//,
+                    //Nomenclature.UnitsQuantityPerPack,
+                    //Nomenclature.Description,
+                    //Tray.Id,
+                    //Tray.Description
                     );
+
+                return result;
                 }
             }
 

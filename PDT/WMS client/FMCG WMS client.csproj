@@ -74,6 +74,7 @@
     <Compile Include="Base\BaseProcess.cs" />
     <Compile Include="Base\BusinessProcess.cs" />
     <Compile Include="Base\CallTimer.cs" />
+    <Compile Include="Base\CatalogItem.cs" />
     <Compile Include="Base\CompactPackage.cs" />
     <Compile Include="Base\DataDrawing.cs" />
     <Compile Include="Base\Extensions\DataTableEx.cs" />
@@ -97,7 +98,15 @@
     <Compile Include="Base\Visual\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Base\Visual\SelectingItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Base\Visual\SelectingItem.Designer.cs">
+      <DependentUpon>SelectingItem.cs</DependentUpon>
+    </Compile>
     <Compile Include="Delegates\Delegates.cs" />
+    <Compile Include="Extentions.cs" />
+    <Compile Include="HelperClasses\BarcodeData.cs" />
     <Compile Include="HelperClasses\BarcodeWorker.cs" />
     <Compile Include="HelperClasses\EnumWorker.cs" />
     <Compile Include="Processes\BusinessProcess\Selection.cs" />
@@ -128,6 +137,9 @@
     <EmbeddedResource Include="Base\Visual\MainForm.ru-RU.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Base\Visual\SelectingItem.resx">
+      <DependentUpon>SelectingItem.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -140,6 +152,8 @@
     </Compile>
     <Compile Include="Processes\RegistrationProcess.cs" />
     <Compile Include="PropertyButtonInfo.cs" />
+    <Compile Include="Repository.cs" />
+    <Compile Include="ServerInteraction.cs" />
     <Compile Include="WMSClient.cs" />
   </ItemGroup>
   <ItemGroup>

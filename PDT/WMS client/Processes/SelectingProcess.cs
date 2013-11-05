@@ -16,7 +16,9 @@ namespace WMS_client.Processes
 
         /// <summary>Вибір процесу</summary>
         public SelectingProcess(WMSClient MainProcess)
-            : base(MainProcess, 1) {}
+            : base(MainProcess, 1)
+            {
+            }
 
         #region Override methods
         public override sealed void DrawControls()
@@ -25,10 +27,9 @@ namespace WMS_client.Processes
             string inventoryDocCount;
             string selectionDocCount;
             string movementDocCount;
-            GetCountOfDocuments(
-                out acceptanceDocCount, out inventoryDocCount, out selectionDocCount, out movementDocCount);
 
-            if (IsExistParameters)
+            if (new ServerInteraction().GetCountOfDocuments(
+                out acceptanceDocCount, out inventoryDocCount, out selectionDocCount, out movementDocCount))
                 {
                 List<TableData> listOfElements =
                     new List<TableData>
@@ -48,18 +49,16 @@ namespace WMS_client.Processes
                 }
             }
 
-       
-
-        public override void OnBarcode(string Barcode) {}
+        public override void OnBarcode(string Barcode) { }
 
         public override void OnHotKey(KeyAction TypeOfAction)
             {
             switch (TypeOfAction)
                 {
-                    case KeyAction.Esc:
-                        MainProcess.ClearControls();
-                        MainProcess.Process = new RegistrationProcess(MainProcess);
-                        break;
+                case KeyAction.Esc:
+                    MainProcess.ClearControls();
+                    MainProcess.Process = new RegistrationProcess(MainProcess);
+                    break;
                 }
             }
         #endregion
@@ -69,26 +68,26 @@ namespace WMS_client.Processes
             {
             MainProcess.ClearControls();
             BusinessProcess process;
-            Processes SelectedProcess = (Processes) selectedIndex;
+            Processes SelectedProcess = (Processes)selectedIndex;
 
             switch (SelectedProcess)
                 {
-                    case Processes.Acceptance:
-                        process = new Acceptance(MainProcess);
-                        break;
-                    case Processes.Movement:
-                        process = new Movement(MainProcess);
-                        break;
-                    case Processes.Selection:
-                        process = new Selection(MainProcess);
-                        break;
-                    case Processes.Inventory:
-                        process = new Inventory(MainProcess);
-                        break;
-                    default:
-                        ShowMessage("Процес ще не реалізовано!");
-                        process = new SelectingProcess(MainProcess);
-                        break;
+                case Processes.Acceptance:
+                    process = new Acceptance(MainProcess);
+                    break;
+                case Processes.Movement:
+                    process = new Movement(MainProcess);
+                    break;
+                case Processes.Selection:
+                    process = new Selection(MainProcess);
+                    break;
+                case Processes.Inventory:
+                    process = new Inventory(MainProcess);
+                    break;
+                default:
+                    ShowMessage("Процес ще не реалізовано!");
+                    process = new SelectingProcess(MainProcess);
+                    break;
                 }
 
             MainProcess.Process = process;

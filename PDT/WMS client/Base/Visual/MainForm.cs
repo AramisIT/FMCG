@@ -94,7 +94,7 @@ namespace WMS_client
             HotKeyAgent = new HotKeyProcessing(this);
 
             Client = new WMSClient(this);
-            Client.Start();
+            
             if (
                 File.Exists(
                     Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase) +

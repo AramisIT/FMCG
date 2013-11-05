@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Aramis.DatabaseConnector;
+using AramisWpfComponents.Excel;
 
 namespace AtosFMCG.HelperClasses.PDT
     {
@@ -18,49 +19,67 @@ namespace AtosFMCG.HelperClasses.PDT
             {
             switch (procedure)
                 {
-                    case "GetCarsForAcceptance":
-                        return GetCarsForAcceptance();
-                    case "GetPlaceDataFromCode":
-                        return GetPlaceDataFromCode(parameters);
-                    case "GetPermitInstallPalletManually":
-                        return GetPermitInstallPalletManually();
-                    case "GetDataAboutMovingPallet":
-                        return GetDataAboutMovingPallet(parameters);
-                    case "GetAdditionalInfoAboutAccepnedGoods":
-                        return GetAdditionalInfoAboutAccepnedGoods(parameters);
-                    case "GetDataForInventory":
-                        return GetDataForInventory();
-                    case "GetCountOfDocuments":
-                        return GetCountOfDocuments();
-                    case "GetContractorsForSelection":
-                        return GetContractorsForSelection();
-                    case "GetSelectionRowInfo":
-                        return GetSelectionRowInfo();
-                    case "SetAcceptanceData":
-                        SetAcceptanceData(parameters);
-                        break;
-                    case "SetMoving":
-                        SetMoving(parameters);
-                        break;
-                    case "SetInventory":
-                        SetInventory(parameters);
-                        break;
-                    case "SetSelectionData":
-                        SetSelectionData(parameters);
-                        break;
-                    case "CheckBarcodeForExistUser":
-                        return CheckBarcodeForExistUser(parameters);
-                    case "CheckBarcodeForExistGoods":
-                        return CheckBarcodeForExistGoods(parameters);
-                    case "CheckPalletBarcodeForMoving":
-                        return CheckPalletBarcodeForMoving(parameters);
-                    case "CheckInventoryPallet":
-                        return CheckInventoryPallet(parameters);
-                    case "CheckCellFormShipment":
-                        return CheckCellFormShipment(parameters);
+                case "GetCarsForAcceptance":
+                    return GetCarsForAcceptance();
+                case "GetPlaceDataFromCode":
+                    return GetPlaceDataFromCode(parameters);
+                case "GetPermitInstallPalletManually":
+                    return GetPermitInstallPalletManually();
+                case "GetDataAboutMovingPallet":
+                    return GetDataAboutMovingPallet(parameters);
+                case "GetAdditionalInfoAboutAccepnedGoods":
+                    return GetAdditionalInfoAboutAccepnedGoods(parameters);
+                case "GetDataForInventory":
+                    return GetDataForInventory();
+                case "GetCountOfDocuments":
+                    return GetCountOfDocuments();
+                case "GetContractorsForSelection":
+                    return GetContractorsForSelection();
+                case "GetSelectionRowInfo":
+                    return GetSelectionRowInfo();
+                case "SetAcceptanceData":
+                    SetAcceptanceData(parameters);
+                    break;
+                case "SetMoving":
+                    SetMoving(parameters);
+                    break;
+                case "SetInventory":
+                    SetInventory(parameters);
+                    break;
+                case "SetSelectionData":
+                    SetSelectionData(parameters);
+                    break;
+                case "CheckBarcodeForExistUser":
+                    return CheckBarcodeForExistUser(parameters);
+                case "CheckBarcodeForExistGoods":
+                    return CheckBarcodeForExistGoods(parameters);
+                case "CheckPalletBarcodeForMoving":
+                    return CheckPalletBarcodeForMoving(parameters);
+                case "CheckInventoryPallet":
+                    return CheckInventoryPallet(parameters);
+                case "CheckCellFormShipment":
+                    return CheckCellFormShipment(parameters);
+                case "GetTareTable":
+                    return GetTareTable(parameters);
+                case "GetStickerData":
+                    return GetStickerData(parameters);
+                case "GetAcceptanceId":
+                    return GetAcceptanceId(parameters);
                 }
 
             return new object[0];
+            }
+
+        private static object[] GetAcceptanceId(object[] parameters)
+            {
+            long acceptanceId;
+
+            if (!communication.GetAcceptanceId(Convert.ToInt64(parameters[0]), out acceptanceId))
+                {
+                return new object[] { };
+                }
+
+            return new object[] { acceptanceId };
             }
 
         #region Get
@@ -69,7 +88,7 @@ namespace AtosFMCG.HelperClasses.PDT
         private static object[] GetCarsForAcceptance()
             {
             DataTable table;
-            return new object[] {communication.GetCarsForAcceptance(out table), table};
+            return new object[] { communication.GetCarsForAcceptance(out table), table };
             }
 
         /// <summary>Отримати місце розміщення зі штрихкоду</summary>
@@ -80,14 +99,14 @@ namespace AtosFMCG.HelperClasses.PDT
             string barcode = parameters[0].ToString();
             string type;
             long id;
-            return new object[] {communication.GetPlaceDataFromCode(barcode, out type, out id), type, id};
+            return new object[] { communication.GetPlaceDataFromCode(barcode, out type, out id), type, id };
             }
 
         /// <summary>Проверить разрешена ли установка паллет вручную</summary>
         /// <returns>Разрешена ли установка паллет вручную</returns>
         private static object[] GetPermitInstallPalletManually()
             {
-            return new object[] {communication.GetPermitInstallPalletManually()};
+            return new object[] { communication.GetPermitInstallPalletManually() };
             }
 
         /// <summary>Необхідні дані про паллету, що переміщується</summary>
@@ -172,10 +191,10 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
 
             if (table != null)
                 {
-                return new object[] {true, table};
+                return new object[] { true, table };
                 }
 
-            return new object[] {false};
+            return new object[] { false };
             }
 
         /// <summary>Інформація про ПЕРШУ паллету (тут строка) для відбору</summary>
@@ -282,7 +301,7 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
         private static object[] CheckBarcodeForExistUser(IList<object> parameters)
             {
             string barcode = parameters[0].ToString();
-            return new object[] {communication.CheckBarcodeForExistUser(barcode)};
+            return new object[] { communication.CheckBarcodeForExistUser(barcode) };
             }
 
         /// <summary>Перевірити чи існує товар з таким штрих-кодом</summary>
@@ -336,8 +355,39 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
             string barcode = parameters[0].ToString();
             long id;
 
-            return new object[] {communication.CheckCellFormShipment(barcode, out id), id};
+            return new object[] { communication.CheckCellFormShipment(barcode, out id), id };
             }
+
+        private static object[] GetTareTable(object[] parameters)
+            {
+            DataTable table;
+            if (!communication.GetTareTable(out table))
+                {
+                return new object[] { };
+                }
+
+            return new object[] { table };
+            }
+
+
+        private static object[] GetStickerData(object[] parameters)
+            {
+            string nomenclatureDescription;
+            string trayDescription;
+            long trayId;
+            int unitsPerBox;
+            string cellDescription;
+            long cellId;
+
+            if (!communication.GetStickerData(Convert.ToInt64(parameters[0]), Convert.ToInt64(parameters[1]),
+                    out nomenclatureDescription, out trayDescription, out trayId, out unitsPerBox, out cellId, out cellDescription))
+                {
+                return new object[] { };
+                }
+
+            return new object[] { nomenclatureDescription, trayDescription, trayId, unitsPerBox, cellId, cellDescription };
+            }
+
         #endregion
         }
     }

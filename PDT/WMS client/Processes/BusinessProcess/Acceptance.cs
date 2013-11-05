@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Linq;
+using WMS_client.HelperClasses;
 using WMS_client.Processes.BaseScreen;
 using System.Collections.Generic;
 using System.Data;
@@ -11,12 +12,17 @@ namespace WMS_client.Processes
     public class Acceptance : Process<AcceptanceData>
         {
         private MobileLabel nomenclatureLabel;
-        private MobileControl packsCountTextBox;
-        private MobileControl unitsCountTextBox;
+        private MobileTextBox packsCountTextBox;
+        private MobileTextBox unitsCountTextBox;
         private MobileButton trayButton;
-        private MobileControl linersQuantityTextBox;
+        private MobileTextBox linersQuantityTextBox;
         private MobileButton linerButton;
         private MobileLabel cellLabel;
+        private CatalogItem trayItem;
+        private CatalogItem linerItem;
+        private CatalogItem cellItem;
+        private BarcodeData currentBarcodeData;
+        private long acceptanceId;
         private const string INVALID_BARCODE_MSG = "Відсканований штрих-код не вірний";
 
         /// <summary>Приймання товару</summary>
@@ -24,6 +30,14 @@ namespace WMS_client.Processes
             : base(MainProcess)
             {
             ToDoCommand = "Приймання товару";
+            checkAcceptanceCache();
+            }
+
+        private void checkAcceptanceCache()
+            {
+            var repository = new Repository();
+            repository.GetTraysList();
+            //repository.GetTraysList();
             }
 
         #region Override methods
@@ -44,7 +58,7 @@ namespace WMS_client.Processes
 
             MainProcess.CreateLabel("+ шт.:", 135, top, 55,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
-            unitsCountTextBox = MainProcess.CreateTextBox(185, top, 50, string.Empty, ControlsStyle.LabelNormal, null, false);
+            unitsCountTextBox = MainProcess.CreateTextBox(195, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
 
             top += delta + delta;
             trayButton = MainProcess.CreateButton("<піддон>", 5, top, 230, 35, "modelButton", trayButton_Click,
@@ -56,8 +70,10 @@ namespace WMS_client.Processes
             linersQuantityTextBox = MainProcess.CreateTextBox(190, top, 45, string.Empty, ControlsStyle.LabelNormal, null, false);
 
             top += delta;
-            linerButton = MainProcess.CreateButton("<тип прокладки>", 5, top, 230, 35, "modelButton", linerButton_Click,
+            linerItem = new CatalogItem();
+            linerButton = MainProcess.CreateButton(string.Empty, 5, top, 230, 35, "modelButton", linerButton_Click,
                new PropertyButtonInfo() { PropertyName = "Liner", PropertyDescription = "Тип прокладки" });
+            updateLinerButton();
 
             top += delta + delta;
             MainProcess.CreateLabel("Комірка:", 5, top, 80,
@@ -66,17 +82,112 @@ namespace WMS_client.Processes
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             }
 
+        private void updateLinerButton()
+            {
+            linerButton.Text = linerItem.Id > 0 ? linerItem.Description : "<тип прокладки>";
+            }
+
         private void trayButton_Click(object sender)
             {
+            selectFromCatalog(new Repository().GetTraysList(), (selectedItem) =>
+                {
+                    trayButton.Text = selectedItem.Description;
+                    trayItem = selectedItem;
+                });
+            }
 
+        private void selectFromCatalog(List<CatalogItem> itemsList, Action<CatalogItem> onSelect)
+            {
+            CatalogItem selectedItem;
+            if (SelectFromList(itemsList, out selectedItem))
+                {
+                onSelect(selectedItem);
+                }
             }
 
         private void linerButton_Click(object sender)
             {
-
+            selectFromCatalog(new Repository().GetLinersList(), (selectedItem) =>
+            {
+                linerButton.Text = selectedItem.Description;
+                linerItem = selectedItem;
+            });
             }
 
-        public override void OnBarcode(string Barcode) { }
+        public override void OnBarcode(string barcode)
+            {
+            barcode = barcode.Replace("\r\r", "$$");
+            if (barcode.IsSticker())
+                {
+                var barcodeData = barcode.ToBarcodeData();
+
+                if (acceptanceId == 0 && !initAcceptance(barcodeData.StickerId))
+                    {
+                    return;
+                    }
+
+                currentBarcodeData = readStickerInfo(acceptanceId, barcodeData);
+                if (currentBarcodeData.StickerId == 0)
+                    {
+                    return;
+                    }
+                updateStickerData();
+                }
+            else if (barcode.IsCell())
+                {
+                cellItem = barcode.ToCell();
+
+                cellLabel.Text = cellItem.Id > 0 ? cellItem.Description : "<?>";
+                }
+            }
+
+        private bool initAcceptance(long stickerId)
+            {
+            return WMSClient.ServerInteraction.GetAcceptanceId(stickerId,
+                out acceptanceId);
+            }
+
+        private void updateStickerData()
+            {
+            nomenclatureLabel.Text = currentBarcodeData.Nomenclature.Description;
+            trayButton.Text = currentBarcodeData.Tray.Description;
+            trayItem = currentBarcodeData.Tray;
+
+            packsCountTextBox.Text = (currentBarcodeData.UnitsQuantity / currentBarcodeData.UnitsPerBox).ToString();
+            unitsCountTextBox.Text = (currentBarcodeData.UnitsQuantity % currentBarcodeData.UnitsPerBox).ToString();
+            linersQuantityTextBox.Text = string.Empty;
+            linerItem = new CatalogItem();
+            }
+
+        private BarcodeData readStickerInfo(long acceptanceId, BarcodeData barcodeData)
+            {
+            string nomenclatureDescription;
+            string trayDescription;
+            long trayId;
+            int unitsPerBox;
+            string cellDescription;
+            long cellId;
+
+            if (
+                !WMSClient.ServerInteraction.GetStickerData(acceptanceId, barcodeData.StickerId,
+                    out nomenclatureDescription, out trayDescription, out trayId,
+                    out unitsPerBox, out cellId, out cellDescription))
+                {
+                return new BarcodeData();
+                }
+
+            barcodeData.Nomenclature.Description = nomenclatureDescription;
+            barcodeData.Tray = new CatalogItem()
+                {
+                    Id = trayId,
+                    Description = trayDescription
+                };
+
+            barcodeData.UnitsPerBox = Convert.ToInt32(unitsPerBox);
+
+            return barcodeData;
+            }
+
         #endregion
 
         #region Stages

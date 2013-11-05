@@ -22,14 +22,14 @@ namespace WMS_client.Processes
 
         public override void OnBarcode(string Barcode)
         {
-            if (Barcode.IsValidBarcode())
-            {
+            //if (Barcode.IsValidBarcode())
+            //{
                 //Регистрация успешна!
                 MainProcess.User = 0;
                 MainProcess.ClearControls();
                 //Открыть окно выбора процесса
                 MainProcess.Process = new SelectingProcess(MainProcess);
-            }
+            //}
         }
 
         public override void OnHotKey(KeyAction TypeOfAction)
