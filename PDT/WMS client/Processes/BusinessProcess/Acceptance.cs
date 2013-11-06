@@ -9,7 +9,7 @@ using System;
 namespace WMS_client.Processes
     {
     /// <summary>Приймання товару</summary>
-    public class Acceptance : Process<AcceptanceData>
+    public class Acceptance : BusinessProcess
         {
         private MobileLabel nomenclatureLabel;
         private MobileTextBox packsCountTextBox;
@@ -26,8 +26,8 @@ namespace WMS_client.Processes
         private const string INVALID_BARCODE_MSG = "Відсканований штрих-код не вірний";
 
         /// <summary>Приймання товару</summary>
-        public Acceptance(WMSClient MainProcess)
-            : base(MainProcess)
+        public Acceptance()
+            : base(1)
             {
             ToDoCommand = "Приймання товару";
             checkAcceptanceCache();
@@ -82,6 +82,39 @@ namespace WMS_client.Processes
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             }
 
+        public override void OnHotKey(KeyAction TypeOfAction)
+            {
+            switch (TypeOfAction)
+                {
+                case KeyAction.Complate:
+                    complateProcess();
+                    return;
+                }
+            }
+
+        private void complateProcess()
+            {
+            if (!"Завершить операцию?".Ask())
+                {
+                return;
+                }
+
+            if (!saveFact())
+                {
+                CANT_COMPLATE_OPERATION.Warning();                
+                return;
+                }
+
+            string errorDescription;
+            if (!WMSClient.ServerInteraction.ComplateAcceptance(acceptanceId, false, out errorDescription))
+                {
+                CANT_COMPLATE_OPERATION.Warning();
+                return;
+                }
+            MainProcess.Process = new SelectingProcess();
+            return;
+            }
+
         private void updateLinerButton()
             {
             linerButton.Text = linerItem.Id > 0 ? linerItem.Description : "<тип прокладки>";
@@ -121,23 +154,109 @@ namespace WMS_client.Processes
                 {
                 var barcodeData = barcode.ToBarcodeData();
 
+                var samePallet = currentBarcodeData != null && currentBarcodeData.StickerId == barcodeData.StickerId;
+                if (samePallet)
+                    {
+                    return;
+                    }
+
                 if (acceptanceId == 0 && !initAcceptance(barcodeData.StickerId))
                     {
                     return;
                     }
-
-                currentBarcodeData = readStickerInfo(acceptanceId, barcodeData);
-                if (currentBarcodeData.StickerId == 0)
+                CatalogItem cell;
+                readStickerInfo(acceptanceId, barcodeData, out cell);
+                if (barcodeData.StickerId == 0)
                     {
                     return;
                     }
-                updateStickerData();
+
+                var scannedNextSticker = cell.Id == 0;
+                if (scannedNextSticker)
+                    {
+                    if (!saveFact())
+                        {
+                        "Необхідно знаходитись у зоні Wi-Fi".Warning();
+                        return;
+                        }
+                    currentBarcodeData = barcodeData;
+                    updateStickerData();
+                    }
+                else
+                    {
+                    cellItem = cell;
+                    }
                 }
             else if (barcode.IsCell())
                 {
                 cellItem = barcode.ToCell();
+                }
 
-                cellLabel.Text = cellItem.Id > 0 ? cellItem.Description : "<?>";
+            updateCellData();
+            }
+
+        private bool saveFact()
+            {
+            if (currentBarcodeData == null) return true;
+
+            var palletChanged = linerItem.Id > 0;
+            palletChanged |= currentBarcodeData.Tray.Id != trayItem.Id;
+            palletChanged |= (currentBarcodeData.UnitsQuantity / currentBarcodeData.UnitsPerBox) != packsCount;
+            palletChanged |= (currentBarcodeData.UnitsQuantity % currentBarcodeData.UnitsPerBox) != unitsCount;
+
+            if (!WMSClient.ServerInteraction.WriteStickerFact(acceptanceId, currentBarcodeData.StickerId, palletChanged,
+                (cellItem ?? new CatalogItem()).Id, trayItem.Id, linerItem.Id, linersQuantity, packsCount, unitsCount + packsCount * currentBarcodeData.UnitsPerBox))
+                {
+                return false;
+                }
+
+            return true;
+            }
+
+        public int packsCount
+            {
+            get
+                {
+                if (string.IsNullOrEmpty(packsCountTextBox.Text))
+                    {
+                    return 0;
+                    }
+
+                return Convert.ToInt32(packsCountTextBox.Text);
+                }
+            set
+                {
+                packsCountTextBox.Text = value.ToString();
+                }
+            }
+
+        public int unitsCount
+            {
+            get
+                {
+                if (string.IsNullOrEmpty(unitsCountTextBox.Text))
+                    {
+                    return 0;
+                    }
+
+                return Convert.ToInt32(unitsCountTextBox.Text);
+                }
+            set
+                {
+                unitsCountTextBox.Text = value.ToString();
+                }
+            }
+
+        public int linersQuantity
+            {
+            get
+                {
+                if (string.IsNullOrEmpty(linersQuantityTextBox.Text))
+                    {
+                    return 0;
+                    }
+
+                return Convert.ToInt32(linersQuantityTextBox.Text);
                 }
             }
 
@@ -147,19 +266,24 @@ namespace WMS_client.Processes
                 out acceptanceId);
             }
 
+        private void updateCellData()
+            {
+            cellLabel.Text = cellItem.Id > 0 ? cellItem.Description : "<?>";
+            }
+
         private void updateStickerData()
             {
             nomenclatureLabel.Text = currentBarcodeData.Nomenclature.Description;
             trayButton.Text = currentBarcodeData.Tray.Description;
             trayItem = currentBarcodeData.Tray;
 
-            packsCountTextBox.Text = (currentBarcodeData.UnitsQuantity / currentBarcodeData.UnitsPerBox).ToString();
-            unitsCountTextBox.Text = (currentBarcodeData.UnitsQuantity % currentBarcodeData.UnitsPerBox).ToString();
+            packsCount = (currentBarcodeData.UnitsQuantity / currentBarcodeData.UnitsPerBox);
+            unitsCount = (currentBarcodeData.UnitsQuantity % currentBarcodeData.UnitsPerBox);
             linersQuantityTextBox.Text = string.Empty;
             linerItem = new CatalogItem();
             }
 
-        private BarcodeData readStickerInfo(long acceptanceId, BarcodeData barcodeData)
+        private void readStickerInfo(long acceptanceId, BarcodeData barcodeData, out CatalogItem cell)
             {
             string nomenclatureDescription;
             string trayDescription;
@@ -173,7 +297,9 @@ namespace WMS_client.Processes
                     out nomenclatureDescription, out trayDescription, out trayId,
                     out unitsPerBox, out cellId, out cellDescription))
                 {
-                return new BarcodeData();
+                cell = null;
+                barcodeData.StickerId = 0;
+                return;
                 }
 
             barcodeData.Nomenclature.Description = nomenclatureDescription;
@@ -184,118 +310,11 @@ namespace WMS_client.Processes
                 };
 
             barcodeData.UnitsPerBox = Convert.ToInt32(unitsPerBox);
-
-            return barcodeData;
+            cell = new CatalogItem() { Description = cellDescription, Id = cellId };
             }
 
         #endregion
 
-        #region Stages
-        private void selectCar(long selectedIndex, string description)
-            {
-            Data.Car = selectedIndex;
-            readUserBarcode();
-            }
-
-        private void readUserBarcode()
-            {
-            MainProcess.ClearControls();
-            MainProcess.Process = new ReadBarcode(
-                MainProcess, "Відскануйте свій штрих-код", string.Empty, afterReadUserBarcode);
-            }
-
-        private void afterReadUserBarcode(string barcode)
-            {
-            if (CheckBarcodeForExistUser(barcode))
-                {
-                Data.UserBarcode = barcode;
-                readGoodsBarcode();
-                }
-            else
-                {
-                ShowMessage(INVALID_BARCODE_MSG);
-                readUserBarcode();
-                }
-            }
-
-        private void readGoodsBarcode()
-            {
-            MainProcess.ClearControls();
-            MainProcess.Process = new ReadBarcode(MainProcess, "Відскануйте товар", "Відміна", afterReadGoodsBarcode);
-            }
-
-        private void afterReadGoodsBarcode(string barcode)
-            {
-            long goodsId;
-            string goodsDesc;
-
-            if (CheckBarcodeForExistGoods(barcode, out goodsId, out goodsDesc))
-                {
-                //Перелік необхідної інформації для продовження:
-                // - Комірка
-                // - Номенклатура
-                // - Дата 
-                // - К-сть ящиків, банок
-                // - Партія
-
-                //Note: тимчасово (так як нема QRcode)
-                Random rand = new Random();
-                Data.BoxCount = rand.Next(0, 100);
-                Data.BottleCount = rand.Next(0, 100);
-                Data.Party = rand.Next(1, 5);
-                Data.Goods = new KeyValuePair<long, string>(goodsId, goodsDesc);
-
-                long incomeDoc;
-                string date;
-                long cellId;
-                string cell;
-                long palett;
-
-                PerformQuery("GetAdditionalInfoAboutAccepnedGoods", Data.BoxCount, Data.Goods.Key, Data.Car, Data.Party);
-
-                if (GetAdditionalInfoAboutAccepnedGoods(Data.BoxCount, Data.Goods.Key, Data.Car, Data.Party,
-                                                        out incomeDoc, out date, out cellId, out cell, out palett))
-                    {
-                    Data.ConsignmentNote = incomeDoc;
-                    Data.Date = date;
-                    Data.Place = new PlaningData<long>(palett);
-                    Data.Cell = new KeyValuePair<long, string>(cellId, cell);
-
-                    checkCell();
-                    }
-                }
-            else
-                {
-                ShowMessage(INVALID_BARCODE_MSG);
-                readGoodsBarcode();
-                }
-            }
-
-        private void checkCell()
-            {
-            Data.PermitInstallPalletManually = GetPermitInstallPalletManually();
-            MainProcess.ClearControls();
-            MainProcess.Process = new Placing(MainProcess, Data, finish);
-            }
-
-        private void finish()
-            {
-            save();
-            readGoodsBarcode();
-            }
-
-        private void save()
-            {
-            SetAcceptanceData(
-                Data.Goods.Key,
-                Data.Party,
-                Data.BoxCount,
-                Data.BottleCount,
-                Data.ConsignmentNote,
-                Data.Place.Fact,
-                Data.Cell.Key,
-                Data.IsCell);
-            }
-        #endregion
+       
         }
     }

@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using Aramis.Core;
 using Aramis.DatabaseConnector;
+using Aramis.UI.WinFormsDevXpress;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Documents;
+using AtosFMCG.Enums;
 using Catalogs;
 using Documents;
 using pdtExternalStorage;
@@ -630,26 +633,52 @@ FROM LastPalletInCell ");
             }
 
 
-        public bool GetStickerData(long acceptanceId, long stickerId, 
-                out string nomenclatureDescription, out string trayDescription, out long trayId, 
+        public bool GetStickerData(long acceptanceId, long stickerId,
+                out string nomenclatureDescription, out string trayDescription, out long trayId,
                 out int unitsPerBox, out long cellId, out string cellDescription)
             {
-            var sticker = new Stickers();
-            sticker.Read(stickerId);
+            long stickerAcceptanceId;
+            GetAcceptanceId(stickerId, false, out stickerAcceptanceId);
 
-            nomenclatureDescription = sticker.Nomenclature.Description;
-            trayDescription = sticker.Tray.Description;
-            trayId = sticker.Tray.Id;
-            unitsPerBox = sticker.Nomenclature.UnitsQuantityPerPack;
+            if (acceptanceId == stickerAcceptanceId)
+                {
+                var sticker = new Stickers();
+                sticker.Read(stickerId);
 
-            cellId = 0;
-            cellDescription = string.Empty;
+                nomenclatureDescription = sticker.Nomenclature.Description;
+                trayDescription = sticker.Tray.Description;
+                trayId = sticker.Tray.Id;
+                unitsPerBox = sticker.Nomenclature.UnitsQuantityPerPack;
 
+                cellId = 0;
+                cellDescription = string.Empty;
+                }
+            else
+                {
+                Cells palletCell = findPalletCell(stickerId);
+                cellId = palletCell.Id;
+                cellDescription = palletCell.Description;
+
+                nomenclatureDescription = string.Empty;
+                trayDescription = string.Empty;
+                trayId = 0;
+                unitsPerBox = 0;
+                }
             return true;
+            }
+
+        private Cells findPalletCell(long stickerId)
+            {
+            return new Cells();
             }
 
 
         public bool GetAcceptanceId(long stickerId, out long acceptanceId)
+            {
+            return GetAcceptanceId(stickerId, true, out acceptanceId);
+            }
+
+        public bool GetAcceptanceId(long stickerId, bool setProcessingStatus, out long acceptanceId)
             {
             var q = DB.NewQuery(@"select top 1 info.IdDoc 
 
@@ -660,7 +689,53 @@ where NomenclatureCode = @StickerCode");
             var resultObj = q.SelectScalar();
 
             acceptanceId = resultObj == null ? 0 : Convert.ToInt64(resultObj);
-            return acceptanceId > 0;
+            bool documentFound = acceptanceId > 0;
+
+            if (documentFound && setProcessingStatus)
+                {
+                var doc = new AcceptanceOfGoods().Read(acceptanceId) as AcceptanceOfGoods;
+                doc.State = StatesOfDocument.Processing;
+                doc.Write();
+                }
+
+            return documentFound;
+            }
+
+        public bool WriteStickerFact(long acceptanceId, long stickerId, bool palletChanged, long cellId, long trayId, long linerId,
+            int linersQuantity, int packsCount, int unitsCount)
+            {
+            if (palletChanged)
+                {
+                var sticker = new Stickers();
+                sticker.Read(stickerId);
+                sticker.Tray = new Nomenclature().Read(trayId) as Nomenclature;
+                sticker.Liner = new Nomenclature().Read(linerId) as Nomenclature;
+                sticker.LinersQuantity = linersQuantity;
+                sticker.Quantity = packsCount;
+                sticker.UnitsQuantity = unitsCount;
+
+                if (sticker.Write() != WritingResult.Success)
+                    {
+                    return false;
+                    }
+                }
+
+            var acceptance = new AcceptanceOfGoods();
+            acceptance.Read(acceptanceId);
+
+            return acceptance.WriteStickerFact(stickerId, cellId, trayId, linerId, linersQuantity, packsCount, unitsCount);
+
+
+            }
+
+        public bool ComplateAcceptance(long acceptanceId, bool forceCompletion, out string errorMessage)
+            {
+            var acceptance = new AcceptanceOfGoods();
+            acceptance.Read(acceptanceId);
+            errorMessage = string.Empty;
+
+            acceptance.State = StatesOfDocument.Completed;
+            return acceptance.Write() == WritingResult.Success;
             }
         }
     }

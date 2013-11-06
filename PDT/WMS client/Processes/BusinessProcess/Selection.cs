@@ -11,8 +11,8 @@ namespace WMS_client.Processes
     public class Selection : Process<SelectionData>
         {
         /// <summary>Відвантаження</summary>
-        public Selection(WMSClient MainProcess)
-            : base(MainProcess)
+        public Selection()
+            : base()
             {
             Data = new SelectionData("Відбір товару");
             isLoading = true;

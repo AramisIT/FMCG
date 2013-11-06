@@ -10,7 +10,7 @@ namespace WMS_client
         {
         private static List<CatalogItem> traysList;
         private static List<CatalogItem> linersList;
-        
+
         internal List<CatalogItem> GetTraysList()
             {
             if (traysList == null)
@@ -37,7 +37,7 @@ namespace WMS_client
                 return;
                 }
 
-            
+
             var trays = new List<CatalogItem>();
             var liners = new List<CatalogItem>();
 
@@ -45,8 +45,8 @@ namespace WMS_client
                 {
                 var item = new CatalogItem()
                     {
-                    Description = row["Description"].ToString(),
-                    Id = Convert.ToInt64(row["Id"])
+                        Description = row["Description"].ToString(),
+                        Id = Convert.ToInt64(row["Id"])
                     };
 
                 const int TRAY_TARE_TYPE = 1;
@@ -66,11 +66,13 @@ namespace WMS_client
             if (trays.Count > 0)
                 {
                 traysList = trays;
+                traysList.Insert(0, new CatalogItem() { Description = "без піддону", Id = 0 });
                 }
 
             if (liners.Count > 0)
                 {
                 linersList = liners;
+                linersList.Insert(0, new CatalogItem() { Description = "без прокладки", Id = 0 });
                 }
             }
         }

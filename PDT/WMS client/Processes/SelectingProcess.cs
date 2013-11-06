@@ -15,8 +15,8 @@ namespace WMS_client.Processes
             }
 
         /// <summary>Вибір процесу</summary>
-        public SelectingProcess(WMSClient MainProcess)
-            : base(MainProcess, 1)
+        public SelectingProcess()
+            : base(1)
             {
             }
 
@@ -73,20 +73,20 @@ namespace WMS_client.Processes
             switch (SelectedProcess)
                 {
                 case Processes.Acceptance:
-                    process = new Acceptance(MainProcess);
+                    process = new Acceptance();
                     break;
                 case Processes.Movement:
-                    process = new Movement(MainProcess);
+                    process = new Movement();
                     break;
                 case Processes.Selection:
-                    process = new Selection(MainProcess);
+                    process = new Selection();
                     break;
                 case Processes.Inventory:
-                    process = new Inventory(MainProcess);
+                    process = new Inventory();
                     break;
                 default:
                     ShowMessage("Процес ще не реалізовано!");
-                    process = new SelectingProcess(MainProcess);
+                    process = new SelectingProcess();
                     break;
                 }
 

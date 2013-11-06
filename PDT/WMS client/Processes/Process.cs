@@ -8,8 +8,8 @@ namespace WMS_client.Processes
         public T Data { get; set; }
 
         /// <summary>Вибір процесу</summary>
-        protected Process(WMSClient MainProcess)
-            : base(MainProcess, 1)
+        protected Process()
+            : base(1)
             {
             Data = Activator.CreateInstance<T>();
             }
@@ -23,7 +23,7 @@ namespace WMS_client.Processes
                 {
                     case KeyAction.Esc:
                         MainProcess.ClearControls();
-                        MainProcess.Process = new SelectingProcess(MainProcess);
+                        MainProcess.Process = new SelectingProcess();
                         break;
                 }
             }

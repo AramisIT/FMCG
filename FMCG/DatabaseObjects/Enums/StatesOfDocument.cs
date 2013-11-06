@@ -10,10 +10,10 @@ namespace AtosFMCG.Enums
         Planned,
         /// <summary>Обробляється</summary>
         [DataField(Description = "Обробляється")]
-        Processed,
+        Processing,
         /// <summary>Виконано</summary>
         [DataField(Description = "Виконано")]
-        Achieved,
+        Performed,
         /// <summary>Скасовано</summary>
         [DataField(Description = "Скасовано")]
         Canceled,

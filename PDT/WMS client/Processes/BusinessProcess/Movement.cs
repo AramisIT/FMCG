@@ -7,8 +7,8 @@ namespace WMS_client.Processes
     public class Movement : Process<MovementData>
         {
         /// <summary>Переміщення</summary>
-        public Movement(WMSClient MainProcess)
-            : base(MainProcess)
+        public Movement()
+            : base()
             {
             Data.Topic = "Переміщення";
             isLoading = true;

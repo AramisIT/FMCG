@@ -14,7 +14,7 @@ namespace WMS_client.Processes.BaseScreen
 
         /// <summary>Сканування штрих-коду</summary>
         public ReadBarcode(WMSClient MainProcess, string msg, string backMsg, ReadBarcodeDelegate nextScr)
-            : base(MainProcess, 1)
+            : base( 1)
             {
             message = msg;
             goBackMessage = backMsg;
@@ -26,7 +26,7 @@ namespace WMS_client.Processes.BaseScreen
 
         /// <summary>Сканування штрих-коду</summary>
         public ReadBarcode(WMSClient MainProcess, string msg, string info, string backMsg, ReadBarcodeDelegate nextScr)
-            : base(MainProcess, 1)
+            : base( 1)
         {
             message = msg;
             infoMessage = info;
@@ -73,7 +73,7 @@ namespace WMS_client.Processes.BaseScreen
                 {
                     case KeyAction.Esc:
                         MainProcess.ClearControls();
-                        MainProcess.Process = new SelectingProcess(MainProcess);
+                        MainProcess.Process = new SelectingProcess();
                         break;
                 }
             }

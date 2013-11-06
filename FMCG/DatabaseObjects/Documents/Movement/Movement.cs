@@ -276,7 +276,7 @@ WHERE
                 Query updateCommand = DB.NewQuery(@"
 UPDATE SubMovementNomenclatureInfo SET RowState=@State WHERE IdDoc=@DocId AND LineNumber=@LineNumber");
                 updateCommand.AddInputParameter("DocId", docId);
-                updateCommand.AddInputParameter("State", StatesOfDocument.Achieved);
+                updateCommand.AddInputParameter("State", StatesOfDocument.Performed);
                 updateCommand.AddInputParameter("LineNumber", lineNumber);
                 updateCommand.Execute();
                 }
@@ -290,7 +290,7 @@ SELECT TOP 1 @DocId=Id
 FROM Movement
 WHERE MarkForDeleting=0 AND State=@State AND Source=0 AND CAST(Date AS DATE)=@Today
 ORDER BY Date DESC");
-                getDocCommand.AddInputParameter("State", StatesOfDocument.Achieved);
+                getDocCommand.AddInputParameter("State", StatesOfDocument.Performed);
                 object idObj = getDocCommand.SelectScalar();
                 Movement movementDoc = new Movement();
                 
@@ -322,7 +322,7 @@ WHERE b.UniqueCode=@PalletId AND Quantity>0");
                     newRow.SetRefValueToRowCell(movementDoc, movementDoc.NomenclatureParty, row["NomenclatureParty"], typeof(Parties));
                     newRow.SetRefValueToRowCell(movementDoc, movementDoc.SourceCell, row["Cell"], typeof(Cells));
                     newRow.SetRefValueToRowCell(movementDoc, movementDoc.DestinationCell, newPositionId, typeof(Cells));
-                    newRow[movementDoc.RowState] = StatesOfDocument.Achieved;
+                    newRow[movementDoc.RowState] = StatesOfDocument.Performed;
                     newRow.AddRowToTable(movementDoc);
                     }
 

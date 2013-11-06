@@ -8,7 +8,7 @@ namespace WMS_client
         #region Public fields
         protected bool isLoading;
         public object[] Parameters;
-        public WMSClient MainProcess;
+        protected WMSClient MainProcess;
         public ProcessType BusinessProcessType;
         public string DocumentNumber;
         public string CellBarcode;
@@ -29,10 +29,10 @@ namespace WMS_client
         #region Constructor
         protected BaseProcess() {}
 
-        protected BaseProcess(WMSClient MainProcess, int FormNumber)
-            : this(MainProcess, string.Empty, string.Empty, FormNumber) {}
+        protected BaseProcess(int FormNumber)
+            : this(string.Empty, string.Empty, FormNumber) {}
 
-        protected BaseProcess(WMSClient MainProcess, string CellName, string CellBarcode, int FormNumber)
+        protected BaseProcess(string CellName, string CellBarcode, int FormNumber)
             {
             this.FormNumber = CellName == string.Empty ? FormNumber : 0;
             if (FormNumber == 0)
@@ -41,7 +41,7 @@ namespace WMS_client
                 this.CellBarcode = CellBarcode;
                 }
 
-            this.MainProcess = MainProcess;
+            this.MainProcess = WMSClient.Current;
             Start();
             }
         #endregion

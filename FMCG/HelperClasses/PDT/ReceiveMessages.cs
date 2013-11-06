@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using Aramis.DatabaseConnector;
 using AramisWpfComponents.Excel;
+using AtosFMCG.TouchScreen.Controls;
 
 namespace AtosFMCG.HelperClasses.PDT
     {
@@ -65,9 +66,34 @@ namespace AtosFMCG.HelperClasses.PDT
                     return GetStickerData(parameters);
                 case "GetAcceptanceId":
                     return GetAcceptanceId(parameters);
+                case "WriteStickerFact":
+                    return WriteStickerFact(parameters);
+                case "ComplateAcceptance":
+                    return ComplateAcceptance(parameters);
                 }
 
             return new object[0];
+            }
+
+
+
+        private static object[] WriteStickerFact(object[] parameters)
+            {
+            if (!communication.WriteStickerFact(
+                Convert.ToInt64(parameters[0]),
+                Convert.ToInt64(parameters[1]),
+                Convert.ToBoolean(parameters[2]),
+                Convert.ToInt64(parameters[3]),
+                Convert.ToInt64(parameters[4]),
+                Convert.ToInt64(parameters[5]),
+                Convert.ToInt32(parameters[6]),
+                Convert.ToInt32(parameters[7]),
+                Convert.ToInt32(parameters[8])))
+                {
+                return new object[] { };
+                }
+
+            return new object[] { true };
             }
 
         private static object[] GetAcceptanceId(object[] parameters)
@@ -386,6 +412,14 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
                 }
 
             return new object[] { nomenclatureDescription, trayDescription, trayId, unitsPerBox, cellId, cellDescription };
+            }
+
+        private static object[] ComplateAcceptance(object[] parameters)
+            {
+            string message;
+            bool result = communication.ComplateAcceptance(Convert.ToInt64(parameters[0]), Convert.ToBoolean(parameters[1]), out message);
+
+            return new object[] { result, message };
             }
 
         #endregion

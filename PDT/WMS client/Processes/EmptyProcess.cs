@@ -11,7 +11,7 @@ namespace WMS_client
         private CallTimer timer;
 
         public EmptyProcess(WMSClient MainProcess)
-            : base(MainProcess, 1)
+            : base(1)
         {
             BusinessProcessType = ProcessType.Waiting;
         }

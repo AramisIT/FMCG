@@ -8,7 +8,7 @@ namespace WMS_client.Processes
         #region Public methods
         /// <summary>Регистрация при входе</summary>
         public RegistrationProcess(WMSClient MainProcess)
-            : base(MainProcess, 1)
+            : base(1)
         {
             BusinessProcessType = ProcessType.Registration;
         }
@@ -28,7 +28,7 @@ namespace WMS_client.Processes
                 MainProcess.User = 0;
                 MainProcess.ClearControls();
                 //Открыть окно выбора процесса
-                MainProcess.Process = new SelectingProcess(MainProcess);
+                MainProcess.Process = new SelectingProcess();
             //}
         }
 

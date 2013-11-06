@@ -35,9 +35,9 @@ namespace WMS_client.Processes.BaseScreen
         private MobileLabel selectedInfo;
         private long selectedIndex;
         private string selectedDescription
-        {
+            {
             get { return selectedInfo.Text; }
-        }
+            }
         private const string ID_COLUMN = "Id";
         private const string VALUE_COLUMN = "Value";
         private const string DESCRIPTION_COLUMN = "Description";
@@ -45,7 +45,7 @@ namespace WMS_client.Processes.BaseScreen
 
         /// <summary>Вибір з таблиці</summary>
         public SelectTableList(WMSClient MainProcess, SelectFromListDelegate nextScr, string todoCommand, string descriptionHeader, IEnumerable<TableData> list, string btnText, bool back)
-            : base(MainProcess, 1)
+            : base(1)
             {
             headerOfDescriptionColumn = descriptionHeader;
             navigateToNextScreen = nextScr;
@@ -64,7 +64,7 @@ namespace WMS_client.Processes.BaseScreen
 
             isLoading = true;
             DrawControls();
-        }
+            }
 
         #region Override methods
         public override sealed void DrawControls()
@@ -73,7 +73,7 @@ namespace WMS_client.Processes.BaseScreen
                 {
                 int tableHeight = 230;
 
-                if(!string.IsNullOrEmpty(buttonText))
+                if (!string.IsNullOrEmpty(buttonText))
                     {
                     tableHeight -= 35;
                     MainProcess.CreateButton(buttonText, 3, 290, 234, 25, string.Empty, MobileButtonClick);
@@ -100,36 +100,36 @@ namespace WMS_client.Processes.BaseScreen
             }
 
         void visualTable_OnRowSelected(object param1, OnRowSelectedEventArgs param2)
-        {
+            {
             navigateToNextScreen(selectedIndex, selectedDescription);
-        }
+            }
 
-        public override void OnBarcode(string Barcode) {}
+        public override void OnBarcode(string Barcode) { }
 
         public override void OnHotKey(KeyAction TypeOfAction)
             {
             switch (TypeOfAction)
                 {
-                    case KeyAction.Esc:
-                        MainProcess.ClearControls();
-                        MainProcess.Process = new SelectingProcess(MainProcess);
-                        break;
-                    case KeyAction.Enter:
-                        navigateToNextScreen(selectedIndex, selectedDescription);
-                        break;
+                case KeyAction.Esc:
+                    MainProcess.ClearControls();
+                    MainProcess.Process = new SelectingProcess();
+                    break;
+                case KeyAction.Enter:
+                    navigateToNextScreen(selectedIndex, selectedDescription);
+                    break;
                 }
             }
         #endregion
 
         private void visualTable_OnChangeSelectedRow(object param1, OnChangeSelectedRowEventArgs e)
             {
-            selectedIndex = (long) e.SelectedRow[ID_COLUMN];
+            selectedIndex = (long)e.SelectedRow[ID_COLUMN];
             selectedInfo.Text = e.SelectedRow[DESCRIPTION_COLUMN].ToString();
             }
 
         private void MobileButtonClick()
             {
-            if(isBackButton)
+            if (isBackButton)
                 {
                 OnHotKey(KeyAction.Esc);
                 }

@@ -35,7 +35,7 @@ namespace WMS_client
             }
 
         public FormDesignProcess(WMSClient MainProcess)
-            : base(MainProcess, 1)
+            : base( 1)
             {
             BusinessProcessType = ProcessType.FormDesign;
             }

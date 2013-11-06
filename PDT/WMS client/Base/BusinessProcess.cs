@@ -9,11 +9,14 @@ namespace WMS_client
     public abstract class BusinessProcess : BaseProcess
         {
         #region Constructors
-        protected BusinessProcess(WMSClient MainProcess, int FormNumber)
-            : base(MainProcess, FormNumber) {}
+
+        protected const string CANT_COMPLATE_OPERATION = "Невдала спроба завершення операції, спробуйте ще раз в зоні WiFi!";
+
+        protected BusinessProcess(int FormNumber)
+            : base(FormNumber) {}
 
         protected BusinessProcess(WMSClient MainProcess, string CellName, string CellBarcode, int FormNumber)
-            : base(MainProcess, CellName, CellBarcode, FormNumber) {}
+            : base(CellName, CellBarcode, FormNumber) {}
         #endregion
 
         protected string ToDoCommand

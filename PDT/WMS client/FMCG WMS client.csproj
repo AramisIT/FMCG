@@ -113,7 +113,6 @@
     <Compile Include="Processes\BusinessProcess\Inventory.cs" />
     <Compile Include="Processes\BusinessProcess\Movement.cs" />
     <Compile Include="Processes\FormDesignProcess.cs" />
-    <Compile Include="Processes\ProcessData\AcceptanceData.cs" />
     <Compile Include="Processes\ProcessData\InventoryData.cs" />
     <Compile Include="Processes\ProcessData\MovementData.cs" />
     <Compile Include="Processes\ProcessData\PlaningData.cs" />
@@ -121,7 +120,6 @@
     <Compile Include="Processes\Screens\SelectedGoodsInfo.cs" />
     <Compile Include="Processes\Screens\InventoryOfPallet.cs" />
     <Compile Include="Processes\Screens\MovingPallet.cs" />
-    <Compile Include="Processes\Screens\Placing.cs" />
     <Compile Include="Processes\Screens\ReadBarcode.cs" />
     <Compile Include="Processes\Screens\SelectTableList.cs" />
     <Compile Include="Processes\BusinessProcess\Acceptance.cs" />

@@ -16,7 +16,7 @@ namespace WMS_client.Processes.BaseScreen
 
         /// <summary>Переміщення палети</summary>
         public SelectedGoodsInfo(WMSClient MainProcess, SelectionData data, ReadBarcodeDelegate nextScr)
-            : base(MainProcess, 1)
+            : base( 1)
             {
             processData = data;
             MainProcess.ToDoCommand = data.Topic;
@@ -28,7 +28,7 @@ namespace WMS_client.Processes.BaseScreen
 
         /// <summary>Переміщення палети</summary>
         public SelectedGoodsInfo(WMSClient MainProcess, SelectionData data, ReadBarcodeDelegate nextScr, bool edit)
-            : base(MainProcess, 1)
+            : base( 1)
         {
             processData = data;
             MainProcess.ToDoCommand = data.Topic;
@@ -108,7 +108,7 @@ namespace WMS_client.Processes.BaseScreen
                 {
                     case KeyAction.Esc:
                         MainProcess.ClearControls();
-                        MainProcess.Process = new SelectingProcess(MainProcess);
+                        MainProcess.Process = new SelectingProcess();
                         break;
                 }
             }

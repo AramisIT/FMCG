@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
@@ -12,6 +13,7 @@ using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
 using Catalogs;
 using Documents;
+using Documents.GoodsAcceptance;
 
 namespace Documents
     {
@@ -173,6 +175,31 @@ namespace Documents
 
         readonly Dictionary<long, bool> tareDic = new Dictionary<long, bool>();
         readonly Dictionary<long, DateTime> partyDic = new Dictionary<long, DateTime>();
+
+        public override Func<DataRow, Color> GetFuncGetRowColor()
+            {
+            return row =>
+                {
+                    StatesOfDocument rowDocState = (StatesOfDocument)(int)row["State"];
+
+                    switch (rowDocState)
+                        {
+                        case StatesOfDocument.Processing:
+                            return "#fdf580".ToSystemDrawingColor();
+
+                        case StatesOfDocument.Performed:
+                            return "#9bffa0".ToSystemDrawingColor();
+
+                        case StatesOfDocument.Canceled:
+                            return "#cbcbcb".ToSystemDrawingColor();
+
+                        case StatesOfDocument.Completed:
+                            return "#9aaafd".ToSystemDrawingColor();
+                        }
+
+                    return Color.White;
+                };
+            }
 
         protected override WritingResult CheckingBeforeWriting()
             {
@@ -361,5 +388,119 @@ and MarkForDeleting = 0");
                 @"Невдала спроба запису документу ""Приймання товару""!".WarningBox();
                 }
             }
+
+        private bool isTray(long nomenclatureId)
+            {
+            return Consts.StandartTray.Id == nomenclatureId || Consts.NonStandartTray.Id == nomenclatureId;
+            }
+
+        private bool isLiner(long nomenclatureId)
+            {
+            return Consts.StandartLiner.Id == nomenclatureId || Consts.NonStandartLiner.Id == nomenclatureId;
+            }
+
+        private GoodsRows findStickerRows(long stickerId)
+            {
+            var result = new GoodsRows();
+
+            foreach (DataRow row in NomenclatureInfo.Rows)
+                {
+                if (row[this.NomenclatureCode].Equals(stickerId))
+                    {
+                    var nomenclatureId = (long)row[Nomenclature];
+
+                    if (isTray(nomenclatureId))
+                        {
+                        result.TrayRow = row;
+                        }
+                    else if (isLiner(nomenclatureId))
+                        {
+                        result.LinerRow = row;
+                        }
+                    else
+                        {
+                        var nomenclature = new Nomenclature();
+                        nomenclature.Read(nomenclatureId);
+
+                        if (nomenclature.IsTare)
+                            {
+                            result.BoxRow = row;
+                            }
+                        else
+                            {
+                            result.WareRow = row;
+                            }
+                        }
+                    }
+                }
+
+            return result;
+            }
+
+        internal bool WriteStickerFact(long stickerId, long cellId, long trayId, long linerId, int linersQuantity, int packsCount, int unitsCount)
+            {
+            var goodsRows = findStickerRows(stickerId);
+
+            setFactOnRow(goodsRows.WareRow, unitsCount, cellId);
+
+            if (goodsRows.BoxRow != null)
+                {
+                setFactOnRow(goodsRows.BoxRow, packsCount, cellId);
+                }
+
+            if (linersQuantity > 0 && linerId > 0)
+                {
+                if (goodsRows.LinerRow == null)
+                    {
+                    goodsRows.LinerRow = addNewNomenclatureRow(stickerId);
+                    }
+                setFactOnRow(goodsRows.LinerRow, linersQuantity, cellId, linerId);
+                }
+
+            if (trayId > 0)
+                {
+                if (goodsRows.TrayRow == null)
+                    {
+                    goodsRows.TrayRow = addNewNomenclatureRow(stickerId);
+                    }
+                setFactOnRow(goodsRows.TrayRow, 1, cellId, trayId);
+                }
+
+            SetSubtableModified(NomenclatureInfo.TableName);
+
+            return Write() == WritingResult.Success;
+            }
+
+        private DataRow addNewNomenclatureRow(long stickerId)
+            {
+            var newRow = NomenclatureInfo.GetNewRow(this);
+            newRow[NomenclatureCode] = stickerId;
+            newRow.AddRowToTable(this);
+
+            return newRow;
+            }
+
+        private void setFactOnRow(DataRow row, int count, long cellId, long nomenclatureId = -1)
+            {
+            row[NomenclatureFact] = count;
+            row[NomenclatureCell] = cellId;
+
+            if (nomenclatureId >= 0)
+                {
+                row[Nomenclature] = nomenclatureId;
+                }
+            }
+        }
+
+    }
+
+namespace Documents.GoodsAcceptance
+    {
+    class GoodsRows
+        {
+        public DataRow WareRow { get; set; }
+        public DataRow BoxRow { get; set; }
+        public DataRow TrayRow { get; set; }
+        public DataRow LinerRow { get; set; }
         }
     }

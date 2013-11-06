@@ -10,8 +10,8 @@ namespace WMS_client.Processes
         public int countOfDiscrepancy;
 
         /// <summary>Інвентаризація</summary>
-        public Inventory(WMSClient MainProcess)
-            : base(MainProcess)
+        public Inventory()
+            : base()
             {
             isLoading = true;
             DrawControls();

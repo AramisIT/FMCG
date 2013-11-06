@@ -197,5 +197,37 @@ namespace WMS_client
 
 
         #endregion
+
+        #region IRemoteCommunications Members
+
+
+        public bool WriteStickerFact(long acceptanceId, long stickerId, bool palletChanged, long cellId, long trayId, long linerId, int linersQuantity, int packsCount, int unitsCount)
+            {
+            PerformQuery("WriteStickerFact", acceptanceId, stickerId, palletChanged, cellId, trayId, linerId, linersQuantity, packsCount, unitsCount);
+
+            return IsExistParameters && Parameters[0] is bool && (bool)Parameters[0];
+            }
+
+        #endregion
+
+        #region IRemoteCommunications Members
+
+        private const string QUERY_NOT_SERVED_MESSAGE = "Запит не виконано";
+        public bool ComplateAcceptance(long acceptanceId, bool forceCompletion, out string errorMessage)
+            {
+            PerformQuery("ComplateAcceptance", acceptanceId, forceCompletion);
+            if (IsExistParameters && Parameters[0] is bool && Parameters.Length > 1)
+                {
+                errorMessage = Parameters[1].ToString();
+                return (bool) Parameters[0];
+                }
+            else
+                {
+                errorMessage = QUERY_NOT_SERVED_MESSAGE;
+                return false;
+                }
+            }
+
+        #endregion
         }
     }

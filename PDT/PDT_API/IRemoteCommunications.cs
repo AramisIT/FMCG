@@ -149,5 +149,9 @@ namespace pdtExternalStorage
         bool GetStickerData(long acceptanceId, long stickerId, out string nomenclatureDescription, out string trayDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription);
 
         bool GetAcceptanceId(long stickerId, out long acceptanceId);
+
+        bool WriteStickerFact(long acceptanceId, long stickerId, bool palletChanged, long cellId, long trayId, long linerId, int linersQuantity, int packsCount, int unitsCount);
+
+        bool ComplateAcceptance(long acceptanceId, bool forceCompletion, out string errorMessage);
         }
     }
