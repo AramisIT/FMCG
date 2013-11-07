@@ -477,6 +477,7 @@ namespace Documents
             sticker.AcceptionDate = Date;
             sticker.ReleaseDate = party.DateOfManufacture;
             sticker.ExpiryDate = party.TheDeadlineSuitability;
+            sticker.Party = party;
             if (sticker.Write() != WritingResult.Success)
                 {
                 return null;

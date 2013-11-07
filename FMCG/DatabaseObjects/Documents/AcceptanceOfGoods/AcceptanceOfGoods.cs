@@ -365,12 +365,12 @@ and MarkForDeleting = 0");
             {
             Cells cell = sticker.Nomenclature.IsKeg() ? Consts.RedemptionCell : new Cells();
 
-            addWareRow(sticker, cell, sticker.Nomenclature, sticker.UnitsQuantity);
-            addWareRow(sticker, cell, sticker.Nomenclature.BoxType, sticker.Quantity);
-            addWareRow(sticker, cell, sticker.Tray, 1);
+            addWareRow(sticker, cell, sticker.Nomenclature, sticker.UnitsQuantity, sticker.Party.Id);
+            addWareRow(sticker, cell, sticker.Nomenclature.BoxType, sticker.Quantity, 0);
+            addWareRow(sticker, cell, sticker.Tray, 1, 0);
             }
 
-        private void addWareRow(Stickers sticker, Cells cell, Nomenclature nomenclature, int quantity)
+        private void addWareRow(Stickers sticker, Cells cell, Nomenclature nomenclature, int quantity, long partyId)
             {
             if (quantity > 0 && !nomenclature.Empty)
                 {
@@ -378,6 +378,7 @@ and MarkForDeleting = 0");
 
                 row[Nomenclature] = nomenclature.Id;
                 row[NomenclaturePlan] = quantity;
+                row[NomenclatureParty] = partyId;
                 row[NomenclatureCode] = sticker.Id;
                 row[NomenclatureCell] = cell.Id;
 

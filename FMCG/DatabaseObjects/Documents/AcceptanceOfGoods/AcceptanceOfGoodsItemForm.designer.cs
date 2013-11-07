@@ -37,8 +37,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.showTareBarButtonItem = new DevExpress.XtraBars.BarCheckItem();
             this.showNomenclatureBarButtonItem = new DevExpress.XtraBars.BarCheckItem();
-            this.NomenclatureInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.PlansBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
+            this.NomenclatureInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.panelControl = new DevExpress.XtraEditors.PanelControl();
             this.date = new DevExpress.XtraEditors.DateEdit();
             this.Car = new DevExpress.XtraEditors.LabelControl();
@@ -145,7 +145,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.MaxItemId = 21;
             this.ribbon.Name = "ribbon";
             this.ribbon.Size = new System.Drawing.Size(884, 49);
-            this.ribbon.StatusBar = this.PlansBar;
+            this.ribbon.StatusBar = this.NomenclatureInfoButtonsBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
             // 
             // showTareBarButtonItem
@@ -164,6 +164,14 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.showNomenclatureBarButtonItem.Name = "showNomenclatureBarButtonItem";
             this.showNomenclatureBarButtonItem.CheckedChanged += new DevExpress.XtraBars.ItemClickEventHandler(this.showNomenclatureBarButtonItem_CheckedChanged);
             // 
+            // PlansBar
+            // 
+            this.PlansBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PlansBar.Location = new System.Drawing.Point(0, 0);
+            this.PlansBar.Name = "PlansBar";
+            this.PlansBar.Ribbon = this.ribbon;
+            this.PlansBar.Size = new System.Drawing.Size(878, 27);
+            // 
             // NomenclatureInfoButtonsBar
             // 
             this.NomenclatureInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Top;
@@ -173,14 +181,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.NomenclatureInfoButtonsBar.Name = "NomenclatureInfoButtonsBar";
             this.NomenclatureInfoButtonsBar.Ribbon = this.ribbon;
             this.NomenclatureInfoButtonsBar.Size = new System.Drawing.Size(878, 27);
-            // 
-            // PlansBar
-            // 
-            this.PlansBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PlansBar.Location = new System.Drawing.Point(0, 0);
-            this.PlansBar.Name = "PlansBar";
-            this.PlansBar.Ribbon = this.ribbon;
-            this.PlansBar.Size = new System.Drawing.Size(878, 27);
             // 
             // panelControl
             // 
@@ -327,6 +327,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.nomenclatureView.GridControl = this.NomenclatureInfo;
             this.nomenclatureView.Name = "nomenclatureView";
             this.nomenclatureView.RowStyle += new DevExpress.XtraGrid.Views.Grid.RowStyleEventHandler(this.nomenclatureView_RowStyle);
+            
             // 
             // panelControl1
             // 

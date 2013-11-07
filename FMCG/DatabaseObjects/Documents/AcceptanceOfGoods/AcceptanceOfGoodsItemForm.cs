@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 using Aramis.UI.WinFormsDevXpress;
 using Aramis.Core;
@@ -150,5 +151,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             {
             e.Appearance.BackColor = Document.GetNomenclatureRowColor(nomenclatureView.GetDataRow(e.RowHandle));
             }
+
+       
         }
     }

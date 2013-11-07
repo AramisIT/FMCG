@@ -36,9 +36,9 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.cancel = new DevExpress.XtraBars.BarButtonItem();
             this.createAcceptanceButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
+            this.TareInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.StickersBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.NomenclatureInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
-            this.TareInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.panelControl = new DevExpress.XtraEditors.PanelControl();
             this.SupplierIncomeNumber = new DevExpress.XtraEditors.TextEdit();
             this.labelControl9 = new DevExpress.XtraEditors.LabelControl();
@@ -61,7 +61,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.tabControl1 = new DevExpress.XtraTab.XtraTabControl();
             this.xtraTabPage1 = new DevExpress.XtraTab.XtraTabPage();
             this.NomenclatureInfo = new DevExpress.XtraGrid.GridControl();
-            this.gridView1 = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridView = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.xtraTabPage2 = new DevExpress.XtraTab.XtraTabPage();
             this.TareInfo = new DevExpress.XtraGrid.GridControl();
             this.gridView2 = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -94,7 +94,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.tabControl1.SuspendLayout();
             this.xtraTabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NomenclatureInfo)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView)).BeginInit();
             this.xtraTabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TareInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).BeginInit();
@@ -165,8 +165,16 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.MaxItemId = 19;
             this.ribbon.Name = "ribbon";
             this.ribbon.Size = new System.Drawing.Size(903, 49);
-            this.ribbon.StatusBar = this.TareInfoButtonsBar;
+            this.ribbon.StatusBar = this.NomenclatureInfoButtonsBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
+            // 
+            // TareInfoButtonsBar
+            // 
+            this.TareInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.TareInfoButtonsBar.Location = new System.Drawing.Point(0, 0);
+            this.TareInfoButtonsBar.Name = "TareInfoButtonsBar";
+            this.TareInfoButtonsBar.Ribbon = this.ribbon;
+            this.TareInfoButtonsBar.Size = new System.Drawing.Size(897, 27);
             // 
             // StickersBar
             // 
@@ -183,14 +191,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.NomenclatureInfoButtonsBar.Name = "NomenclatureInfoButtonsBar";
             this.NomenclatureInfoButtonsBar.Ribbon = this.ribbon;
             this.NomenclatureInfoButtonsBar.Size = new System.Drawing.Size(897, 27);
-            // 
-            // TareInfoButtonsBar
-            // 
-            this.TareInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.TareInfoButtonsBar.Location = new System.Drawing.Point(0, 0);
-            this.TareInfoButtonsBar.Name = "TareInfoButtonsBar";
-            this.TareInfoButtonsBar.Ribbon = this.ribbon;
-            this.TareInfoButtonsBar.Size = new System.Drawing.Size(897, 27);
             // 
             // panelControl
             // 
@@ -425,18 +425,20 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.NomenclatureInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.NomenclatureInfo.Location = new System.Drawing.Point(0, 27);
-            this.NomenclatureInfo.MainView = this.gridView1;
+            this.NomenclatureInfo.MainView = this.gridView;
             this.NomenclatureInfo.MenuManager = this.ribbon;
             this.NomenclatureInfo.Name = "NomenclatureInfo";
             this.NomenclatureInfo.Size = new System.Drawing.Size(897, 269);
             this.NomenclatureInfo.TabIndex = 1;
             this.NomenclatureInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridView1});
+            this.gridView});
             // 
-            // gridView1
+            // gridView
             // 
-            this.gridView1.GridControl = this.NomenclatureInfo;
-            this.gridView1.Name = "gridView1";
+            this.gridView.GridControl = this.NomenclatureInfo;
+            this.gridView.Name = "gridView";
+            
+            
             // 
             // xtraTabPage2
             // 
@@ -604,7 +606,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.tabControl1.ResumeLayout(false);
             this.xtraTabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NomenclatureInfo)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridView)).EndInit();
             this.xtraTabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TareInfo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView2)).EndInit();
@@ -634,7 +636,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private DevExpress.XtraEditors.LabelControl Info;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar TareInfoButtonsBar;
         private DevExpress.XtraGrid.GridControl NomenclatureInfo;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridView1;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridView;
         private DevExpress.XtraBars.Ribbon.RibbonStatusBar NomenclatureInfoButtonsBar;
         private DevExpress.XtraGrid.GridControl TareInfo;
         private DevExpress.XtraGrid.Views.Grid.GridView gridView2;

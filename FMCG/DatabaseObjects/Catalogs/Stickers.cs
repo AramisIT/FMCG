@@ -85,6 +85,19 @@ namespace Catalogs
                 }
             }
 
+        [DataField(Description = "Партія", ShowInList = true)]
+        public Parties Party
+            {
+            get
+                {
+                return (Parties)GetValueForObjectProperty("Party");
+                }
+            set
+                {
+                SetValueForObjectProperty("Party", value);
+                }
+            }
+
         /// <summary>
         /// Количество упаковок
         /// </summary>
