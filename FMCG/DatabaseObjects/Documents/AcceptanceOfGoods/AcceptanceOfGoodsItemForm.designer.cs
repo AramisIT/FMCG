@@ -37,9 +37,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.showTareBarButtonItem = new DevExpress.XtraBars.BarCheckItem();
             this.showNomenclatureBarButtonItem = new DevExpress.XtraBars.BarCheckItem();
-            this.PlansBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.NomenclatureInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
+            this.PlansBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.panelControl = new DevExpress.XtraEditors.PanelControl();
+            this.date = new DevExpress.XtraEditors.DateEdit();
             this.Car = new DevExpress.XtraEditors.LabelControl();
             this.Carrier = new DevExpress.XtraEditors.LabelControl();
             this.Driver = new DevExpress.XtraEditors.LabelControl();
@@ -73,10 +74,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem9 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem10 = new DevExpress.XtraBars.BarButtonItem();
             this.createAcceptanceButtonItem = new DevExpress.XtraBars.BarButtonItem();
-            this.date = new DevExpress.XtraEditors.DateEdit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
             this.panelControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.date.Properties.VistaTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.date.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.State.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NomenclatureInfo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nomenclatureView)).BeginInit();
@@ -89,8 +91,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.plansTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Plans)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.date.Properties.VistaTimeProperties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.date.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -145,7 +145,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.MaxItemId = 21;
             this.ribbon.Name = "ribbon";
             this.ribbon.Size = new System.Drawing.Size(884, 49);
-            this.ribbon.StatusBar = this.NomenclatureInfoButtonsBar;
+            this.ribbon.StatusBar = this.PlansBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
             // 
             // showTareBarButtonItem
@@ -164,14 +164,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.showNomenclatureBarButtonItem.Name = "showNomenclatureBarButtonItem";
             this.showNomenclatureBarButtonItem.CheckedChanged += new DevExpress.XtraBars.ItemClickEventHandler(this.showNomenclatureBarButtonItem_CheckedChanged);
             // 
-            // PlansBar
-            // 
-            this.PlansBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PlansBar.Location = new System.Drawing.Point(0, 0);
-            this.PlansBar.Name = "PlansBar";
-            this.PlansBar.Ribbon = this.ribbon;
-            this.PlansBar.Size = new System.Drawing.Size(878, 27);
-            // 
             // NomenclatureInfoButtonsBar
             // 
             this.NomenclatureInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Top;
@@ -181,6 +173,14 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.NomenclatureInfoButtonsBar.Name = "NomenclatureInfoButtonsBar";
             this.NomenclatureInfoButtonsBar.Ribbon = this.ribbon;
             this.NomenclatureInfoButtonsBar.Size = new System.Drawing.Size(878, 27);
+            // 
+            // PlansBar
+            // 
+            this.PlansBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.PlansBar.Location = new System.Drawing.Point(0, 0);
+            this.PlansBar.Name = "PlansBar";
+            this.PlansBar.Ribbon = this.ribbon;
+            this.PlansBar.Size = new System.Drawing.Size(878, 27);
             // 
             // panelControl
             // 
@@ -202,6 +202,19 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl.Name = "panelControl";
             this.panelControl.Size = new System.Drawing.Size(884, 94);
             this.panelControl.TabIndex = 2;
+            // 
+            // date
+            // 
+            this.date.EditValue = null;
+            this.date.Location = new System.Drawing.Point(366, 8);
+            this.date.MenuManager = this.ribbon;
+            this.date.Name = "date";
+            this.date.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.date.Properties.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.date.Size = new System.Drawing.Size(100, 20);
+            this.date.TabIndex = 17;
             // 
             // Car
             // 
@@ -313,6 +326,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // 
             this.nomenclatureView.GridControl = this.NomenclatureInfo;
             this.nomenclatureView.Name = "nomenclatureView";
+            this.nomenclatureView.RowStyle += new DevExpress.XtraGrid.Views.Grid.RowStyleEventHandler(this.nomenclatureView_RowStyle);
             // 
             // panelControl1
             // 
@@ -484,19 +498,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.createAcceptanceButtonItem.Id = 18;
             this.createAcceptanceButtonItem.Name = "createAcceptanceButtonItem";
             // 
-            // date
-            // 
-            this.date.EditValue = null;
-            this.date.Location = new System.Drawing.Point(366, 8);
-            this.date.MenuManager = this.ribbon;
-            this.date.Name = "date";
-            this.date.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.date.Properties.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton()});
-            this.date.Size = new System.Drawing.Size(100, 20);
-            this.date.TabIndex = 17;
-            // 
             // AcceptanceOfGoodsItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -517,6 +518,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).EndInit();
             this.panelControl.ResumeLayout(false);
             this.panelControl.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.date.Properties.VistaTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.date.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.State.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NomenclatureInfo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nomenclatureView)).EndInit();
@@ -530,8 +533,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.plansTabPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Plans)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridView3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.date.Properties.VistaTimeProperties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.date.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }

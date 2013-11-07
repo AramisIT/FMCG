@@ -208,6 +208,7 @@
     <Compile Include="DatabaseObjects\Documents\Shipment\ShipmentItemForm.designer.cs">
       <DependentUpon>ShipmentItemForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseObjects\Enums\RowStates.cs" />
     <Compile Include="DatabaseObjects\Enums\StatesOfDocument.cs" />
     <Compile Include="DatabaseObjects\Enums\TypesOfInventory.cs" />
     <Compile Include="DatabaseObjects\Enums\TypesOfShipment.cs" />
@@ -343,6 +344,7 @@
       <DependentUpon>SelectPlannedArrival.cs</DependentUpon>
     </Compile>
     <Compile Include="UIConfigurator.cs" />
+    <Compile Include="UI\StatesColors.cs" />
     <None Include="images\Touchscreen 32.png" />
     <None Include="images\AcceptancePlan 32.png" />
     <None Include="images\Acceptance 32.png" />

@@ -723,9 +723,8 @@ where NomenclatureCode = @StickerCode");
             var acceptance = new AcceptanceOfGoods();
             acceptance.Read(acceptanceId);
 
-            return acceptance.WriteStickerFact(stickerId, cellId, trayId, linerId, linersQuantity, packsCount, unitsCount);
-
-
+            var result = acceptance.WriteStickerFact(stickerId, cellId, trayId, linerId, linersQuantity, packsCount, unitsCount);
+            return result;
             }
 
         public bool ComplateAcceptance(long acceptanceId, bool forceCompletion, out string errorMessage)

@@ -14,6 +14,8 @@ using AtosFMCG.Enums;
 using Catalogs;
 using Documents;
 using Documents.GoodsAcceptance;
+using FMCG.DatabaseObjects.Enums;
+using FMCG.UI;
 
 namespace Documents
     {
@@ -116,12 +118,19 @@ namespace Documents
 
         #region Table Nomeclature
         /// <summary>Номенклатура</summary>
-        [Table(Columns = "NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureDate, NomenclaturePlan, NomenclatureFact, NomenclatureCell, IsTare", ShowLineNumberColumn = true)]
+        [Table(Columns = "NomenclatureState, NomenclatureRowDate, NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureDate, NomenclaturePlan, NomenclatureFact, NomenclatureCell, IsTare", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {
             get { return GetSubtable("NomenclatureInfo"); }
             }
+
+        [SubTableField(Description = "Состояние строки", PropertyType = typeof(RowsStates))]
+        public DataColumn NomenclatureState { get; set; }
+
+        // Дата периода движения
+        [SubTableField(Description = "Дата строки", PropertyType = typeof(DateTime))]
+        public DataColumn NomenclatureRowDate { get; set; }
 
         /// <summary>Код груза</summary>
         [SubTableField(Description = "Код вантажу", PropertyType = typeof(long))]
@@ -185,16 +194,19 @@ namespace Documents
                     switch (rowDocState)
                         {
                         case StatesOfDocument.Processing:
-                            return "#fdf580".ToSystemDrawingColor();
+                            return StatesColors.Processing;
 
                         case StatesOfDocument.Performed:
-                            return "#9bffa0".ToSystemDrawingColor();
+                            return StatesColors.Performed;
 
                         case StatesOfDocument.Canceled:
-                            return "#cbcbcb".ToSystemDrawingColor();
+                            return StatesColors.Canceled;
 
                         case StatesOfDocument.Completed:
-                            return "#9aaafd".ToSystemDrawingColor();
+                            return StatesColors.Completed;
+
+                        case StatesOfDocument.Planned:
+                            return StatesColors.Planed;
                         }
 
                     return Color.White;
@@ -484,11 +496,37 @@ and MarkForDeleting = 0");
             {
             row[NomenclatureFact] = count;
             row[NomenclatureCell] = cellId;
+            row[NomenclatureState] = RowsStates.Completed;
+            row[NomenclatureRowDate] = DateTime.Now;
 
             if (nomenclatureId >= 0)
                 {
                 row[Nomenclature] = nomenclatureId;
                 }
+            }
+
+        internal Color GetNomenclatureRowColor(DataRow row)
+            {
+            if (row == null) return Color.White;
+
+            RowsStates rowState = (RowsStates)(int)row[NomenclatureState];
+
+            switch (rowState)
+                {
+                case RowsStates.PlannedAcceptance:
+                    return StatesColors.Planed;
+
+                case RowsStates.Processing:
+                    return StatesColors.Processing;
+
+                case RowsStates.Canceled:
+                    return StatesColors.Canceled;
+
+                case RowsStates.Completed:
+                    return StatesColors.Completed;
+                }
+
+            return Color.White;
             }
         }
 

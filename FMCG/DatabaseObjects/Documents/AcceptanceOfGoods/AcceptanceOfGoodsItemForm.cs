@@ -145,5 +145,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
             {
             setWaresVisibility(!showTareBarButtonItem.Checked);
             }
+
+        private void nomenclatureView_RowStyle(object sender, DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs e)
+            {
+            e.Appearance.BackColor = Document.GetNomenclatureRowColor(nomenclatureView.GetDataRow(e.RowHandle));
+            }
         }
     }
