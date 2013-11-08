@@ -409,26 +409,7 @@ namespace AtosFMCG.TouchScreen.Controls
         /// <summary>Завершити/Зберегти</summary>
         private void finish_Click(object sender, EventArgs e)
             {
-            convertListsToTables();
-            WritingResult result = Document.Write();
 
-            if (result != WritingResult.Success)
-                {
-                if (isEditMode)
-                    {
-                    changeEditMode(false);
-                    }
-                showMessage("Помилка при збережені даних!");
-                }
-            else
-                {
-                onFinish(true, Document);
-                Document.PrintStickers(waresList);
-                if (isLastPlan(Document))
-                    {
-                    AcceptanceOfGoods.CreateNewAcceptance(Document);
-                    }
-                }
             }
 
         private bool isLastPlan(AcceptancePlan document)
@@ -1010,6 +991,43 @@ and MarkForDeleting = 0
         private void setVisibilityForMainColumns(bool visible)
             {
             mainView.MakeColumnVisible(visible ? this.LineNumber : this.unitsOnNotFullPalletColumn);
+            }
+
+        private void finishButton_SingleClick(object sender, EventArgs e)
+            {
+            if (WritingDocument())
+                {
+                onFinish(true, Document);
+                Document.PrintStickers(waresList);
+                if (isLastPlan(Document))
+                    {
+                    AcceptanceOfGoods.CreateNewAcceptance(Document);
+                    }
+                }
+            }
+
+        private bool WritingDocument()
+            {
+            convertListsToTables();
+            WritingResult result = Document.Write();
+
+            if (result != WritingResult.Success)
+                {
+                if (isEditMode)
+                    {
+                    changeEditMode(false);
+                    }
+                showMessage("Помилка при збережені даних!");
+
+                return false;
+                }
+
+            return true;
+            }
+
+        private void saveButton_SingleClick(object sender, EventArgs e)
+            {
+            WritingDocument();
             }
         }
     }

@@ -683,7 +683,9 @@ FROM LastPalletInCell ");
             var q = DB.NewQuery(@"select top 1 info.IdDoc 
 
 from SubAcceptanceOfGoodsNomenclatureInfo info
-where NomenclatureCode = @StickerCode");
+join AcceptanceOfGoods a on a.Id = info.IdDoc
+
+where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
 
             q.AddInputParameter("StickerCode", stickerId);
             var resultObj = q.SelectScalar();

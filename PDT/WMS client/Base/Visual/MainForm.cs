@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using Intermec.DataCollection;
+using WMS_client.Base.Visual;
 
 namespace WMS_client
 {
@@ -312,6 +313,7 @@ namespace WMS_client
             //Platform plat = GetPlatform();
             //if (plat == Platform.PocketPC)
             //{
+            new EmptyDialog().ShowDialog();
             WindowState = FormWindowState.Maximized;
             //}
         }

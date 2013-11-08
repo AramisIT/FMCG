@@ -23,6 +23,7 @@ namespace WMS_client.Processes
         private CatalogItem cellItem;
         private BarcodeData currentBarcodeData;
         private long acceptanceId;
+        private MobileLabel stickerIdInfoLabel;
         private const string INVALID_BARCODE_MSG = "Відсканований штрих-код не вірний";
 
         /// <summary>Приймання товару</summary>
@@ -60,7 +61,11 @@ namespace WMS_client.Processes
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             unitsCountTextBox = MainProcess.CreateTextBox(195, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
 
-            top += delta + delta;
+            top += delta;
+            stickerIdInfoLabel = MainProcess.CreateLabel(string.Empty, 5, top, 230,
+               MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
+
+            top += delta;
             trayButton = MainProcess.CreateButton("<піддон>", 5, top, 230, 35, "modelButton", trayButton_Click,
                new PropertyButtonInfo() { PropertyName = "Tray", PropertyDescription = "Тип піддону" });
 
@@ -101,7 +106,7 @@ namespace WMS_client.Processes
 
             if (!saveFact())
                 {
-                CANT_COMPLATE_OPERATION.Warning();                
+                CANT_COMPLATE_OPERATION.Warning();
                 return;
                 }
 
@@ -180,12 +185,13 @@ namespace WMS_client.Processes
                         return;
                         }
                     currentBarcodeData = barcodeData;
-                    updateStickerData();
+                    cellItem = new CatalogItem();
                     }
                 else
                     {
                     cellItem = cell;
                     }
+                updateStickerData();
                 }
             else if (barcode.IsCell())
                 {
@@ -268,7 +274,7 @@ namespace WMS_client.Processes
 
         private void updateCellData()
             {
-            cellLabel.Text = cellItem.Id > 0 ? cellItem.Description : "<?>";
+            cellLabel.Text = (cellItem != null && cellItem.Id > 0) ? cellItem.Description : "<?>";
             }
 
         private void updateStickerData()
@@ -277,8 +283,18 @@ namespace WMS_client.Processes
             trayButton.Text = currentBarcodeData.Tray.Description;
             trayItem = currentBarcodeData.Tray;
 
-            packsCount = (currentBarcodeData.UnitsQuantity / currentBarcodeData.UnitsPerBox);
-            unitsCount = (currentBarcodeData.UnitsQuantity % currentBarcodeData.UnitsPerBox);
+            stickerIdInfoLabel.Text = string.Format("Код палети: {0}", currentBarcodeData.StickerId);
+
+            if (currentBarcodeData.UnitsPerBox > 0)
+                {
+                packsCount = (currentBarcodeData.UnitsQuantity / currentBarcodeData.UnitsPerBox);
+                unitsCount = (currentBarcodeData.UnitsQuantity % currentBarcodeData.UnitsPerBox);
+                }
+            else
+                {
+                packsCount = 0;
+                unitsCount = 0;
+                }
             linersQuantityTextBox.Text = string.Empty;
             linerItem = new CatalogItem();
             }
@@ -297,7 +313,7 @@ namespace WMS_client.Processes
                     out nomenclatureDescription, out trayDescription, out trayId,
                     out unitsPerBox, out cellId, out cellDescription))
                 {
-                cell = null;
+                cell = new CatalogItem();
                 barcodeData.StickerId = 0;
                 return;
                 }
@@ -315,6 +331,6 @@ namespace WMS_client.Processes
 
         #endregion
 
-       
+
         }
     }

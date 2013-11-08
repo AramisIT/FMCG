@@ -91,6 +91,12 @@
     <Compile Include="Base\Visual\Controls\MobileLabel.cs" />
     <Compile Include="Base\Visual\Controls\MobileTable.cs" />
     <Compile Include="Base\Visual\Controls\MobileTextBox.cs" />
+    <Compile Include="Base\Visual\EmptyDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Base\Visual\EmptyDialog.designer.cs">
+      <DependentUpon>EmptyDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Base\Visual\HotKeyProcessing.cs" />
     <Compile Include="Base\Visual\MainForm.cs">
       <SubType>Form</SubType>
@@ -129,6 +135,9 @@
     <Compile Include="Processes\SelectingProcess.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Base\Visual\EmptyDialog.resx">
+      <DependentUpon>EmptyDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Base\Visual\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>

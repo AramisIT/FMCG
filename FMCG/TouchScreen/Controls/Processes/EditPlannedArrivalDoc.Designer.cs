@@ -28,13 +28,13 @@
         /// </summary>
         private void InitializeComponent()
             {
-            this.editMode = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
+            this.editButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.car = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.driver = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.invoiceDate = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.invoiceNumber = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.editControlsArea = new System.Windows.Forms.Panel();
-            this.save = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
+            this.saveButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.grid = new DevExpress.XtraGrid.GridControl();
             this.mainView = new DevExpress.XtraGrid.Views.BandedGrid.AdvBandedGridView();
             this.gridBand1 = new DevExpress.XtraGrid.Views.BandedGrid.GridBand();
@@ -67,29 +67,28 @@
             this.scrollUp = new System.Windows.Forms.Button();
             this.palletsCountButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             this.currentNomenclatureLabel = new DevExpress.XtraEditors.LabelControl();
+            this.finishButton = new AtosFMCG.TouchScreen.Controls.NavigatedButton();
             ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mainView)).BeginInit();
             this.editPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // editMode
+            // editButton
             // 
-            this.editMode.BackColor = System.Drawing.Color.Bisque;
-            this.editMode.Background = System.Drawing.Color.Bisque;
-            this.editMode.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.editMode.Ico = global::FMCG.Properties.Resources.edit;
-            this.editMode.Image = global::FMCG.Properties.Resources.edit;
-            this.editMode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.editMode.IsEnabled = true;
-            this.editMode.Location = new System.Drawing.Point(219, 710);
-            this.editMode.Name = "editMode";
-            this.editMode.Size = new System.Drawing.Size(105, 50);
-            this.editMode.TabIndex = 40;
-            this.editMode.Text = "Редагувати";
-            this.editMode.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.editMode.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Small;
-            this.editMode.UseVisualStyleBackColor = false;
-            this.editMode.SingleClick += new System.EventHandler(this.editMode_SingleClick);
+            this.editButton.BackColor = System.Drawing.Color.Bisque;
+            this.editButton.Background = System.Drawing.Color.Bisque;
+            this.editButton.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.editButton.Ico = global::FMCG.Properties.Resources.edit;
+            this.editButton.Image = global::FMCG.Properties.Resources.edit;
+            this.editButton.IsEnabled = true;
+            this.editButton.Location = new System.Drawing.Point(219, 710);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(60, 50);
+            this.editButton.TabIndex = 60;
+            this.editButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.editButton.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Small;
+            this.editButton.UseVisualStyleBackColor = false;
+            this.editButton.SingleClick += new System.EventHandler(this.editMode_SingleClick);
             // 
             // car
             // 
@@ -138,7 +137,7 @@
             this.invoiceDate.Image = global::FMCG.Properties.Resources.date;
             this.invoiceDate.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.invoiceDate.IsEnabled = true;
-            this.invoiceDate.Location = new System.Drawing.Point(137, 598);
+            this.invoiceDate.Location = new System.Drawing.Point(138, 598);
             this.invoiceDate.Name = "invoiceDate";
             this.invoiceDate.Size = new System.Drawing.Size(158, 50);
             this.invoiceDate.TabIndex = 37;
@@ -172,24 +171,22 @@
             this.editControlsArea.Size = new System.Drawing.Size(580, 755);
             this.editControlsArea.TabIndex = 41;
             // 
-            // save
+            // saveButton
             // 
-            this.save.BackColor = System.Drawing.Color.LightGreen;
-            this.save.Background = System.Drawing.Color.LightGreen;
-            this.save.Font = new System.Drawing.Font("Tahoma", 8F);
-            this.save.Ico = global::FMCG.Properties.Resources.save;
-            this.save.Image = global::FMCG.Properties.Resources.save;
-            this.save.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.save.IsEnabled = true;
-            this.save.Location = new System.Drawing.Point(324, 710);
-            this.save.Name = "save";
-            this.save.Size = new System.Drawing.Size(105, 50);
-            this.save.TabIndex = 42;
-            this.save.Text = "Завершити";
-            this.save.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.save.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Small;
-            this.save.UseVisualStyleBackColor = false;
-            this.save.Click += new System.EventHandler(this.finish_Click);
+            this.saveButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.saveButton.Background = System.Drawing.Color.LightGreen;
+            this.saveButton.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.saveButton.Ico = global::FMCG.Properties.Resources.save;
+            this.saveButton.Image = global::FMCG.Properties.Resources.save;
+            this.saveButton.IsEnabled = true;
+            this.saveButton.Location = new System.Drawing.Point(297, 710);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(60, 50);
+            this.saveButton.TabIndex = 42;
+            this.saveButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.saveButton.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Small;
+            this.saveButton.UseVisualStyleBackColor = false;
+            this.saveButton.SingleClick += new System.EventHandler(this.saveButton_SingleClick);
             // 
             // grid
             // 
@@ -666,7 +663,7 @@
             this.palletsCountButton.Ico = null;
             this.palletsCountButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.palletsCountButton.IsEnabled = true;
-            this.palletsCountButton.Location = new System.Drawing.Point(297, 598);
+            this.palletsCountButton.Location = new System.Drawing.Point(298, 598);
             this.palletsCountButton.Name = "palletsCountButton";
             this.palletsCountButton.Size = new System.Drawing.Size(131, 50);
             this.palletsCountButton.TabIndex = 52;
@@ -684,10 +681,28 @@
             this.currentNomenclatureLabel.TabIndex = 53;
             this.currentNomenclatureLabel.Text = "Живчик 2,5 л";
             // 
+            // finishButton
+            // 
+            this.finishButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.finishButton.Background = System.Drawing.Color.LightGreen;
+            this.finishButton.Font = new System.Drawing.Font("Tahoma", 8F);
+            this.finishButton.Ico = global::FMCG.Properties.Resources.finish;
+            this.finishButton.Image = global::FMCG.Properties.Resources.finish;
+            this.finishButton.IsEnabled = true;
+            this.finishButton.Location = new System.Drawing.Point(369, 710);
+            this.finishButton.Name = "finishButton";
+            this.finishButton.Size = new System.Drawing.Size(60, 50);
+            this.finishButton.TabIndex = 54;
+            this.finishButton.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.finishButton.TypeOfFont = AtosFMCG.TouchScreen.Enums.TypesOfFont.Small;
+            this.finishButton.UseVisualStyleBackColor = false;
+            this.finishButton.SingleClick += new System.EventHandler(this.finishButton_SingleClick);
+            // 
             // EditAcceptancePlanDoc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.finishButton);
             this.Controls.Add(this.currentNomenclatureLabel);
             this.Controls.Add(this.palletsCountButton);
             this.Controls.Add(this.tareButton);
@@ -696,11 +711,11 @@
             this.Controls.Add(this.grid);
             this.Controls.Add(this.invoiceNumber);
             this.Controls.Add(this.invoiceDate);
-            this.Controls.Add(this.save);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.driver);
             this.Controls.Add(this.editControlsArea);
             this.Controls.Add(this.car);
-            this.Controls.Add(this.editMode);
+            this.Controls.Add(this.editButton);
             this.Controls.Add(this.editPanel);
             this.Name = "EditAcceptancePlanDoc";
             this.Size = new System.Drawing.Size(1014, 763);
@@ -719,9 +734,9 @@
         private NavigatedButton invoiceDate;
         private NavigatedButton driver;
         private NavigatedButton car;
-        private NavigatedButton editMode;
+        private NavigatedButton editButton;
         private System.Windows.Forms.Panel editControlsArea;
-        private NavigatedButton save;
+        private NavigatedButton saveButton;
         private DevExpress.XtraGrid.GridControl grid;
         private System.Windows.Forms.Panel editPanel;
         private NavigatedButton finishEditMode;
@@ -754,5 +769,6 @@
         private DevExpress.XtraGrid.Views.BandedGrid.GridBand gridBand5;
         private NavigatedButton palletsCountButton;
         private DevExpress.XtraEditors.LabelControl currentNomenclatureLabel;
+        private NavigatedButton finishButton;
         }
     }

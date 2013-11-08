@@ -48,6 +48,10 @@ namespace WMS_client
                         Description = row["Description"].ToString(),
                         Id = Convert.ToInt64(row["Id"])
                     };
+                if (item.Id == 0)
+                    {
+                    continue;
+                    }
 
                 const int TRAY_TARE_TYPE = 1;
                 const int LINER_TARE__TYPE = 2;

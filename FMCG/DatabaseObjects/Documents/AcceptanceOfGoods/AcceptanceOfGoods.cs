@@ -470,13 +470,14 @@ and MarkForDeleting = 0");
                 setFactOnRow(goodsRows.LinerRow, linersQuantity, cellId, linerId);
                 }
 
-            if (trayId > 0)
+            int traysQuantity = trayId > 0 ? 1 : 0;
+            if (goodsRows.TrayRow == null && traysQuantity > 0)
                 {
-                if (goodsRows.TrayRow == null)
-                    {
-                    goodsRows.TrayRow = addNewNomenclatureRow(stickerId);
-                    }
-                setFactOnRow(goodsRows.TrayRow, 1, cellId, trayId);
+                goodsRows.TrayRow = addNewNomenclatureRow(stickerId);
+                }
+            if (goodsRows.TrayRow != null)
+                {
+                setFactOnRow(goodsRows.TrayRow, traysQuantity, cellId, trayId);
                 }
 
             SetSubtableModified(NomenclatureInfo.TableName);
