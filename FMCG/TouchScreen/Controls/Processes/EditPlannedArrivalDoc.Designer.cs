@@ -173,7 +173,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.saveButton.BackColor = System.Drawing.Color.LightGreen;
             this.saveButton.Background = System.Drawing.Color.LightGreen;
             this.saveButton.Font = new System.Drawing.Font("Tahoma", 8F);
             this.saveButton.Ico = global::FMCG.Properties.Resources.save;
@@ -683,7 +683,7 @@
             // 
             // finishButton
             // 
-            this.finishButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.finishButton.BackColor = System.Drawing.Color.LightGreen;
             this.finishButton.Background = System.Drawing.Color.LightGreen;
             this.finishButton.Font = new System.Drawing.Font("Tahoma", 8F);
             this.finishButton.Ico = global::FMCG.Properties.Resources.finish;

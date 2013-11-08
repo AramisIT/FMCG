@@ -140,12 +140,19 @@ namespace WMS_client
 
             StreamReader SettingsFile = File.OpenText(SettingsFileName);
 
-            string ServerIP;
-
-            while ((ServerIP = SettingsFile.ReadLine()) != null)
+            string ServerIP = string.Empty;
+            string settingsRow;
+            while ((settingsRow = SettingsFile.ReadLine()) != null)
                 {
-                if (ServerIP.Trim() != string.Empty)
+                settingsRow = settingsRow.Trim();
+                if (settingsRow.IndexOf(';') >= 0)
                     {
+                    settingsRow = settingsRow.Substring(0, settingsRow.IndexOf(';')).TrimEnd();
+                    }
+
+                if (!string.IsNullOrEmpty(settingsRow))
+                    {
+                    ServerIP = settingsRow;
                     break;
                     }
                 }
@@ -199,7 +206,7 @@ namespace WMS_client
             System.Diagnostics.Process.Start(PathToFile, string.Empty);
             MainForm.Close();
             }
-         
+
         private void refreshPicture()
             {
             MainForm.Refresh();
@@ -410,7 +417,7 @@ namespace WMS_client
         #endregion
 
         #endregion
-         
+
         public object[] PerformQuery(string QueryName, params object[] Parameters)
             {
 
