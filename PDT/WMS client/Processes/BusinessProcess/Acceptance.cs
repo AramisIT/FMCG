@@ -11,19 +11,38 @@ namespace WMS_client.Processes
     /// <summary>Приймання товару</summary>
     public class Acceptance : BusinessProcess
         {
-        private MobileLabel nomenclatureLabel;
-        private MobileTextBox packsCountTextBox;
-        private MobileTextBox unitsCountTextBox;
-        private MobileButton trayButton;
-        private MobileTextBox linersQuantityTextBox;
-        private MobileButton linerButton;
-        private MobileLabel cellLabel;
+        private class AcceptancePalletControls : HideableControlsCollection
+            {
+            public MobileTextBox packsCountTextBox;
+            public MobileTextBox unitsCountTextBox;
+            public MobileTextBox linersQuantityTextBox;
+
+            public MobileLabel nomenclatureLabel;
+            public MobileLabel cellLabel;
+            public MobileLabel stickerIdInfoLabel;
+
+            public MobileButton trayButton;
+            public MobileButton linerButton;
+            public MobileLabel packsLabel;
+            public MobileLabel unitsLabel;
+            public MobileLabel linersLabel;
+            public MobileLabel cellCaptionLabel;
+            }
+
+        private class ScanPalletControls : HideableControlsCollection
+            {
+            public MobileLabel WillLabel;
+            }
+
+        private AcceptancePalletControls palletControls;
         private CatalogItem trayItem;
         private CatalogItem linerItem;
         private CatalogItem cellItem;
         private BarcodeData currentBarcodeData;
+
         private long acceptanceId;
-        private MobileLabel stickerIdInfoLabel;
+        private ScanPalletControls scanPalletLabelControls;
+
         private const string INVALID_BARCODE_MSG = "Відсканований штрих-код не вірний";
 
         /// <summary>Приймання товару</summary>
@@ -38,52 +57,74 @@ namespace WMS_client.Processes
             {
             var repository = new Repository();
             repository.GetTraysList();
-            //repository.GetTraysList();
             }
 
         #region Override methods
         public override sealed void DrawControls()
             {
+            createPalletControls();
+
+            createScanPalletLabelControls();
+
+            ShowControls(scanPalletLabelControls);
+            }
+
+        private void createScanPalletLabelControls()
+            {
+            scanPalletLabelControls = new ScanPalletControls();
+
+            int top = 140;
+            const int delta = 27;
+
+            top += delta;
+            scanPalletLabelControls.WillLabel = MainProcess.CreateLabel("Відскануйте палету", 10, top, 230,
+               MobileFontSize.Large, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
+
+            }
+
+        private void createPalletControls()
+            {
+            palletControls = new AcceptancePalletControls();
             int top = 42;
             const int delta = 27;
 
             top += delta;
-            nomenclatureLabel = MainProcess.CreateLabel("<номенклатура>", 5, top, 230,
+            palletControls.nomenclatureLabel = MainProcess.CreateLabel("<номенклатура>", 5, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
             top += delta;
 
-            MainProcess.CreateLabel("упаковок:", 5, top, 80,
+            palletControls.packsLabel = MainProcess.CreateLabel("упаковок:", 5, top, 80,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
-            packsCountTextBox = MainProcess.CreateTextBox(90, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
+            palletControls.packsCountTextBox = MainProcess.CreateTextBox(90, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
 
-            MainProcess.CreateLabel("+ шт.:", 135, top, 55,
+            palletControls.unitsLabel = MainProcess.CreateLabel("+ шт.:", 135, top, 55,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
-            unitsCountTextBox = MainProcess.CreateTextBox(195, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
+            palletControls.unitsCountTextBox = MainProcess.CreateTextBox(195, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
 
             top += delta;
-            stickerIdInfoLabel = MainProcess.CreateLabel(string.Empty, 5, top, 230,
+            palletControls.stickerIdInfoLabel = MainProcess.CreateLabel(string.Empty, 5, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
 
             top += delta;
-            trayButton = MainProcess.CreateButton("<піддон>", 5, top, 230, 35, "modelButton", trayButton_Click,
+            palletControls.trayButton = MainProcess.CreateButton("<піддон>", 5, top, 230, 35, "modelButton", trayButton_Click,
                new PropertyButtonInfo() { PropertyName = "Tray", PropertyDescription = "Тип піддону" });
 
             top += delta + delta;
-            MainProcess.CreateLabel("Кількість прокладок:", 5, top, 180,
+            palletControls.linersLabel = MainProcess.CreateLabel("Кількість прокладок:", 5, top, 180,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
-            linersQuantityTextBox = MainProcess.CreateTextBox(190, top, 45, string.Empty, ControlsStyle.LabelNormal, null, false);
+            palletControls.linersQuantityTextBox = MainProcess.CreateTextBox(190, top, 45, string.Empty, ControlsStyle.LabelNormal, null, false);
 
             top += delta;
             linerItem = new CatalogItem();
-            linerButton = MainProcess.CreateButton(string.Empty, 5, top, 230, 35, "modelButton", linerButton_Click,
+            palletControls.linerButton = MainProcess.CreateButton(string.Empty, 5, top, 230, 35, "modelButton", linerButton_Click,
                new PropertyButtonInfo() { PropertyName = "Liner", PropertyDescription = "Тип прокладки" });
             updateLinerButton();
 
             top += delta + delta;
-            MainProcess.CreateLabel("Комірка:", 5, top, 80,
+            palletControls.cellCaptionLabel = MainProcess.CreateLabel("Комірка:", 5, top, 80,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
-            cellLabel = MainProcess.CreateLabel("<?>", 95, top, 140,
+            palletControls.cellLabel = MainProcess.CreateLabel("<?>", 95, top, 140,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             }
 
@@ -93,6 +134,14 @@ namespace WMS_client.Processes
                 {
                 case KeyAction.Complate:
                     complateProcess();
+                    return;
+
+                case KeyAction.Esc:
+                    if (acceptanceId == 0 || "Скасувати операцію?".Ask())
+                        {
+                        MainProcess.ClearControls();
+                        MainProcess.Process = new SelectingProcess();
+                        }
                     return;
                 }
             }
@@ -122,14 +171,14 @@ namespace WMS_client.Processes
 
         private void updateLinerButton()
             {
-            linerButton.Text = linerItem.Id > 0 ? linerItem.Description : "<тип прокладки>";
+            palletControls.linerButton.Text = linerItem.Id > 0 ? linerItem.Description : "<тип прокладки>";
             }
 
         private void trayButton_Click(object sender)
             {
             selectFromCatalog(new Repository().GetTraysList(), (selectedItem) =>
                 {
-                    trayButton.Text = selectedItem.Description;
+                    palletControls.trayButton.Text = selectedItem.Description;
                     trayItem = selectedItem;
                 });
             }
@@ -147,8 +196,8 @@ namespace WMS_client.Processes
             {
             selectFromCatalog(new Repository().GetLinersList(), (selectedItem) =>
             {
-                linerButton.Text = selectedItem.Description;
                 linerItem = selectedItem;
+                updateLinerButton();
             });
             }
 
@@ -176,6 +225,8 @@ namespace WMS_client.Processes
                     return;
                     }
 
+                ShowControls(palletControls);
+
                 var scannedNextSticker = cell.Id == 0;
                 if (scannedNextSticker)
                     {
@@ -196,6 +247,10 @@ namespace WMS_client.Processes
             else if (barcode.IsCell())
                 {
                 cellItem = barcode.ToCell();
+                //if (cellItem.Id > 0)
+                //    {
+                //    ShowControls(scanPalletLabelControls);
+                //    }
                 }
 
             updateCellData();
@@ -211,7 +266,7 @@ namespace WMS_client.Processes
             palletChanged |= (currentBarcodeData.UnitsQuantity % currentBarcodeData.UnitsPerBox) != unitsCount;
 
             if (!WMSClient.ServerInteraction.WriteStickerFact(acceptanceId, currentBarcodeData.StickerId, palletChanged,
-                (cellItem ?? new CatalogItem()).Id, trayItem.Id, linerItem.Id, linersQuantity, packsCount, unitsCount + packsCount * currentBarcodeData.UnitsPerBox))
+                (cellItem ?? new CatalogItem()).Id, trayItem.Id, linerItem.Id, linersCount, packsCount, unitsCount + packsCount * currentBarcodeData.UnitsPerBox))
                 {
                 return false;
                 }
@@ -223,16 +278,16 @@ namespace WMS_client.Processes
             {
             get
                 {
-                if (string.IsNullOrEmpty(packsCountTextBox.Text))
+                if (string.IsNullOrEmpty(palletControls.packsCountTextBox.Text))
                     {
                     return 0;
                     }
 
-                return Convert.ToInt32(packsCountTextBox.Text);
+                return Convert.ToInt32(palletControls.packsCountTextBox.Text);
                 }
             set
                 {
-                packsCountTextBox.Text = value.ToString();
+                palletControls.packsCountTextBox.Text = (value == 0) ? string.Empty : value.ToString();
                 }
             }
 
@@ -240,29 +295,33 @@ namespace WMS_client.Processes
             {
             get
                 {
-                if (string.IsNullOrEmpty(unitsCountTextBox.Text))
+                if (string.IsNullOrEmpty(palletControls.unitsCountTextBox.Text))
                     {
                     return 0;
                     }
 
-                return Convert.ToInt32(unitsCountTextBox.Text);
+                return Convert.ToInt32(palletControls.unitsCountTextBox.Text);
                 }
             set
                 {
-                unitsCountTextBox.Text = value.ToString();
+                palletControls.unitsCountTextBox.Text = (value == 0) ? string.Empty : value.ToString();
                 }
             }
 
-        public int linersQuantity
+        public int linersCount
             {
             get
                 {
-                if (string.IsNullOrEmpty(linersQuantityTextBox.Text))
+                if (string.IsNullOrEmpty(palletControls.linersQuantityTextBox.Text))
                     {
                     return 0;
                     }
 
-                return Convert.ToInt32(linersQuantityTextBox.Text);
+                return Convert.ToInt32(palletControls.linersQuantityTextBox.Text);
+                }
+            set
+                {
+                palletControls.linersQuantityTextBox.Text = (value == 0) ? string.Empty : value.ToString();
                 }
             }
 
@@ -274,16 +333,16 @@ namespace WMS_client.Processes
 
         private void updateCellData()
             {
-            cellLabel.Text = (cellItem != null && cellItem.Id > 0) ? cellItem.Description : "<?>";
+            palletControls.cellLabel.Text = (cellItem != null && cellItem.Id > 0) ? cellItem.Description : "<?>";
             }
 
         private void updateStickerData()
             {
-            nomenclatureLabel.Text = currentBarcodeData.Nomenclature.Description;
-            trayButton.Text = currentBarcodeData.Tray.Description;
+            palletControls.nomenclatureLabel.Text = currentBarcodeData.Nomenclature.Description;
+            palletControls.trayButton.Text = currentBarcodeData.Tray.Description;
             trayItem = currentBarcodeData.Tray;
 
-            stickerIdInfoLabel.Text = string.Format("Код палети: {0}", currentBarcodeData.StickerId);
+            palletControls.stickerIdInfoLabel.Text = string.Format("Код палети: {0}", currentBarcodeData.StickerId);
 
             if (currentBarcodeData.UnitsPerBox > 0)
                 {
@@ -295,8 +354,8 @@ namespace WMS_client.Processes
                 packsCount = 0;
                 unitsCount = 0;
                 }
-            linersQuantityTextBox.Text = string.Empty;
-            linerItem = new CatalogItem();
+
+            updateLinerButton();
             }
 
         private void readStickerInfo(long acceptanceId, BarcodeData barcodeData, out CatalogItem cell)

@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Reflection;
 using System.Windows.Forms;
 using pdtExternalStorage;
+using WMS_client.Processes;
 
 namespace WMS_client
     {
@@ -13,10 +15,10 @@ namespace WMS_client
         protected const string CANT_COMPLATE_OPERATION = "Невдала спроба завершення операції, спробуйте ще раз в зоні WiFi!";
 
         protected BusinessProcess(int FormNumber)
-            : base(FormNumber) {}
+            : base(FormNumber) { }
 
         protected BusinessProcess(WMSClient MainProcess, string CellName, string CellBarcode, int FormNumber)
-            : base(CellName, CellBarcode, FormNumber) {}
+            : base(CellName, CellBarcode, FormNumber) { }
         #endregion
 
         protected string ToDoCommand
@@ -40,7 +42,7 @@ namespace WMS_client
 
             if (IsExistParameters)
                 {
-                table = (DataTable) Parameters[1];
+                table = (DataTable)Parameters[1];
                 return true;
                 }
 
@@ -48,7 +50,47 @@ namespace WMS_client
             return false;
             }
 
-        
+        private List<HideableControlsCollection> hideableControlsCollectionsSet;
+
+        private void checkHideableControlsCollectionsList()
+            {
+            if (hideableControlsCollectionsSet != null) return;
+
+            hideableControlsCollectionsSet = new List<HideableControlsCollection>();
+
+            var fields = GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+            foreach (var fieldInfo in fields)
+                {
+                var fieldValue = fieldInfo.GetValue(this);
+                if (fieldValue is HideableControlsCollection)
+                    {
+                    hideableControlsCollectionsSet.Add(fieldValue as HideableControlsCollection);
+                    }
+                }
+            }
+
+        /// <summary>
+        /// Отображает переданную коллекцию и прячет все прочие коллекции
+        /// </summary>
+        /// <param name="hideableControls"></param>
+        internal void ShowControls(HideableControlsCollection hideableControls)
+            {
+            checkHideableControlsCollectionsList();
+
+            foreach (var controlsCollection in hideableControlsCollectionsSet)
+                {
+                if (hideableControls == controlsCollection)
+                    {
+                    continue;
+                    }
+                controlsCollection.Hide();
+                }
+
+            if (!hideableControls.Visible)
+                {
+                hideableControls.Show();
+                }
+            }
 
 
         /// <summary>Отримати місце розміщення зі штрихкоду</summary>
@@ -155,7 +197,7 @@ namespace WMS_client
             return false;
             }
 
-        
+
 
         /// <summary>Інформація про ПЕРШУ паллету (тут строка) для відбору</summary>
         /// <param name="contractor">Контрагент</param>
@@ -377,7 +419,7 @@ namespace WMS_client
             var selectingItemForm = new WMS_client.Base.Visual.SelectingItem();
             selectingItemForm.DataSource = list;
             selectingItemForm.SelectedIndex = selectedIndex;
-            
+
             if (selectingItemForm.ShowDialog() == DialogResult.OK)
                 {
                 selectedItem = list[selectingItemForm.SelectedIndex < 0 ? 0 : selectingItemForm.SelectedIndex];

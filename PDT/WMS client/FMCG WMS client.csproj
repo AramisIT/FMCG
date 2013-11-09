@@ -97,6 +97,7 @@
     <Compile Include="Base\Visual\EmptyDialog.designer.cs">
       <DependentUpon>EmptyDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Base\Visual\HideableControlsCollection.cs" />
     <Compile Include="Base\Visual\HotKeyProcessing.cs" />
     <Compile Include="Base\Visual\MainForm.cs">
       <SubType>Form</SubType>
