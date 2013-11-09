@@ -161,6 +161,7 @@
     <Compile Include="PropertyButtonInfo.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="ServerInteraction.cs" />
+    <Compile Include="WinProcessesManagement\ProcessInfo.cs" />
     <Compile Include="WMSClient.cs" />
   </ItemGroup>
   <ItemGroup>

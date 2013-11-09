@@ -76,7 +76,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SelectingItem";
-            this.Text = "SelectingItem";
+            this.Text = "Вибір елементу";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.SelectingItem_Load);
             this.ResumeLayout(false);

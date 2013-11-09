@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
@@ -176,7 +177,7 @@ namespace Documents
             get { return GetSubtable("Plans"); }
             }
 
-        [SubTableField(Description = "План приймання", PropertyType = typeof(AcceptancePlan))]
+        [SubTableField(Description = "План приймання", PropertyType = typeof(AcceptancePlan), AllowOpenItem = true)]
         public DataColumn AcceptancePlan { get; set; }
 
         #endregion

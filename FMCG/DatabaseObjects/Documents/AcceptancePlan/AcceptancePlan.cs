@@ -263,7 +263,7 @@ namespace Documents
             get { return GetSubtable("Stickers"); }
             }
 
-        [SubTableField(Description = "Этикетка", PropertyType = typeof(Stickers))]
+        [SubTableField(Description = "Этикетка", PropertyType = typeof(Stickers), AllowOpenItem = true)]
         public DataColumn Sticker { get; set; }
 
         #endregion
