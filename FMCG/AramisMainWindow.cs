@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Aramis.DatabaseConnector;
+using Aramis.DatabaseUpdating;
 using Aramis.UI.WinFormsDevXpress.Forms;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.HelperClasses.PDT;
@@ -340,6 +341,11 @@ namespace AtosFMCG
         private void barButtonItem7_ItemClick(object sender, ItemClickEventArgs e)
             {
             UserInterface.Current.ShowList(typeof(Stickers));
+            }
+
+        private void barButtonItem8_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            new RemaindersUpdater().Update();
             }
         }
     }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using Aramis.Core;
 using Aramis.Core.Reminders;
 using Catalogs;
 using Documents;
+using FMCG.DatabaseObjects.Enums;
 
 namespace FMCG.DatabaseObjects.Remainders
     {
@@ -28,7 +30,7 @@ namespace FMCG.DatabaseObjects.Remainders
             return new DatabaseObject[] { new AcceptanceOfGoods() };
             }
 
-        public override void AddMotions(DatabaseObject databaseObject)
+        public override DataColumn AddMotions(DatabaseObject databaseObject)
             {
             if (databaseObject is AcceptanceOfGoods)
                 {
@@ -40,7 +42,13 @@ namespace FMCG.DatabaseObjects.Remainders
                 AddMotion(Party, item.NomenclatureParty);
                 AddMotion(Code, item.NomenclatureCode);
                 AddMotion(Quantity, item.NomenclatureFact);
+
+                SetExceptionsValues(item.NomenclatureState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+
+                return item.NomenclatureRowDate;
                 }
+
+            return null;
             }
         }
     }

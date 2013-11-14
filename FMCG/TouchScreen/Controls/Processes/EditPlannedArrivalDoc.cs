@@ -320,16 +320,17 @@ namespace AtosFMCG.TouchScreen.Controls
 
         #region Save
         /// <summary>Отримати словник партій для всієї таблиці</summary>
-        private Dictionary<long, Parties> getPartyForTable()
+        private Dictionary<Product, Parties> getPartyForTable()
             {
-            Dictionary<long, Parties> partyDic = new Dictionary<long, Parties>();
+            var partyDic = new Dictionary<Product, Parties>();
 
             foreach (NomenclatureData element in waresList)
                 {
-                if (element.Description != null && !partyDic.ContainsKey(element.Description.Id))
+                var product = new Product(element.Description.Id, element.Date.Date);
+                if (element.Description != null && !partyDic.ContainsKey(product))
                     {
                     Parties party = getPartyForNomenclatureByDate(element.Date, element.Description.Id, element.ShelfLifeDays);
-                    partyDic.Add(element.Description.Id, party);
+                    partyDic.Add(product, party);
                     }
                 }
 
@@ -363,10 +364,22 @@ namespace AtosFMCG.TouchScreen.Controls
             return party;
             }
 
+        struct Product
+            {
+            long NomenclatureId;
+            private DateTime ProductionDate;
+
+            public Product(long nomenclatureId, DateTime productionDate)
+                {
+                this.NomenclatureId = nomenclatureId;
+                this.ProductionDate = productionDate;
+                }
+            }
+
         /// <summary>Конвертація списку елементів в таблицю</summary>
         private void convertListsToTables()
             {
-            Dictionary<long, Parties> partyDic = getPartyForTable();
+            Dictionary<Product, Parties> partyDic = getPartyForTable();
             Document.NomenclatureInfo.Rows.Clear();
             foreach (NomenclatureData data in waresList)
                 {
@@ -375,7 +388,7 @@ namespace AtosFMCG.TouchScreen.Controls
                     DataRow newRow = Document.NomenclatureInfo.GetNewRow(Document);
                     newRow.SetRefValueToRowCell(Document, Document.Nomenclature, data.Description.Id, typeof(Nomenclature));
                     newRow[Document.NomenclatureCount] = data.Quantity;
-                    newRow.SetRefValueToRowCell(Document, Document.NomenclatureParty, partyDic[data.Description.Id]);
+                    newRow.SetRefValueToRowCell(Document, Document.NomenclatureParty, partyDic[new Product(data.Description.Id, data.Date.Date)]);
                     newRow.AddRowToTable(Document);
 
                     var nomenclature = new Nomenclature();
