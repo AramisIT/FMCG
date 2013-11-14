@@ -36,7 +36,7 @@ namespace AtosFMCG.TouchScreen.Controls
                 if (Image != null)
                     {
                     TextAlign = ContentAlignment.MiddleRight;
-                    ImageAlign = ContentAlignment.MiddleLeft;
+                   // ImageAlign = ContentAlignment.MiddleLeft;
                     }
                 }
             }

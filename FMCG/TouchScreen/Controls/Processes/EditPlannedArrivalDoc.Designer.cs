@@ -179,7 +179,7 @@
             this.saveButton.Ico = global::FMCG.Properties.Resources.save;
             this.saveButton.Image = global::FMCG.Properties.Resources.save;
             this.saveButton.IsEnabled = true;
-            this.saveButton.Location = new System.Drawing.Point(297, 710);
+            this.saveButton.Location = new System.Drawing.Point(294, 710);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(60, 50);
             this.saveButton.TabIndex = 42;
