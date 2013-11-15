@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
 using Aramis.UI.WinFormsDevXpress;
@@ -9,6 +10,7 @@ using AtosFMCG.DatabaseObjects.Documents;
 using AtosFMCG.Enums;
 using Catalogs;
 using Documents;
+using FMCG.DatabaseObjects.Enums;
 using pdtExternalStorage;
 
 namespace AtosFMCG.HelperClasses.PDT
@@ -638,9 +640,10 @@ FROM LastPalletInCell ");
                 out int unitsPerBox, out long cellId, out string cellDescription)
             {
             long stickerAcceptanceId;
-            GetAcceptanceId(stickerId, false, out stickerAcceptanceId);
+            RowsStates rowState;
+            GetAcceptanceId(stickerId, false, out stickerAcceptanceId, out rowState);
 
-            if (acceptanceId == stickerAcceptanceId)
+            if (acceptanceId == stickerAcceptanceId && rowState != RowsStates.Completed)
                 {
                 var sticker = new Stickers();
                 sticker.Read(stickerId);
@@ -669,18 +672,25 @@ FROM LastPalletInCell ");
 
         private Cells findPalletCell(long stickerId)
             {
-            return new Cells();
-            }
+            var q = DB.NewQuery("SELECT Top 1 Cell FROM [FMCG].[dbo].[GetStockBalance] ('0001-01-01', 0,0,2,0, @StickerId)");
+            q.AddInputParameter("StickerId", stickerId);
 
+            long cellId = q.SelectToList<long>().FirstOrDefault();
+            var cell = new Cells();
+            cell.Read(cellId);
+
+            return cell;
+            }
 
         public bool GetAcceptanceId(long stickerId, out long acceptanceId)
             {
-            return GetAcceptanceId(stickerId, true, out acceptanceId);
+            RowsStates rowState;
+            return GetAcceptanceId(stickerId, true, out acceptanceId, out rowState);
             }
 
-        public bool GetAcceptanceId(long stickerId, bool setProcessingStatus, out long acceptanceId)
+        public bool GetAcceptanceId(long stickerId, bool setProcessingStatus, out long acceptanceId, out RowsStates rowState)
             {
-            var q = DB.NewQuery(@"select top 1 info.IdDoc 
+            var q = DB.NewQuery(@"select top 1 info.IdDoc, info.NomenclatureState [State]
 
 from SubAcceptanceOfGoodsNomenclatureInfo info
 join AcceptanceOfGoods a on a.Id = info.IdDoc
@@ -688,9 +698,17 @@ join AcceptanceOfGoods a on a.Id = info.IdDoc
 where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
 
             q.AddInputParameter("StickerCode", stickerId);
-            var resultObj = q.SelectScalar();
+            var resultObj = q.SelectRow();
 
-            acceptanceId = resultObj == null ? 0 : Convert.ToInt64(resultObj);
+            acceptanceId = 0;
+            rowState = RowsStates.PlannedAcceptance;
+
+            if (resultObj != null)
+                {
+                acceptanceId = Convert.ToInt64(resultObj[0]);
+                rowState = (RowsStates)Convert.ToInt32(resultObj[1]);
+                }
+
             bool documentFound = acceptanceId > 0;
 
             if (documentFound && setProcessingStatus)

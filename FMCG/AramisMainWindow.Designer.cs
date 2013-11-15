@@ -30,11 +30,10 @@
             {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AramisMainWindow));
-            DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
-            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
-            DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
+            DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
-            this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
             this.smallImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.openCatalogs = new DevExpress.XtraBars.BarButtonItem();
             this.openDocuments = new DevExpress.XtraBars.BarButtonItem();
@@ -61,6 +60,8 @@
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem8 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem9 = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -71,25 +72,23 @@
             this.sysObjectsGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.favGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.serviceTablesGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.pdtServerGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.dctServerGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.testGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.adminPropertiesPage = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.updGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.updatePageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.testsPageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.barButtonItem8 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.largeImagesCollection)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbon
             // 
-            this.ribbon.ApplicationButtonDropDownControl = this.applicationMenu1;
             this.ribbon.ApplicationButtonText = null;
             this.ribbon.ApplicationIcon = global::FMCG.Properties.Resources.TrayIcon;
             this.ribbon.ExpandCollapseItem.Id = 0;
@@ -122,10 +121,11 @@
             this.barButtonItem5,
             this.barButtonItem6,
             this.barButtonItem7,
-            this.barButtonItem8});
+            this.barButtonItem8,
+            this.barButtonItem9});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 47;
+            this.ribbon.MaxItemId = 48;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
@@ -136,11 +136,6 @@
             this.ribbon.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
             this.ribbon.Size = new System.Drawing.Size(1196, 144);
             this.ribbon.StatusBar = this.ribbonStatusBar;
-            // 
-            // applicationMenu1
-            // 
-            this.applicationMenu1.Name = "applicationMenu1";
-            this.applicationMenu1.Ribbon = this.ribbon;
             // 
             // smallImagesCollection
             // 
@@ -241,15 +236,15 @@
             this.serverState.Id = 28;
             this.serverState.LargeImageIndex = 4;
             this.serverState.Name = "serverState";
-            toolTipTitleItem2.Text = "Сервер не запущено!";
-            toolTipItem2.Appearance.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
-            toolTipItem2.Appearance.Options.UseImage = true;
-            toolTipItem2.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
-            toolTipItem2.LeftIndent = 6;
-            toolTipItem2.Text = "Сервер роботи з ТЗД не запущено...";
-            superToolTip2.Items.Add(toolTipTitleItem2);
-            superToolTip2.Items.Add(toolTipItem2);
-            this.serverState.SuperTip = superToolTip2;
+            toolTipTitleItem1.Text = "Сервер не запущено!";
+            toolTipItem1.Appearance.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem1.Appearance.Options.UseImage = true;
+            toolTipItem1.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem1.LeftIndent = 6;
+            toolTipItem1.Text = "Сервер роботи з ТЗД не запущено...";
+            superToolTip1.Items.Add(toolTipTitleItem1);
+            superToolTip1.Items.Add(toolTipItem1);
+            this.serverState.SuperTip = superToolTip1;
             this.serverState.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.serverState_ItemClick);
             // 
             // openStockBalance
@@ -360,6 +355,20 @@
             this.barButtonItem7.Name = "barButtonItem7";
             this.barButtonItem7.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem7_ItemClick);
             // 
+            // barButtonItem8
+            // 
+            this.barButtonItem8.Caption = "Update Reminders";
+            this.barButtonItem8.Id = 46;
+            this.barButtonItem8.Name = "barButtonItem8";
+            this.barButtonItem8.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem8_ItemClick);
+            // 
+            // barButtonItem9
+            // 
+            this.barButtonItem9.Caption = "Тесты методов";
+            this.barButtonItem9.Id = 47;
+            this.barButtonItem9.Name = "barButtonItem9";
+            this.barButtonItem9.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem9_ItemClick);
+            // 
             // largeImagesCollection
             // 
             this.largeImagesCollection.ImageSize = new System.Drawing.Size(32, 32);
@@ -421,7 +430,7 @@
             this.sysObjectsGroup,
             this.favGroup,
             this.serviceTablesGroup,
-            this.pdtServerGroup,
+            this.dctServerGroup,
             this.testGroup});
             this.mainPage.Name = "mainPage";
             this.mainPage.Text = "Головна панель";
@@ -450,9 +459,9 @@
             // 
             // dctServerGroup
             // 
-            this.pdtServerGroup.ItemLinks.Add(this.serverState);
-            this.pdtServerGroup.Name = "dctServerGroup";
-            this.pdtServerGroup.Text = "ТЗД сервер";
+            this.dctServerGroup.ItemLinks.Add(this.serverState);
+            this.dctServerGroup.Name = "dctServerGroup";
+            this.dctServerGroup.Text = "ТЗД сервер";
             // 
             // testGroup
             // 
@@ -465,7 +474,8 @@
             // 
             this.adminPropertiesPage.Groups.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPageGroup[] {
             this.updGroup,
-            this.updatePageGroup});
+            this.updatePageGroup,
+            this.testsPageGroup});
             this.adminPropertiesPage.Name = "adminPropertiesPage";
             this.adminPropertiesPage.Text = "Настройки системы";
             // 
@@ -487,6 +497,12 @@
             this.updatePageGroup.ItemLinks.Add(this.openConsts);
             this.updatePageGroup.Name = "updatePageGroup";
             this.updatePageGroup.Text = "Настройки";
+            // 
+            // testsPageGroup
+            // 
+            this.testsPageGroup.ItemLinks.Add(this.barButtonItem9);
+            this.testsPageGroup.Name = "testsPageGroup";
+            this.testsPageGroup.Text = "Тесты";
             // 
             // ribbonStatusBar
             // 
@@ -518,13 +534,6 @@
             this.ribbonPageGroup1.ShowCaptionButton = false;
             this.ribbonPageGroup1.Text = "Оновлення";
             // 
-            // barButtonItem8
-            // 
-            this.barButtonItem8.Caption = "Update Reminders";
-            this.barButtonItem8.Id = 46;
-            this.barButtonItem8.Name = "barButtonItem8";
-            this.barButtonItem8.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem8_ItemClick);
-            // 
             // AramisMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -541,7 +550,6 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.AramisMainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.largeImagesCollection)).EndInit();
             this.ResumeLayout(false);
@@ -560,7 +568,6 @@
         private DevExpress.XtraBars.BarButtonItem openCatalogs;
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
         private DevExpress.XtraBars.BarButtonItem openDocuments;
-        private DevExpress.XtraBars.Ribbon.ApplicationMenu applicationMenu1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
         private DevExpress.XtraBars.BarButtonItem UpdateDBStructureButton;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup updGroup;
@@ -599,7 +606,10 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem7;
        
         private DevExpress.XtraBars.BarButtonItem barButtonItem8;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup pdtServerGroup;
+        
+        private DevExpress.XtraBars.BarButtonItem barButtonItem9;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup dctServerGroup;
+        private DevExpress.XtraBars.Ribbon.RibbonPageGroup testsPageGroup;
 
         }
     }

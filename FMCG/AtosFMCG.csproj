@@ -137,6 +137,13 @@
       <DependentUpon>ContractorsItemsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Catalogs\Cars.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\PDT tests\PDTFuncsTests.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\PDT tests\PDTFuncsTestsItemForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseObjects\Catalogs\PDT tests\PDTFuncsTestsItemForm.Designer.cs">
+      <DependentUpon>PDTFuncsTestsItemForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseObjects\Catalogs\Stickers.cs" />
     <Compile Include="DatabaseObjects\Catalogs\ThermoPrinters.cs" />
     <Compile Include="DatabaseObjects\Catalogs\PDTSettings.cs" />
@@ -369,6 +376,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseObjects\Catalogs\Parties\PartiesItemsForm.resx">
       <DependentUpon>PartiesItemsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseObjects\Catalogs\PDT tests\PDTFuncsTestsItemForm.resx">
+      <DependentUpon>PDTFuncsTestsItemForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseObjects\Catalogs\TypesOfCell\TypesOfCellItemsForm.resx">
       <DependentUpon>TypesOfCellItemsForm.cs</DependentUpon>

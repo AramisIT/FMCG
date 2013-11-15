@@ -80,12 +80,12 @@ namespace AtosFMCG
                 {
                 ltlServerState.Visibility = BarItemVisibility.Always;
                 runSMServer();
-                pdtServerGroup.Visible = true;
+                dctServerGroup.Visible = true;
                 }
             else
                 {
                 ltlServerState.Visibility = BarItemVisibility.Never;
-                pdtServerGroup.Visible = false;
+                dctServerGroup.Visible = false;
                 }
             }
 
@@ -346,6 +346,11 @@ namespace AtosFMCG
         private void barButtonItem8_ItemClick(object sender, ItemClickEventArgs e)
             {
             new RemaindersUpdater().Update();
+            }
+
+        private void barButtonItem9_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(PDTFuncsTests));
             }
         }
     }
