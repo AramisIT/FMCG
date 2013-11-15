@@ -5,6 +5,7 @@ using System.Linq;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
 using Aramis.UI.WinFormsDevXpress;
+using AramisWpfComponents.Excel;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Documents;
 using AtosFMCG.Enums;
@@ -637,13 +638,15 @@ FROM LastPalletInCell ");
 
         public bool GetStickerData(long acceptanceId, long stickerId,
                 out string nomenclatureDescription, out string trayDescription, out long trayId,
-                out int unitsPerBox, out long cellId, out string cellDescription)
+                out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance)
             {
             long stickerAcceptanceId;
             RowsStates rowState;
-            GetAcceptanceId(stickerId, false, out stickerAcceptanceId, out rowState);
+            long rowCellId;
+            GetAcceptanceId(stickerId, false, out stickerAcceptanceId, out rowState, out rowCellId);
+            currentAcceptance = acceptanceId == stickerAcceptanceId;
 
-            if (acceptanceId == stickerAcceptanceId && rowState != RowsStates.Completed)
+            if (currentAcceptance)
                 {
                 var sticker = new Stickers();
                 sticker.Read(stickerId);
@@ -653,8 +656,8 @@ FROM LastPalletInCell ");
                 trayId = sticker.Tray.Id;
                 unitsPerBox = sticker.Nomenclature.UnitsQuantityPerPack;
 
-                cellId = 0;
-                cellDescription = string.Empty;
+                cellId = rowCellId;
+                cellDescription = FastInput.GetCashedData(typeof(Cells).Name).GetDescription(rowCellId);
                 }
             else
                 {
@@ -685,12 +688,13 @@ FROM LastPalletInCell ");
         public bool GetAcceptanceId(long stickerId, out long acceptanceId)
             {
             RowsStates rowState;
-            return GetAcceptanceId(stickerId, true, out acceptanceId, out rowState);
+            long cellId;
+            return GetAcceptanceId(stickerId, true, out acceptanceId, out rowState, out cellId);
             }
 
-        public bool GetAcceptanceId(long stickerId, bool setProcessingStatus, out long acceptanceId, out RowsStates rowState)
+        public bool GetAcceptanceId(long stickerId, bool setProcessingStatus, out long acceptanceId, out RowsStates rowState, out long cellId)
             {
-            var q = DB.NewQuery(@"select top 1 info.IdDoc, info.NomenclatureState [State]
+            var q = DB.NewQuery(@"select top 1 info.IdDoc, info.NomenclatureState [State], info.NomenclatureCell
 
 from SubAcceptanceOfGoodsNomenclatureInfo info
 join AcceptanceOfGoods a on a.Id = info.IdDoc
@@ -702,11 +706,13 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
 
             acceptanceId = 0;
             rowState = RowsStates.PlannedAcceptance;
+            cellId = 0;
 
             if (resultObj != null)
                 {
                 acceptanceId = Convert.ToInt64(resultObj[0]);
                 rowState = (RowsStates)Convert.ToInt32(resultObj[1]);
+                cellId = Convert.ToInt64(resultObj[2]);
                 }
 
             bool documentFound = acceptanceId > 0;

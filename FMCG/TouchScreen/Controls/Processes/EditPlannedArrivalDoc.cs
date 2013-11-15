@@ -10,6 +10,8 @@ using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Documents;
 using AtosFMCG.TouchScreen.Events;
 using Catalogs;
+using DevExpress.Utils;
+using DevExpress.XtraGrid.Views.BandedGrid;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Grid.ViewInfo;
@@ -73,6 +75,13 @@ namespace AtosFMCG.TouchScreen.Controls
             {
             InitializeComponent();
             assignScrollHandlers(this);
+            foreach (BandedGridColumn column in mainView.Columns)
+                {
+                column.OptionsColumn.AllowGroup = DefaultBoolean.False;
+                column.OptionsColumn.AllowSort = DefaultBoolean.False;
+                column.OptionsColumn.AllowMove = false;
+                column.OptionsFilter.AllowFilter = false;
+                }
             }
 
         /// <summary>Редагування документу "План приходу"</summary>
@@ -647,20 +656,27 @@ and MarkForDeleting = 0
                 }
             else
                 {
-                foreach (NomenclatureData data in list)
-                    {
-                    if (data.Description != null &&
-                        data.Description.Id == value.Key &&
-                        data.LineNumber != currentRow.LineNumber)
-                        {
-                        string message = string.Format(
-                            "\r\nВ таблиці вже існує рядок №{0} з такою номенлатурою..", data.LineNumber);
-                        showMessage("Повторення номенклатури!", message);
-                        return;
-                        }
-                    }
+                //foreach (NomenclatureData data in list)
+                //    {
+                //    if (data.Description != null &&
+                //        data.Description.Id == value.Key &&
+                //        data.LineNumber != currentRow.LineNumber)
+                //        {
+                //        string message = string.Format(
+                //            "\r\nВ таблиці вже існує рядок №{0} з такою номенлатурою..", data.LineNumber);
+                //        showMessage("Повторення номенклатури!", message);
+                //        return;
+                //        }
+                //    }
 
                 selectedRow.Description = new ObjectValue(value);
+                
+                var nomenclature = new Nomenclature();
+                nomenclature.Read(value.Key);
+                selectedRow.StandartPalletCountPer1 = nomenclature.UnitsQuantityPerPallet;
+                selectedRow.NonStandartPalletCountPer1 = 0;
+                selectedRow.UpdatePalletQuantity();
+                
                 grid.RefreshDataSource();
                 showMessage("Обрано нову номенклатуру!", value.Value);
                 }

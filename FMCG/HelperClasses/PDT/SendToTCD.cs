@@ -56,5 +56,15 @@ namespace AtosFMCG.HelperClasses.PDT
                 Thread.Sleep(1000);
                 }
             }
+
+        private void button3_Click(object sender, EventArgs e)
+            {
+            smServer.EmulateReadBarcode(textBox1.Text);
+            }
+
+        private void button7_Click(object sender, EventArgs e)
+            {
+            smServer.EmulateReadBarcode(textBox2.Text);
+            }
         }
     }

@@ -150,7 +150,7 @@ namespace WMS_client
             return false;
             }
 
-        public bool GetStickerData(long acceptanceId, long stickerId, out string nomenclatureDescription, out string trayDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription)
+        public bool GetStickerData(long acceptanceId, long stickerId, out string nomenclatureDescription, out string trayDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance)
             {
             PerformQuery("GetStickerData", acceptanceId, stickerId);
 
@@ -162,7 +162,7 @@ namespace WMS_client
                 unitsPerBox = Convert.ToInt32(Parameters[3]);
                 cellId = Convert.ToInt64(Parameters[4]);
                 cellDescription = Parameters[5] as string;
-
+                currentAcceptance = (bool)Parameters[6];
                 return true;
                 }
 
@@ -172,6 +172,7 @@ namespace WMS_client
             unitsPerBox = 0;
             cellDescription = null;
             cellId = 0;
+            currentAcceptance = false;
 
             return false;
             }
@@ -219,7 +220,7 @@ namespace WMS_client
             if (IsExistParameters && Parameters[0] is bool && Parameters.Length > 1)
                 {
                 errorMessage = Parameters[1].ToString();
-                return (bool) Parameters[0];
+                return (bool)Parameters[0];
                 }
             else
                 {

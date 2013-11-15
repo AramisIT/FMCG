@@ -404,14 +404,15 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
             int unitsPerBox;
             string cellDescription;
             long cellId;
+            bool currentAcceptance;
 
             if (!communication.GetStickerData(Convert.ToInt64(parameters[0]), Convert.ToInt64(parameters[1]),
-                    out nomenclatureDescription, out trayDescription, out trayId, out unitsPerBox, out cellId, out cellDescription))
+                    out nomenclatureDescription, out trayDescription, out trayId, out unitsPerBox, out cellId, out cellDescription, out currentAcceptance))
                 {
                 return new object[] { };
                 }
 
-            return new object[] { nomenclatureDescription, trayDescription, trayId, unitsPerBox, cellId, cellDescription };
+            return new object[] { nomenclatureDescription, trayDescription, trayId, unitsPerBox, cellId, cellDescription, currentAcceptance };
             }
 
         private static object[] ComplateAcceptance(object[] parameters)
