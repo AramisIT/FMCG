@@ -119,7 +119,7 @@ namespace Documents
 
         #region Table Nomeclature
         /// <summary>Номенклатура</summary>
-        [Table(Columns = "NomenclatureState, NomenclatureRowDate, NomenclatureCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureDate, NomenclaturePlan, NomenclatureFact, NomenclatureCell, IsTare", ShowLineNumberColumn = true)]
+        [Table(Columns = "NomenclatureState, NomenclatureRowDate, NomenclatureCode, PreviousPalletCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureDate, NomenclaturePlan, NomenclatureFact, NomenclatureCell, IsTare", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {
@@ -133,9 +133,11 @@ namespace Documents
         [SubTableField(Description = "Дата строки", PropertyType = typeof(DateTime))]
         public DataColumn NomenclatureRowDate { get; set; }
 
-        /// <summary>Код груза</summary>
         [SubTableField(Description = "Код вантажу", PropertyType = typeof(long))]
         public DataColumn NomenclatureCode { get; set; }
+
+        [SubTableField(Description = "Код предыдущей паллеты", PropertyType = typeof(long))]
+        public DataColumn PreviousPalletCode { get; set; }
 
         /// <summary>Номенклатура</summary>
         [SubTableField(Description = "Номенклатура", PropertyType = typeof(Nomenclature))]
