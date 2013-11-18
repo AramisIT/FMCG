@@ -3,53 +3,189 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using System.Windows.Forms;
+using AramisPDTClient;
 using WMS_client.Processes;
+using WMS_client.Utils;
 
 namespace WMS_client
     {
-    public abstract class BusinessProcess : BaseProcess
+    public abstract class BusinessProcess
         {
+        public static event Action OnProcessCreated;
+
+        protected bool isLoading;
+
         #region Constructors
 
         protected const string CANT_COMPLATE_OPERATION = "Невдала спроба завершення операції, спробуйте ще раз в зоні WiFi!";
 
         protected BusinessProcess(int FormNumber)
-            : base(FormNumber) { }
+            : this("", "", FormNumber) { }
 
-        protected BusinessProcess(WMSClient MainProcess, string CellName, string CellBarcode, int FormNumber)
-            : base(CellName, CellBarcode, FormNumber) { }
+        protected BusinessProcess(string CellName, string CellBarcode)
+            : this(CellName, CellBarcode, 0) { }
+
+        protected BusinessProcess(string CellName, string CellBarcode, int FormNumber)
+            {
+            this.MainProcess = WMSClient.Current;
+
+            if (SystemInfo.ReleaseMode)
+                {
+                if (BatteryChargeStatus.Low)
+                    {
+                    MessageBox.Show("Акумулятор розряджений. Необхідно зарядити термінал!");
+                    TerminateApplication(MainProcess);
+                    return;
+                    }
+
+                if (OnProcessCreated != null)
+                    {
+                    OnProcessCreated();
+                    }
+
+                //if (Configuration.Current.TimeToBackUp)
+                //    {
+                //    bool lowPower;
+                //    if (Configuration.Current.Repository.IsIntactDatabase(out lowPower))
+                //        {
+                //        if (!lowPower)
+                //            {
+                //            var backUpCreator = new BackUpCreator();
+                //            if (backUpCreator.CreateBackUp())
+                //                {
+                //                "Создана копия базы!".ShowMessage();
+                //                Configuration.Current.FixBackUpTime();
+                //                }
+                //            }
+                //        }
+                //    else
+                //        {
+                //        "База даних пошкоджена. Необхідно звернутись до адміністратора.".ShowMessage();
+                //        TerminateApplication(MainProcess);
+                //        return;
+                //        }
+                //    }
+
+                if (applicationIsClosing)
+                    {
+                    return;
+                    }
+                }
+
+            ShowProgress(1, 1);
+            this.FormNumber = CellName == "" ? FormNumber : 0;
+            if (FormNumber == 0)
+                {
+                this.CellName = CellName;
+                this.CellBarcode = CellBarcode;
+                }
+
+            
+            Start();
+            }
+
         #endregion
 
         protected string ToDoCommand
             {
             get
                 {
-                return MainProcess.ToDoCommand;
+                return WMSClient.Current.ToDoCommand;
                 }
             set
                 {
-                MainProcess.ToDoCommand = value;
+                WMSClient.Current.ToDoCommand = value;
                 }
             }
 
         #region Implemention of IRemoteCommunications
-        /// <summary>Отримати список машин для "Приймання товару"</summary>
-        /// <returns>Таблиця (Id, Description)</returns>
-        public bool GetCarsForAcceptance(out DataTable table)
-            {
-            PerformQuery("GetCarsForAcceptance");
-
-            if (IsExistParameters)
-                {
-                table = (DataTable)Parameters[1];
-                return true;
-                }
-
-            table = null;
-            return false;
-            }
 
         private List<HideableControlsCollection> hideableControlsCollectionsSet;
+        protected bool applicationIsClosing;
+        private int FormNumber;
+        protected WMSClient MainProcess;
+
+        public abstract void DrawControls();
+        public abstract void OnBarcode(string barcode);
+        public abstract void OnHotKey(KeyAction key);
+        public string CellName;
+        public string CellBarcode;
+        public int NextFormNumber = 1;
+        public object[] ResultParameters;
+        public bool IsExistParameters { get { return ResultParameters != null && ResultParameters.Length > 0 && ResultParameters[0] != null; } }
+        public bool IsAnswerIsTrue { get { return IsExistParameters && Convert.ToBoolean(ResultParameters[0]); } }
+        public ProcessType BusinessProcessType;
+
+        public virtual void Start()
+            {
+            SetEventHendlers();
+
+            if (FormNumber == 0)
+                {
+                LocalizationStep();
+                }
+            else
+                {
+                DrawControls();
+                }
+            }
+
+        private void OnCellBarcode(string Barcode)
+            {
+            if (CellBarcode == Barcode)
+                {
+                OnCellHotKey(KeyAction.Proceed);
+                }
+            else
+                {
+                "Отсканируйте требуемый объект".Warning();
+                }
+            }
+
+        private void OnCellHotKey(KeyAction Key)
+            {
+            if (Key == KeyAction.Proceed)
+                {
+                FormNumber = NextFormNumber;
+                MainProcess.ClearControls();
+                MainProcess.OnBarcode = OnBarcode;
+                MainProcess.MainForm.SetOnHotKeyPressed(OnHotKey);
+
+                Start();
+                }
+            }
+
+        private void SetEventHendlers()
+            {
+            if (FormNumber == 0)
+                {
+                MainProcess.OnBarcode = OnCellBarcode;
+                MainProcess.MainForm.SetOnHotKeyPressed(OnCellHotKey);
+                //MainProcess.HotKeyAgent.OnHotKeyPressed = OnCellHotKey;
+                }
+            else
+                {
+                MainProcess.OnBarcode = OnBarcode;
+                MainProcess.MainForm.SetOnHotKeyPressed(OnHotKey);
+                //MainProcess.HotKeyAgent.OnHotKeyPressed = OnHotKey;
+                }
+            }
+
+        private void LocalizationStep()
+            {
+            MainProcess.ClearControls();
+            MainProcess.MainForm.ShowCellName(CellName);
+            //MainProcess.MainForm.HotKeyAgent.SetHotKey(KeyAction.Proceed);
+            MainProcess.ToDoCommand = "Подойти к ячейке";
+            }
+
+        private void TerminateApplication(WMSClient MainProcess)
+            {
+            MainProcess.ConnectionAgent.CloseAll();
+            MainProcess.MainForm.Close();
+            Application.Exit();
+            applicationIsClosing = true;
+            }
 
         private void checkHideableControlsCollectionsList()
             {
@@ -91,321 +227,16 @@ namespace WMS_client
                 }
             }
 
-
-        /// <summary>Отримати місце розміщення зі штрихкоду</summary>
-        /// <param name="barcode">Штрихкод</param>
-        /// <param name="type"></param>
-        /// <param name="id"></param>
-        /// <returns>Чи була операція успішна</returns>
-        public bool GetPlaceDataFromCode(string barcode, out string type, out long id)
+        public void PerformQuery(string QueryName, params object[] parameters)
             {
-            PerformQuery("GetPlaceDataFromCode", barcode);
-
-            if (IsAnswerIsTrue)
+            ResultParameters = null;
+            if (!MainProcess.OnLine && MainProcess.MainForm.IsMainThread)
                 {
-                type = Parameters[1].ToString();
-                id = Convert.ToInt32(Parameters[2]);
-
-                return true;
+                "Нет подключения к серверу".Warning();
+                return;
                 }
 
-            type = null;
-            id = 0;
-            return false;
-            }
-
-        /// <summary>Проверить разрешена ли установка паллет вручную</summary>
-        /// <returns>Разрешена ли установка паллет вручную</returns>
-        public bool GetPermitInstallPalletManually()
-            {
-            PerformQuery("GetPermitInstallPalletManually");
-            return IsAnswerIsTrue;
-            }
-
-        /// <summary>Необхідні дані про паллету, що переміщується</summary>
-        /// <param name="palletId">ІД паллети</param>
-        /// <param name="goods">ID вантажу</param>
-        /// <param name="date">Дата вантажу</param>
-        /// <param name="boxCount">К-сть ящиків</param>
-        /// <param name="bottleCount">К-сть бутилок</param>
-        /// <returns>Груз, Дата, К-сть ящиків, К-сть бутилок</returns>
-        public bool GetDataAboutMovingPallet(int palletId, out string goods, out string date, out double boxCount,
-                                             out double bottleCount)
-            {
-            PerformQuery("GetDataAboutMovingPallet", palletId);
-
-            if (IsAnswerIsTrue)
-                {
-                goods = Parameters[1].ToString();
-                date = Parameters[2].ToString();
-                boxCount = Convert.ToDouble(Parameters[3]);
-                bottleCount = Convert.ToDouble(Parameters[4]);
-
-                return true;
-                }
-
-            goods = string.Empty;
-            date = string.Empty;
-            boxCount = 0;
-            bottleCount = 0;
-            return false;
-            }
-
-        /// <summary>Дані для інвентаризації</summary>
-        /// <param name="count">К-сть</param>
-        /// <param name="nomenclature">Назва грузу/номенклатури</param>
-        /// <param name="date">Дата паллети</param>
-        /// <param name="palletId">ІД паллети</param>
-        /// <param name="measure">Од.виміру</param>
-        /// <param name="docId">Номер документу</param>
-        /// <param name="lineNumber">Номер строки</param>
-        /// <param name="cellId">ІД комірки</param>
-        /// <param name="cell">Найменування комірки</param>
-        /// <returns>Чи була операція успішна</returns>
-        public bool GetDataForInventory(out double count, out string nomenclature, out string date, out long palletId,
-                                        out string measure, out long docId, out long lineNumber, out long cellId,
-                                        out string cell)
-            {
-            PerformQuery("GetDataForInventory");
-
-            if (IsAnswerIsTrue)
-                {
-                count = Convert.ToDouble(Parameters[1]);
-                nomenclature = Parameters[2].ToString();
-                date = Parameters[3].ToString();
-                palletId = Convert.ToInt64(Parameters[4]);
-                measure = Parameters[5].ToString();
-                docId = Convert.ToInt64(Parameters[6]);
-                lineNumber = Convert.ToInt64(Parameters[7]);
-                cellId = Convert.ToInt64(Parameters[8]);
-                cell = Parameters[9].ToString();
-
-                return true;
-                }
-
-            count = 0;
-            nomenclature = string.Empty;
-            date = string.Empty;
-            palletId = 0;
-            measure = string.Empty;
-            docId = 0;
-            lineNumber = 0;
-            cellId = 0;
-            cell = string.Empty;
-
-            return false;
-            }
-
-
-
-        /// <summary>Інформація про ПЕРШУ паллету (тут строка) для відбору</summary>
-        /// <param name="contractor">Контрагент</param>
-        /// <param name="id">ID документа</param>
-        /// <param name="palletId">ІД паллети</param>
-        /// <param name="goods">Найменування товару</param>
-        /// <param name="date">Дата паллети</param>
-        /// <param name="boxCount">К-сть ящиків</param>
-        /// <param name="unitCount">К-сть одиниць (не ящики)</param>
-        /// <param name="baseCount">К-сть одиниць в одному ящику</param>
-        /// <param name="cell">Найменування комірки</param>
-        /// <returns>Чи була операція успішна</returns>
-        public bool GetSelectionRowInfo(long contractor, out long id, out long palletId, out string goods,
-                                        out string date, out double boxCount, out double unitCount, out int baseCount,
-                                        out string cell)
-            {
-            PerformQuery("GetSelectionRowInfo", contractor);
-
-            if (IsAnswerIsTrue)
-                {
-                id = Convert.ToInt64(Parameters[1]);
-                palletId = Convert.ToInt64(Parameters[2]);
-                goods = Parameters[3].ToString();
-                date = Parameters[4].ToString();
-                boxCount = Convert.ToInt64(Parameters[5]);
-                unitCount = Convert.ToInt64(Parameters[6]);
-                baseCount = Convert.ToInt32(Parameters[7]);
-                cell = Parameters[8].ToString();
-
-                return true;
-                }
-
-            id = 0;
-            palletId = 0;
-            goods = string.Empty;
-            date = string.Empty;
-            boxCount = 0;
-            unitCount = 0;
-            baseCount = 0;
-            cell = string.Empty;
-
-            return false;
-            }
-
-        /// <summary>Отримати додаткову інформацію по прийманню товару</summary>
-        /// <param name="count">К-сть</param>
-        /// <param name="goods">Id товару</param>
-        /// <param name="car">Id машинини</param>
-        /// <param name="party">Id партії</param>
-        /// <param name="incomeDoc">Id документу приймання</param>
-        /// <param name="date">Дата паллети</param>
-        /// <param name="cellId">Id комірки</param>
-        /// <param name="cell">Найменування комірки</param>
-        /// <param name="palett">Id паллети</param>
-        /// <returns>Чи була операція успішна</returns>
-        public bool GetAdditionalInfoAboutAccepnedGoods(double count, long goods, long car, long party,
-                                                        out long incomeDoc, out string date, out long cellId,
-                                                        out string cell, out long palett)
-            {
-            PerformQuery("GetAdditionalInfoAboutAccepnedGoods", count, goods, car, party);
-
-            if (IsAnswerIsTrue)
-                {
-                incomeDoc = Convert.ToInt64(Parameters[1]);
-                date = Parameters[2].ToString();
-                cellId = Convert.ToInt64(Parameters[3]);
-                cell = Parameters[4].ToString();
-                palett = Convert.ToInt64(Parameters[5]);
-
-                return true;
-                }
-
-            incomeDoc = 0;
-            date = string.Empty;
-            cellId = 0;
-            cell = string.Empty;
-            palett = 0;
-
-            return false;
-            }
-
-        /// <summary>Збереження даних інвентаризації</summary>
-        /// <param name="docId">Id документу</param>
-        /// <param name="lineNumber">Номер строки</param>
-        /// <param name="count">К-сть</param>
-        public void SetInventory(long docId, long lineNumber, long count)
-            {
-            PerformQuery("SetInventory", docId, lineNumber, count);
-            }
-
-        /// <summary>Збереження даних по переміщенню паллети</summary>
-        /// <param name="palletId">Id паллети</param>
-        /// <param name="newPos">Нове розміщення паллети</param>
-        /// <param name="isCell">Чи являється нова позиція коміркою</param>
-        public void SetMoving(long palletId, long newPos, bool isCell)
-            {
-            PerformQuery("SetMoving", palletId, newPos, isCell);
-            }
-
-        /// <summary>Зберегти дані по прийманню товару</summary>
-        /// <param name="nomenclature">Номенклатура</param>
-        /// <param name="party">Партія</param>
-        /// <param name="boxCount">К-сть ящиків</param>
-        /// <param name="bottleCount">К-сть бутилок</param>
-        /// <param name="planId">ІД документу</param>
-        /// <param name="previousPallet">ІД попередньої паллети</param>
-        /// <param name="cellId">ІД комірки</param>
-        /// <param name="isCell">Чи являється нове місце коміркою</param>
-        public void SetAcceptanceData(long nomenclature, long party, double boxCount, double bottleCount, long planId,
-                                      long previousPallet, long cellId, bool isCell)
-            {
-            PerformQuery("SetAcceptanceData", nomenclature, party, boxCount, bottleCount,
-                         planId, previousPallet, cellId, isCell);
-            }
-
-        /// <summary>Зберегти дані про переміщення</summary>
-        /// <param name="docId">Id документу</param>
-        /// <param name="palletId">Id паллети</param>
-        /// <param name="cellId">Id комірки</param>
-        public void SetSelectionData(long docId, long palletId, long cellId)
-            {
-            PerformQuery("SetSelectionData", docId, palletId, cellId);
-            }
-
-        /// <summary>Перевірити чи існує користувач з таким штрих-кодом</summary>
-        /// <param name="barcode">Штрихкод</param>
-        public bool CheckBarcodeForExistUser(string barcode)
-            {
-            PerformQuery("CheckBarcodeForExistUser", barcode);
-            return IsAnswerIsTrue;
-            }
-
-        /// <summary>Перевірити чи існує товар з таким штрих-кодом</summary>
-        /// <param name="barcode">Штрихкод</param>
-        /// <param name="id">Id товару</param>
-        /// <param name="description">Найменування товару</param>
-        /// <returns>Чи існує товар</returns>
-        public bool CheckBarcodeForExistGoods(string barcode, out long id, out string description)
-            {
-            PerformQuery("CheckBarcodeForExistGoods", barcode);
-
-            if (IsAnswerIsTrue)
-                {
-                id = Convert.ToInt64(Parameters[1]);
-                description = Parameters[2].ToString();
-                return true;
-                }
-
-            id = 0;
-            description = string.Empty;
-            return false;
-            }
-
-        /// <summary>Перевірка штрих-коду паллети (комірки) для переміщення</summary>
-        /// <param name="barcode">Штрих-код</param>
-        /// <param name="cellIsAccepted"></param>
-        /// <param name="palletId">Id паллети</param>
-        /// <param name="isCell">Чи являється нове місце коміркою</param>
-        /// <returns>Чи пройшло перевірку нове розміщення</returns>
-        public bool CheckPalletBarcodeForMoving(string barcode, bool cellIsAccepted, out long palletId, out bool isCell)
-            {
-            PerformQuery("CheckPalletBarcodeForMoving", barcode, cellIsAccepted);
-
-            if (IsAnswerIsTrue)
-                {
-                palletId = Convert.ToInt64(Parameters[1]);
-                isCell = Convert.ToBoolean(Parameters[2]);
-                return true;
-                }
-
-            palletId = 0;
-            isCell = false;
-            return false;
-            }
-
-        /// <summary>Перевірити комірку інвентаризації</summary>
-        /// <param name="barcode">Штрих-код</param>
-        /// <param name="cellId">ID комірки</param>
-        /// <param name="result">Чи співпадають паллети</param>
-        /// <returns>Чи пройшла перевірка</returns>
-        public bool CheckInventoryPallet(string barcode, long cellId, out bool result)
-            {
-            PerformQuery("CheckInventoryPallet", barcode, cellId);
-
-            if (IsAnswerIsTrue)
-                {
-                result = Convert.ToBoolean(Parameters[1]);
-                return true;
-                }
-
-            result = false;
-            return false;
-            }
-
-        /// <summary>Перевірка комірки для відвантаження</summary>
-        /// <param name="barcode">Штрих-код</param>
-        /// <param name="id">ІД комірки</param>
-        public bool CheckCellFormShipment(string barcode, out long id)
-            {
-            PerformQuery("CheckCellFormShipment", barcode);
-
-            if (IsAnswerIsTrue)
-                {
-                id = Convert.ToInt64(Parameters[1]);
-                return true;
-                }
-
-            id = 0;
-            return false;
+            ResultParameters = MainProcess.PerformQuery(QueryName, parameters);
             }
 
         protected bool SelectFromList(List<CatalogItem> list, out CatalogItem selectedItem)
@@ -427,6 +258,54 @@ namespace WMS_client
 
             selectedItem = null;
             return false;
+            }
+
+        protected void StopNetworkConnection()
+            {
+            bool release = true;
+#if DEBUG
+            release = false;
+#endif
+            if (release)
+                {
+                bool startStatus = MainProcess.ConnectionAgent.WifiEnabled;
+                if (startStatus)
+                    {
+                    MainProcess.ConnectionAgent.StopConnection();
+                    }
+                }
+            }
+
+        protected void StartNetworkConnection()
+            {
+            bool startStatus = MainProcess.ConnectionAgent.WifiEnabled;
+            if (!startStatus)
+                {
+                MainProcess.StartConnectionAgent();
+                System.Threading.Thread.Sleep(1500);
+                }
+            }
+
+        /// <summary>
+        /// show progress bar status
+        /// </summary>
+        /// <param name="value">from 0 to 100 value</param>
+        protected void ShowProgress(int currentValue, int total)
+            {
+            if (MainProcess == null)
+                {
+                return;
+                }
+
+            if (total <= currentValue || total == 0)
+                {
+                MainProcess.MainForm.ShowProgress(100);
+                }
+            else
+                {
+                var percent = (int)(100 * currentValue / total);
+                MainProcess.MainForm.ShowProgress(percent);
+                }
             }
 
         #endregion

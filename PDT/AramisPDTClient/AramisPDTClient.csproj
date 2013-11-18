@@ -50,6 +50,8 @@
       <HintPath>packages\Intermec.DataCollection.CF2.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Windowsce.Forms" />
+    <Reference Include="Microsoft.WindowsMobile, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Microsoft.WindowsMobile.Status, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="mscorlib" />
     <Reference Include="PackageViaWireless, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -67,7 +69,6 @@
   <ItemGroup>
     <Compile Include="Extentions.cs" />
     <Compile Include="Base\ArrayWorker.cs" />
-    <Compile Include="Base\BaseProcess.cs" />
     <Compile Include="Base\BusinessProcess.cs" />
     <Compile Include="Base\CallTimer.cs" />
     <Compile Include="Base\CatalogItem.cs" />
@@ -82,6 +83,8 @@
     <Compile Include="Base\ServerAgent.cs" />
     <Compile Include="StandartProcesses\EmptyProcess.cs" />
     <Compile Include="StandartProcesses\FormDesignProcess.cs" />
+    <Compile Include="Utils\SystemInfo.cs" />
+    <Compile Include="Utils\BatteryChargeStatus.cs" />
     <Compile Include="Utils\ProcessInfo.cs" />
     <Compile Include="Visual\Constructor\LabelForConstructor.cs" />
     <Compile Include="Visual\Constructor\ListOfLableConstructor.cs" />

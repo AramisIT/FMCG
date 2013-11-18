@@ -73,7 +73,7 @@ namespace WMS_client
 
                     if (CurrentControl != null)
                         {
-                        ShowMessage(string.Format("Left = {0}\r\nTop = {1}\r\nWidth = {2}\r\nHeight = {3}", CurrentControl.Left, CurrentControl.Top, CurrentControl.Width, CurrentControl.Height));
+                        string.Format("Left = {0}\r\nTop = {1}\r\nWidth = {2}\r\nHeight = {3}", CurrentControl.Left, CurrentControl.Top, CurrentControl.Width, CurrentControl.Height).ShowMessage();
                         }
                     break;
 
