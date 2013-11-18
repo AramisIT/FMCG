@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WMS_client.Processes
     {
-    abstract class HideableControlsCollection
+    public abstract class HideableControlsCollection
         {
         public bool Visible { get; private set; }
 

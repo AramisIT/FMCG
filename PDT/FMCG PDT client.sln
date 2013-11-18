@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FMCG WMS client", "WMS clie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDT_API", "PDT_API\PDT_API.csproj", "{A95D2C09-B66D-48E4-B50C-D43B886CB862}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AramisPDTClient", "AramisPDTClient\AramisPDTClient.csproj", "{532B547A-2D6B-4CA7-BDEC-EF44162E3B31}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A95D2C09-B66D-48E4-B50C-D43B886CB862}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A95D2C09-B66D-48E4-B50C-D43B886CB862}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A95D2C09-B66D-48E4-B50C-D43B886CB862}.Release|Any CPU.Build.0 = Release|Any CPU
+		{532B547A-2D6B-4CA7-BDEC-EF44162E3B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{532B547A-2D6B-4CA7-BDEC-EF44162E3B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{532B547A-2D6B-4CA7-BDEC-EF44162E3B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{532B547A-2D6B-4CA7-BDEC-EF44162E3B31}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

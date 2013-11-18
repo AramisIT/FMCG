@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using WMS_client.Processes;
 using WMS_client.WinProcessesManagement;
 
 namespace WMS_client
@@ -17,7 +18,7 @@ namespace WMS_client
                 return;
                 }
 
-            Application.Run(new MainForm());
+            Application.Run(new MainForm(typeof(RegistrationProcess)));
             }
 
         private static bool isExistedSameProcess()

@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Threading;
-using pdtExternalStorage;
 using StorekeeperManagementServer;
 using System.IO;
 using WMS_client.Processes;
@@ -90,14 +89,6 @@ namespace WMS_client
                 }
             }
 
-        public static IRemoteCommunications ServerInteraction
-            {
-            get
-                {
-                return new ServerInteraction();
-                }
-            }
-
         public int LastLabelKey = -1;
         public string LastDoc = null;
         public ServerAgent ConnectionAgent;
@@ -106,14 +97,17 @@ namespace WMS_client
         #region Private fields
         private readonly List<MobileControl> ControlsArray = new List<MobileControl>();
         private Thread AgentThread;
+        private Type startProcess;
+
         #endregion // Private fields
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
         #region Public Methods
         #region Service methods
-        public WMSClient(MainForm Form)
+        public WMSClient(MainForm Form, Type startProcess)
             {
+            this.startProcess = startProcess;
             User = 0;
             MainForm = Form;
             Current = this;
@@ -479,7 +473,7 @@ namespace WMS_client
             {
             NeedToUpdate = true;
 
-            if (Process.GetType() == typeof(RegistrationProcess))
+            if (Process.GetType() == startProcess)
                 {
                 MainForm.PerformInMainThread = Updating;
                 MainForm.PerformMainThreadEvent();
@@ -561,7 +555,8 @@ namespace WMS_client
                 }
             else
                 {
-                Process = new RegistrationProcess(this);
+                var process = Activator.CreateInstance(startProcess);
+                Process = process as BusinessProcess;
                 }
             }
 

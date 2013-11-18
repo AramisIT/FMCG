@@ -122,7 +122,7 @@ namespace WMS_client
             Parameters = null;
             if (!WMSClient.Current.OnLine && WMSClient.Current.MainForm.IsMainThread)
                 {
-                WMSClient.Current.ShowMessage("Нет подключения к серверу");
+                "Нет подключения к серверу".Warning();
                 return;
                 }
 

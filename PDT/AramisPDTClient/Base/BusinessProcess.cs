@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using System.Windows.Forms;
-using pdtExternalStorage;
 using WMS_client.Processes;
 
 namespace WMS_client
@@ -73,7 +72,7 @@ namespace WMS_client
         /// ќтображает переданную коллекцию и пр€чет все прочие коллекции
         /// </summary>
         /// <param name="hideableControls"></param>
-        internal void ShowControls(HideableControlsCollection hideableControls)
+        public void ShowControls(HideableControlsCollection hideableControls)
             {
             checkHideableControlsCollectionsList();
 

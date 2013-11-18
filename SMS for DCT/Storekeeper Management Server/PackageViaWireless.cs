@@ -2,9 +2,9 @@
 using System.Text;
 
 namespace StorekeeperManagementServer
-{
-    public class PackageViaWireless
     {
+    public class PackageViaWireless
+        {
         #region Private fields
 
         private const string PACKAGE_HEADER = "$T@RT";
@@ -50,63 +50,63 @@ namespace StorekeeperManagementServer
          *     Simple example: $T@RT FTU68Y8U6 12 \t GetBarCode \t 2000000563421 #END> (space is using only for readable)
          *    
          */
-        public PackageViaWireless():this(0, false) {}
+        public PackageViaWireless() : this(0, false) { }
         // This is the major constructor (for creating package, not for recognizing)
         public PackageViaWireless(int ClientCode, bool isClientParent)
-        {
+            {
             this.ClientCode = ClientCode;
-            this.isClientParent = isClientParent; 
+            this.isClientParent = isClientParent;
             PackageID = GetPackageID();
-        }
+            }
 
         public PackageViaWireless(string parameters, out string tail)
-        {
+            {
             SetPackage(parameters, out tail);
-        }
-        
+            }
+
         #endregion
 
         private static string GetPackageID()
-        {
+            {
             // Generation ID of this package
             StringBuilder sb = new StringBuilder();
             Random rand = new Random();
             for (int i = 0; i < 8; i++)
-            {
+                {
                 int randValue = rand.Next(36);
                 // Next string creates a symbol from this array - {"0","1",...,"9","A","B",..."Z"}
                 byte[] ByteArray = new[] { (byte)(randValue + 55) };
                 sb.Append((randValue < 10) ? randValue.ToString() : Encoding.GetEncoding(1251).GetString(ByteArray, 0, ByteArray.Length));
-            }
+                }
             return sb.ToString();
-        }
+            }
 
         #region Public methods
 
         public static bool isCompletelyPackage(string data)
-        {
+            {
             int headerIndex = data.IndexOf(PACKAGE_HEADER);
             if (headerIndex == -1) return false;
-            int footerIndex = (data.Substring(headerIndex+PACKAGE_HEADER.Length)).IndexOf(PACKAGE_FOOTER);
-            return footerIndex!=-1;
-        }
+            int footerIndex = (data.Substring(headerIndex + PACKAGE_HEADER.Length)).IndexOf(PACKAGE_FOOTER);
+            return footerIndex != -1;
+            }
 
         public Byte[] GetPackage()
-        {
+            {
             string packageResult = PACKAGE_HEADER +
                                    ((isClientParent) ? "T" : "F") + PackageID + ClientCode.ToString() + PACKAGE_SEPARATOR +
                                    QueryName + PACKAGE_SEPARATOR + Parameters + PACKAGE_FOOTER;
 
             return Encoding.GetEncoding(1251).GetBytes(packageResult);
-        }
+            }
 
         public bool SetPackage(string parameters, out string tail)
-        {
-            if (!isCompletelyPackage(parameters))
             {
+            if (!isCompletelyPackage(parameters))
+                {
                 tail = parameters;
                 return false;
-            }
+                }
 
             int nextPackageIndex = parameters.IndexOf(PACKAGE_FOOTER) + PACKAGE_FOOTER.Length;
             tail = parameters.Substring(nextPackageIndex);
@@ -125,7 +125,7 @@ namespace StorekeeperManagementServer
             if (IndexEnd == -1) { return false; }
             ClientCode = Convert.ToInt32(parameters.Substring(IndexStart, IndexEnd - IndexStart));
 
-            IndexStart = IndexEnd+1;
+            IndexStart = IndexEnd + 1;
 
             IndexEnd = parameters.IndexOf('\t', IndexStart);
             if (IndexStart == -1) { return false; }
@@ -133,23 +133,24 @@ namespace StorekeeperManagementServer
             Parameters = parameters.Substring(IndexEnd + 1);
 
             return true;
-        }
+            }
 
         public void DefineQueryAndParams(string query, string parameters)
-        {
+            {
             QueryName = query;
             Parameters = parameters;
-        }
+            }
 
-        public static Byte[] BuildPackage(int ClintCode, string QueryName, string Parameters, bool isClientParent)
-        {
+        public static Byte[] BuildPackage(int ClintCode, string QueryName, string Parameters, bool isClientParent, out string packageId)
+            {
+            packageId = GetPackageID();
             string packageResult = PACKAGE_HEADER +
-                                   ((isClientParent) ? "T" : "F") + GetPackageID() + ClintCode.ToString() + PACKAGE_SEPARATOR +
+                                   ((isClientParent) ? "T" : "F") + packageId + ClintCode.ToString() + PACKAGE_SEPARATOR +
                                    QueryName + PACKAGE_SEPARATOR + Parameters + PACKAGE_FOOTER;
 
             return Encoding.GetEncoding(1251).GetBytes(packageResult);
-        }
+            }
 
         #endregion
+        }
     }
-}

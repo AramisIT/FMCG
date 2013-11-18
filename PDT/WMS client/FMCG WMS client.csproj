@@ -70,56 +70,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\ArrayWorker.cs" />
-    <Compile Include="Base\BaseProcess.cs" />
-    <Compile Include="Base\BusinessProcess.cs" />
-    <Compile Include="Base\CallTimer.cs" />
-    <Compile Include="Base\CatalogItem.cs" />
-    <Compile Include="Base\CompactPackage.cs" />
-    <Compile Include="Base\DataDrawing.cs" />
-    <Compile Include="Base\Extensions\DataTableEx.cs" />
-    <Compile Include="Base\Extensions\SystemEx.cs" />
-    <Compile Include="Base\KeyAction.cs" />
-    <Compile Include="Base\PackageConvertation.cs" />
-    <Compile Include="Base\Process.cs" />
-    <Compile Include="Base\ProcessType.cs" />
-    <Compile Include="Base\ServerAgent.cs" />
-    <Compile Include="Base\Visual\Constructor\LabelForConstructor.cs" />
-    <Compile Include="Base\Visual\Constructor\ListOfLableConstructor.cs" />
-    <Compile Include="Base\Visual\Controls\MobileButton.cs" />
-    <Compile Include="Base\Visual\Controls\MobileControl.cs" />
-    <Compile Include="Base\Visual\Controls\MobileLabel.cs" />
-    <Compile Include="Base\Visual\Controls\MobileTable.cs" />
-    <Compile Include="Base\Visual\Controls\MobileTextBox.cs" />
-    <Compile Include="Base\Visual\EmptyDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Base\Visual\EmptyDialog.designer.cs">
-      <DependentUpon>EmptyDialog.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Base\Visual\HideableControlsCollection.cs" />
-    <Compile Include="Base\Visual\HotKeyProcessing.cs" />
-    <Compile Include="Base\Visual\MainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Base\Visual\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Base\Visual\SelectingItem.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Base\Visual\SelectingItem.Designer.cs">
-      <DependentUpon>SelectingItem.cs</DependentUpon>
-    </Compile>
     <Compile Include="Delegates\Delegates.cs" />
-    <Compile Include="Extentions.cs" />
     <Compile Include="HelperClasses\BarcodeData.cs" />
     <Compile Include="HelperClasses\BarcodeWorker.cs" />
-    <Compile Include="HelperClasses\EnumWorker.cs" />
     <Compile Include="Processes\BusinessProcess\Selection.cs" />
     <Compile Include="Processes\BusinessProcess\Inventory.cs" />
     <Compile Include="Processes\BusinessProcess\Movement.cs" />
-    <Compile Include="Processes\FormDesignProcess.cs" />
     <Compile Include="Processes\ProcessData\InventoryData.cs" />
     <Compile Include="Processes\ProcessData\MovementData.cs" />
     <Compile Include="Processes\ProcessData\PlaningData.cs" />
@@ -130,24 +86,11 @@
     <Compile Include="Processes\Screens\ReadBarcode.cs" />
     <Compile Include="Processes\Screens\SelectTableList.cs" />
     <Compile Include="Processes\BusinessProcess\Acceptance.cs" />
-    <Compile Include="Processes\EmptyProcess.cs" />
     <Compile Include="Processes\ProcessData\IProcessData.cs" />
     <Compile Include="Processes\Process.cs" />
     <Compile Include="Processes\SelectingProcess.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Base\Visual\EmptyDialog.resx">
-      <DependentUpon>EmptyDialog.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Base\Visual\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Base\Visual\MainForm.ru-RU.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Base\Visual\SelectingItem.resx">
-      <DependentUpon>SelectingItem.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -162,17 +105,18 @@
     <Compile Include="PropertyButtonInfo.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="ServerInteraction.cs" />
-    <Compile Include="WinProcessesManagement\ProcessInfo.cs" />
-    <Compile Include="WMSClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Base\PackageConvertation.dll" />
     <Content Include="media_player.ico" />
     <Content Include="ServerIP.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AramisPDTClient\AramisPDTClient.csproj">
+      <Project>{532B547A-2D6B-4CA7-BDEC-EF44162E3B31}</Project>
+      <Name>AramisPDTClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PDT_API\PDT_API.csproj">
       <Project>{A95D2C09-B66D-48E4-B50C-D43B886CB862}</Project>
       <Name>PDT_API</Name>

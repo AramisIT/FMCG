@@ -32,7 +32,7 @@ namespace WMS_client
         private void initTareLists()
             {
             DataTable tareTable;
-            if (!WMSClient.ServerInteraction.GetTareTable(out tareTable))
+            if (!new ServerInteraction().GetTareTable(out tareTable))
                 {
                 return;
                 }

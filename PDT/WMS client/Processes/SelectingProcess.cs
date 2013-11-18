@@ -57,7 +57,7 @@ namespace WMS_client.Processes
                 {
                 case KeyAction.Esc:
                     MainProcess.ClearControls();
-                    MainProcess.Process = new RegistrationProcess(MainProcess);
+                    MainProcess.Process = new RegistrationProcess();
                     break;
                 }
             }

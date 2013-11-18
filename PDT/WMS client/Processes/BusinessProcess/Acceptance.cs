@@ -186,7 +186,7 @@ namespace WMS_client.Processes
                 }
 
             string errorDescription;
-            if (!WMSClient.ServerInteraction.ComplateAcceptance(acceptanceId, false, out errorDescription))
+            if (!new ServerInteraction().ComplateAcceptance(acceptanceId, false, out errorDescription))
                 {
                 CANT_COMPLATE_OPERATION.Warning();
                 return;
@@ -330,7 +330,7 @@ namespace WMS_client.Processes
             palletChanged |= (currentBarcodeData.UnitsQuantity / currentBarcodeData.UnitsPerBox) != packsCount;
             palletChanged |= (currentBarcodeData.UnitsQuantity % currentBarcodeData.UnitsPerBox) != unitsCount;
 
-            if (!WMSClient.ServerInteraction.WriteStickerFact(acceptanceId, currentBarcodeData.StickerId, palletChanged,
+            if (!new ServerInteraction().WriteStickerFact(acceptanceId, currentBarcodeData.StickerId, palletChanged,
                 (cell ?? new CatalogItem()).Id, trayItem.Id, linerItem.Id, linersCount, packsCount, unitsCount + packsCount * currentBarcodeData.UnitsPerBox))
                 {
                 return false;
@@ -392,7 +392,7 @@ namespace WMS_client.Processes
 
         private bool initAcceptance(long stickerId)
             {
-            return WMSClient.ServerInteraction.GetAcceptanceId(stickerId,
+            return new ServerInteraction().GetAcceptanceId(stickerId,
                 out acceptanceId);
             }
 
@@ -431,7 +431,7 @@ namespace WMS_client.Processes
             long cellId;
 
             if (
-                !WMSClient.ServerInteraction.GetStickerData(acceptanceId, barcodeData.StickerId,
+                !new ServerInteraction().GetStickerData(acceptanceId, barcodeData.StickerId,
                     out nomenclatureDescription, out trayDescription, out trayId,
                     out unitsPerBox, out cellId, out cellDescription, out currentAcceptance))
                 {
