@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.SqlServerCe;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
@@ -35,6 +36,11 @@ namespace System
             {
             return MessageBox.Show(message.ToUpper(), "aramis wms", MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes;
+            }
+
+        public static void AddParameter(this SqlCeCommand command, string name, object value)
+            {
+            command.Parameters.Add(name, value);
             }
         }
     }

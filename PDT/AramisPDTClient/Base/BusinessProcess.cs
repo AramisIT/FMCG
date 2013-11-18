@@ -11,7 +11,7 @@ namespace WMS_client
     {
     public abstract class BusinessProcess
         {
-        public static event Action OnProcessCreated;
+        public static event Action<BusinessProcess> OnProcessCreated;
 
         protected bool isLoading;
 
@@ -34,37 +34,14 @@ namespace WMS_client
                 if (BatteryChargeStatus.Low)
                     {
                     MessageBox.Show("Акумулятор розряджений. Необхідно зарядити термінал!");
-                    TerminateApplication(MainProcess);
+                    TerminateApplication();
                     return;
                     }
 
                 if (OnProcessCreated != null)
                     {
-                    OnProcessCreated();
+                    OnProcessCreated(this);
                     }
-
-                //if (Configuration.Current.TimeToBackUp)
-                //    {
-                //    bool lowPower;
-                //    if (Configuration.Current.Repository.IsIntactDatabase(out lowPower))
-                //        {
-                //        if (!lowPower)
-                //            {
-                //            var backUpCreator = new BackUpCreator();
-                //            if (backUpCreator.CreateBackUp())
-                //                {
-                //                "Создана копия базы!".ShowMessage();
-                //                Configuration.Current.FixBackUpTime();
-                //                }
-                //            }
-                //        }
-                //    else
-                //        {
-                //        "База даних пошкоджена. Необхідно звернутись до адміністратора.".ShowMessage();
-                //        TerminateApplication(MainProcess);
-                //        return;
-                //        }
-                //    }
 
                 if (applicationIsClosing)
                     {
@@ -105,6 +82,7 @@ namespace WMS_client
         private int FormNumber;
         protected WMSClient MainProcess;
 
+        protected bool IsLoad;
         public abstract void DrawControls();
         public abstract void OnBarcode(string barcode);
         public abstract void OnHotKey(KeyAction key);
@@ -209,10 +187,11 @@ namespace WMS_client
             MainProcess.ToDoCommand = "Подойти к ячейке";
             }
 
-        private void TerminateApplication(WMSClient MainProcess)
+        public void TerminateApplication()
             {
-            MainProcess.ConnectionAgent.CloseAll();
-            MainProcess.MainForm.Close();
+            var currentWmsClient = WMSClient.Current;
+            currentWmsClient.ConnectionAgent.CloseAll();
+            currentWmsClient.MainForm.Close();
             Application.Exit();
             applicationIsClosing = true;
             }

@@ -624,7 +624,7 @@ namespace WMS_client
             wifiEnabled = false;
             }
 
-        internal bool WifiEnabled
+        public bool WifiEnabled
             {
             get
                 {

@@ -8,7 +8,7 @@ namespace WMS_client
 {
     public delegate void OnEventDelegate();    
 
-    class CallTimer
+    public class CallTimer
     {
         public bool Enable = true;
 
