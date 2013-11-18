@@ -116,6 +116,36 @@ namespace WMS_client
         public bool IsAnswerIsTrue { get { return IsExistParameters && Convert.ToBoolean(ResultParameters[0]); } }
         public ProcessType BusinessProcessType;
 
+        protected bool SuccessQueryResult
+            {
+            get
+                {
+                return ResultParameters != null
+                       && ResultParameters.GetType() == typeof(object[])
+                       && ResultParameters.Length > 0
+                       && ResultParameters[0] is bool
+                       && (bool)ResultParameters[0];
+                }
+            }
+
+        protected void ClearControls()
+            {
+            MainProcess.ClearControls();
+            }
+
+        public void BarCodeByHands()
+            {
+            MainProcess.MainForm.BarCodeByHands();
+            }
+
+        protected bool OnLine
+            {
+            get
+                {
+                return MainProcess.ConnectionAgent.OnLine;
+                }
+            }
+
         public virtual void Start()
             {
             SetEventHendlers();

@@ -67,15 +67,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extentions.cs" />
+    <Compile Include="Utils\Extentions\DataTableEx.cs" />
+    <Compile Include="Utils\Extentions\Extentions.cs" />
     <Compile Include="Base\ArrayWorker.cs" />
     <Compile Include="Base\BusinessProcess.cs" />
     <Compile Include="Base\CallTimer.cs" />
     <Compile Include="Base\CatalogItem.cs" />
     <Compile Include="Base\CompactPackage.cs" />
     <Compile Include="Base\DataDrawing.cs" />
-    <Compile Include="Extensions\DataTableEx.cs" />
-    <Compile Include="Extensions\SystemEx.cs" />
     <Compile Include="Base\KeyAction.cs" />
     <Compile Include="Base\PackageConvertation.cs" />
     <Compile Include="Base\Process.cs" />
