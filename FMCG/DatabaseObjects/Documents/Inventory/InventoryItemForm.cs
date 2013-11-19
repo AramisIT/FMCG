@@ -6,6 +6,7 @@ using Aramis.Attributes;
 using AtosFMCG.Enums;
 using DevExpress.XtraBars;
 using Documents;
+using FMCG.Utils;
 
 namespace AtosFMCG.DatabaseObjects.Documents
     {
@@ -17,11 +18,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
         public DatabaseObject Item
             {
             get { return item; }
-            set { item = (DocumentTable) value; }
+            set { item = (DocumentTable)value; }
             }
         public Inventory Document
             {
-            get { return (Inventory) item; }
+            get { return (Inventory)item; }
             }
         #endregion
 
@@ -33,7 +34,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
 
         private void InventoryItemForm_Load(object sender, System.EventArgs e)
             {
-            setCreateTaskEnabled();
+
             Document.PropertyChanged += Document_PropertyChanged;
             }
 
@@ -87,24 +88,26 @@ namespace AtosFMCG.DatabaseObjects.Documents
             {
             switch (e.PropertyName)
                 {
-                    case "TypeOfInventory":
-                        periodPanel.Visible = Document.TypeOfInventory == TypesOfInventory.LatestCellsForPeriod;
-                        setCreateTaskEnabled();
-                        break;
-                    case "State":
-                        setCreateTaskEnabled();
-                        break;
-                }
-            }
+                case "State":
 
-        private void setCreateTaskEnabled()
-            {
-            createTask.Enabled = Document.State == StatesOfDocument.Empty && Document.TypeOfInventory == TypesOfInventory.LatestCellsForPeriod;
+                    break;
+                }
             }
 
         private void createTask_ItemClick(object sender, ItemClickEventArgs e)
             {
-            Document.CreateTask();
+
             }
+
+        private void labelControl2_Click(object sender, System.EventArgs e)
+            {
+
+            }
+
+        private void gridView1_RowStyle(object sender, DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs e)
+            {
+            e.Appearance.BackColor = nomenclatureView.GetDataRow(e.RowHandle).GetRowColor();
+            }
+
         }
     }

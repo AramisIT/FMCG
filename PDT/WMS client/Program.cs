@@ -20,6 +20,8 @@ namespace WMS_client
 #if !DEBUG
             releaseMode = true;
 #endif
+            releaseMode = false;
+
             new SystemInfo().SetReleaseMode(releaseMode);
 
             Application.Run(new MainForm(typeof(RegistrationProcess)));

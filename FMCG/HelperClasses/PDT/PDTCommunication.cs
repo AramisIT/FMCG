@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
+using Aramis.SystemConfigurations;
 using Aramis.UI.WinFormsDevXpress;
 using AramisWpfComponents.Excel;
 using AtosFMCG.DatabaseObjects.Catalogs;
@@ -13,6 +14,7 @@ using Catalogs;
 using Documents;
 using FMCG.DatabaseObjects.Enums;
 using pdtExternalStorage;
+using Documents.GoodsAcceptance;
 
 namespace AtosFMCG.HelperClasses.PDT
     {
@@ -638,7 +640,7 @@ FROM LastPalletInCell ");
 
 
         public bool GetStickerData(long acceptanceId, long stickerId,
-                out string nomenclatureDescription, out string trayDescription, out long trayId,
+                out string nomenclatureDescription, out long trayId,
                 out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance)
             {
             long stickerAcceptanceId;
@@ -653,7 +655,6 @@ FROM LastPalletInCell ");
                 sticker.Read(stickerId);
 
                 nomenclatureDescription = sticker.Nomenclature.Description;
-                trayDescription = sticker.Tray.Description;
                 trayId = sticker.Tray.Id;
                 unitsPerBox = sticker.Nomenclature.UnitsQuantityPerPack;
 
@@ -667,7 +668,6 @@ FROM LastPalletInCell ");
                 cellDescription = palletCell.Description;
 
                 nomenclatureDescription = string.Empty;
-                trayDescription = string.Empty;
                 trayId = 0;
                 unitsPerBox = 0;
                 }
@@ -763,5 +763,203 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
             acceptance.State = StatesOfDocument.Completed;
             return acceptance.Write() == WritingResult.Success;
             }
+
+
+
+        public bool GetPalletBalance(long palletId, out string nomenclatureDescription, out long trayId, out long linerId, out byte linersAmount,
+            out int unitsPerBox, out long cellId, out string cellDescription, out long previousPalletCode)
+            {
+            trayId = linerId = cellId = previousPalletCode = unitsPerBox = linersAmount = 0;
+            cellDescription = string.Empty;
+
+            GoodsRows goodsRows = getPalletBalance(palletId);
+
+            var sticker = new Stickers();
+            sticker.Read(palletId);
+            nomenclatureDescription = sticker.Nomenclature.Description;
+            unitsPerBox = sticker.Nomenclature.UnitsQuantityPerPack;
+
+            if (goodsRows.TrayRow != null)
+                {
+                trayId = Convert.ToInt64(goodsRows.TrayRow[GoodsRows.NOMENCLATURE]);
+                }
+
+            if (goodsRows.LinerRow != null)
+                {
+                linerId = Convert.ToInt64(goodsRows.LinerRow[GoodsRows.NOMENCLATURE]);
+                linersAmount = Convert.ToByte(goodsRows.LinerRow[GoodsRows.QUANTITY]);
+                }
+
+            if (goodsRows.WareRow != null)
+                {
+                cellId = Convert.ToInt64(goodsRows.WareRow[GoodsRows.CELL]);
+                cellDescription = goodsRows.WareRow["CellDescription"].ToString();
+                }
+
+            var q = DB.NewQuery("select top 1 relation.PreviousPallet from dbo.GetPalletsRelations ('0001-01-01', @palletId, 0) relation");
+            q.AddInputParameter("palletId", palletId);
+            previousPalletCode = q.SelectInt64();
+
+            return true;
+            }
+
+        private GoodsRows getPalletBalance(long palletId)
+            {
+            const string sql = @"
+with tareTypes as (
+select top 2 cast(Value as bigint) [Id], 2 wareType 
+from [SystemConsts] where [description] = 'StandartTray' or [description] = 'NonStandartTray' 
+
+union all 
+
+select top 2 cast(Value as bigint) [Id], 3 wareType 
+from [SystemConsts] where [description] = 'StandartLiner' or [description] = 'NonStandartLiner'
+)
+
+select Stock.Nomenclature, Stock.Cell NomenclatureCell, Stock.Party, Stock.Quantity NomenclatureFact,
+    isnull(RTRIM(c.[Description]),'') [CellDescription],
+ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) NomenclatureType
+
+ FROM dbo.GetStockBalance (
+  '0001-01-01',
+  0,
+  0,
+  @ComplateType,
+  0,
+  @PalletId) Stock
+  
+    left join tareTypes on tareTypes.Id = Stock.Nomenclature and Stock.Party = 0
+    left join Cells c on c.Id = Stock.Cell
+    
+";
+            var q = DB.NewQuery(sql);
+            q.AddInputParameter("ComplateType", (int)RowsStates.Completed);
+            q.AddInputParameter("PalletId", palletId);
+            var table = q.SelectToTable();
+
+            var result = new GoodsRows();
+            foreach (DataRow row in table.Rows)
+                {
+                var tareType = (GoodsRows.NomenclatureTypes)row["NomenclatureType"];
+                result.SetRow(row, tareType);
+                }
+
+            return result;
+            }
+
+
+        public bool GetNewInventoryId(long userId, out long documentId)
+            {
+            var doc = new Inventory();
+            doc.SetRef("Responsible", userId);
+            doc.Date = SystemConfiguration.ServerDateTime;
+            var writeResult = doc.Write();
+
+            documentId = doc.Id;
+            return writeResult == WritingResult.Success;
+            }
+
+        public bool WriteInventoryResult(long documentId, DataTable resultTable)
+            {
+            var q = DB.NewQuery("select max(LineNumber) lastRowNumber from subInventoryNomenclatureInfo where IdDoc = @IdDoc");
+            q.AddInputParameter("IdDoc", documentId);
+            var lastLineNumber = q.SelectInt64();
+
+            var inventory = new Inventory();
+            var currentTime = SystemConfiguration.ServerDateTime;
+
+            // Эта строка должна быть в этом месте, т.к. после получения таблицы можно обращаться к столбцам, они уже не null
+            var docTable = inventory.NomenclatureInfo;
+
+            var wareRow = resultTable.Rows[0];
+            var palletCode = Convert.ToInt64(wareRow[inventory.PalletCode.ColumnName]);
+
+            var nomenclatureId = Convert.ToInt64(wareRow[inventory.Nomenclature.ColumnName]);
+            var nomenclature = (Nomenclature)new Nomenclature().Read(nomenclatureId);
+            if (!nomenclature.BoxType.Empty)
+                {
+                var planUnitsQuantity = Convert.ToInt32(wareRow[inventory.PlanValue.ColumnName]);
+                var factUnitsQuantity = Convert.ToInt32(wareRow[inventory.FactValue.ColumnName]);
+
+                var boxesPlan = (planUnitsQuantity / nomenclature.UnitsQuantityPerPack) + ((planUnitsQuantity % nomenclature.UnitsQuantityPerPack) > 0 ? 1 : 0);
+                var boxesFact = (factUnitsQuantity / nomenclature.UnitsQuantityPerPack) + ((factUnitsQuantity % nomenclature.UnitsQuantityPerPack) > 0 ? 1 : 0);
+
+                var boxesRow = resultTable.NewRow();
+                boxesRow[inventory.Nomenclature.ColumnName] = nomenclature.BoxType.Id;
+                boxesRow[inventory.PlanValue.ColumnName] = boxesPlan;
+                boxesRow[inventory.FactValue.ColumnName] = boxesFact;
+
+                boxesRow[inventory.StartCodeOfPreviousPallet.ColumnName] = 0;
+                boxesRow[inventory.FinalCodeOfPreviousPallet.ColumnName] = 0;
+
+                boxesRow[inventory.PalletCode.ColumnName] = palletCode;
+                boxesRow[inventory.StartCell.ColumnName] = wareRow[inventory.StartCell.ColumnName];
+                boxesRow[inventory.FinalCell.ColumnName] = wareRow[inventory.FinalCell.ColumnName];
+
+                resultTable.Rows.Add(boxesRow);
+                }
+
+            for (int rowIndex = 0; rowIndex < resultTable.Rows.Count; rowIndex++)
+                {
+                var sourceRow = resultTable.Rows[rowIndex];
+                var newRow = docTable.GetNewRow(inventory);
+                newRow[inventory.RowState] = (int)RowsStates.Completed;
+                newRow[inventory.RowDate] = currentTime;
+
+                var isTare = rowIndex != 0;
+                if (!isTare)
+                    {
+                    var sticker = (Stickers)new Stickers().Read(palletCode);
+                    newRow[inventory.Party] = sticker.GetRef("Party");
+                    }
+
+                newRow[inventory.Nomenclature] = Convert.ToInt64(sourceRow[inventory.Nomenclature.ColumnName]);
+                newRow[inventory.PlanValue] = Convert.ToDecimal(sourceRow[inventory.PlanValue.ColumnName]);
+                newRow[inventory.FactValue] = Convert.ToDecimal(sourceRow[inventory.FactValue.ColumnName]);
+
+                newRow[inventory.PalletCode] = palletCode;
+
+                newRow[inventory.StartCodeOfPreviousPallet] = Convert.ToInt64(sourceRow[inventory.StartCodeOfPreviousPallet.ColumnName]);
+                newRow[inventory.FinalCodeOfPreviousPallet] = Convert.ToInt64(sourceRow[inventory.FinalCodeOfPreviousPallet.ColumnName]);
+
+                newRow[inventory.StartCell] = Convert.ToInt64(sourceRow[inventory.StartCell.ColumnName]);
+                newRow[inventory.FinalCell] = Convert.ToInt64(sourceRow[inventory.FinalCell.ColumnName]);
+
+                newRow[Subtable.LINE_NUMBER_COLUMN_NAME] = lastLineNumber + rowIndex + 1;
+                newRow.AddRowToTable(inventory);
+                }
+
+            var rowsToInsert = inventory.NomenclatureInfo;
+
+            q = DB.NewQuery(@"insert into subInventoryNomenclatureInfo([IdDoc],[LineNumber],[PalletCode],[Nomenclature],
+[PlanValue],[FactValue],[RowState],[RowDate],
+[StartCodeOfPreviousPallet] ,[FinalCodeOfPreviousPallet],
+[StartCell],[FinalCell], [Party])
+ 
+select @IdDoc, [LineNumber],[PalletCode],[Nomenclature],
+[PlanValue],[FactValue],[RowState],[RowDate],
+[StartCodeOfPreviousPallet] ,[FinalCodeOfPreviousPallet],
+[StartCell],[FinalCell], [Party]
+from @table");
+
+            q.AddInputTVPParameter("table", rowsToInsert, "dbo.tvp_Inventory_NomenclatureInfo");
+            q.AddInputParameter("IdDoc", documentId);
+
+            q.Execute();
+
+            return q.ThrowedException == null;
+            }
+
+        public bool ComplateInventory(long documentId, bool forceCompletion, out string errorMessage)
+            {
+            var inventory = new Inventory();
+            inventory.Read(documentId);
+            errorMessage = string.Empty;
+
+            inventory.State = StatesOfDocument.Completed;
+            return inventory.Write() == WritingResult.Success;
+            }
+
+
         }
     }

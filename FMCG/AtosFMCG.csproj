@@ -354,6 +354,7 @@
     </Compile>
     <Compile Include="UIConfigurator.cs" />
     <Compile Include="UI\StatesColors.cs" />
+    <Compile Include="Utils\SolutionExtentions.cs" />
     <None Include="images\Touchscreen 32.png" />
     <None Include="images\AcceptancePlan 32.png" />
     <None Include="images\Acceptance 32.png" />

@@ -134,6 +134,14 @@ namespace WMS_client
             get { return Parameters != null && Parameters.Length > 0 && Parameters[0] != null; }
             }
 
+        private bool success
+            {
+            get
+                {
+                return IsExistParameters && Parameters[0] is bool && (bool)Parameters[0];
+                }
+            }
+
         private object[] Parameters;
 
         public bool GetTareTable(out System.Data.DataTable tareTable)
@@ -150,24 +158,22 @@ namespace WMS_client
             return false;
             }
 
-        public bool GetStickerData(long acceptanceId, long stickerId, out string nomenclatureDescription, out string trayDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance)
+        public bool GetStickerData(long acceptanceId, long stickerId, out string nomenclatureDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance)
             {
             PerformQuery("GetStickerData", acceptanceId, stickerId);
 
             if (IsExistParameters)
                 {
                 nomenclatureDescription = Parameters[0] as string;
-                trayDescription = Parameters[1] as string;
-                trayId = Convert.ToInt64(Parameters[2]);
-                unitsPerBox = Convert.ToInt32(Parameters[3]);
-                cellId = Convert.ToInt64(Parameters[4]);
-                cellDescription = Parameters[5] as string;
-                currentAcceptance = (bool)Parameters[6];
+                trayId = Convert.ToInt64(Parameters[1]);
+                unitsPerBox = Convert.ToInt32(Parameters[2]);
+                cellId = Convert.ToInt64(Parameters[3]);
+                cellDescription = Parameters[4] as string;
+                currentAcceptance = (bool)Parameters[5];
                 return true;
                 }
 
             nomenclatureDescription = null;
-            trayDescription = null;
             trayId = 0;
             unitsPerBox = 0;
             cellDescription = null;
@@ -192,14 +198,6 @@ namespace WMS_client
             return false;
             }
 
-        #region IRemoteCommunications Members
-
-
-
-
-        #endregion
-
-        #region IRemoteCommunications Members
 
 
         public bool WriteStickerFact(long acceptanceId, long stickerId, bool palletChanged, long cellId, long trayId, long linerId, int linersQuantity, int packsCount, int unitsCount)
@@ -209,9 +207,6 @@ namespace WMS_client
             return IsExistParameters && Parameters[0] is bool && (bool)Parameters[0];
             }
 
-        #endregion
-
-        #region IRemoteCommunications Members
 
         private const string QUERY_NOT_SERVED_MESSAGE = "Запит не виконано";
         public bool ComplateAcceptance(long acceptanceId, bool forceCompletion, out string errorMessage)
@@ -229,6 +224,74 @@ namespace WMS_client
                 }
             }
 
-        #endregion
+        public bool GetPalletBalance(long stickerId,
+            out string nomenclatureDescription,
+            out long trayId,
+            out long linerId, out byte linersAmount,
+            out int unitsPerBox,
+            out long cellId, out string cellDescription,
+            out long previousPalletCode)
+            {
+            PerformQuery("GetPalletBalance", stickerId);
+
+            if (IsExistParameters)
+                {
+                nomenclatureDescription = Parameters[0] as string;
+                trayId = Convert.ToInt64(Parameters[1]);
+                linerId = Convert.ToInt64(Parameters[2]);
+                linersAmount = Convert.ToByte(Parameters[3]);
+                unitsPerBox = Convert.ToInt32(Parameters[4]);
+                cellId = Convert.ToInt64(Parameters[5]);
+                cellDescription = Parameters[6] as string;
+                previousPalletCode = Convert.ToInt64(Parameters[7]);
+                return true;
+                }
+
+            nomenclatureDescription = null;
+            trayId = 0;
+            unitsPerBox = 0;
+            cellDescription = null;
+            cellId = 0;
+            previousPalletCode = 0;
+            linerId = 0;
+            linersAmount = 0;
+
+            return false;
+            }
+
+        public bool GetNewInventoryId(long userId, out long documentId)
+            {
+            PerformQuery("GetNewInventoryId", userId);
+
+            if (IsExistParameters)
+                {
+                documentId = Convert.ToInt64(Parameters[0]);
+                return documentId > 0;
+                }
+
+            documentId = 0;
+            return false;
+            }
+
+        public bool WriteInventoryResult(long documentId, DataTable resultTable)
+            {
+            PerformQuery("WriteInventoryResult", documentId, resultTable);
+            return success;
+            }
+
+        public bool ComplateInventory(long documentId, bool forceCompletion, out string errorMessage)
+            {
+            PerformQuery("ComplateInventory", documentId, forceCompletion);
+            if (IsExistParameters && Parameters[0] is bool && Parameters.Length > 1)
+                {
+                errorMessage = Parameters[1].ToString();
+                return (bool)Parameters[0];
+                }
+            else
+                {
+                errorMessage = QUERY_NOT_SERVED_MESSAGE;
+                return false;
+                }
+            }
         }
     }

@@ -15,5 +15,14 @@ namespace WMS_client
             {
             return string.Format("{0} (Id = {1})", Description, Id);
             }
+
+        public CatalogItem GetCopy()
+            {
+            return new CatalogItem()
+                {
+                    Description = Description,
+                    Id = Id
+                };
+            }
         }
     }

@@ -21,7 +21,7 @@ namespace FMCG.DatabaseObjects.Remainders
 
         public override DatabaseObject[] GetObjectsOfMotions()
             {
-            return new DatabaseObject[] { new AcceptanceOfGoods() };
+            return new DatabaseObject[] { new AcceptanceOfGoods(), new Inventory() };
             }
 
         public override DataColumn AddMotions(DatabaseObject databaseObject)
@@ -34,9 +34,33 @@ namespace FMCG.DatabaseObjects.Remainders
                 AddMotion(PreviousPallet, item.PreviousPalletCode);
                 AddMotion(Quantity, null);
 
+                SetExceptionsValues(item.NomenclatureState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
                 SetExceptionsValues(item.PreviousPalletCode, 0);
+                SetExceptionsValues(item.IsTare, 1);
 
                 return item.NomenclatureRowDate;
+                }
+            else if (databaseObject is Inventory)
+                {
+                var item = databaseObject as Inventory;
+               
+                AddMotion(Pallet, item.PalletCode);
+                AddMotion(PreviousPallet, item.FinalCodeOfPreviousPallet);
+                AddMotion(Quantity, null);
+
+                SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+                SetExceptionsValues(item.FinalCodeOfPreviousPallet, 0);
+
+                StartNewMotionsCollection();
+
+                AddMotion(Pallet, item.PalletCode);
+                AddMotion(PreviousPallet, item.StartCodeOfPreviousPallet);
+                AddMotion(Quantity, null, true);
+
+                SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+                SetExceptionsValues(item.StartCodeOfPreviousPallet, 0);
+
+                return item.RowDate;
                 }
 
             return null;

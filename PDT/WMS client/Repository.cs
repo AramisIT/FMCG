@@ -11,6 +11,9 @@ namespace WMS_client
         private static List<CatalogItem> traysList;
         private static List<CatalogItem> linersList;
 
+        private static Dictionary<long, CatalogItem> traysDictionary;
+        private static Dictionary<long, CatalogItem> linersDictionary;
+
         internal List<CatalogItem> GetTraysList()
             {
             if (traysList == null)
@@ -29,6 +32,26 @@ namespace WMS_client
             return linersList ?? new List<CatalogItem>();
             }
 
+        internal string GetLinerDescription(long id)
+            {
+            return getItemDescriptionByKey(linersDictionary, id);
+            }
+
+        internal string GetTrayDescription(long id)
+            {
+            return getItemDescriptionByKey(traysDictionary, id);
+            }
+
+        private static string getItemDescriptionByKey(Dictionary<long, CatalogItem> itemsDictionary, long id)
+            {
+            CatalogItem item;
+            if ((itemsDictionary ?? new Dictionary<long, CatalogItem>()).TryGetValue(id, out item))
+                {
+                return item.Description;
+                }
+            return string.Empty;
+            }
+
         private void initTareLists()
             {
             DataTable tareTable;
@@ -37,9 +60,8 @@ namespace WMS_client
                 return;
                 }
 
-
-            var trays = new List<CatalogItem>();
-            var liners = new List<CatalogItem>();
+            var traysDictionary = new Dictionary<long, CatalogItem>();
+            var linersDictionary = new Dictionary<long, CatalogItem>();
 
             foreach (DataRow row in tareTable.Rows)
                 {
@@ -58,24 +80,34 @@ namespace WMS_client
                 switch (Convert.ToInt32(row["TareType"]))
                     {
                     case TRAY_TARE_TYPE:
-                        trays.Add(item);
+                        if (!traysDictionary.ContainsKey(item.Id))
+                            {
+                            traysDictionary.Add(item.Id, item);
+                            }
                         break;
 
                     case LINER_TARE__TYPE:
-                        liners.Add(item);
+                        if (!linersDictionary.ContainsKey(item.Id))
+                            {
+                            linersDictionary.Add(item.Id, item);
+                            }
                         break;
                     }
                 }
 
-            if (trays.Count > 0)
+            if (traysDictionary.Count > 0)
                 {
-                traysList = trays;
+                Repository.traysDictionary = traysDictionary;
+                traysList = traysDictionary.Values.ToList();
+
                 traysList.Insert(0, new CatalogItem() { Description = "без піддону", Id = 0 });
                 }
 
-            if (liners.Count > 0)
+            if (linersDictionary.Count > 0)
                 {
-                linersList = liners;
+                Repository.linersDictionary = linersDictionary;
+                linersList = linersDictionary.Values.ToList();
+
                 linersList.Insert(0, new CatalogItem() { Description = "без прокладки", Id = 0 });
                 }
             }

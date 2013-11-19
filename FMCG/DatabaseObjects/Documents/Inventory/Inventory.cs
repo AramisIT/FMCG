@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Drawing;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
@@ -10,15 +11,14 @@ using Aramis.UI.WinFormsDevXpress;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.Enums;
 using Catalogs;
+using FMCG.DatabaseObjects.Enums;
+using FMCG.Utils;
 
 namespace Documents
     {
-    /// <summary>Інвентаризація</summary>
     [Document(Description = "Інвентаризація", GUID = "0E87222E-830D-466A-826F-8ABBC4B36FEE", NumberType = NumberType.Int64, NumberIsReadonly = false)]
     public class Inventory : DocumentTable
         {
-        #region Properties
-        /// <summary>Стан документу</summary>
         [DataField(Description = "Стан документу", ShowInList = true)]
         public StatesOfDocument State
             {
@@ -38,28 +38,7 @@ namespace Documents
                 }
             }
         private StatesOfDocument z_State;
-        /// <summary>Вхідний номер/Номер накладної</summary>
-        [DataField(Description = "№ накладної", ShowInList = true, NotEmpty = true)]
-        public string IncomeNumber
-            {
-            get
-                {
-                return z_IncomeNumber;
-                }
-            set
-                {
-                if (z_IncomeNumber == value)
-                    {
-                    return;
-                    }
 
-                z_IncomeNumber = value;
-                NotifyPropertyChanged("IncomeNumber");
-                }
-            }
-        private string z_IncomeNumber = string.Empty;
-
-        /// <summary>Тип інветаризації</summary>
         [DataField(Description = "Тип інветаризації", ShowInList = true)]
         public TypesOfInventory TypeOfInventory
             {
@@ -80,167 +59,59 @@ namespace Documents
             }
         private TypesOfInventory z_TypeOfInventory;
 
-        #region Local
-        /// <summary>Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)</summary>
-        [DataField(Description = "Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)", ShowInList = false, StorageType = StorageTypes.Local)]
+        [DataField(StorageType = StorageTypes.Local, Description = "Інформація (Відповідальний,останній хто редагував документ + ДатаЧас редагування)", ShowInList = false)]
         public string Info
             {
             get { return string.Concat(Responsible.Description, ' ', Date.ToString()); }
             }
 
-        /// <summary>Початок періоду</summary>
-        [DataField(Description = "Початок періоду", ShowInList = false, StorageType = StorageTypes.Local)]
-        public DateTime StartPeriod
-            {
-            get
-                {
-                return z_StartPeriod;
-                }
-            set
-                {
-                if (z_StartPeriod == value)
-                    {
-                    return;
-                    }
 
-                z_StartPeriod = value;
-                NotifyPropertyChanged("StartPeriod");
-                }
-            }
-        private DateTime z_StartPeriod = SystemConfiguration.ServerDateTime.Date;
-
-        /// <summary>Завершення періоду</summary>
-        [DataField(Description = "Завершення періоду", ShowInList = false, StorageType = StorageTypes.Local)]
-        public DateTime FinishPeriod
-            {
-            get
-                {
-                return z_FinishPeriod;
-                }
-            set
-                {
-                if (z_FinishPeriod == value)
-                    {
-                    return;
-                    }
-
-                z_FinishPeriod = value;
-                NotifyPropertyChanged("FinishPeriod");
-                }
-            }
-        private DateTime z_FinishPeriod = SystemConfiguration.ServerDateTime.Date.AddDays(1);
-        #endregion
-
-        #region Таблична частина
-        /// <summary>Номенклатура</summary>
-        [Table(Columns = "PalletCode,Nomenclature,Measure,PlanValue,FactValue,Party,Cell", ShowLineNumberColumn = true)]
+        [Table(Columns = "Nomenclature,PalletCode,RowState,RowDate, StartCodeOfPreviousPallet, FinalCodeOfPreviousPallet, PlanValue,FactValue,StartCell,FinalCell,Party", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {
             get { return GetSubtable("NomenclatureInfo"); }
             }
 
-        /// <summary>Код вантажа</summary>
-        [SubTableField(Description = "Код вантажу", PropertyType = typeof(long))]
-        public DataColumn PalletCode { get; set; }
-
-        /// <summary>Номенклатура</summary>
         [SubTableField(Description = "Номенклатура", PropertyType = typeof(Nomenclature))]
         public DataColumn Nomenclature { get; set; }
 
-        /// <summary>Од.вим.</summary>
-        [SubTableField(Description = "Од.вим.", PropertyType = typeof(Measures))]
-        public DataColumn Measure { get; set; }
+        [SubTableField(Description = "Код вантажу", PropertyType = typeof(long))]
+        public DataColumn PalletCode { get; set; }
 
-        /// <summary>План</summary>
-        [SubTableField(Description = "План", PropertyType = typeof(double))]
+        [SubTableField(Description = "Стан рядка", PropertyType = typeof(RowsStates))]
+        public DataColumn RowState { get; set; }
+
+        [SubTableField(Description = "Дата рядка", PropertyType = typeof(DateTime))]
+        public DataColumn RowDate { get; set; }
+
+        [SubTableField(Description = "Початковий код попередньої паллети", PropertyType = typeof(long))]
+        public DataColumn StartCodeOfPreviousPallet { get; set; }
+
+        [SubTableField(Description = "Кінцевий код попередньої паллети", PropertyType = typeof(long))]
+        public DataColumn FinalCodeOfPreviousPallet { get; set; }
+
+        [SubTableField(Description = "План", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
         public DataColumn PlanValue { get; set; }
 
-        /// <summary>Факт</summary>
-        [SubTableField(Description = "Факт", PropertyType = typeof(double))]
+        [SubTableField(Description = "Факт", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
         public DataColumn FactValue { get; set; }
 
-        /// <summary>Партія</summary>
+        [SubTableField(Description = "Початкова комірка", PropertyType = typeof(Cells))]
+        public DataColumn StartCell { get; set; }
+
+        [SubTableField(Description = "Кінцева комірка", PropertyType = typeof(Cells))]
+        public DataColumn FinalCell { get; set; }
+
         [SubTableField(Description = "Партія", PropertyType = typeof(Parties))]
         public DataColumn Party { get; set; }
 
-        /// <summary>Комірка</summary>
-        [SubTableField(Description = "Комірка", PropertyType = typeof(Cells))]
-        public DataColumn Cell { get; set; }
-        #endregion
-        #endregion
-
-        #region DocumentTable
-        protected override WritingResult CheckingBeforeWriting()
+        public override Func<DataRow, Color> GetFuncGetRowColor()
             {
-            if (Responsible.Id != SystemAramis.CurrentUser.Id)
+            return row =>
                 {
-                Responsible = SystemAramis.CurrentUser;
-                }
-
-            return base.CheckingBeforeWriting();
-            }
-
-        protected override void InitNewBeforeShowing()
-            {
-            base.InitNewBeforeShowing();
-            State = StatesOfDocument.Empty;
-            } 
-        #endregion
-
-        /// <summary>Сформувати завдання</summary>
-        public void CreateTask()
-            {
-            if(TypeOfInventory == TypesOfInventory.LatestCellsForPeriod)
-                {
-                if(NomenclatureInfo.Rows.Count>0)
-                    {
-                    if(!"Всі строки в тиблиці будуть видалені!\r\nПродовжити?".Ask())
-                        {
-                        return;
-                        }
-
-                    NomenclatureInfo.Rows.Clear();
-                    }
-
-                //Вибираємо з таблиці 'GoodsMoving' необхідні дані по останнім паллетам в комірці з котрими в обраний період робились хоч якісь операції
-                Query query = DB.NewQuery(@"
---DECLARE @StartDate DATETIME2='2013-04-08'
---DECLARE @FinishDate DATETIME2='2013-04-09';
-
-WITH
-LastPalletInCell AS (
-	SELECT c.PalletCode 
-	FROM FilledCell c
-	FULL JOIN FilledCell p ON p.PreviousCode=c.PalletCode
-	WHERE p.PalletCode IS NULL)
-	
-SELECT DISTINCT g.UniqueCode PalletCode,g.Nomenclature,g.MeasureUnit Measure,g.Quantity PlanValue,g.Cell,n.NomenclatureParty Party
-FROM GoodsMoving g
-JOIN LastPalletInCell c ON c.PalletCode=g.UniqueCode
-LEFT JOIN SubAcceptanceOfGoodsNomenclatureInfo n ON n.NomenclatureCode=g.UniqueCode
-JOIN StockBalance b ON b.UniqueCode=g.UniqueCode AND b.Quantity=g.Quantity AND b.MeasureUnit=g.MeasureUnit
-WHERE g.WritingDate BETWEEN @StartDate AND @FinishDate");
-                query.AddInputParameter("StartDate", StartPeriod);
-                query.AddInputParameter("FinishDate", FinishPeriod);
-                DataTable table = query.SelectToTable();
-
-                foreach (DataRow row in table.Rows)
-                    {
-                    DataRow newRow = NomenclatureInfo.GetNewRow(this);
-                    newRow[PalletCode] = row[PalletCode.ColumnName];
-                    newRow.SetRefValueToRowCell(this, Nomenclature, row[Nomenclature.ColumnName], typeof(Nomenclature));
-                    newRow.SetRefValueToRowCell(this, Measure, row[Measure.ColumnName], typeof(Measures));
-                    newRow[PlanValue] = row[PlanValue.ColumnName];
-                    newRow.SetRefValueToRowCell(this, Cell, row[Cell.ColumnName], typeof(Cells));
-                    newRow.SetRefValueToRowCell(this, Party, row[Party.ColumnName], typeof(Parties));
-                    newRow.AddRowToTable(this);
-                    }
-                }
-            else
-                {
-                "Завдання формується лише для завдання 'Перевірити останні зачіплені комірки за обраний період'".WarningBox();
-                }
+                    return row.GetDocumentColor();
+                };
             }
         }
     }

@@ -70,12 +70,60 @@ namespace AtosFMCG.HelperClasses.PDT
                     return WriteStickerFact(parameters);
                 case "ComplateAcceptance":
                     return ComplateAcceptance(parameters);
+                case "ComplateInventory":
+                    return ComplateInventory(parameters);
+                case "GetPalletBalance":
+                    return GetPalletBalance(parameters);
+                case "GetNewInventoryId":
+                    return GetNewInventoryId(parameters);
+                case "WriteInventoryResult":
+                    return new object[] { communication.WriteInventoryResult(Convert.ToInt64(parameters[0]), parameters[1] as DataTable) };
                 }
 
             return new object[0];
             }
 
+        private static object[] ComplateInventory(object[] parameters)
+            {
+            string message;
+            bool result = communication.ComplateInventory(Convert.ToInt64(parameters[0]), Convert.ToBoolean(parameters[1]), out message);
 
+            return new object[] { result, message };
+            }
+
+        private static object[] GetNewInventoryId(object[] parameters)
+            {
+            long documentId;
+
+            if (!communication.GetNewInventoryId(Convert.ToInt64(parameters[0]), out documentId))
+                {
+                return new object[] { 0 };
+                }
+
+            return new object[] { documentId };
+            }
+
+        private static object[] GetPalletBalance(object[] parameters)
+            {
+            string nomenclatureDescription;
+            string trayDescription;
+            long trayId;
+            long linerId;
+            byte linersAmount;
+            int unitsPerBox;
+            string cellDescription;
+            long cellId;
+            long previousPalletCode;
+
+            if (!communication.GetPalletBalance(Convert.ToInt64(parameters[0]),
+                    out nomenclatureDescription, out trayId, out linerId, out linersAmount,
+                    out unitsPerBox, out cellId, out cellDescription, out previousPalletCode))
+                {
+                return new object[] { false };
+                }
+
+            return new object[] { nomenclatureDescription, trayId, linerId, linersAmount, unitsPerBox, cellId, cellDescription, previousPalletCode };
+            }
 
         private static object[] WriteStickerFact(object[] parameters)
             {
@@ -399,7 +447,6 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
         private static object[] GetStickerData(object[] parameters)
             {
             string nomenclatureDescription;
-            string trayDescription;
             long trayId;
             int unitsPerBox;
             string cellDescription;
@@ -407,12 +454,12 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
             bool currentAcceptance;
 
             if (!communication.GetStickerData(Convert.ToInt64(parameters[0]), Convert.ToInt64(parameters[1]),
-                    out nomenclatureDescription, out trayDescription, out trayId, out unitsPerBox, out cellId, out cellDescription, out currentAcceptance))
+                    out nomenclatureDescription, out trayId, out unitsPerBox, out cellId, out cellDescription, out currentAcceptance))
                 {
                 return new object[] { };
                 }
 
-            return new object[] { nomenclatureDescription, trayDescription, trayId, unitsPerBox, cellId, cellDescription, currentAcceptance };
+            return new object[] { nomenclatureDescription, trayId, unitsPerBox, cellId, cellDescription, currentAcceptance };
             }
 
         private static object[] ComplateAcceptance(object[] parameters)

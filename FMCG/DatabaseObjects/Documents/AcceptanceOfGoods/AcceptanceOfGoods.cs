@@ -17,6 +17,7 @@ using Documents;
 using Documents.GoodsAcceptance;
 using FMCG.DatabaseObjects.Enums;
 using FMCG.UI;
+using FMCG.Utils;
 
 namespace Documents
     {
@@ -126,36 +127,30 @@ namespace Documents
             get { return GetSubtable("NomenclatureInfo"); }
             }
 
-        [SubTableField(Description = "Состояние строки", PropertyType = typeof(RowsStates))]
+        [SubTableField(Description = "Стан рядка", PropertyType = typeof(RowsStates))]
         public DataColumn NomenclatureState { get; set; }
 
-        // Дата периода движения
-        [SubTableField(Description = "Дата строки", PropertyType = typeof(DateTime))]
+        [SubTableField(Description = "Дата рядка", PropertyType = typeof(DateTime))]
         public DataColumn NomenclatureRowDate { get; set; }
 
         [SubTableField(Description = "Код вантажу", PropertyType = typeof(long))]
         public DataColumn NomenclatureCode { get; set; }
 
-        [SubTableField(Description = "Код предыдущей паллеты", PropertyType = typeof(long))]
+        [SubTableField(Description = "Код попередньої паллети", PropertyType = typeof(long))]
         public DataColumn PreviousPalletCode { get; set; }
 
-        /// <summary>Номенклатура</summary>
-        [SubTableField(Description = "Номенклатура", PropertyType = typeof(Nomenclature))]
+        [SubTableField(Description = "Номенклатура", PropertyType = typeof(Nomenclature), AllowOpenItem = true)]
         public DataColumn Nomenclature { get; set; }
 
-        /// <summary>Од.вим.</summary>
         [SubTableField(Description = "Од.вим.", PropertyType = typeof(Measures))]
         public DataColumn NomenclatureMeasure { get; set; }
 
-        /// <summary>Дата виробництва</summary>
         [SubTableField(Description = "Дата виробництва", PropertyType = typeof(DateTime), StorageType = StorageTypes.Local, ReadOnly = true)]
         public DataColumn NomenclatureDate { get; set; }
 
-        /// <summary>К-сть</summary>
         [SubTableField(Description = "План", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
         public DataColumn NomenclaturePlan { get; set; }
 
-        /// <summary>К-сть</summary>
         [SubTableField(Description = "Факт", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
         public DataColumn NomenclatureFact { get; set; }
 
@@ -167,8 +162,7 @@ namespace Documents
         [SubTableField(Description = "Партія", PropertyType = typeof(Parties))]
         public DataColumn NomenclatureParty { get; set; }
 
-        /// <summary>Тара</summary>
-        [SubTableField(Description = "Тара", PropertyType = typeof(bool), StorageType = StorageTypes.Local, ReadOnly = true)]
+        [SubTableField(Description = "Тара", PropertyType = typeof(bool), ReadOnly = true)]
         public DataColumn IsTare { get; set; }
         #endregion
 
@@ -192,27 +186,7 @@ namespace Documents
             {
             return row =>
                 {
-                    StatesOfDocument rowDocState = (StatesOfDocument)(int)row["State"];
-
-                    switch (rowDocState)
-                        {
-                        case StatesOfDocument.Processing:
-                            return StatesColors.Processing;
-
-                        case StatesOfDocument.Performed:
-                            return StatesColors.Performed;
-
-                        case StatesOfDocument.Canceled:
-                            return StatesColors.Canceled;
-
-                        case StatesOfDocument.Completed:
-                            return StatesColors.Completed;
-
-                        case StatesOfDocument.Planned:
-                            return StatesColors.Planed;
-                        }
-
-                    return Color.White;
+                    return row.GetDocumentColor();
                 };
             }
 
@@ -457,11 +431,11 @@ and MarkForDeleting = 0");
             {
             var goodsRows = findStickerRows(stickerId);
 
-            setFactOnRow(goodsRows.WareRow, unitsCount, cellId);
+            setFactOnRow(goodsRows.WareRow, unitsCount, cellId, false);
 
             if (goodsRows.BoxRow != null)
                 {
-                setFactOnRow(goodsRows.BoxRow, packsCount, cellId);
+                setFactOnRow(goodsRows.BoxRow, packsCount, cellId, true);
                 }
 
             if (linersQuantity > 0 && linerId > 0)
@@ -470,7 +444,7 @@ and MarkForDeleting = 0");
                     {
                     goodsRows.LinerRow = addNewNomenclatureRow(stickerId);
                     }
-                setFactOnRow(goodsRows.LinerRow, linersQuantity, cellId, linerId);
+                setFactOnRow(goodsRows.LinerRow, linersQuantity, cellId, true, linerId);
                 }
 
             int traysQuantity = trayId > 0 ? 1 : 0;
@@ -480,7 +454,7 @@ and MarkForDeleting = 0");
                 }
             if (goodsRows.TrayRow != null)
                 {
-                setFactOnRow(goodsRows.TrayRow, traysQuantity, cellId, trayId);
+                setFactOnRow(goodsRows.TrayRow, traysQuantity, cellId, true, trayId);
                 }
 
             SetSubtableModified(NomenclatureInfo.TableName);
@@ -497,12 +471,13 @@ and MarkForDeleting = 0");
             return newRow;
             }
 
-        private void setFactOnRow(DataRow row, int count, long cellId, long nomenclatureId = -1)
+        private void setFactOnRow(DataRow row, int count, long cellId, bool isTare, long nomenclatureId = -1)
             {
             row[NomenclatureFact] = count;
             row[NomenclatureCell] = cellId;
             row[NomenclatureState] = RowsStates.Completed;
             row[NomenclatureRowDate] = DateTime.Now;
+            row[IsTare] = isTare;
 
             if (nomenclatureId >= 0)
                 {
@@ -515,23 +490,7 @@ and MarkForDeleting = 0");
             if (row == null) return Color.White;
 
             RowsStates rowState = (RowsStates)(int)row[NomenclatureState];
-
-            switch (rowState)
-                {
-                case RowsStates.PlannedAcceptance:
-                    return StatesColors.Planed;
-
-                case RowsStates.Processing:
-                    return StatesColors.Processing;
-
-                case RowsStates.Canceled:
-                    return StatesColors.Canceled;
-
-                case RowsStates.Completed:
-                    return StatesColors.Completed;
-                }
-
-            return Color.White;
+            return rowState.GetRowColor();
             }
         }
 
@@ -539,8 +498,54 @@ and MarkForDeleting = 0");
 
 namespace Documents.GoodsAcceptance
     {
+
     class GoodsRows
         {
+        /// <summary>
+        /// Nomenclature column name
+        /// </summary>
+        public const string NOMENCLATURE = "Nomenclature";
+
+        /// <summary>
+        /// Quantity column name
+        /// </summary>
+        public const string QUANTITY = "NomenclatureFact";
+
+        /// <summary>
+        /// Cell column name
+        /// </summary>
+        public const string CELL = "NomenclatureCell";
+
+        public enum NomenclatureTypes
+            {
+            Ware,
+            Box,
+            Tray,
+            Liner
+            }
+
+        public void SetRow(DataRow row, NomenclatureTypes nomenclatureType)
+            {
+            switch (nomenclatureType)
+                {
+                case NomenclatureTypes.Ware:
+                    WareRow = row;
+                    break;
+
+                case NomenclatureTypes.Box:
+                    BoxRow = row;
+                    break;
+
+                case NomenclatureTypes.Tray:
+                    TrayRow = row;
+                    break;
+
+                case NomenclatureTypes.Liner:
+                    LinerRow = row;
+                    break;
+                }
+            }
+
         public DataRow WareRow { get; set; }
         public DataRow BoxRow { get; set; }
         public DataRow TrayRow { get; set; }

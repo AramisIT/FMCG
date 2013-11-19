@@ -118,6 +118,11 @@ namespace WMS_client
                 case MobileFontColors.Info:
                     Control.ForeColor = Color.DarkGreen;
                     break;
+
+                case MobileFontColors.Warning:
+                    Control.ForeColor = Color.DarkRed;
+                    break;
+
                 case MobileFontColors.Empty:
                     Control.ForeColor = Color.White;
                     break;

@@ -148,6 +148,7 @@
             this.message.Name = "message";
             this.message.Size = new System.Drawing.Size(292, 23);
             this.message.TabIndex = 0;
+            this.message.Text = "804$$1$$5$$10$$02.11.13$$31.01.14$$25.10.13$$100";
             // 
             // send
             // 
@@ -1407,6 +1408,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(292, 23);
             this.textBox1.TabIndex = 115;
+            this.textBox1.Text = "803$$1$$5$$10$$02.11.13$$31.01.14$$25.10.13$$100";
             // 
             // button7
             // 
@@ -1428,6 +1430,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(292, 23);
             this.textBox2.TabIndex = 117;
+            this.textBox2.Text = "C.2;C-01-02";
             // 
             // SendToTCD
             // 

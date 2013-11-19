@@ -42,7 +42,7 @@ namespace WMS_client.Processes
                         };
                 MainProcess.ClearControls();
                 MainProcess.Process = new SelectTableList(
-                    MainProcess, selectProcessDelegate, "Оберіть процес", "Процеси", listOfElements, string.Empty, false);
+                    MainProcess, selectProcess, "Оберіть процес", "Процеси", listOfElements, string.Empty, false);
                 }
             else
                 {
@@ -65,7 +65,7 @@ namespace WMS_client.Processes
         #endregion
 
         #region Delegates
-        private void selectProcessDelegate(long selectedIndex, string description)
+        private void selectProcess(long selectedIndex, string description)
             {
             MainProcess.ClearControls();
             BusinessProcess process;
@@ -82,9 +82,9 @@ namespace WMS_client.Processes
                 //case Processes.Selection:
                 //    process = new Selection();
                 //    break;
-                //case Processes.Inventory:
-                //    process = new Inventory();
-                //    break;
+                case Processes.Inventory:
+                    process = new Inventory();
+                    break;
                 default:
                     "Процес ще не реалізовано!".ShowMessage();
                     process = new SelectingProcess();

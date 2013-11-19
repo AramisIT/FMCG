@@ -146,12 +146,26 @@ namespace pdtExternalStorage
 
         bool GetTareTable(out DataTable tareTable);
 
-        bool GetStickerData(long acceptanceId, long stickerId, out string nomenclatureDescription, out string trayDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance);
+        bool GetStickerData(long acceptanceId, long stickerId, out string nomenclatureDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance);
 
         bool GetAcceptanceId(long stickerId, out long acceptanceId);
 
         bool WriteStickerFact(long acceptanceId, long stickerId, bool palletChanged, long cellId, long trayId, long linerId, int linersQuantity, int packsCount, int unitsCount);
 
         bool ComplateAcceptance(long acceptanceId, bool forceCompletion, out string errorMessage);
+
+        bool GetPalletBalance(long stickerId,
+            out string nomenclatureDescription,
+            out long trayId,
+            out long linerId, out byte linersAmount,
+            out int unitsPerBox,
+            out long cellId, out string cellDescription,
+            out long previousPalletCode);
+
+        bool GetNewInventoryId(long userId, out long documentId);
+
+        bool WriteInventoryResult(long documentId, DataTable resultTable);
+
+        bool ComplateInventory(long documentId, bool forceCompletion, out string errorDescription);
         }
     }

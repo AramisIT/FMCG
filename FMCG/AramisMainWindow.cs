@@ -352,5 +352,10 @@ namespace AtosFMCG
             {
             UserInterface.Current.ShowList(typeof(PDTFuncsTests));
             }
+
+        private void barButtonItem10_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(Inventory));
+            }
         }
     }
