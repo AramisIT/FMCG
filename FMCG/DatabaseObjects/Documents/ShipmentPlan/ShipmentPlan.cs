@@ -312,7 +312,7 @@ FROM PreparedData");
                     newRow.SetRefValueToRowCell(movement, movement.NomenclatureParty, info.Party, typeof(Parties));
                     newRow[movement.NomenclatureCount] = quantity;
                     newRow.SetRefValueToRowCell(movement, movement.SourceCell, row["Cell"], typeof(Cells));
-                    newRow.SetRefValueToRowCell(movement, movement.DestinationCell, Cells.Buyout.Id, typeof(Cells));
+                   // newRow.SetRefValueToRowCell(movement, movement.DestinationCell, Cells.Buyout.Id, typeof(Cells));
                     newRow[movement.RowState] = StatesOfDocument.Planned;
                     newRow.AddRowToTable(movement);
 

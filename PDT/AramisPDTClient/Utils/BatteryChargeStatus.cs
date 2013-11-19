@@ -7,9 +7,8 @@ using Microsoft.WindowsMobile.Status;
 
 namespace WMS_client.Utils
     {
-    class BatteryChargeStatus
+    public class BatteryChargeStatus
         {
-
         public static bool Low
             {
             get

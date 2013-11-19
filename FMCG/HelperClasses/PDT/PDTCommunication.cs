@@ -328,11 +328,12 @@ ORDER BY o.RowNumber");
             DateTime dateTime = Parties.GetDateOfManufactureById(party);
             date = dateTime.ToShortDateString();
             KeyValuePair<long, string> cellData;
-            Cells.GetNewCellForGoods(goods, dateTime, out cellData, out palett);
+            //Cells.GetNewCellForGoods(goods, dateTime, out cellData, out palett);
 
             incomeDoc = getIncomeDoc(count, goods, car);
-            cellId = cellData.Key;
-            cell = cellData.Value;
+            palett = 0;
+            cellId = 0;//cellData.Key;
+            cell = "";//cellData.Value;
             return true;
             }
 
