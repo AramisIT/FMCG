@@ -73,9 +73,9 @@
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="HelperClasses\BarcodeData.cs" />
     <Compile Include="HelperClasses\BarcodeWorker.cs" />
+    <Compile Include="Processes\BusinessProcess\Movement.cs" />
     <Compile Include="Processes\BusinessProcess\Selection.cs" />
     <Compile Include="Processes\BusinessProcess\Inventory.cs" />
-    <Compile Include="Processes\BusinessProcess\Movement.cs" />
     <Compile Include="Processes\ProcessData\InventoryData.cs" />
     <Compile Include="Processes\ProcessData\MovementData.cs" />
     <Compile Include="Processes\ProcessData\PlaningData.cs" />
@@ -102,7 +102,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Processes\RegistrationProcess.cs" />
-    <Compile Include="PropertyButtonInfo.cs" />
     <Compile Include="Repository.cs" />
     <Compile Include="ServerInteraction.cs" />
   </ItemGroup>

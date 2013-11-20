@@ -228,8 +228,7 @@ namespace WMS_client.Processes
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
 
             top += delta;
-            palletEditControls.trayButton = MainProcess.CreateButton("<піддон>", 5, top, 230, 35, "modelButton", trayButton_Click,
-               new PropertyButtonInfo() { PropertyName = "Tray", PropertyDescription = "Тип піддону" });
+            palletEditControls.trayButton = MainProcess.CreateButton("<піддон>", 5, top, 230, 35, "modelButton", trayButton_Click);
 
             top += delta + delta;
             palletEditControls.linersLabel = MainProcess.CreateLabel("Кількість прокладок:", 5, top, 180,
@@ -238,8 +237,7 @@ namespace WMS_client.Processes
 
             top += delta;
             linerItem = new CatalogItem();
-            palletEditControls.linerButton = MainProcess.CreateButton(string.Empty, 5, top, 230, 35, "modelButton", linerButton_Click,
-               new PropertyButtonInfo() { PropertyName = "Liner", PropertyDescription = "Тип прокладки" });
+            palletEditControls.linerButton = MainProcess.CreateButton(string.Empty, 5, top, 230, 35, "modelButton", linerButton_Click);
             updateLinerButton();
 
             top += delta + delta;
@@ -270,7 +268,7 @@ namespace WMS_client.Processes
             palletEditControls.linerButton.Text = linerItem.Id > 0 ? linerItem.Description : "<тип прокладки>";
             }
 
-        private void trayButton_Click(object sender)
+        private void trayButton_Click()
             {
             selectFromCatalog(new Repository().GetTraysList(), (selectedItem) =>
                 {
@@ -288,7 +286,7 @@ namespace WMS_client.Processes
                 }
             }
 
-        private void linerButton_Click(object sender)
+        private void linerButton_Click()
             {
             selectFromCatalog(new Repository().GetLinersList(), (selectedItem) =>
             {

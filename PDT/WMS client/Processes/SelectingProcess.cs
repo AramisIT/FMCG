@@ -76,9 +76,9 @@ namespace WMS_client.Processes
                 case Processes.Acceptance:
                     process = new Acceptance();
                     break;
-                //case Processes.Movement:
-                //    process = new Movement();
-                //    break;
+                case Processes.Movement:
+                    process = new Movement();
+                    break;
                 //case Processes.Selection:
                 //    process = new Selection();
                 //    break;
