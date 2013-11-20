@@ -224,6 +224,7 @@
     <Compile Include="DatabaseObjects\Remainders\PalletsRelations.cs" />
     <Compile Include="DatabaseObjects\Remainders\StockBalance.cs" />
     <Compile Include="HelperClasses\BarcodeWorker.cs" />
+    <Compile Include="HelperClasses\PDT\BoxesFinder.cs" />
     <Compile Include="HelperClasses\PDT\PDTCommunication.cs" />
     <Compile Include="HelperClasses\PDT\TypesOfProcess.cs" />
     <Compile Include="HelperClasses\PDT\ReceiveMessages.cs" />

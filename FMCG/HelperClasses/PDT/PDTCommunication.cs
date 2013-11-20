@@ -13,6 +13,7 @@ using AtosFMCG.Enums;
 using Catalogs;
 using Documents;
 using FMCG.DatabaseObjects.Enums;
+using FMCG.HelperClasses.PDT;
 using pdtExternalStorage;
 using Documents.GoodsAcceptance;
 
@@ -453,7 +454,7 @@ JOIN (SELECT Id FROM Documents WHERE Total=Finished)d ON i.Id=d.Id");
         /// <param name="isCell">Чи являється нова позиція коміркою</param>
         public void SetMoving(long palletId, long newPos, bool isCell)
             {
-            Movement.MovePallet(palletId, newPos, isCell);
+
             }
 
         /// <summary>Зберегти дані по прийманню товару</summary>
@@ -497,13 +498,7 @@ JOIN (SELECT Id FROM Documents WHERE Total=Finished)d ON i.Id=d.Id");
         /// <param name="cellId">Id комірки</param>
         public void SetSelectionData(long docId, long palletId, long cellId)
             {
-            Movement.MovePallet(palletId, cellId, true);
 
-            Query query = DB.NewQuery(
-                "UPDATE SubShipmentPlanNomenclatureInfo SET IsMove=1 WHERE IdDoc=@DocId AND Code=@PalletId");
-            query.AddInputParameter("DocId", docId);
-            query.AddInputParameter("PalletId", palletId);
-            query.Execute();
             }
 
         /// <summary></summary>
@@ -764,8 +759,6 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
             return acceptance.Write() == WritingResult.Success;
             }
 
-
-
         public bool GetPalletBalance(long palletId, out string nomenclatureDescription, out long trayId, out long linerId, out byte linersAmount,
             out int unitsPerBox, out long cellId, out string cellDescription, out long previousPalletCode)
             {
@@ -847,10 +840,40 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
             return result;
             }
 
-
         public bool GetNewInventoryId(long userId, out long documentId)
             {
             var doc = new Inventory();
+            doc.SetRef("Responsible", userId);
+            doc.Date = SystemConfiguration.ServerDateTime;
+            var writeResult = doc.Write();
+
+            documentId = doc.Id;
+            return writeResult == WritingResult.Success;
+            }
+
+        public bool ComplateInventory(long documentId, bool forceCompletion, out string errorMessage)
+            {
+            var inventory = new Inventory();
+            inventory.Read(documentId);
+            errorMessage = string.Empty;
+
+            inventory.State = StatesOfDocument.Completed;
+            return inventory.Write() == WritingResult.Success;
+            }
+
+        public bool ComplateMovement(long documentId, bool forceCompletion, out string errorMessage)
+            {
+            var document = new Moving();
+            document.Read(documentId);
+            errorMessage = string.Empty;
+
+            document.State = StatesOfDocument.Completed;
+            return document.Write() == WritingResult.Success;
+            }
+
+        public bool GetNewMovementId(long userId, out long documentId)
+            {
+            var doc = new Moving();
             doc.SetRef("Responsible", userId);
             doc.Date = SystemConfiguration.ServerDateTime;
             var writeResult = doc.Write();
@@ -871,33 +894,9 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
             // Эта строка должна быть в этом месте, т.к. после получения таблицы можно обращаться к столбцам, они уже не null
             var docTable = inventory.NomenclatureInfo;
 
-            var wareRow = resultTable.Rows[0];
-            var palletCode = Convert.ToInt64(wareRow[inventory.PalletCode.ColumnName]);
+            var palletCode = Convert.ToInt64(resultTable.Rows[0][inventory.PalletCode.ColumnName]);
 
-            var nomenclatureId = Convert.ToInt64(wareRow[inventory.Nomenclature.ColumnName]);
-            var nomenclature = (Nomenclature)new Nomenclature().Read(nomenclatureId);
-            if (!nomenclature.BoxType.Empty)
-                {
-                var planUnitsQuantity = Convert.ToInt32(wareRow[inventory.PlanValue.ColumnName]);
-                var factUnitsQuantity = Convert.ToInt32(wareRow[inventory.FactValue.ColumnName]);
-
-                var boxesPlan = (planUnitsQuantity / nomenclature.UnitsQuantityPerPack) + ((planUnitsQuantity % nomenclature.UnitsQuantityPerPack) > 0 ? 1 : 0);
-                var boxesFact = (factUnitsQuantity / nomenclature.UnitsQuantityPerPack) + ((factUnitsQuantity % nomenclature.UnitsQuantityPerPack) > 0 ? 1 : 0);
-
-                var boxesRow = resultTable.NewRow();
-                boxesRow[inventory.Nomenclature.ColumnName] = nomenclature.BoxType.Id;
-                boxesRow[inventory.PlanValue.ColumnName] = boxesPlan;
-                boxesRow[inventory.FactValue.ColumnName] = boxesFact;
-
-                boxesRow[inventory.StartCodeOfPreviousPallet.ColumnName] = 0;
-                boxesRow[inventory.FinalCodeOfPreviousPallet.ColumnName] = 0;
-
-                boxesRow[inventory.PalletCode.ColumnName] = palletCode;
-                boxesRow[inventory.StartCell.ColumnName] = wareRow[inventory.StartCell.ColumnName];
-                boxesRow[inventory.FinalCell.ColumnName] = wareRow[inventory.FinalCell.ColumnName];
-
-                resultTable.Rows.Add(boxesRow);
-                }
+            new BoxesFinder(resultTable, palletCode);
 
             for (int rowIndex = 0; rowIndex < resultTable.Rows.Count; rowIndex++)
                 {
@@ -950,16 +949,72 @@ from @table");
             return q.ThrowedException == null;
             }
 
-        public bool ComplateInventory(long documentId, bool forceCompletion, out string errorMessage)
+        public bool WriteMovementResult(long documentId, DataTable resultTable)
             {
-            var inventory = new Inventory();
-            inventory.Read(documentId);
-            errorMessage = string.Empty;
+            var q = DB.NewQuery("select max(LineNumber) lastRowNumber from SubMovingNomenclatureInfo where IdDoc = @IdDoc");
+            q.AddInputParameter("IdDoc", documentId);
+            var lastLineNumber = q.SelectInt64();
 
-            inventory.State = StatesOfDocument.Completed;
-            return inventory.Write() == WritingResult.Success;
+            var document = new Moving();
+            var currentTime = SystemConfiguration.ServerDateTime;
+
+            // Эта строка должна быть в этом месте, т.к. после получения таблицы можно обращаться к столбцам, они уже не null
+            var docTable = document.NomenclatureInfo;
+
+            var palletCode = Convert.ToInt64(resultTable.Rows[0][document.PalletCode.ColumnName]);
+
+            new BoxesFinder(resultTable, palletCode);
+
+
+            for (int rowIndex = 0; rowIndex < resultTable.Rows.Count; rowIndex++)
+                {
+                var sourceRow = resultTable.Rows[rowIndex];
+                var newRow = docTable.GetNewRow(document);
+                newRow[document.RowState] = (int)RowsStates.Completed;
+                newRow[document.RowDate] = currentTime;
+
+                var isTare = rowIndex != 0;
+                if (!isTare)
+                    {
+                    var sticker = (Stickers)new Stickers().Read(palletCode);
+                    newRow[document.Party] = sticker.GetRef("Party");
+                    }
+
+                newRow[document.Nomenclature] = Convert.ToInt64(sourceRow[document.Nomenclature.ColumnName]);
+                newRow[document.PlanValue] = Convert.ToDecimal(sourceRow[document.PlanValue.ColumnName]);
+                newRow[document.FactValue] = Convert.ToDecimal(sourceRow[document.FactValue.ColumnName]);
+
+                newRow[document.PalletCode] = palletCode;
+
+                newRow[document.StartCodeOfPreviousPallet] = Convert.ToInt64(sourceRow[document.StartCodeOfPreviousPallet.ColumnName]);
+                newRow[document.FinalCodeOfPreviousPallet] = Convert.ToInt64(sourceRow[document.FinalCodeOfPreviousPallet.ColumnName]);
+
+                newRow[document.StartCell] = Convert.ToInt64(sourceRow[document.StartCell.ColumnName]);
+                newRow[document.FinalCell] = Convert.ToInt64(sourceRow[document.FinalCell.ColumnName]);
+
+                newRow[Subtable.LINE_NUMBER_COLUMN_NAME] = lastLineNumber + rowIndex + 1;
+                newRow.AddRowToTable(document);
+                }
+
+            var rowsToInsert = document.NomenclatureInfo;
+
+            q = DB.NewQuery(@"insert into subMovingNomenclatureInfo([IdDoc],[LineNumber],[PalletCode],[Nomenclature],
+[PlanValue],[FactValue],[RowState],[RowDate],
+[StartCodeOfPreviousPallet] ,[FinalCodeOfPreviousPallet],
+[StartCell],[FinalCell], [Party])
+ 
+select @IdDoc, [LineNumber],[PalletCode],[Nomenclature],
+[PlanValue],[FactValue],[RowState],[RowDate],
+[StartCodeOfPreviousPallet] ,[FinalCodeOfPreviousPallet],
+[StartCell],[FinalCell], [Party]
+from @table");
+
+            q.AddInputTVPParameter("table", rowsToInsert, "dbo.tvp_Moving_NomenclatureInfo");
+            q.AddInputParameter("IdDoc", documentId);
+
+            q.Execute();
+
+            return q.ThrowedException == null;
             }
-
-
         }
     }

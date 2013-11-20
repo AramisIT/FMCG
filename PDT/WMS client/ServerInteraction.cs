@@ -293,5 +293,40 @@ namespace WMS_client
                 return false;
                 }
             }
+
+        public bool GetNewMovementId(long userId, out long documentId)
+            {
+            PerformQuery("GetNewMovementId", userId);
+
+            if (IsExistParameters)
+                {
+                documentId = Convert.ToInt64(Parameters[0]);
+                return documentId > 0;
+                }
+
+            documentId = 0;
+            return false;
+            }
+
+        public bool WriteMovementResult(long documentId, DataTable resultTable)
+            {
+            PerformQuery("WriteMovementResult", documentId, resultTable);
+            return success;
+            }
+
+        public bool ComplateMovement(long documentId, bool forceCompletion, out string errorMessage)
+            {
+            PerformQuery("ComplateMovement", documentId, forceCompletion);
+            if (IsExistParameters && Parameters[0] is bool && Parameters.Length > 1)
+                {
+                errorMessage = Parameters[1].ToString();
+                return (bool)Parameters[0];
+                }
+            else
+                {
+                errorMessage = QUERY_NOT_SERVED_MESSAGE;
+                return false;
+                }
+            }
         }
     }

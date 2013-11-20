@@ -193,7 +193,7 @@ namespace Documents
         public void CreateMovement()
             {
             long movementId = getMovementId();
-            Movement movement;
+            Moving movement;
 
             if (movementId == 0)
                 {
@@ -201,7 +201,7 @@ namespace Documents
 
                 if (result == WritingResult.Success)
                     {
-                    movement = new Movement { Source = this, State = StatesOfDocument.Planned };
+                    movement = new Moving { Source = this, State = StatesOfDocument.Planned };
                     movement.AfterWriting += movement_AfterWriting;
                     List<MovementFillingInfo> list = new List<MovementFillingInfo>();
 
@@ -244,14 +244,14 @@ namespace Documents
                 }
             else
                 {
-                movement = new Movement();
+                movement = new Moving();
                 movement.Read(movementId);
                 }
 
             UserInterface.Current.ShowItem(movement);
             }
 
-        private void fillMovement(Movement movement, IEnumerable<MovementFillingInfo> list)
+        private void fillMovement(Moving movement, IEnumerable<MovementFillingInfo> list)
             {
             foreach (MovementFillingInfo info in list)
                 {
@@ -259,71 +259,71 @@ namespace Documents
                 }
             }
 
-        private void fillMovement(Movement movement, MovementFillingInfo info)
+        private void fillMovement(Moving movement, MovementFillingInfo info)
             {
-            Query query = DB.NewQuery(@"
---DECLARE @Nomenclature BIGINT=1;
---DECLARE @Measure BIGINT=1;
---DECLARE @Party BIGINT=2;
-DECLARE @SourceType uniqueidentifier='029B0572-E5B5-48CD-9805-1211319A5633';
+//            Query query = DB.NewQuery(@"
+//--DECLARE @Nomenclature BIGINT=1;
+//--DECLARE @Measure BIGINT=1;
+//--DECLARE @Party BIGINT=2;
+//DECLARE @SourceType uniqueidentifier='029B0572-E5B5-48CD-9805-1211319A5633';
+//
+//WITH
+// PalletOrder AS (SELECT f.PalletCode,ROW_NUMBER() OVER(ORDER BY f.CreationDate) PalletOrder FROM FilledCell f)
+//,AcceptedCode AS (
+//	SELECT DISTINCT a.NomenclatureCode code 
+//	FROM SubAcceptanceOfGoodsNomenclatureInfo a 
+//	WHERE a.NomenclatureParty=@Party 
+//	
+//	EXCEPT 
+//	
+//	SELECT DISTINCT n.NomenclatureCode
+//	FROM Movement m
+//	JOIN SubMovementNomenclatureInfo n ON n.IdDoc=m.Id
+//	JOIN ShipmentPlan p ON p.Id=m.Source AND m.SourceType=@SourceType
+//	WHERE m.MarkForDeleting=0 AND n.RowState=0 AND n.NomenclatureParty=@Party AND n.Nomenclature=@Nomenclature AND n.NomenclatureMeasure=@Measure)
+//,PreparedData AS (
+//	SELECT
+//		b.Cell,b.ExpariedDate,b.UniqueCode,b.Quantity,b.MeasureUnit,
+//		ROW_NUMBER() OVER (PARTITION BY b.Cell ORDER BY p.PalletOrder DESC,b.ExpariedDate DESC) RowNumber
+//	FROM StockBalance b
+//	JOIN PalletOrder p ON p.PalletCode=b.UniqueCode
+//	JOIN AcceptedCode a ON a.code=b.UniqueCode
+//	WHERE b.Nomenclature=@Nomenclature AND b.MeasureUnit=@Measure AND b.State=4)
+//	
+//SELECT *
+//FROM PreparedData");
+//            query.AddInputParameter("Nomenclature", info.Nomenclature);
+//            query.AddInputParameter("Measure", info.Measure);
+//            query.AddInputParameter("Party", info.Party);
+//            DataTable table = query.SelectToTable();
+//            double howIsUsed = 0;
 
-WITH
- PalletOrder AS (SELECT f.PalletCode,ROW_NUMBER() OVER(ORDER BY f.CreationDate) PalletOrder FROM FilledCell f)
-,AcceptedCode AS (
-	SELECT DISTINCT a.NomenclatureCode code 
-	FROM SubAcceptanceOfGoodsNomenclatureInfo a 
-	WHERE a.NomenclatureParty=@Party 
-	
-	EXCEPT 
-	
-	SELECT DISTINCT n.NomenclatureCode
-	FROM Movement m
-	JOIN SubMovementNomenclatureInfo n ON n.IdDoc=m.Id
-	JOIN ShipmentPlan p ON p.Id=m.Source AND m.SourceType=@SourceType
-	WHERE m.MarkForDeleting=0 AND n.RowState=0 AND n.NomenclatureParty=@Party AND n.Nomenclature=@Nomenclature AND n.NomenclatureMeasure=@Measure)
-,PreparedData AS (
-	SELECT
-		b.Cell,b.ExpariedDate,b.UniqueCode,b.Quantity,b.MeasureUnit,
-		ROW_NUMBER() OVER (PARTITION BY b.Cell ORDER BY p.PalletOrder DESC,b.ExpariedDate DESC) RowNumber
-	FROM StockBalance b
-	JOIN PalletOrder p ON p.PalletCode=b.UniqueCode
-	JOIN AcceptedCode a ON a.code=b.UniqueCode
-	WHERE b.Nomenclature=@Nomenclature AND b.MeasureUnit=@Measure AND b.State=4)
-	
-SELECT *
-FROM PreparedData");
-            query.AddInputParameter("Nomenclature", info.Nomenclature);
-            query.AddInputParameter("Measure", info.Measure);
-            query.AddInputParameter("Party", info.Party);
-            DataTable table = query.SelectToTable();
-            double howIsUsed = 0;
+//            if (table != null)
+//                {
+//                foreach (DataRow row in table.Rows)
+//                    {
+//                    double quantity = Convert.ToDouble(row["Quantity"]);
+//                    howIsUsed += quantity;
 
-            if (table != null)
-                {
-                foreach (DataRow row in table.Rows)
-                    {
-                    double quantity = Convert.ToDouble(row["Quantity"]);
-                    howIsUsed += quantity;
+//                    DataRow newRow = movement.NomenclatureInfo.GetNewRow(movement);
+//                    newRow[movement.NomenclatureCode] = row["UniqueCode"];
+//                    newRow.SetRefValueToRowCell(movement, movement.Nomenclature, info.Nomenclature, typeof(Nomenclature));
+//                    newRow.SetRefValueToRowCell(movement, movement.NomenclatureMeasure, info.Measure, typeof(Measures));
+//                    newRow.SetRefValueToRowCell(movement, movement.NomenclatureParty, info.Party, typeof(Parties));
+//                    newRow[movement.NomenclatureCount] = quantity;
+//                    newRow.SetRefValueToRowCell(movement, movement.SourceCell, row["Cell"], typeof(Cells));
+//                   // newRow.SetRefValueToRowCell(movement, movement.DestinationCell, Cells.Buyout.Id, typeof(Cells));
+//                    newRow[movement.RowState] = StatesOfDocument.Planned;
+//                    newRow.AddRowToTable(movement);
 
-                    DataRow newRow = movement.NomenclatureInfo.GetNewRow(movement);
-                    newRow[movement.NomenclatureCode] = row["UniqueCode"];
-                    newRow.SetRefValueToRowCell(movement, movement.Nomenclature, info.Nomenclature, typeof(Nomenclature));
-                    newRow.SetRefValueToRowCell(movement, movement.NomenclatureMeasure, info.Measure, typeof(Measures));
-                    newRow.SetRefValueToRowCell(movement, movement.NomenclatureParty, info.Party, typeof(Parties));
-                    newRow[movement.NomenclatureCount] = quantity;
-                    newRow.SetRefValueToRowCell(movement, movement.SourceCell, row["Cell"], typeof(Cells));
-                   // newRow.SetRefValueToRowCell(movement, movement.DestinationCell, Cells.Buyout.Id, typeof(Cells));
-                    newRow[movement.RowState] = StatesOfDocument.Planned;
-                    newRow.AddRowToTable(movement);
+//                    if (howIsUsed >= info.Count)
+//                        {
+//                        break;
+//                        }
+//                    }
+//                }
 
-                    if (howIsUsed >= info.Count)
-                        {
-                        break;
-                        }
-                    }
-                }
-
-            movement.SetSubtableModified(movement.NomenclatureInfo.TableName);
+//            movement.SetSubtableModified(movement.NomenclatureInfo.TableName);
             }
 
         void movement_AfterWriting(DatabaseObject item)

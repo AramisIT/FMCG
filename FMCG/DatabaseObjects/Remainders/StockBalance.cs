@@ -27,7 +27,7 @@ namespace FMCG.DatabaseObjects.Remainders
 
         public override DatabaseObject[] GetObjectsOfMotions()
             {
-            return new DatabaseObject[] { new AcceptanceOfGoods(), new Inventory() };
+            return new DatabaseObject[] { new AcceptanceOfGoods(), new Inventory(), new Moving() };
             }
 
         public override DataColumn AddMotions(DatabaseObject databaseObject)
@@ -50,6 +50,35 @@ namespace FMCG.DatabaseObjects.Remainders
             else if (databaseObject is Inventory)
                 {
                 var item = databaseObject as Inventory;
+
+                AddMotion(Nomenclature, item.Nomenclature);
+                AddMotion(Cell, item.FinalCell);
+                AddMotion(State, item.RowState);
+                AddMotion(Party, item.Party);
+                AddMotion(Code, item.PalletCode);
+                AddMotion(Quantity, item.FactValue);
+
+                SetExceptionsValues(item.FactValue, 0);
+                SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+
+
+                StartNewMotionsCollection();
+
+                AddMotion(Nomenclature, item.Nomenclature);
+                AddMotion(Cell, item.StartCell);
+                AddMotion(State, item.RowState);
+                AddMotion(Party, item.Party);
+                AddMotion(Code, item.PalletCode);
+                AddMotion(Quantity, item.PlanValue, true);
+
+                SetExceptionsValues(item.PlanValue, 0);
+                SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+
+                return item.RowDate;
+                }
+            else if (databaseObject is Moving)
+                {
+                var item = databaseObject as Moving;
 
                 AddMotion(Nomenclature, item.Nomenclature);
                 AddMotion(Cell, item.FinalCell);

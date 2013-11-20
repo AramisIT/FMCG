@@ -78,9 +78,36 @@ namespace AtosFMCG.HelperClasses.PDT
                     return GetNewInventoryId(parameters);
                 case "WriteInventoryResult":
                     return new object[] { communication.WriteInventoryResult(Convert.ToInt64(parameters[0]), parameters[1] as DataTable) };
+
+                case "GetNewMovementId":
+                    return GetNewMovementId(parameters);
+                case "ComplateMovement":
+                    return ComplateMovement(parameters);
+                case "WriteMovementResult":
+                    return new object[] { communication.WriteMovementResult(Convert.ToInt64(parameters[0]), parameters[1] as DataTable) };
                 }
 
             return new object[0];
+            }
+
+        private static object[] ComplateMovement(object[] parameters)
+            {
+            string message;
+            bool result = communication.ComplateMovement(Convert.ToInt64(parameters[0]), Convert.ToBoolean(parameters[1]), out message);
+
+            return new object[] { result, message };
+            }
+
+        private static object[] GetNewMovementId(object[] parameters)
+            {
+            long documentId;
+
+            if (!communication.GetNewMovementId(Convert.ToInt64(parameters[0]), out documentId))
+                {
+                return new object[] { 0 };
+                }
+
+            return new object[] { documentId };
             }
 
         private static object[] ComplateInventory(object[] parameters)

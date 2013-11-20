@@ -357,5 +357,10 @@ namespace AtosFMCG
             {
             UserInterface.Current.ShowList(typeof(Inventory));
             }
+
+        private void barButtonItem11_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(Moving));
+            }
         }
     }

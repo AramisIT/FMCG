@@ -48,7 +48,7 @@ namespace WMS_client.Processes
         private BarcodeData startBarcodeData;
         private bool cellDefined;
         private long documentId;
-        private DataTable resultTable;
+
         private Dictionary<long, bool> processedPallets = new Dictionary<long, bool>();
 
         private const string INVALID_BARCODE_MSG = "Â³äñêàíîâàíèé øòðèõ-êîä íå â³ðíèé";
@@ -58,17 +58,6 @@ namespace WMS_client.Processes
             {
             ToDoCommand = "²ÍÂÅÍÒÀÐÈÇÀÖ²ß";
             checkAcceptanceCache();
-
-            resultTable = new DataTable();
-            resultTable.Columns.AddRange(new DataColumn[] { 
-            new DataColumn("Nomenclature", typeof(long)),
-            new DataColumn("PalletCode", typeof(long)), 
-            new DataColumn("StartCodeOfPreviousPallet", typeof(long)), 
-            new DataColumn("FinalCodeOfPreviousPallet", typeof(long)), 
-            new DataColumn("PlanValue", typeof(int)), 
-            new DataColumn("FactValue", typeof(int)), 
-            new DataColumn("StartCell", typeof(long)), 
-            new DataColumn("FinalCell", typeof(long))});
             }
 
         private void checkAcceptanceCache()
@@ -370,57 +359,8 @@ namespace WMS_client.Processes
             currentBarcodeData.LinersAmount = linersCount;
             currentBarcodeData.UnitsQuantity = unitsCount + packsCount * currentBarcodeData.UnitsPerBox;
 
-            resultTable.Rows.Clear();
-
-            appendResult(currentBarcodeData.Nomenclature.Id, currentBarcodeData.Nomenclature.Id, startBarcodeData.UnitsQuantity, currentBarcodeData.UnitsQuantity, false);
-
-            if (currentBarcodeData.LinersAmount > 0 || startBarcodeData.LinersAmount > 0)
-                {
-                appendResult(startBarcodeData.Liner.Id, currentBarcodeData.Liner.Id, startBarcodeData.LinersAmount, currentBarcodeData.LinersAmount, true);
-                }
-
-            if (currentBarcodeData.Tray.Id > 0 || startBarcodeData.Tray.Id > 0)
-                {
-                appendResult(startBarcodeData.Tray.Id, currentBarcodeData.Tray.Id, startBarcodeData.Tray.Id > 0 ? 1 : 0, currentBarcodeData.Tray.Id > 0 ? 1 : 0, true);
-                }
-
-            return new ServerInteraction().WriteInventoryResult(documentId, resultTable);
-            }
-
-        private void appendResult(long startId, long finalId, long plan, long fact, bool isTare)
-            {
-            if (startId == finalId)
-                {
-                appendResultToTable(startId, plan, fact, startBarcodeData.Cell.Id, currentBarcodeData.Cell.Id, isTare);
-                return;
-                }
-
-            if (startId > 0)
-                {
-                appendResultToTable(startId, plan, 0, startBarcodeData.Cell.Id, startBarcodeData.Cell.Id, isTare);
-                }
-
-            if (finalId > 0)
-                {
-                appendResultToTable(finalId, 0, fact, currentBarcodeData.Cell.Id, currentBarcodeData.Cell.Id, isTare);
-                }
-            }
-
-        private void appendResultToTable(long startId, long plan, long fact, long startCell, long finalCell, bool isTare)
-            {
-            var row = resultTable.NewRow();
-
-            row["Nomenclature"] = startId;
-            row["PlanValue"] = plan;
-            row["FactValue"] = fact;
-
-            row["PalletCode"] = currentBarcodeData.StickerId;
-            row["StartCodeOfPreviousPallet"] = isTare ? 0L : startBarcodeData.PreviousStickerCode;
-            row["FinalCodeOfPreviousPallet"] = isTare ? 0L : currentBarcodeData.PreviousStickerCode;
-            row["StartCell"] = startCell;
-            row["FinalCell"] = finalCell;
-
-            resultTable.Rows.Add(row);
+            var movementWriter = new TableMovementWriter(startBarcodeData, currentBarcodeData);
+            return new ServerInteraction().WriteInventoryResult(documentId, movementWriter.Table);
             }
 
         private bool initDocument()
@@ -485,7 +425,7 @@ namespace WMS_client.Processes
 
             palletEditControls.nomenclatureLabel.Text = currentBarcodeData.Nomenclature.Description;
             palletEditControls.trayButton.Text = currentBarcodeData.Tray.Description;
-          
+
             palletEditControls.stickerIdInfoLabel.Text = string.Format("Êîä ïàëåòè: {0}", currentBarcodeData.StickerId);
 
             if (currentBarcodeData.UnitsPerBox > 0)

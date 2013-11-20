@@ -167,5 +167,11 @@ namespace pdtExternalStorage
         bool WriteInventoryResult(long documentId, DataTable resultTable);
 
         bool ComplateInventory(long documentId, bool forceCompletion, out string errorDescription);
+
+        bool GetNewMovementId(long userId, out long documentId);
+
+        bool WriteMovementResult(long documentId, DataTable resultTable);
+
+        bool ComplateMovement(long documentId, bool forceCompletion, out string errorMessage);
         }
     }
