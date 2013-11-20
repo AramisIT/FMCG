@@ -49,6 +49,7 @@ namespace WMS_client.Processes
         private bool cellDefined;
         private long documentId;
         private DataTable resultTable;
+        private Dictionary<long, bool> processedPallets = new Dictionary<long, bool>();
 
         private const string INVALID_BARCODE_MSG = "Відсканований штрих-код не вірний";
 
@@ -119,6 +120,7 @@ namespace WMS_client.Processes
                             }
                         if (saveFact())
                             {
+                            processedPallets.Add(currentBarcodeData.StickerId, true);
                             startScanNextPallet();
                             }
                         return;
@@ -151,6 +153,12 @@ namespace WMS_client.Processes
 
             var barcodeData = barcode.ToBarcodeData();
 
+            if (processedPallets.ContainsKey(barcodeData.StickerId))
+                {
+                "Ця палета вже була оброблена".ShowMessage();
+                return;
+                }
+
             if (!readStickerInfo(barcodeData)) return;
 
             startBarcodeData = barcodeData;
@@ -166,6 +174,7 @@ namespace WMS_client.Processes
             if (barcode.IsSticker())
                 {
                 var barcodeData = barcode.ToBarcodeData();
+                processedPallets = new Dictionary<long, bool>();
 
                 var samePallet = currentBarcodeData != null && currentBarcodeData.StickerId == barcodeData.StickerId;
                 if (samePallet)
@@ -275,8 +284,8 @@ namespace WMS_client.Processes
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
 
             top += delta;
-            palletEditControls.trayButton = MainProcess.CreateButton("<піддон>", 5, top, 230, 35, "modelButton", trayButton_Click,
-               new PropertyButtonInfo() { PropertyName = "Tray", PropertyDescription = "Тип піддону" });
+            palletEditControls.trayButton = MainProcess.CreateButton("", 5, top, 230, 35, "modelButton", trayButton_Click);
+            updateTrayDescription();
 
             top += delta + delta;
             palletEditControls.linersLabel = MainProcess.CreateLabel("Кількість прокладок:", 5, top, 180,
@@ -284,8 +293,7 @@ namespace WMS_client.Processes
             palletEditControls.linersQuantityTextBox = MainProcess.CreateTextBox(190, top, 45, string.Empty, ControlsStyle.LabelNormal, null, false);
 
             top += delta;
-            palletEditControls.linerButton = MainProcess.CreateButton(string.Empty, 5, top, 230, 35, "modelButton", linerButton_Click,
-               new PropertyButtonInfo() { PropertyName = "Liner", PropertyDescription = "Тип прокладки" });
+            palletEditControls.linerButton = MainProcess.CreateButton(string.Empty, 5, top, 230, 35, "modelButton", linerButton_Click);
             updateLinerButton();
 
             top += delta + delta;
@@ -317,13 +325,19 @@ namespace WMS_client.Processes
             palletEditControls.linerButton.Text = liner.Id > 0 ? liner.Description : "<тип прокладки>";
             }
 
-        private void trayButton_Click(object sender)
+        private void trayButton_Click()
             {
             selectFromCatalog(new Repository().GetTraysList(), (selectedItem) =>
                 {
-                    palletEditControls.trayButton.Text = selectedItem.Description;
                     currentBarcodeData.Tray = selectedItem;
+                    updateTrayDescription();
                 });
+            }
+
+        private void updateTrayDescription()
+            {
+            var tray = ((currentBarcodeData ?? new BarcodeData()).Tray ?? new CatalogItem());
+            palletEditControls.trayButton.Text = tray.Id == 0 ? "без піддону" : tray.Description;
             }
 
         private void selectFromCatalog(List<CatalogItem> itemsList, Action<CatalogItem> onSelect)
@@ -335,7 +349,7 @@ namespace WMS_client.Processes
                 }
             }
 
-        private void linerButton_Click(object sender)
+        private void linerButton_Click()
             {
             selectFromCatalog(new Repository().GetLinersList(), (selectedItem) =>
             {
@@ -471,7 +485,7 @@ namespace WMS_client.Processes
 
             palletEditControls.nomenclatureLabel.Text = currentBarcodeData.Nomenclature.Description;
             palletEditControls.trayButton.Text = currentBarcodeData.Tray.Description;
-            
+          
             palletEditControls.stickerIdInfoLabel.Text = string.Format("Код палети: {0}", currentBarcodeData.StickerId);
 
             if (currentBarcodeData.UnitsPerBox > 0)
@@ -487,6 +501,7 @@ namespace WMS_client.Processes
 
             linersCount = currentBarcodeData.LinersAmount;
             updateLinerButton();
+            updateTrayDescription();
             }
 
         private void updateCellDescription()
