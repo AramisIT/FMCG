@@ -70,7 +70,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="HelperClasses\BarcodeData.cs" />
     <Compile Include="HelperClasses\BarcodeWorker.cs" />
     <Compile Include="HelperClasses\TableMovementWriter.cs" />
@@ -81,14 +80,9 @@
     <Compile Include="Processes\ProcessData\MovementData.cs" />
     <Compile Include="Processes\ProcessData\PlaningData.cs" />
     <Compile Include="Processes\ProcessData\SelectionData.cs" />
-    <Compile Include="Processes\Screens\SelectedGoodsInfo.cs" />
-    <Compile Include="Processes\Screens\InventoryOfPallet.cs" />
-    <Compile Include="Processes\Screens\MovingPallet.cs" />
-    <Compile Include="Processes\Screens\ReadBarcode.cs" />
     <Compile Include="Processes\SelectTableList.cs" />
     <Compile Include="Processes\BusinessProcess\Acceptance.cs" />
     <Compile Include="Processes\ProcessData\IProcessData.cs" />
-    <Compile Include="Processes\Process.cs" />
     <Compile Include="Processes\SelectingProcess.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

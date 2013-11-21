@@ -1,5 +1,4 @@
-﻿using WMS_client.Delegates;
-using System.Data;
+﻿using System.Data;
 using System.Collections.Generic;
 
 namespace WMS_client.Processes
@@ -21,6 +20,8 @@ namespace WMS_client.Processes
 
     internal class SelectTableList : BusinessProcess
         {
+        public delegate void SelectFromListDelegate(long selectedIndex, string description);
+
         #region Properties
         private readonly string headerOfDescriptionColumn;
         private readonly SelectFromListDelegate navigateToNextScreen;
