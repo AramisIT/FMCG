@@ -98,7 +98,7 @@ namespace FMCG.DatabaseObjects.Remainders
                 AddMotion(State, item.RowState);
                 AddMotion(Party, item.Party);
                 AddMotion(Code, item.PalletCode);
-                AddMotion(Quantity, item.PlanValue, true);
+                AddMotion(Quantity, item.FactValue, true);
 
                 SetExceptionsValues(item.PlanValue, 0);
                 SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
