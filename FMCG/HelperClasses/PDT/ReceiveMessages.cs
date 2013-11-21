@@ -85,9 +85,46 @@ namespace AtosFMCG.HelperClasses.PDT
                     return ComplateMovement(parameters);
                 case "WriteMovementResult":
                     return new object[] { communication.WriteMovementResult(Convert.ToInt64(parameters[0]), parameters[1] as DataTable) };
+
+                case "WritePickingResult":
+                    return new object[] { communication.WritePickingResult(Convert.ToInt64(parameters[0]), Convert.ToInt32(parameters[1]), parameters[2] as DataTable) };
+
+                case "GetPickingTask":
+                    return GetPickingTask(parameters);
+
+                case "GetPickingDocuments":
+                    return new object[] { communication.GetPickingDocuments() };
                 }
 
             return new object[0];
+            }
+
+        private static object[] GetPickingTask(object[] parameters)
+            {
+            long stickerId;
+            long wareId;
+            string wareDescription;
+            long cellId;
+            string cellDescription;
+            long partyId;
+            DateTime productionDate;
+            int unitsPerBox;
+            int unitsToPick;
+            int lineNumber;
+
+            if (!communication.GetPickingTask(Convert.ToInt64(parameters[0]),
+                out stickerId,
+                out wareId, out wareDescription,
+                out cellId, out cellDescription,
+                out partyId, out productionDate,
+                out unitsPerBox, out unitsToPick,
+                out lineNumber))
+                {
+                return new object[] { };
+                }
+
+            return new object[] { stickerId, wareId, wareDescription, cellId, cellDescription, partyId, productionDate.ConvertToStringDateOnly(), 
+            unitsPerBox, unitsToPick, lineNumber};
             }
 
         private static object[] ComplateMovement(object[] parameters)
@@ -141,15 +178,18 @@ namespace AtosFMCG.HelperClasses.PDT
             string cellDescription;
             long cellId;
             long previousPalletCode;
+            DateTime productionDate;
+            long partyId;
 
             if (!communication.GetPalletBalance(Convert.ToInt64(parameters[0]),
                     out nomenclatureDescription, out trayId, out linerId, out linersAmount,
-                    out unitsPerBox, out cellId, out cellDescription, out previousPalletCode))
+                    out unitsPerBox, out cellId, out cellDescription, out previousPalletCode, out  productionDate, out partyId))
                 {
                 return new object[] { false };
                 }
 
-            return new object[] { nomenclatureDescription, trayId, linerId, linersAmount, unitsPerBox, cellId, cellDescription, previousPalletCode };
+            return new object[] { nomenclatureDescription, trayId, linerId, linersAmount, unitsPerBox, cellId, cellDescription, previousPalletCode, 
+            productionDate.ConvertToStringDateOnly(), partyId };
             }
 
         private static object[] WriteStickerFact(object[] parameters)

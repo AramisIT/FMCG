@@ -27,7 +27,7 @@ namespace WMS_client.Processes
                 }
             }
 
-        internal void Show()
+        public void Show()
             {
             checkControlsList();
 
@@ -37,7 +37,7 @@ namespace WMS_client.Processes
             }
 
 
-        internal void Hide()
+        public void Hide()
             {
             checkControlsList();
 

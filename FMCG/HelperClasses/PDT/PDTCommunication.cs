@@ -203,11 +203,14 @@ Data AS (
 	
 	SELECT 'Picking' Type,COUNT(1) Count
 	FROM Moving
-	WHERE State=0 AND MarkForDeleting=0 AND PickingPlan>0)
+	WHERE (State = @PlanState or State = @ProcessingState) AND MarkForDeleting=0 AND PickingPlan<>0)
 
 SELECT * 
 FROM Data d
-PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Movement])) as pivoted");
+PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Picking])) as pivoted");
+            query.AddInputParameter("PlanState", (int)StatesOfDocument.Planned);
+            query.AddInputParameter("ProcessingState", (int)StatesOfDocument.Processing);
+
             QueryResult result = query.SelectRow();
 
             if (result == null)
@@ -760,9 +763,10 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
             }
 
         public bool GetPalletBalance(long palletId, out string nomenclatureDescription, out long trayId, out long linerId, out byte linersAmount,
-            out int unitsPerBox, out long cellId, out string cellDescription, out long previousPalletCode)
+            out int unitsPerBox, out long cellId, out string cellDescription, out long previousPalletCode, out DateTime productionDate, out long partyId)
             {
-            trayId = linerId = cellId = previousPalletCode = unitsPerBox = linersAmount = 0;
+            partyId = trayId = linerId = cellId = previousPalletCode = unitsPerBox = linersAmount = 0;
+            productionDate = DateTime.MinValue;
             cellDescription = string.Empty;
 
             GoodsRows goodsRows = getPalletBalance(palletId);
@@ -787,6 +791,9 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
                 {
                 cellId = Convert.ToInt64(goodsRows.WareRow[GoodsRows.CELL]);
                 cellDescription = goodsRows.WareRow["CellDescription"].ToString();
+                var productionDateObj = goodsRows.WareRow["ProductionDate"];
+                productionDate = productionDateObj.IsNull() ? DateTime.MinValue : (DateTime)productionDateObj;
+                partyId = Convert.ToInt64(goodsRows.WareRow["Party"]);
                 }
 
             var q = DB.NewQuery("select top 1 relation.PreviousPallet from dbo.GetPalletsRelations ('0001-01-01', @palletId, 0) relation");
@@ -809,7 +816,8 @@ select top 2 cast(Value as bigint) [Id], 3 wareType
 from [SystemConsts] where [description] = 'StandartLiner' or [description] = 'NonStandartLiner'
 )
 
-select Stock.Nomenclature, Stock.Cell NomenclatureCell, Stock.Party, Stock.Quantity NomenclatureFact,
+select Stock.Nomenclature, Stock.Cell NomenclatureCell, Stock.Party, 
+par.DateOfManufacture [ProductionDate], Stock.Quantity NomenclatureFact,
     isnull(RTRIM(c.[Description]),'') [CellDescription],
 ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) NomenclatureType
 
@@ -823,6 +831,7 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
   
     left join tareTypes on tareTypes.Id = Stock.Nomenclature and Stock.Party = 0
     left join Cells c on c.Id = Stock.Cell
+    left join Parties par on par.Id = Stock.Party
     
 ";
             var q = DB.NewQuery(sql);
@@ -1016,5 +1025,133 @@ from @table");
 
             return q.ThrowedException == null;
             }
+
+        public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable)
+            {
+            var document = new Moving();
+            document.Read(documentId);
+
+            var currentTime = SystemConfiguration.ServerDateTime;
+
+            var resultWareRow = resultTable.Rows[0];
+            var wareRow = document.NomenclatureInfo.Rows[currentLineNumber - 1];
+            wareRow[document.FactValue] = resultWareRow[document.FactValue.ColumnName];
+            wareRow[document.StartCell] = resultWareRow[document.StartCell.ColumnName];
+            wareRow[document.FinalCell] = Consts.RedemptionCell.Id;
+            wareRow[document.StartCodeOfPreviousPallet] = resultWareRow[document.StartCodeOfPreviousPallet.ColumnName];
+            wareRow[document.FinalCodeOfPreviousPallet] = 0L;
+            wareRow[document.RowState] = (int)RowsStates.Completed;
+            wareRow[document.RowDate] = currentTime;
+
+
+            var palletCode = Convert.ToInt64(resultTable.Rows[0][document.PalletCode.ColumnName]);
+
+            wareRow[document.PalletCode] = palletCode;
+            var boxesFinder = new BoxesFinder(resultTable, palletCode);
+
+            if (boxesFinder.BoxesRowAdded)
+                {
+                var boxesRow = document.NomenclatureInfo.GetNewRow(document);
+
+                boxesRow[document.Nomenclature] = boxesFinder.BoxesRow[document.Nomenclature.ColumnName];
+
+                boxesRow[document.StartCodeOfPreviousPallet] = 0L;
+                boxesRow[document.FinalCodeOfPreviousPallet] = 0L;
+                boxesRow[document.RowState] = (int)RowsStates.Completed;
+                boxesRow[document.RowDate] = currentTime;
+
+                boxesRow[document.FactValue] = boxesFinder.BoxesRow[document.FactValue.ColumnName];
+
+                boxesRow[document.FinalCell] = wareRow[document.FinalCell];
+                boxesRow[document.StartCell] = wareRow[document.StartCell];
+
+                boxesRow[document.PalletCode] = palletCode;
+
+                boxesRow.AddRowToTable(document);
+                }
+
+
+            var result = document.Write();
+            return result == WritingResult.Success;
+            }
+
+        public DataTable GetPickingDocuments()
+            {
+            var q = DB.NewQuery(@"
+Select m.Id, (rtrim(c.[Description]) + ' ¹ ' 
++ CAST(p.number as nvarchar(max))
+) [Description] 
+
+from Moving m
+join ShipmentPlan p on p.Id = m.PickingPlan
+left join Contractors c on c.Id = p.Contractor
+where (m.State = @PlanState or m.State = @ProcessingState) AND m.MarkForDeleting = 0 
+");
+            q.AddInputParameter("PlanState", (int)StatesOfDocument.Planned);
+            q.AddInputParameter("ProcessingState", (int)StatesOfDocument.Processing);
+
+            var result = q.SelectToTable();
+            return result;
+            }
+
+        public bool GetPickingTask(long documentId, out long stickerId, out long wareId, out string wareDescription,
+            out long cellId, out string cellDescription,
+            out long partyId, out DateTime productionDate,
+            out int unitsPerBox, out int unitsToPick,
+            out int lineNumber)
+            {
+            const string sql =
+            @"
+select top 1 cap.[State],
+task.PalletCode stickerId, task.LineNumber,
+task.Nomenclature wareId, rtrim(n.[description]) wareDescription,
+task.StartCell cellId, ISNULL(rtrim(c.[Description]), '') cellDescription,
+task.Party partyId, p.DateOfManufacture productionDate,
+n.UnitsQuantityPerPack unitsPerBox, task.PlanValue unitsToPick 
+
+from SubMovingNomenclatureInfo task
+join Nomenclature n on n.Id = task.Nomenclature
+left join Cells c on c.Id = task.StartCell
+join Parties p on p.Id = task.Party
+join Moving cap on cap.Id = task.IdDoc
+
+where IdDoc = @IdDoc and RowState = @RowState
+order by [LineNumber]";
+            var q = DB.NewQuery(sql);
+            q.AddInputParameter("IdDoc", documentId);
+            q.AddInputParameter("RowState", RowsStates.PlannedPicking);
+            var qResult = q.SelectRow();
+
+            if (qResult == null)
+                {
+                stickerId = wareId = cellId = partyId = unitsToPick = unitsPerBox = lineNumber = 0;
+                wareDescription = cellDescription = string.Empty;
+                productionDate = DateTime.MinValue;
+                return true;
+                }
+
+            var documentState = (StatesOfDocument)Convert.ToInt32(qResult["State"]);
+            if (documentState == StatesOfDocument.Planned)
+                {
+                var moving = (Moving)new Moving().Read(documentId);
+                moving.State = StatesOfDocument.Processing;
+                moving.Write();
+                }
+
+            stickerId = Convert.ToInt64(qResult["stickerId"]);
+            wareId = Convert.ToInt64(qResult["wareId"]);
+            wareDescription = qResult["wareDescription"].ToString();
+            cellId = Convert.ToInt64(qResult["cellId"]);
+            cellDescription = qResult["cellDescription"].ToString();
+            partyId = Convert.ToInt64(qResult["partyId"]);
+            productionDate = (DateTime)qResult["productionDate"];
+            unitsPerBox = Convert.ToInt32(qResult["unitsPerBox"]);
+            unitsToPick = Convert.ToInt32(qResult["unitsToPick"]);
+            lineNumber = Convert.ToInt32(qResult["LineNumber"]);
+            return true;
+            }
+
+
+
         }
     }

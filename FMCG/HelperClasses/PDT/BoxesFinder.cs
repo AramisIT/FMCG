@@ -12,6 +12,16 @@ namespace FMCG.HelperClasses.PDT
         private System.Data.DataTable resultTable;
         private long palletCode;
 
+        public bool BoxesRowAdded
+            {
+            get
+                {
+                return BoxesRow != null;
+                }
+            }
+
+        public DataRow BoxesRow { get; private set; }
+
         public BoxesFinder(DataTable resultTable, long palletCode)
             {
             this.resultTable = resultTable;
@@ -47,6 +57,8 @@ namespace FMCG.HelperClasses.PDT
                 boxesRow["FinalCell"] = wareRow["FinalCell"];
 
                 resultTable.Rows.Add(boxesRow);
+
+                BoxesRow = boxesRow;
                 }
             }
         }

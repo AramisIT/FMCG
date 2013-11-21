@@ -23,14 +23,14 @@ namespace WMS_client.HelperClasses
 
         private void fillTable()
             {
-            appendResult(finalBarcodeData.Nomenclature.Id, finalBarcodeData.Nomenclature.Id, startBarcodeData.UnitsQuantity, finalBarcodeData.UnitsQuantity, false);
+            appendResult(finalBarcodeData.Nomenclature.Id, finalBarcodeData.Nomenclature.Id, startBarcodeData.TotalUnitsQuantity, finalBarcodeData.TotalUnitsQuantity, false);
 
-            if (finalBarcodeData.LinersAmount > 0 || startBarcodeData.LinersAmount > 0)
+            if (finalBarcodeData.HasLiners || startBarcodeData.HasLiners)
                 {
                 appendResult(startBarcodeData.Liner.Id, finalBarcodeData.Liner.Id, startBarcodeData.LinersAmount, finalBarcodeData.LinersAmount, true);
                 }
 
-            if (finalBarcodeData.Tray.Id > 0 || startBarcodeData.Tray.Id > 0)
+            if (finalBarcodeData.HasTray || startBarcodeData.HasTray)
                 {
                 appendResult(startBarcodeData.Tray.Id, finalBarcodeData.Tray.Id, startBarcodeData.Tray.Id > 0 ? 1 : 0, finalBarcodeData.Tray.Id > 0 ? 1 : 0, true);
                 }

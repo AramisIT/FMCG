@@ -88,7 +88,7 @@ namespace WMS_client.HelperClasses
                 return result;
                 }
 
-            result.UnitsQuantity = Convert.ToInt32(values[(int)BarcodeDataIndexes.UnitsQuantity]);
+            result.TotalUnitsQuantity = Convert.ToInt32(values[(int)BarcodeDataIndexes.UnitsQuantity]);
 
             result.Nomenclature = new CatalogItem()
             {

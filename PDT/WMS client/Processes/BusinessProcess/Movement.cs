@@ -48,7 +48,7 @@ namespace WMS_client.Processes
         private long lastStickerId;
         private BarcodeData startBarcodeData;
         private long documentId;
-        
+
         private Dictionary<long, bool> processedPallets = new Dictionary<long, bool>();
 
         private const string INVALID_BARCODE_MSG = "Відсканований штрих-код не вірний";
@@ -135,7 +135,7 @@ namespace WMS_client.Processes
                 return;
                 }
 
-            if (!readStickerInfo(barcodeData)) return;
+            if (!barcodeData.ReadStickerInfo()) return;
 
             startBarcodeData = barcodeData;
             finalBarcodeData = barcodeData.GetCopy();
@@ -170,7 +170,7 @@ namespace WMS_client.Processes
             {
             if (barcodeData.StickerId == finalBarcodeData.PreviousStickerCode) return;
 
-            readStickerInfo(barcodeData);
+            barcodeData.ReadStickerInfo();
             bool cellFounded = barcodeData.Cell.Id != 0;
             if (!cellFounded)
                 {
@@ -325,53 +325,6 @@ namespace WMS_client.Processes
             {
             return new ServerInteraction().GetNewMovementId(0, out documentId);
             }
-
-
-        private bool readStickerInfo(BarcodeData barcodeData)
-            {
-            string nomenclatureDescription;
-            string trayDescription;
-            long trayId;
-            long linerId;
-            byte linersAmount;
-            int unitsPerBox;
-            string cellDescription;
-            long cellId;
-            long previousPalletCode;
-            if (
-                !new ServerInteraction().GetPalletBalance(barcodeData.StickerId,
-                    out nomenclatureDescription, out trayId, out linerId, out linersAmount,
-                    out unitsPerBox, out cellId, out cellDescription, out previousPalletCode))
-                {
-                barcodeData.Cell = new CatalogItem();
-                barcodeData.StickerId = 0;
-                return false;
-                }
-
-            barcodeData.PreviousStickerCode = previousPalletCode;
-            barcodeData.Nomenclature.Description = nomenclatureDescription;
-            barcodeData.Tray = new CatalogItem()
-            {
-                Id = trayId,
-                Description = new Repository().GetTrayDescription(trayId)
-            };
-
-            barcodeData.Liner = new CatalogItem()
-            {
-                Id = linerId,
-                Description = new Repository().GetLinerDescription(linerId)
-            };
-
-            barcodeData.LinersAmount = linersAmount;
-
-            barcodeData.UnitsPerBox = Convert.ToInt32(unitsPerBox);
-            barcodeData.Cell = new CatalogItem() { Description = cellDescription, Id = cellId };
-
-            return true;
-            }
-
-
-
 
         }
     }

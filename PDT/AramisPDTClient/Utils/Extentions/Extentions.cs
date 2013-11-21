@@ -10,6 +10,27 @@ namespace System
     {
     public static class Extentions
         {
+        private const string DATE_TIME_FORMAT = "dd.MM.yyyy";
+
+        public static DateTime ToDateTime(this string dateTimeStr)
+            {
+            DateTime result;
+            try
+                {
+                result = DateTime.ParseExact(dateTimeStr, DATE_TIME_FORMAT, null);
+                }
+            catch
+                {
+                result = DateTime.MinValue;
+                }
+            return result;
+            }
+
+        public static string ToStandartString(this DateTime dateTime)
+            {
+            return dateTime.ToString(DATE_TIME_FORMAT);
+            }
+
         public static bool IsNumber(string str)
             {
             if (str == "") return false;

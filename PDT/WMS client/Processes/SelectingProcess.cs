@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
+using Microsoft.WindowsCE.Forms;
 
 namespace WMS_client.Processes
     {
@@ -66,32 +68,47 @@ namespace WMS_client.Processes
         #region Delegates
         private void selectProcess(long selectedIndex, string description)
             {
-            MainProcess.ClearControls();
-            BusinessProcess process;
+            BusinessProcess process = null;
             Processes SelectedProcess = (Processes)selectedIndex;
 
             switch (SelectedProcess)
                 {
                 case Processes.Acceptance:
+                    MainProcess.ClearControls();
                     process = new Acceptance();
                     break;
                 case Processes.Movement:
+                    MainProcess.ClearControls();
                     process = new Movement();
                     break;
                 case Processes.Selection:
-                    process = new Selection();
+                    process = tryStartPicking();
                     break;
                 case Processes.Inventory:
+                    MainProcess.ClearControls();
                     process = new Inventory();
-                    break;
-                default:
-                    "Процес ще не реалізовано!".ShowMessage();
-                    process = new SelectingProcess();
                     break;
                 }
 
-            MainProcess.Process = process;
+            if (process != null)
+                {
+                MainProcess.Process = process;
+                }
             }
+
+        private Picking tryStartPicking()
+            {
+            var docs = new ServerInteraction().GetPickingDocuments();
+
+            if (docs.Rows.Count == 0) return null;
+
+            CatalogItem item;
+            if (!SelectFromList(docs.ToItemsList(), out item)) return null;
+
+            MainProcess.ClearControls();
+            return new Picking(item.Id);
+            }
+
         #endregion
         }
     }

@@ -147,7 +147,7 @@ namespace WMS_client.Processes
                 return;
                 }
 
-            if (!readStickerInfo(barcodeData)) return;
+            if (!barcodeData.ReadStickerInfo()) return;
 
             startBarcodeData = barcodeData;
             currentBarcodeData = barcodeData.GetCopy();
@@ -182,7 +182,7 @@ namespace WMS_client.Processes
             {
             if (barcodeData.StickerId == currentBarcodeData.PreviousStickerCode) return;
 
-            readStickerInfo(barcodeData);
+            barcodeData.ReadStickerInfo();
             bool cellFounded = barcodeData.Cell.Id != 0;
             if (!cellFounded)
                 {
@@ -356,7 +356,7 @@ namespace WMS_client.Processes
             if (currentBarcodeData == null) return true;
 
             currentBarcodeData.LinersAmount = linersCount;
-            currentBarcodeData.UnitsQuantity = unitsCount + packsCount * currentBarcodeData.UnitsPerBox;
+            currentBarcodeData.TotalUnitsQuantity = unitsCount + packsCount * currentBarcodeData.UnitsPerBox;
 
             var movementWriter = new TableMovementWriter(startBarcodeData, currentBarcodeData);
             return new ServerInteraction().WriteInventoryResult(documentId, movementWriter.Table);
@@ -429,8 +429,8 @@ namespace WMS_client.Processes
 
             if (currentBarcodeData.UnitsPerBox > 0)
                 {
-                packsCount = (currentBarcodeData.UnitsQuantity / currentBarcodeData.UnitsPerBox);
-                unitsCount = (currentBarcodeData.UnitsQuantity % currentBarcodeData.UnitsPerBox);
+                packsCount = currentBarcodeData.FullPacksCount;
+                unitsCount = currentBarcodeData.UnitsRemainder;
                 }
             else
                 {
@@ -447,52 +447,5 @@ namespace WMS_client.Processes
             {
             palletEditControls.cellLabel.Text = (currentBarcodeData.Cell != null && currentBarcodeData.Cell.Id > 0) ? currentBarcodeData.Cell.Description : "<?>";
             }
-
-        private bool readStickerInfo(BarcodeData barcodeData)
-            {
-            string nomenclatureDescription;
-            string trayDescription;
-            long trayId;
-            long linerId;
-            byte linersAmount;
-            int unitsPerBox;
-            string cellDescription;
-            long cellId;
-            long previousPalletCode;
-            if (
-                !new ServerInteraction().GetPalletBalance(barcodeData.StickerId,
-                    out nomenclatureDescription, out trayId, out linerId, out linersAmount,
-                    out unitsPerBox, out cellId, out cellDescription, out previousPalletCode))
-                {
-                barcodeData.Cell = new CatalogItem();
-                barcodeData.StickerId = 0;
-                return false;
-                }
-
-            barcodeData.PreviousStickerCode = previousPalletCode;
-            barcodeData.Nomenclature.Description = nomenclatureDescription;
-            barcodeData.Tray = new CatalogItem()
-            {
-                Id = trayId,
-                Description = new Repository().GetTrayDescription(trayId)
-            };
-
-            barcodeData.Liner = new CatalogItem()
-            {
-                Id = linerId,
-                Description = new Repository().GetLinerDescription(linerId)
-            };
-
-            barcodeData.LinersAmount = linersAmount;
-
-            barcodeData.UnitsPerBox = Convert.ToInt32(unitsPerBox);
-            barcodeData.Cell = new CatalogItem() { Description = cellDescription, Id = cellId };
-
-            return true;
-            }
-
-
-
-
         }
     }

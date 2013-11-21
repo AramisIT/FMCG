@@ -66,7 +66,7 @@ namespace WMS_client.Processes
             }
 
         #region Override methods
-        
+
         public override sealed void DrawControls()
             {
             createPalletControls();
@@ -119,7 +119,7 @@ namespace WMS_client.Processes
                     }
                 }
             }
-       
+
         #endregion
 
         private void scanNextPalletOnBarcode(string barcode)
@@ -132,7 +132,7 @@ namespace WMS_client.Processes
                 {
                 return;
                 }
-            
+
             bool currentAcceptance;
             readStickerInfo(acceptanceId, barcodeData, out currentAcceptance);
             if (barcodeData.StickerId == 0)
@@ -152,7 +152,7 @@ namespace WMS_client.Processes
 
             updateStickerData();
             }
-           
+
         private void editPalletOnBarcode(string barcode)
             {
             if (barcode.IsSticker())
@@ -317,8 +317,8 @@ namespace WMS_client.Processes
 
             var palletChanged = linerItem.Id > 0;
             palletChanged |= currentBarcodeData.Tray.Id != trayItem.Id;
-            palletChanged |= (currentBarcodeData.UnitsQuantity / currentBarcodeData.UnitsPerBox) != packsCount;
-            palletChanged |= (currentBarcodeData.UnitsQuantity % currentBarcodeData.UnitsPerBox) != unitsCount;
+            palletChanged |= currentBarcodeData.FullPacksCount != packsCount;
+            palletChanged |= currentBarcodeData.UnitsRemainder != unitsCount;
 
             if (!new ServerInteraction().WriteStickerFact(acceptanceId, currentBarcodeData.StickerId, palletChanged,
                 (cell ?? new CatalogItem()).Id, trayItem.Id, linerItem.Id, linersCount, packsCount, unitsCount + packsCount * currentBarcodeData.UnitsPerBox))
@@ -399,8 +399,8 @@ namespace WMS_client.Processes
 
             if (currentBarcodeData.UnitsPerBox > 0)
                 {
-                packsCount = (currentBarcodeData.UnitsQuantity / currentBarcodeData.UnitsPerBox);
-                unitsCount = (currentBarcodeData.UnitsQuantity % currentBarcodeData.UnitsPerBox);
+                packsCount = currentBarcodeData.FullPacksCount;
+                unitsCount = currentBarcodeData.UnitsRemainder;
                 }
             else
                 {
@@ -440,7 +440,7 @@ namespace WMS_client.Processes
             barcodeData.Cell = new CatalogItem() { Description = cellDescription, Id = cellId };
             }
 
-     
+
 
 
         }

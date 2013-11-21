@@ -18,7 +18,9 @@ namespace WMS_client
 
         #region Private fields
 
+        private readonly TextBox textBox; 
         private readonly TextBox Control = new TextBox();
+        
         public OnEventHandlingDelegate OnChanged;
 
         #endregion
@@ -28,7 +30,8 @@ namespace WMS_client
         #region Public methods
 
         public MobileTextBox(MainForm Form, int left, int top, int width, string controlName, ControlsStyle style, OnEventHandlingDelegate ProcTarget, bool isPasswordField, bool isTextField)
-        {
+            {
+            textBox = Control as TextBox;
             Control.ForeColor = Color.DarkGreen;
             Control.Left = left;
             Control.Top = top;
@@ -61,6 +64,8 @@ namespace WMS_client
         public void Focus()
         {
             Control.Focus();
+            textBox.SelectionStart = textBox.Text.Length;
+            textBox.SelectionLength = 0;
         }
         #endregion
 

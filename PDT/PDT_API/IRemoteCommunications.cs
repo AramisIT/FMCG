@@ -160,7 +160,8 @@ namespace pdtExternalStorage
             out long linerId, out byte linersAmount,
             out int unitsPerBox,
             out long cellId, out string cellDescription,
-            out long previousPalletCode);
+            out long previousPalletCode,
+            out DateTime productionDate, out long partyId);
 
         bool GetNewInventoryId(long userId, out long documentId);
 
@@ -172,6 +173,17 @@ namespace pdtExternalStorage
 
         bool WriteMovementResult(long documentId, DataTable resultTable);
 
+        bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable);
+
         bool ComplateMovement(long documentId, bool forceCompletion, out string errorMessage);
+
+        DataTable GetPickingDocuments();
+
+        bool GetPickingTask(long documentId, out long stickerId,
+            out long wareId, out string wareDescription,
+            out long cellId, out string cellDescription,
+            out long partyId, out DateTime productionDate,
+            out int unitsPerBox, out int unitsToPick,
+            out int lineNumber);
         }
     }

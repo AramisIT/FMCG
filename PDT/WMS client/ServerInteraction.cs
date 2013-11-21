@@ -230,7 +230,8 @@ namespace WMS_client
             out long linerId, out byte linersAmount,
             out int unitsPerBox,
             out long cellId, out string cellDescription,
-            out long previousPalletCode)
+            out long previousPalletCode,
+            out DateTime productionDate, out long partyId)
             {
             PerformQuery("GetPalletBalance", stickerId);
 
@@ -244,6 +245,8 @@ namespace WMS_client
                 cellId = Convert.ToInt64(Parameters[5]);
                 cellDescription = Parameters[6] as string;
                 previousPalletCode = Convert.ToInt64(Parameters[7]);
+                productionDate = Parameters[8].ToString().ToDateTime();
+                partyId = Convert.ToInt64(Parameters[9]);
                 return true;
                 }
 
@@ -255,7 +258,8 @@ namespace WMS_client
             previousPalletCode = 0;
             linerId = 0;
             linersAmount = 0;
-
+            productionDate = DateTime.MinValue;
+            partyId = 0;
             return false;
             }
 
@@ -327,6 +331,55 @@ namespace WMS_client
                 errorMessage = QUERY_NOT_SERVED_MESSAGE;
                 return false;
                 }
+            }
+
+        public DataTable GetPickingDocuments()
+            {
+            PerformQuery("GetPickingDocuments");
+            if (IsExistParameters && Parameters[0] is DataTable)
+                {
+                return Parameters[0] as DataTable;
+                }
+            else
+                {
+                return new DataTable();
+                }
+            }
+
+        public bool GetPickingTask(long documentId, out long stickerId,
+            out long wareId, out string wareDescription,
+            out long cellId, out string cellDescription,
+            out long partyId, out DateTime productionDate,
+            out int unitsPerBox, out int unitsToPick, out int lineNumber)
+            {
+            PerformQuery("GetPickingTask", documentId);
+
+            if (IsExistParameters)
+                {
+                stickerId = Convert.ToInt64(Parameters[0]);
+                wareId = Convert.ToInt64(Parameters[1]);
+                wareDescription = Parameters[2].ToString();
+                cellId = Convert.ToInt64(Parameters[3]);
+                cellDescription = Parameters[4].ToString();
+                partyId = Convert.ToInt64(Parameters[5]);
+                productionDate = Parameters[6].ToString().ToDateTime();
+                unitsPerBox = Convert.ToInt32(Parameters[7]);
+                unitsToPick = Convert.ToInt32(Parameters[8]);
+                lineNumber = Convert.ToInt32(Parameters[9]);
+                return true;
+                }
+
+            stickerId = wareId = cellId = partyId = unitsToPick = unitsPerBox = lineNumber = 0;
+            wareDescription = cellDescription = string.Empty;
+            productionDate = DateTime.MinValue;
+
+            return false;
+            }
+
+        public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable)
+            {
+            PerformQuery("WritePickingResult", documentId, currentLineNumber, resultTable);
+            return success;
             }
         }
     }

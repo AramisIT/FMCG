@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using WMS_client;
 
 namespace System
     {
@@ -144,6 +145,16 @@ namespace System
             ColumnStyle.MappingName = columnName;
             ColumnStyle.Width = width;
             dataGrid.TableStyles["Mobile"].GridColumnStyles.Add(ColumnStyle);
+            }
+
+        public static List<CatalogItem> ToItemsList(this DataTable table)
+            {
+            var result = new List<CatalogItem>();
+            foreach (DataRow row in table.Rows)
+                {
+                result.Add(new CatalogItem() { Id = Convert.ToInt64(row["Id"]), Description = row["Description"].ToString() });
+                }
+            return result;
             }
 
         }
