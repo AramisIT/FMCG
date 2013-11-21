@@ -2,7 +2,7 @@
 using System.Data;
 using System.Collections.Generic;
 
-namespace WMS_client.Processes.BaseScreen
+namespace WMS_client.Processes
     {
     public struct TableData
         {
@@ -19,7 +19,6 @@ namespace WMS_client.Processes.BaseScreen
             }
         }
 
-    /// <summary>Вибір з таблиці</summary>
     internal class SelectTableList : BusinessProcess
         {
         #region Properties
