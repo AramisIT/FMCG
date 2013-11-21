@@ -201,7 +201,7 @@ namespace Documents
 
                 if (result == WritingResult.Success)
                     {
-                    movement = new Moving { Source = this, State = StatesOfDocument.Planned };
+                    movement = new Moving { PickingPlan = this, State = StatesOfDocument.Planned };
                     movement.AfterWriting += movement_AfterWriting;
                     List<MovementFillingInfo> list = new List<MovementFillingInfo>();
 

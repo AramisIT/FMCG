@@ -187,12 +187,12 @@
     <Compile Include="DatabaseObjects\Documents\Inventory\InventoryItemForm.designer.cs">
       <DependentUpon>InventoryItemForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DatabaseObjects\Documents\Movement\Movement.cs" />
-    <Compile Include="DatabaseObjects\Documents\Movement\MovementItemForm.cs">
+    <Compile Include="DatabaseObjects\Documents\Moving\Moving.cs" />
+    <Compile Include="DatabaseObjects\Documents\Moving\MovingItemForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DatabaseObjects\Documents\Movement\MovementItemForm.designer.cs">
-      <DependentUpon>MovementItemForm.cs</DependentUpon>
+    <Compile Include="DatabaseObjects\Documents\Moving\MovingItemForm.designer.cs">
+      <DependentUpon>MovingItemForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Documents\AcceptancePlan\AcceptancePlan.cs" />
     <Compile Include="DatabaseObjects\Documents\AcceptancePlan\AcceptancePlanItemForm.cs">
@@ -427,8 +427,8 @@
     <EmbeddedResource Include="DatabaseObjects\Documents\Inventory\InventoryItemForm.resx">
       <DependentUpon>InventoryItemForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DatabaseObjects\Documents\Movement\MovementItemForm.resx">
-      <DependentUpon>MovementItemForm.cs</DependentUpon>
+    <EmbeddedResource Include="DatabaseObjects\Documents\Moving\MovingItemForm.resx">
+      <DependentUpon>MovingItemForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseObjects\Documents\AcceptancePlan\AcceptancePlanItemForm.resx">
       <DependentUpon>AcceptancePlanItemForm.cs</DependentUpon>

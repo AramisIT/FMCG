@@ -17,6 +17,8 @@ namespace AtosFMCG.HelperClasses.PDT
         /// <summary>
         /// Переміщення
         /// </summary>
-        Movement
+        Movement,
+
+        Picking
         }
     }

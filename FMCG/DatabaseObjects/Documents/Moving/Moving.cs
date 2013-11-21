@@ -37,16 +37,16 @@ namespace Documents
             }
         private StatesOfDocument z_State;
 
-        [DataField(StorageType = StorageTypes.Local, Description = "Джерело", ShowInList = true, AllowOpenItem = true, AllowedTypes = new[] { typeof(ShipmentPlan), typeof(AcceptanceOfGoods) })]
-        public DocumentTable Source
+        [DataField(Description = "План отбора", ShowInList = true, AllowOpenItem = true)]
+        public ShipmentPlan PickingPlan
             {
             get
                 {
-                return (DocumentTable)GetValueForObjectProperty("Source");
+                return (ShipmentPlan)GetValueForObjectProperty("PickingPlan");
                 }
             set
                 {
-                SetValueForObjectProperty("Source", value);
+                SetValueForObjectProperty("PickingPlan", value);
                 }
             }
 

@@ -1,5 +1,4 @@
 using System;
-using WMS_client.Processes.BaseScreen;
 using System.Collections.Generic;
 
 namespace WMS_client.Processes
@@ -37,8 +36,8 @@ namespace WMS_client.Processes
                         {
                             new TableData((long) Processes.Acceptance, "Приймання товару", acceptanceDocCount),
                             new TableData((long) Processes.Inventory, "Інвентаризація", inventoryDocCount),
-                            new TableData((long) Processes.Selection, "Відбір", selectionDocCount),
-                            new TableData((long) Processes.Movement, "Переміщення", movementDocCount)
+                            new TableData((long) Processes.Selection, "Відбір", movementDocCount),
+                            new TableData((long) Processes.Movement, "Переміщення", string.Empty)
                         };
                 MainProcess.ClearControls();
                 MainProcess.Process = new SelectTableList(
@@ -79,9 +78,9 @@ namespace WMS_client.Processes
                 case Processes.Movement:
                     process = new Movement();
                     break;
-                //case Processes.Selection:
-                //    process = new Selection();
-                //    break;
+                case Processes.Selection:
+                    process = new Selection();
+                    break;
                 case Processes.Inventory:
                     process = new Inventory();
                     break;

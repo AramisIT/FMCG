@@ -201,9 +201,9 @@ Data AS (
 	
 	UNION ALL
 	
-	SELECT 'Movement' Type,COUNT(1) Count
-	FROM Movement
-	WHERE State=0 AND MarkForDeleting=0 AND @Today=CAST(Date AS DATE))
+	SELECT 'Picking' Type,COUNT(1) Count
+	FROM Moving
+	WHERE State=0 AND MarkForDeleting=0 AND PickingPlan>0)
 
 SELECT * 
 FROM Data d
@@ -223,7 +223,7 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Movement])) 
                 acceptanceDocCount = result[TypesOfProcess.Acceptance.ToString()].ToString();
                 inventoryDocCount = result[TypesOfProcess.Inventory.ToString()].ToString();
                 selectionDocCount = result[TypesOfProcess.Selection.ToString()].ToString();
-                movementDocCount = result[TypesOfProcess.Movement.ToString()].ToString();
+                movementDocCount = result[TypesOfProcess.Picking.ToString()].ToString();
                 }
 
             return true;

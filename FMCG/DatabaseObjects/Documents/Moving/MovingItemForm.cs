@@ -11,7 +11,7 @@ using FMCG.Utils;
 namespace AtosFMCG.DatabaseObjects.Documents
     {
     [View(DBObjectGuid = "015CC1EA-D666-431E-9D08-510395C78E4C", ViewType = ViewFormType.DocItem)]
-    public partial class MovementItemForm : DevExpress.XtraBars.Ribbon.RibbonForm, IItemForm
+    public partial class MovingItemForm : DevExpress.XtraBars.Ribbon.RibbonForm, IItemForm
         {
         #region Fields
         private DocumentTable item;
@@ -26,7 +26,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             }
         #endregion
 
-        public MovementItemForm()
+        public MovingItemForm()
             {
             InitializeComponent();
             }
