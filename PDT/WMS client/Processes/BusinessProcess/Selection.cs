@@ -231,6 +231,7 @@ namespace WMS_client.Processes
                     }
                 else
                     {
+                    "Необхідно відсканувати вказаний товар".Warning();                    
                     return;
                     }
                 }

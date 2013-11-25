@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using Aramis.Common_classes;
 using Aramis.DatabaseConnector;
+using Aramis.Platform;
 using AramisWpfComponents.Excel;
 using AtosFMCG.TouchScreen.Controls;
 
@@ -94,6 +96,14 @@ namespace AtosFMCG.HelperClasses.PDT
 
                 case "GetPickingDocuments":
                     return new object[] { communication.GetPickingDocuments() };
+
+                case "GetPDTFiles":
+                    return new object[] { PlatformMethods.GetPDTFiles().ToTable() };
+
+                case "GetPDTFileBlock":
+                    return new object[] { PlatformMethods.GetPDTFileBlock(new Guid(parameters[0].ToString()), 
+                    Convert.ToInt32(parameters[1]), Convert.ToInt32(parameters[2])) };
+
                 }
 
             return new object[0];

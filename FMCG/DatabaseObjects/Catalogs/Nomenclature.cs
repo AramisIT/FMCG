@@ -64,6 +64,26 @@ namespace Catalogs
             }
         private int z_UnitsQuantityPerPallet;
 
+        [DataField(Description = "Приходить на нестандартних палетах (евро та ін.)", ShowInList = true)]
+        public bool AsDefaultNonStandartPallets
+            {
+            get
+                {
+                return z_AsDefaultNonStandartPallets;
+                }
+            set
+                {
+                if (z_AsDefaultNonStandartPallets == value)
+                    {
+                    return;
+                    }
+
+                z_AsDefaultNonStandartPallets = value;
+                NotifyPropertyChanged("AsDefaultNonStandartPallets");
+                }
+            }
+        private bool z_AsDefaultNonStandartPallets;
+
         [DataField(Description = "Кіль-ть в упаковці", ShowInList = true)]
         public int UnitsQuantityPerPack
             {

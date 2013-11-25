@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UpdatingSoft\SoftUpdater.cs" />
     <Compile Include="Utils\Extentions\DataTableEx.cs" />
     <Compile Include="Utils\Extentions\Extentions.cs" />
     <Compile Include="Base\ArrayWorker.cs" />

@@ -362,5 +362,20 @@ namespace AtosFMCG
             {
             UserInterface.Current.ShowList(typeof(Moving));
             }
+
+        private void barButtonItem14_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(Nomenclature));
+            }
+
+        private void barButtonItem15_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowReport("Залишки на складі");
+            }
+
+        private void _PDTUpdateButton_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            PlatformMethods.UpdatePDTFiles();
+            }
         }
     }
