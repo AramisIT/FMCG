@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using WMS_client;
 
@@ -27,7 +28,30 @@ namespace AramisPDTClient.UpdatingSoft
         public SoftUpdater()
             : base(1)
             {
-            update();
+            tryToUpdate();
+            }
+
+        private void tryToUpdate()
+            {
+            var connectionWasEstablished = MainProcess.ConnectionAgent.WifiEnabled;
+            if (connectionWasEstablished)
+                {
+                StopNetworkConnection();
+                System.Threading.Thread.Sleep(1000);
+                }
+
+            StartNetworkConnection();
+            System.Threading.Thread.Sleep(500);
+
+            if (MainProcess.ConnectionAgent.OnLine)
+                {
+                tryUpdate();
+                }
+
+            if (!connectionWasEstablished)
+                {
+                StopNetworkConnection();
+                }
             }
 
         public override void DrawControls()
@@ -68,27 +92,151 @@ namespace AramisPDTClient.UpdatingSoft
             return result;
             }
 
-        private void update()
+        private void tryUpdate()
             {
-            var updateFolder = Path.GetDirectoryName(SystemInfo.STARTUP_PATH) + '\\' + UPDATE_TEMP_FOLDER_NAME;
-            if (!checkUpdateDirectory(updateFolder)) return;
-           
+            if (!downloadNewUpdate()) return;
+
+            if (!newUpdateExists()) return;
+
+            StopNetworkConnection();
+
+            runUpdater();
+            }
+
+        private const string RUNER_NAME = "Runer.exe";
+        private void runUpdater()
+            {
+            var updaterPath = string.Format(@"{0}\{1}", Path.GetDirectoryName(SystemInfo.STARTUP_PATH), RUNER_NAME);
+
+            try
+                {
+                Process.Start(updaterPath, Process.GetCurrentProcess().Id.ToString());
+                }
+            catch (Exception exp)
+                {
+                string.Format("Ошибка запуска Раннера:{0}", exp.Message).Warning();
+                return;
+                }
+            TerminateApplication();
+            }
+
+        private bool newUpdateExists()
+            {
+            var updateDirInfo = new DirectoryInfo(updateFolderName);
+            return updateDirInfo.GetFiles().Length > 0;
+            }
+
+        private string updateFolderName
+            {
+            get
+                {
+                return Path.GetDirectoryName(SystemInfo.STARTUP_PATH) + '\\' + UPDATE_TEMP_FOLDER_NAME;
+                }
+            }
+
+        private bool downloadNewUpdate()
+            {
+            var updateFolder = updateFolderName;
+            if (!checkUpdateDirectory(updateFolder)) return false;
+
+            var existsFileInfo = getExistsFilesInfo();
             var files = getPdtFilesInfo();
             foreach (var pdtFileInfo in files)
                 {
-                totalBytes += pdtFileInfo.Size;
+                if (!existsFileInfo.ContainsKey(pdtFileInfo.Id))
+                    {
+                    totalBytes += pdtFileInfo.Size;
+                    }
                 }
             currentDownloadedBytes = 0;
-            
+
+            var newFilesAmount = 0;
             foreach (var pdtFileInfo in files)
                 {
-                downloadFile(pdtFileInfo, updateFolder);
+                if (!existsFileInfo.ContainsKey(pdtFileInfo.Id))
+                    {
+                    if (!downloadFile(pdtFileInfo, updateFolder)) return false;
+                    newFilesAmount++;
+                    }
                 }
+
+            if (newFilesAmount > 0)
+                {
+                if (!createIdsFile(files)) return false;
+                }
+
+            return true;
+            }
+
+        private bool createIdsFile(List<PDTFileInfo> files)
+            {
+            var currentFilesIdsFileName = Path.GetDirectoryName(SystemInfo.STARTUP_PATH) + '\\' + UPDATE_TEMP_FOLDER_NAME + '\\' + FILES_IDS_FILE_NAME;
+
+            try
+                {
+                using (var pdtIdsInfo = File.CreateText(currentFilesIdsFileName))
+                    {
+                    foreach (var pdtFileInfo in files)
+                        {
+                        pdtIdsInfo.WriteLine(string.Format("{0};{1}", pdtFileInfo.Id, pdtFileInfo.Name));
+                        }
+                    pdtIdsInfo.Close();
+                    }
+                }
+            catch (Exception exp)
+                {
+                Trace.WriteLine(string.Format("Ошибка записи файла с перечнем идентификаторов{0}", exp.Message));
+                return false;
+                }
+
+            return true;
+            }
+
+        private Dictionary<Guid, string> getExistsFilesInfo()
+            {
+            var currentFilesIdsFileName = Path.GetDirectoryName(SystemInfo.STARTUP_PATH) + '\\' + FILES_IDS_FILE_NAME;
+            var result = new Dictionary<Guid, string>();
+            if (!File.Exists(currentFilesIdsFileName)) return result;
+
+            using (var idsFile = File.OpenText(currentFilesIdsFileName))
+                {
+                string row;
+                while ((row = idsFile.ReadLine()) != null)
+                    {
+                    row = row.Trim();
+                    var separatorPosition = row.IndexOf(';');
+                    if (separatorPosition < 0) continue;
+
+                    var guidPart = row.Substring(0, separatorPosition);
+                    var fileNamePart = row.Substring(separatorPosition + 1, row.Length - 1 - guidPart.Length).Trim();
+                    try
+                        {
+                        result.Add(new Guid(guidPart.Trim()), fileNamePart);
+                        }
+                    catch { }
+                    }
+                idsFile.Close();
+                }
+
+            return result;
             }
 
         private bool checkUpdateDirectory(string updateFolder)
             {
-            if (Directory.Exists(updateFolder)) return true;
+            if (Directory.Exists(updateFolder))
+                {
+                var dirInfo = new DirectoryInfo(updateFolder);
+                var files = dirInfo.GetFiles();
+                foreach (var fileInfo in files)
+                    {
+                    try
+                        {
+                        fileInfo.Delete();
+                        }
+                    catch { }
+                    }
+                return new DirectoryInfo(updateFolder).GetFiles().Length == 0;
+                }
 
             try
                 {
@@ -103,6 +251,7 @@ namespace AramisPDTClient.UpdatingSoft
             return true;
             }
 
+        private const string FILES_IDS_FILE_NAME = "Ids.txt";
         private const string UPDATE_TEMP_FOLDER_NAME = "temp_update";
         private const int FILE_BLOCK_SIZE = 65536;
         private bool downloadFile(PDTFileInfo fileInfo, string path)

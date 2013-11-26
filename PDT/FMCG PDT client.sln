@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDT_API", "PDT_API\PDT_API.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AramisPDTClient", "AramisPDTClient\AramisPDTClient.csproj", "{532B547A-2D6B-4CA7-BDEC-EF44162E3B31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Runer", "Runer\Runer.csproj", "{7F6448DD-FD43-49D9-95CC-3BB3F17D97F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{532B547A-2D6B-4CA7-BDEC-EF44162E3B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{532B547A-2D6B-4CA7-BDEC-EF44162E3B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{532B547A-2D6B-4CA7-BDEC-EF44162E3B31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F6448DD-FD43-49D9-95CC-3BB3F17D97F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F6448DD-FD43-49D9-95CC-3BB3F17D97F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F6448DD-FD43-49D9-95CC-3BB3F17D97F4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7F6448DD-FD43-49D9-95CC-3BB3F17D97F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F6448DD-FD43-49D9-95CC-3BB3F17D97F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F6448DD-FD43-49D9-95CC-3BB3F17D97F4}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

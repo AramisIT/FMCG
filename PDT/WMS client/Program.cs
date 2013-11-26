@@ -12,9 +12,22 @@ namespace WMS_client
     static class Program
         {
         [MTAThread]
-        static void Main()
+        static void Main(string[] parameters)
             {
             if (new SystemInfo().IsExistedSameProcess()) return;
+
+            if (parameters.Length > 0)
+                {
+                try
+                    {
+                    int startParameter = Convert.ToInt32(parameters[0]);
+                    if (startParameter == 1)
+                        {
+                        MessageBox.Show("Обновление не завершилось!");
+                        }
+                    }
+                catch { }
+                }
 
             var releaseMode = false;
 #if !DEBUG
