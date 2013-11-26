@@ -28,6 +28,7 @@ namespace AramisPDTClient.UpdatingSoft
         public SoftUpdater()
             : base(1)
             {
+            ToDoCommand = "Оновлення";
             tryToUpdate();
             }
 
@@ -98,6 +99,8 @@ namespace AramisPDTClient.UpdatingSoft
 
             if (!newUpdateExists()) return;
 
+            Directory.Move(tempUpdateFolderName, updateFolderName);
+
             StopNetworkConnection();
 
             runUpdater();
@@ -122,11 +125,11 @@ namespace AramisPDTClient.UpdatingSoft
 
         private bool newUpdateExists()
             {
-            var updateDirInfo = new DirectoryInfo(updateFolderName);
+            var updateDirInfo = new DirectoryInfo(tempUpdateFolderName);
             return updateDirInfo.GetFiles().Length > 0;
             }
 
-        private string updateFolderName
+        private string tempUpdateFolderName
             {
             get
                 {
@@ -134,10 +137,19 @@ namespace AramisPDTClient.UpdatingSoft
                 }
             }
 
+        private string updateFolderName
+            {
+            get
+                {
+                return Path.GetDirectoryName(SystemInfo.STARTUP_PATH) + '\\' + UPDATE_FOLDER_NAME;
+                }
+            }
+
         private bool downloadNewUpdate()
             {
-            var updateFolder = updateFolderName;
-            if (!checkUpdateDirectory(updateFolder)) return false;
+            var updateFolder = tempUpdateFolderName;
+            if (!checkTempUpdateDirectory(updateFolder)) return false;
+            if (!deleteUpdateDirectory()) return false;
 
             var existsFileInfo = getExistsFilesInfo();
             var files = getPdtFilesInfo();
@@ -168,17 +180,39 @@ namespace AramisPDTClient.UpdatingSoft
             return true;
             }
 
+        private bool deleteUpdateDirectory()
+            {
+            if (!Directory.Exists(updateFolderName)) return true;
+
+            try
+                {
+                foreach (var fileInfo in new DirectoryInfo(updateFolderName).GetFiles())
+                    {
+                    fileInfo.Delete();
+                    }
+
+                Directory.Delete(updateFolderName);
+                }
+            catch
+                {
+                return false;
+                }
+
+            return !Directory.Exists(updateFolderName);
+            }
+
         private bool createIdsFile(List<PDTFileInfo> files)
             {
             var currentFilesIdsFileName = Path.GetDirectoryName(SystemInfo.STARTUP_PATH) + '\\' + UPDATE_TEMP_FOLDER_NAME + '\\' + FILES_IDS_FILE_NAME;
-
+            var exeFileName = Path.GetFileName(SystemInfo.STARTUP_PATH);
             try
                 {
                 using (var pdtIdsInfo = File.CreateText(currentFilesIdsFileName))
                     {
                     foreach (var pdtFileInfo in files)
                         {
-                        pdtIdsInfo.WriteLine(string.Format("{0};{1}", pdtFileInfo.Id, pdtFileInfo.Name));
+                        var exeFile = exeFileName.Equals(pdtFileInfo.Name, StringComparison.InvariantCultureIgnoreCase);
+                        pdtIdsInfo.WriteLine(string.Format("{0};{1};{2}", pdtFileInfo.Id, pdtFileInfo.Name, exeFile));
                         }
                     pdtIdsInfo.Close();
                     }
@@ -204,11 +238,11 @@ namespace AramisPDTClient.UpdatingSoft
                 while ((row = idsFile.ReadLine()) != null)
                     {
                     row = row.Trim();
-                    var separatorPosition = row.IndexOf(';');
-                    if (separatorPosition < 0) continue;
+                    var values = row.Split(';');
+                    if (values.Length < 3) continue;
 
-                    var guidPart = row.Substring(0, separatorPosition);
-                    var fileNamePart = row.Substring(separatorPosition + 1, row.Length - 1 - guidPart.Length).Trim();
+                    var guidPart = values[0].Trim();
+                    var fileNamePart = values[1].Trim();
                     try
                         {
                         result.Add(new Guid(guidPart.Trim()), fileNamePart);
@@ -221,7 +255,7 @@ namespace AramisPDTClient.UpdatingSoft
             return result;
             }
 
-        private bool checkUpdateDirectory(string updateFolder)
+        private bool checkTempUpdateDirectory(string updateFolder)
             {
             if (Directory.Exists(updateFolder))
                 {
@@ -253,6 +287,7 @@ namespace AramisPDTClient.UpdatingSoft
 
         private const string FILES_IDS_FILE_NAME = "Ids.txt";
         private const string UPDATE_TEMP_FOLDER_NAME = "temp_update";
+        private const string UPDATE_FOLDER_NAME = "update";
         private const int FILE_BLOCK_SIZE = 65536;
         private bool downloadFile(PDTFileInfo fileInfo, string path)
             {

@@ -23,8 +23,8 @@ namespace WMS_client.Processes
 
         public override void OnBarcode(string Barcode)
             {
-            new SoftUpdater();
-            return;
+            //new SoftUpdater();
+            //return;
             //if (Barcode.IsValidBarcode())
             //{
             //Регистрация успешна!
