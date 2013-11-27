@@ -8,9 +8,10 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using AramisPDTClient;
 using WMS_client;
 
-namespace AramisPDTClient.UpdatingSoft
+namespace WMS_client
     {
     public class SoftUpdater : BusinessProcess
         {
@@ -23,26 +24,35 @@ namespace AramisPDTClient.UpdatingSoft
             public Guid Id { get; set; }
             public string Name { get; set; }
             public int Size { get; set; }
+            public int Version { get; set; }
             }
 
         public SoftUpdater()
             : base(1)
             {
+            var currentToDO = ToDoCommand;
             ToDoCommand = "Оновлення";
+            
             tryToUpdate();
+
+            ToDoCommand = currentToDO;
             }
 
         private void tryToUpdate()
             {
             var connectionWasEstablished = MainProcess.ConnectionAgent.WifiEnabled;
-            if (connectionWasEstablished)
+            var wasOnLine = MainProcess.ConnectionAgent.OnLine;
+            if (connectionWasEstablished && !wasOnLine)
                 {
                 StopNetworkConnection();
                 System.Threading.Thread.Sleep(1000);
                 }
 
-            StartNetworkConnection();
-            System.Threading.Thread.Sleep(500);
+            if (!wasOnLine)
+                {
+                StartNetworkConnection();
+                System.Threading.Thread.Sleep(500);
+                }
 
             if (MainProcess.ConnectionAgent.OnLine)
                 {
@@ -86,6 +96,7 @@ namespace AramisPDTClient.UpdatingSoft
                 _PDTFilesInfo.Size = Convert.ToInt32(row["Size"]);
                 _PDTFilesInfo.Date = row["Date"].ToString().ToDateTime();
                 _PDTFilesInfo.Id = new Guid(row["Id"].ToString());
+                _PDTFilesInfo.Version = Convert.ToInt32(row["Version"]);
 
                 result.Add(_PDTFilesInfo);
                 }
@@ -203,7 +214,7 @@ namespace AramisPDTClient.UpdatingSoft
 
         private bool createIdsFile(List<PDTFileInfo> files)
             {
-            var currentFilesIdsFileName = Path.GetDirectoryName(SystemInfo.STARTUP_PATH) + '\\' + UPDATE_TEMP_FOLDER_NAME + '\\' + FILES_IDS_FILE_NAME;
+            var currentFilesIdsFileName = tempUpdateFolderName + '\\' + FILES_IDS_FILE_NAME;
             var exeFileName = Path.GetFileName(SystemInfo.STARTUP_PATH);
             try
                 {
@@ -212,7 +223,7 @@ namespace AramisPDTClient.UpdatingSoft
                     foreach (var pdtFileInfo in files)
                         {
                         var exeFile = exeFileName.Equals(pdtFileInfo.Name, StringComparison.InvariantCultureIgnoreCase);
-                        pdtIdsInfo.WriteLine(string.Format("{0};{1};{2}", pdtFileInfo.Id, pdtFileInfo.Name, exeFile));
+                        pdtIdsInfo.WriteLine(string.Format("{0};{1};{2};{3}", pdtFileInfo.Id, pdtFileInfo.Name, exeFile, pdtFileInfo.Version));
                         }
                     pdtIdsInfo.Close();
                     }
@@ -285,7 +296,7 @@ namespace AramisPDTClient.UpdatingSoft
             return true;
             }
 
-        private const string FILES_IDS_FILE_NAME = "Ids.txt";
+        public const string FILES_IDS_FILE_NAME = "Ids.txt";
         private const string UPDATE_TEMP_FOLDER_NAME = "temp_update";
         private const string UPDATE_FOLDER_NAME = "update";
         private const int FILE_BLOCK_SIZE = 65536;

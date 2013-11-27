@@ -1,4 +1,3 @@
-using AramisPDTClient.UpdatingSoft;
 using WMS_client.HelperClasses;
 
 namespace WMS_client.Processes
@@ -23,7 +22,7 @@ namespace WMS_client.Processes
 
         public override void OnBarcode(string Barcode)
             {
-            //new SoftUpdater();
+            new SoftUpdater();
             //return;
             //if (Barcode.IsValidBarcode())
             //{

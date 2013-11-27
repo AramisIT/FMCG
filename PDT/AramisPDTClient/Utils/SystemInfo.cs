@@ -1,15 +1,20 @@
 ﻿using System;
+using System.Data.SqlTypes;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using WMS_client;
 using WMS_client.WinProcessesManagement;
 
 namespace AramisPDTClient
     {
     public class SystemInfo
         {
+
+        public static int Version { get; private set; }
 
         public static string STARTUP_PATH;
 
@@ -75,6 +80,35 @@ namespace AramisPDTClient
         private void init(Assembly assembly)
             {
             STARTUP_PATH = System.IO.Path.GetFullPath(assembly.GetName().CodeBase);
+            Version = readSystemVersion();
+            }
+
+        private int readSystemVersion()
+            {
+            var idsFileName = Path.GetDirectoryName(STARTUP_PATH) + '\\' + SoftUpdater.FILES_IDS_FILE_NAME;
+            if (!File.Exists(idsFileName)) return 0;
+
+            using (var idsFile = File.OpenText(idsFileName))
+                {
+                string row;
+                while ((row = idsFile.ReadLine()) != null)
+                    {
+                    row = row.Trim();
+                    var values = row.Split(';');
+                    if (values.Length < 4) continue;
+                    try
+                        {
+                        if (Convert.ToBoolean(values[2].Trim()))
+                            {
+                            return Convert.ToInt32(values[3].Trim());
+                            }
+                        }
+                    catch { }
+                    }
+                idsFile.Close();
+                }
+
+            return 0;
             }
         }
     }

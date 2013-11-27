@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
+using AramisPDTClient;
 using Intermec.DataCollection;
 using WMS_client.Base.Visual;
 using WMS_client.Utils;
@@ -278,9 +279,12 @@ namespace WMS_client
 
         private void pictureBox1_DoubleClick(object sender, EventArgs e)
             {
+            var askString = String.Format("[{0}]\r\nUpdate ver. {2}\r\n\r\nЗАКРЫТЬ ПРИЛОЖЕНИЕ? Заряд {1} %",
+                ServerIP, BatteryChargeStatus.ChargeValue, SystemInfo.Version);
+
             if (
-                MessageBox.Show(String.Format("[{0}]\r\n\r\nЗАКРЫТЬ ПРИЛОЖЕНИЕ? Заряд {1} %", ServerIP, BatteryChargeStatus.ChargeValue),
-                    "Aramis WMS Ver." + VersionNumber.ToString(), MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                MessageBox.Show(askString,
+                    "Aramis PDT Ver." + VersionNumber.ToString(), MessageBoxButtons.YesNo, MessageBoxIcon.Question,
                     MessageBoxDefaultButton.Button1) == DialogResult.Yes)
                 {
                 Close();
