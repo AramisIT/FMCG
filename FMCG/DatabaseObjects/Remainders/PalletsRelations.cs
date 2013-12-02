@@ -24,7 +24,7 @@ namespace FMCG.DatabaseObjects.Remainders
             return new DatabaseObject[] { new AcceptanceOfGoods(), new Inventory(), new Moving() };
             }
 
-        public override DataColumn AddMotions(DatabaseObject databaseObject)
+        public override string AddMotions(DatabaseObject databaseObject)
             {
             if (databaseObject is AcceptanceOfGoods)
                 {
@@ -32,13 +32,13 @@ namespace FMCG.DatabaseObjects.Remainders
 
                 AddMotion(Pallet, item.NomenclatureCode);
                 AddMotion(PreviousPallet, item.PreviousPalletCode);
-                AddMotion(Quantity, null);
+                AddMotion(Quantity, string.Empty);
 
                 SetExceptionsValues(item.NomenclatureState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
                 SetExceptionsValues(item.PreviousPalletCode, 0);
                 SetExceptionsValues(item.IsTare, 1);
 
-                return item.NomenclatureRowDate;
+                return item.NomenclatureRowDate.ColumnName;
                 }
             else if (databaseObject is Inventory)
                 {
@@ -46,7 +46,7 @@ namespace FMCG.DatabaseObjects.Remainders
 
                 AddMotion(Pallet, item.PalletCode);
                 AddMotion(PreviousPallet, item.FinalCodeOfPreviousPallet);
-                AddMotion(Quantity, null);
+                AddMotion(Quantity, string.Empty);
 
                 SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
                 SetExceptionsValues(item.FinalCodeOfPreviousPallet, 0);
@@ -55,12 +55,12 @@ namespace FMCG.DatabaseObjects.Remainders
 
                 AddMotion(Pallet, item.PalletCode);
                 AddMotion(PreviousPallet, item.StartCodeOfPreviousPallet);
-                AddMotion(Quantity, null, true);
+                AddMotion(Quantity, string.Empty, true);
 
                 SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
                 SetExceptionsValues(item.StartCodeOfPreviousPallet, 0);
 
-                return item.RowDate;
+                return item.RowDate.ColumnName;
                 }
             else if (databaseObject is Moving)
                 {
@@ -68,7 +68,7 @@ namespace FMCG.DatabaseObjects.Remainders
 
                 AddMotion(Pallet, item.PalletCode);
                 AddMotion(PreviousPallet, item.FinalCodeOfPreviousPallet);
-                AddMotion(Quantity, null);
+                AddMotion(Quantity, string.Empty);
 
                 SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
                 SetExceptionsValues(item.FinalCodeOfPreviousPallet, 0);
@@ -77,12 +77,12 @@ namespace FMCG.DatabaseObjects.Remainders
 
                 AddMotion(Pallet, item.PalletCode);
                 AddMotion(PreviousPallet, item.StartCodeOfPreviousPallet);
-                AddMotion(Quantity, null, true);
+                AddMotion(Quantity, string.Empty, true);
 
                 SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
                 SetExceptionsValues(item.StartCodeOfPreviousPallet, 0);
 
-                return item.RowDate;
+                return item.RowDate.ColumnName;
                 }
 
             return null;

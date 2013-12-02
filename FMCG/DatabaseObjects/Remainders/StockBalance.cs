@@ -30,7 +30,7 @@ namespace FMCG.DatabaseObjects.Remainders
             return new DatabaseObject[] { new AcceptanceOfGoods(), new Inventory(), new Moving() };
             }
 
-        public override DataColumn AddMotions(DatabaseObject databaseObject)
+        public override string AddMotions(DatabaseObject databaseObject)
             {
             if (databaseObject is AcceptanceOfGoods)
                 {
@@ -45,7 +45,7 @@ namespace FMCG.DatabaseObjects.Remainders
 
                 SetExceptionsValues(item.NomenclatureState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
 
-                return item.NomenclatureRowDate;
+                return item.NomenclatureRowDate.ColumnName;
                 }
             else if (databaseObject is Inventory)
                 {
@@ -74,7 +74,7 @@ namespace FMCG.DatabaseObjects.Remainders
                 SetExceptionsValues(item.PlanValue, 0);
                 SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
 
-                return item.RowDate;
+                return item.RowDate.ColumnName;
                 }
             else if (databaseObject is Moving)
                 {
@@ -103,7 +103,7 @@ namespace FMCG.DatabaseObjects.Remainders
                 SetExceptionsValues(item.PlanValue, 0);
                 SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
 
-                return item.RowDate;
+                return item.RowDate.ColumnName;
                 }
 
             return null;
