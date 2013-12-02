@@ -327,6 +327,7 @@ namespace WMS_client
 
                         newFile.Write(downloadedBytes, 0, downloadedBytes.Length);
                         bytesToLeft -= blockSize;
+                        currentIndex += blockSize;
                         currentDownloadedBytes += blockSize;
 
                         updateProgress();

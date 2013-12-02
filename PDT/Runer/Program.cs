@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Runer
     {
@@ -18,7 +19,10 @@ namespace Runer
             var updater = new Runner();
             if (updater.NewUpdateExists)
                 {
-                updater.Update();
+                if (!updater.Update())
+                    {
+                    MessageBox.Show("Приложение не обновлено!", "Aramis PDT", MessageBoxButtons.OK, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                    }
                 }
             updater.Run();
             }

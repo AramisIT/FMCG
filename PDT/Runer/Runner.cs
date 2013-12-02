@@ -52,19 +52,36 @@ namespace Runer
 
             }
 
-        internal void Update()
+        internal bool Update()
             {
-            foreach (var kvp in updateTasks)
+            foreach (string shortFileName in updateTasks.Keys)
                 {
-                var fileName = currentDirectory + '\\' + kvp.Key;
-                var needToReplace = kvp.Value;
-                if (needToReplace)
-                    {
-                    File.Delete(fileName);
-                    }
-                var oldFileName = updateFolderName + '\\' + kvp.Key;
+                var fileName = currentDirectory + '\\' + shortFileName;
+                if (!deleteFile(fileName)) return false;
+
+                var oldFileName = updateFolderName + '\\' + shortFileName;
                 File.Move(oldFileName, fileName);
                 }
+
+            return true;
+            }
+
+        private bool deleteFile(string fileName)
+            {
+            if (!File.Exists(fileName)) return true;
+
+            try
+                {
+                File.Delete(fileName);
+                }
+            catch (Exception exp)
+                {
+                MessageBox.Show(
+                    string.Format("Can't delete {0}: {1}", Path.GetFileNameWithoutExtension(fileName), exp.Message));
+                return false;
+                }
+
+            return true;
             }
 
         internal void Run()
@@ -75,7 +92,15 @@ namespace Runer
                 MessageBox.Show("Не удалось определить имя запускаемого приложения!");
                 return;
                 }
-            System.Diagnostics.Process.Start(currentDirectory + '\\' + processName, string.Empty);
+
+            try
+                {
+                System.Diagnostics.Process.Start(currentDirectory + '\\' + processName, string.Empty);
+                }
+            catch (Exception exp)
+                {
+                MessageBox.Show(string.Format("Can't start \"{0}\"", processName));
+                }
             }
 
         private string getProcessName()
@@ -92,7 +117,11 @@ namespace Runer
                     if (values.Length < 3) continue;
 
                     var isStartFileName = Convert.ToBoolean(values[2].Trim());
-                    if (isStartFileName) return values[1].Trim();
+                    if (isStartFileName)
+                        {
+                        var shortFileName = values[1].Trim();
+                        return shortFileName;
+                        }
                     }
                 idsFile.Close();
                 }
