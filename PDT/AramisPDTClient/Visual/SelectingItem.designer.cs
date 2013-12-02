@@ -57,6 +57,7 @@
             // dataGrid
             // 
             this.dataGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.dataGrid.ColumnHeadersVisible = false;
             this.dataGrid.Location = new System.Drawing.Point(13, 42);
             this.dataGrid.Name = "dataGrid";
             this.dataGrid.Size = new System.Drawing.Size(215, 195);
