@@ -137,6 +137,7 @@ namespace WMS_client.Processes
             readStickerInfo(acceptanceId, barcodeData, out currentAcceptance);
             if (barcodeData.StickerId == 0)
                 {
+                string.Format("Палети {0} нема у документі.", barcodeData.StickerId).Warning();
                 return;
                 }
 
@@ -382,8 +383,11 @@ namespace WMS_client.Processes
 
         private bool initAcceptance(long stickerId)
             {
-            return new ServerInteraction().GetAcceptanceId(stickerId,
+            var result= new ServerInteraction().GetAcceptanceId(stickerId,
                 out acceptanceId);
+
+            string.Format("Для палети {0} не знайдено документу!", stickerId).Warning();
+            return result;
             }
 
 
