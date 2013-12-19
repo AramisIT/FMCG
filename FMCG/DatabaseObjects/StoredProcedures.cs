@@ -5,14 +5,14 @@ class ProceduresOfFMCG
     {
     private string procedures = @"
 
-PROCEDURE Report_PalletsOrder
+PROCEDURE [dbo].[Report_PalletsOrder]
 	(@StartDate Datetime2,	
 	@Cell bigint)
 AS
 BEGIN
 with Remains as 
 (
-SELECT distinct rem.Code pallet
+SELECT distinct rem.Code pallet, Cell
 
 FROM [GetStockBalance] (
    @StartDate
@@ -31,24 +31,25 @@ SELECT Pallet, PreviousPallet FROM [GetPalletsRelations] (
 
 FirstPallets as
 (
-select rem.pallet from Remains rem
+select rem.Cell, rem.pallet from Remains rem
 left join PalletsRelations r on r.Pallet = rem.pallet
 where r.PreviousPallet is null
 ), 
 
 PalletsNumbers as
 (
-select pallet, 1 OrdinalNumber from FirstPallets
+select cell, pallet, 1 OrdinalNumber from FirstPallets
 
 union all
 
-select r.Pallet, n.OrdinalNumber+1 from PalletsRelations r
+select n.Cell, r.Pallet, n.OrdinalNumber+1 from PalletsRelations r
 join PalletsNumbers n on n.Pallet= r.PreviousPallet
 )
 
+select p.*, rtrim(Cells.Description) CellName from PalletsNumbers p
+join Cells on Cells.Id = p.Cell
 
-select * from PalletsNumbers 
- 
+order by p.Cell, CellName 
 END
 
 
