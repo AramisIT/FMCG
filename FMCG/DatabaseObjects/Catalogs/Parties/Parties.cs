@@ -120,5 +120,15 @@ namespace Catalogs
             return date == null ? DateTime.MinValue : Convert.ToDateTime(date);
             }
         #endregion
+
+        internal static Parties Find(long nomenclatureId, DateTime productionDate)
+            {
+            Query query = DB.NewQuery(@"SELECT Top 1 Id FROM Parties WHERE markForDeleting = 0 and Nomenclature=@Nomenclature AND CAST(DateOfManufacture AS DATE)=@Date");
+            query.AddInputParameter("Date", productionDate);
+            query.AddInputParameter("Nomenclature", nomenclatureId);
+            var partyId = query.SelectInt64();
+
+            return (Parties)new Parties().Read(partyId);
+            }
         }
     }

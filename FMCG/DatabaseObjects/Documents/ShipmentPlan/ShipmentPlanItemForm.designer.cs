@@ -66,6 +66,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
             this.panelControl3 = new DevExpress.XtraEditors.PanelControl();
+            this.barButtonItem8 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
             this.panelControl.SuspendLayout();
@@ -142,17 +143,19 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.OK,
             this.barButtonItem2,
             this.cancel,
-            this.createMovement});
+            this.createMovement,
+            this.barButtonItem8});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 19;
+            this.ribbon.MaxItemId = 20;
             this.ribbon.Name = "ribbon";
             this.ribbon.Size = new System.Drawing.Size(720, 49);
-            this.ribbon.StatusBar = this.ribbonStatusBar;
+            this.ribbon.StatusBar = this.NomenclatureInfoButtonsBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
             // 
             // NomenclatureInfoButtonsBar
             // 
             this.NomenclatureInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Top;
+            this.NomenclatureInfoButtonsBar.ItemLinks.Add(this.barButtonItem8);
             this.NomenclatureInfoButtonsBar.Location = new System.Drawing.Point(2, 2);
             this.NomenclatureInfoButtonsBar.Name = "NomenclatureInfoButtonsBar";
             this.NomenclatureInfoButtonsBar.Ribbon = this.ribbon;
@@ -457,6 +460,14 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl3.Size = new System.Drawing.Size(720, 365);
             this.panelControl3.TabIndex = 25;
             // 
+            // barButtonItem8
+            // 
+            this.barButtonItem8.Alignment = DevExpress.XtraBars.BarItemLinkAlignment.Right;
+            this.barButtonItem8.Caption = "Заповнити партії";
+            this.barButtonItem8.Id = 19;
+            this.barButtonItem8.Name = "barButtonItem8";
+            this.barButtonItem8.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem8_ItemClick);
+            // 
             // ShipmentPlanItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -536,5 +547,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private DevExpress.XtraEditors.LabelControl labelControl8;
         private DevExpress.XtraBars.BarButtonItem createMovement;
         private DevExpress.XtraEditors.PanelControl panelControl3;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem8;
     }
 }

@@ -16,10 +16,29 @@ using Catalogs;
 namespace Documents
     {
     /// <summary>План відвантаження</summary>
-    [Document(Description = "План відвантаження", GUID = "029B0572-E5B5-48CD-9805-1211319A5633", NumberType = NumberType.String, NumberIsReadonly = false)]
-    public class ShipmentPlan : DocumentTable, IIncomeOwner
+    [Document(Description = "План відбору", GUID = "029B0572-E5B5-48CD-9805-1211319A5633", NumberType = NumberType.Int32, NumberIsReadonly = false)]
+    public class ShipmentPlan : DocumentTable, IIncomeOwner, ISyncWith1C
         {
         #region Properties
+        [DataField(Description = "Посилання 1С", ShowInList = false)]
+        public Guid Ref1C
+            {
+            get
+                {
+                return z_Ref1C;
+                }
+            set
+                {
+                if (z_Ref1C == value)
+                    {
+                    return;
+                    }
+                z_Ref1C = value;
+                NotifyPropertyChanged("Ref1C");
+                }
+            }
+        private Guid z_Ref1C;
+
         /// <summary>Вхідний номер/Номер накладної</summary>
         [DataField(Description = "№ накладної", ShowInList = true, NotEmpty = true)]
         public string IncomeNumber
@@ -84,7 +103,7 @@ namespace Documents
         private TypesOfShipment z_TypeOfShipment;
 
         /// <summary>Контрагент</summary>
-        [DataField(Description = "Контрагент", ShowInList = true, NotEmpty = true, AllowOpenItem = true)]
+        [DataField(Description = "Контрагент", ShowInList = true, NotEmpty = false, AllowOpenItem = true)]
         public Contractors Contractor
             {
             get
@@ -146,31 +165,24 @@ namespace Documents
             get { return string.Concat(Responsible.Description, ' ', Date.ToString()); }
             }
 
-        #region Table Nomeclature
-        /// <summary>Номенклатура</summary>
-        [Table(Columns = "Nomenclature, Measure, Quantity, Party", ShowLineNumberColumn = true)]
+        [Table(Columns = "Nomenclature, ProductionDate, Quantity, Party", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {
             get { return GetSubtable("NomenclatureInfo"); }
             }
 
-        /// <summary>Номенклатура</summary>
         [SubTableField(Description = "Номенклатура", PropertyType = typeof(Nomenclature))]
         public DataColumn Nomenclature { get; set; }
 
-        /// <summary>Од.вим.</summary>
-        [SubTableField(Description = "Од.вим.", PropertyType = typeof(Measures))]
-        public DataColumn Measure { get; set; }
-
-        /// <summary>К-сть</summary>
-        [SubTableField(Description = "К-сть", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
+        [SubTableField(Description = "Кількість", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
         public DataColumn Quantity { get; set; }
 
-        /// <summary>Партія</summary>
+        [SubTableField(Description = "Дата виробництва", PropertyType = typeof(DateTime))]
+        public DataColumn ProductionDate { get; set; }
+
         [SubTableField(Description = "Партія", PropertyType = typeof(Parties))]
         public DataColumn Party { get; set; }
-        #endregion
         #endregion
 
         #region DocumentTable
@@ -208,14 +220,14 @@ namespace Documents
                     foreach (DataRow row in NomenclatureInfo.Rows)
                         {
                         long nomenclature = Convert.ToInt64(row[Nomenclature]);
-                        long measure = Convert.ToInt64(row[Measure]);
+
                         long party = Convert.ToInt64(row[Party]);
                         double count = Convert.ToDouble(row[Quantity]);
                         bool find = false;
 
                         foreach (MovementFillingInfo info in list)
                             {
-                            if(info.Measure == measure && info.Nomenclature == nomenclature && info.Party == party)
+                            if (info.Nomenclature == nomenclature && info.Party == party)
                                 {
                                 info.Count += count;
                                 find = true;
@@ -223,12 +235,11 @@ namespace Documents
                                 }
                             }
 
-                        if(!find)
+                        if (!find)
                             {
                             list.Add(new MovementFillingInfo
                                          {
                                              Count = count,
-                                             Measure = measure,
                                              Nomenclature = nomenclature,
                                              Party = party
                                          });
@@ -261,69 +272,69 @@ namespace Documents
 
         private void fillMovement(Moving movement, MovementFillingInfo info)
             {
-//            Query query = DB.NewQuery(@"
-//--DECLARE @Nomenclature BIGINT=1;
-//--DECLARE @Measure BIGINT=1;
-//--DECLARE @Party BIGINT=2;
-//DECLARE @SourceType uniqueidentifier='029B0572-E5B5-48CD-9805-1211319A5633';
-//
-//WITH
-// PalletOrder AS (SELECT f.PalletCode,ROW_NUMBER() OVER(ORDER BY f.CreationDate) PalletOrder FROM FilledCell f)
-//,AcceptedCode AS (
-//	SELECT DISTINCT a.NomenclatureCode code 
-//	FROM SubAcceptanceOfGoodsNomenclatureInfo a 
-//	WHERE a.NomenclatureParty=@Party 
-//	
-//	EXCEPT 
-//	
-//	SELECT DISTINCT n.NomenclatureCode
-//	FROM Movement m
-//	JOIN SubMovementNomenclatureInfo n ON n.IdDoc=m.Id
-//	JOIN ShipmentPlan p ON p.Id=m.Source AND m.SourceType=@SourceType
-//	WHERE m.MarkForDeleting=0 AND n.RowState=0 AND n.NomenclatureParty=@Party AND n.Nomenclature=@Nomenclature AND n.NomenclatureMeasure=@Measure)
-//,PreparedData AS (
-//	SELECT
-//		b.Cell,b.ExpariedDate,b.UniqueCode,b.Quantity,b.MeasureUnit,
-//		ROW_NUMBER() OVER (PARTITION BY b.Cell ORDER BY p.PalletOrder DESC,b.ExpariedDate DESC) RowNumber
-//	FROM StockBalance b
-//	JOIN PalletOrder p ON p.PalletCode=b.UniqueCode
-//	JOIN AcceptedCode a ON a.code=b.UniqueCode
-//	WHERE b.Nomenclature=@Nomenclature AND b.MeasureUnit=@Measure AND b.State=4)
-//	
-//SELECT *
-//FROM PreparedData");
-//            query.AddInputParameter("Nomenclature", info.Nomenclature);
-//            query.AddInputParameter("Measure", info.Measure);
-//            query.AddInputParameter("Party", info.Party);
-//            DataTable table = query.SelectToTable();
-//            double howIsUsed = 0;
+            //            Query query = DB.NewQuery(@"
+            //--DECLARE @Nomenclature BIGINT=1;
+            //--DECLARE @Measure BIGINT=1;
+            //--DECLARE @Party BIGINT=2;
+            //DECLARE @SourceType uniqueidentifier='029B0572-E5B5-48CD-9805-1211319A5633';
+            //
+            //WITH
+            // PalletOrder AS (SELECT f.PalletCode,ROW_NUMBER() OVER(ORDER BY f.CreationDate) PalletOrder FROM FilledCell f)
+            //,AcceptedCode AS (
+            //	SELECT DISTINCT a.NomenclatureCode code 
+            //	FROM SubAcceptanceOfGoodsNomenclatureInfo a 
+            //	WHERE a.NomenclatureParty=@Party 
+            //	
+            //	EXCEPT 
+            //	
+            //	SELECT DISTINCT n.NomenclatureCode
+            //	FROM Movement m
+            //	JOIN SubMovementNomenclatureInfo n ON n.IdDoc=m.Id
+            //	JOIN ShipmentPlan p ON p.Id=m.Source AND m.SourceType=@SourceType
+            //	WHERE m.MarkForDeleting=0 AND n.RowState=0 AND n.NomenclatureParty=@Party AND n.Nomenclature=@Nomenclature AND n.NomenclatureMeasure=@Measure)
+            //,PreparedData AS (
+            //	SELECT
+            //		b.Cell,b.ExpariedDate,b.UniqueCode,b.Quantity,b.MeasureUnit,
+            //		ROW_NUMBER() OVER (PARTITION BY b.Cell ORDER BY p.PalletOrder DESC,b.ExpariedDate DESC) RowNumber
+            //	FROM StockBalance b
+            //	JOIN PalletOrder p ON p.PalletCode=b.UniqueCode
+            //	JOIN AcceptedCode a ON a.code=b.UniqueCode
+            //	WHERE b.Nomenclature=@Nomenclature AND b.MeasureUnit=@Measure AND b.State=4)
+            //	
+            //SELECT *
+            //FROM PreparedData");
+            //            query.AddInputParameter("Nomenclature", info.Nomenclature);
+            //            query.AddInputParameter("Measure", info.Measure);
+            //            query.AddInputParameter("Party", info.Party);
+            //            DataTable table = query.SelectToTable();
+            //            double howIsUsed = 0;
 
-//            if (table != null)
-//                {
-//                foreach (DataRow row in table.Rows)
-//                    {
-//                    double quantity = Convert.ToDouble(row["Quantity"]);
-//                    howIsUsed += quantity;
+            //            if (table != null)
+            //                {
+            //                foreach (DataRow row in table.Rows)
+            //                    {
+            //                    double quantity = Convert.ToDouble(row["Quantity"]);
+            //                    howIsUsed += quantity;
 
-//                    DataRow newRow = movement.NomenclatureInfo.GetNewRow(movement);
-//                    newRow[movement.NomenclatureCode] = row["UniqueCode"];
-//                    newRow.SetRefValueToRowCell(movement, movement.Nomenclature, info.Nomenclature, typeof(Nomenclature));
-//                    newRow.SetRefValueToRowCell(movement, movement.NomenclatureMeasure, info.Measure, typeof(Measures));
-//                    newRow.SetRefValueToRowCell(movement, movement.NomenclatureParty, info.Party, typeof(Parties));
-//                    newRow[movement.NomenclatureCount] = quantity;
-//                    newRow.SetRefValueToRowCell(movement, movement.SourceCell, row["Cell"], typeof(Cells));
-//                   // newRow.SetRefValueToRowCell(movement, movement.DestinationCell, Cells.Buyout.Id, typeof(Cells));
-//                    newRow[movement.RowState] = StatesOfDocument.Planned;
-//                    newRow.AddRowToTable(movement);
+            //                    DataRow newRow = movement.NomenclatureInfo.GetNewRow(movement);
+            //                    newRow[movement.NomenclatureCode] = row["UniqueCode"];
+            //                    newRow.SetRefValueToRowCell(movement, movement.Nomenclature, info.Nomenclature, typeof(Nomenclature));
+            //                    newRow.SetRefValueToRowCell(movement, movement.NomenclatureMeasure, info.Measure, typeof(Measures));
+            //                    newRow.SetRefValueToRowCell(movement, movement.NomenclatureParty, info.Party, typeof(Parties));
+            //                    newRow[movement.NomenclatureCount] = quantity;
+            //                    newRow.SetRefValueToRowCell(movement, movement.SourceCell, row["Cell"], typeof(Cells));
+            //                   // newRow.SetRefValueToRowCell(movement, movement.DestinationCell, Cells.Buyout.Id, typeof(Cells));
+            //                    newRow[movement.RowState] = StatesOfDocument.Planned;
+            //                    newRow.AddRowToTable(movement);
 
-//                    if (howIsUsed >= info.Count)
-//                        {
-//                        break;
-//                        }
-//                    }
-//                }
+            //                    if (howIsUsed >= info.Count)
+            //                        {
+            //                        break;
+            //                        }
+            //                    }
+            //                }
 
-//            movement.SetSubtableModified(movement.NomenclatureInfo.TableName);
+            //            movement.SetSubtableModified(movement.NomenclatureInfo.TableName);
             }
 
         void movement_AfterWriting(DatabaseObject item)
@@ -344,20 +355,28 @@ ORDER BY Date DESC");
             object movementId = query.SelectScalar();
 
             return movementId == null ? 0 : Convert.ToInt64(movementId);
-            } 
+            }
 
         private void OnMovementDocIsAssigned()
             {
             EventHandler handler = MovementDocIsAssigned;
 
-            if(handler!=null)
+            if (handler != null)
                 {
                 handler(this, new EventArgs());
                 }
             }
         #endregion
+
+        internal void FillParties()
+            {
+            foreach (DataRow row in NomenclatureInfo.Rows)
+                {
+                row[Party] = Parties.Find((long)row[Nomenclature], (DateTime)row[ProductionDate]).Id;
+                }
+            }
         }
-    
+
     public class MovementFillingInfo
         {
         public long Nomenclature { get; set; }

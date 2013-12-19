@@ -377,5 +377,10 @@ namespace AtosFMCG
             {
             PlatformMethods.UpdatePDTFiles();
             }
+
+        private void barButtonItem16_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(ShipmentPlan));
+            }
         }
     }

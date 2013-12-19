@@ -97,5 +97,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
             {
             Document.CreateMovement();
             }
+
+        private void barButtonItem8_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            Document.FillParties();
+            }
         }
     }

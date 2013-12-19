@@ -163,7 +163,7 @@ namespace Documents
         public DataColumn Measure { get; set; }
 
         /// <summary>К-сть</summary>
-        [SubTableField(Description = "К-сть", PropertyType = typeof(double), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
+        [SubTableField(Description = "К-сть", PropertyType = typeof(decimal), DecimalPointsNumber = 2, DecimalPointsViewNumber = 2)]
         public DataColumn Quantity { get; set; }
 
         /// <summary>Комірка</summary>

@@ -352,22 +352,14 @@ namespace AtosFMCG.TouchScreen.Controls
         /// <returns>Партія</returns>
         private Parties getPartyForNomenclatureByDate(DateTime date, long nomenclature, int shelfLifeDays)
             {
-            Query query = DB.NewQuery(@"SELECT Id FROM Parties WHERE Nomenclature=@Nomenclature AND CAST(DateOfManufacture AS DATE)=@Date");
-            query.AddInputParameter("Date", date.Date);
-            query.AddInputParameter("Nomenclature", nomenclature);
-            object id = query.SelectScalar();
-            Parties party = new Parties();
+            Parties party = Parties.Find(nomenclature, date);
 
-            if (id == null)
+            if (party.Id == 0)
                 {
                 party.DateOfManufacture = date;
                 party.Nomenclature = (Nomenclature)new Nomenclature().Read(nomenclature);
                 party.FillAddData(shelfLifeDays);
                 party.Write();
-                }
-            else
-                {
-                party.Read(id);
                 }
 
             return party;
@@ -670,13 +662,13 @@ and MarkForDeleting = 0
                 //    }
 
                 selectedRow.Description = new ObjectValue(value);
-                
+
                 var nomenclature = new Nomenclature();
                 nomenclature.Read(value.Key);
                 selectedRow.StandartPalletCountPer1 = nomenclature.UnitsQuantityPerPallet;
                 selectedRow.NonStandartPalletCountPer1 = 0;
                 selectedRow.UpdatePalletQuantity();
-                
+
                 grid.RefreshDataSource();
                 showMessage("Обрано нову номенклатуру!", value.Value);
                 }

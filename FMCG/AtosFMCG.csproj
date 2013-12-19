@@ -225,6 +225,7 @@
     <Compile Include="DatabaseObjects\Interfaces\ISyncWith1C.cs" />
     <Compile Include="DatabaseObjects\Remainders\PalletsRelations.cs" />
     <Compile Include="DatabaseObjects\Remainders\StockBalance.cs" />
+    <Compile Include="DatabaseObjects\StoredProcedures.cs" />
     <Compile Include="HelperClasses\BarcodeWorker.cs" />
     <Compile Include="HelperClasses\PDT\BoxesFinder.cs" />
     <Compile Include="HelperClasses\PDT\PDTCommunication.cs" />
