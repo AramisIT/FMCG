@@ -198,9 +198,9 @@ namespace WMS_client.Processes
 
         private void proceed()
             {
-            factPickingData.TotalUnitsQuantity = unitsCount + packsCount*factPickingData.UnitsPerBox;
+            factPickingData.TotalUnitsQuantity = unitsCount + packsCount * factPickingData.UnitsPerBox;
             var resultWriter = new TableMovementWriter(pickingTaskData, factPickingData);
-            var success = new ServerInteraction().WritePickingResult(documentId, currentLineNumber, resultWriter.Table);
+            var success = new ServerInteraction().WritePickingResult(documentId, currentLineNumber, resultWriter.Table, factPickingData.Party.Id);
             if (success)
                 {
                 startPalletChoosing();
@@ -222,8 +222,11 @@ namespace WMS_client.Processes
             else
                 {
                 barcodeData.ReadStickerInfo();
-                if (pickingTaskData.SameWare(barcodeData)
-                    && string.Format("Выполнить отбор с паллеты {0}", barcodeData.StickerId).Ask())
+                if (pickingTaskData.SameWare(barcodeData, false)
+                    &&
+                    (pickingTaskData.StickerId == 0
+                    || string.Format("Выполнить отбор с паллеты {0}", barcodeData.StickerId).Ask())
+                    )
                     {
                     factPickingData = barcodeData;
                     factPickingData.Tray = new CatalogItem();
@@ -231,7 +234,7 @@ namespace WMS_client.Processes
                     }
                 else
                     {
-                    "Необхідно відсканувати вказаний товар".Warning();                    
+                    "Необхідно відсканувати вказаний товар".Warning();
                     return;
                     }
                 }

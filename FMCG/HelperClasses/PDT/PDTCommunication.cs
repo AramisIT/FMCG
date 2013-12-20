@@ -1029,7 +1029,7 @@ from @table");
             return q.ThrowedException == null;
             }
 
-        public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable)
+        public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable, long partyId)
             {
             var document = new Moving();
             document.Read(documentId);
@@ -1038,6 +1038,7 @@ from @table");
 
             var resultWareRow = resultTable.Rows[0];
             var wareRow = document.NomenclatureInfo.Rows[currentLineNumber - 1];
+            wareRow[document.Party] = partyId;
             wareRow[document.FactValue] = resultWareRow[document.FactValue.ColumnName];
             wareRow[document.StartCell] = resultWareRow[document.StartCell.ColumnName];
             wareRow[document.FinalCell] = Consts.RedemptionCell.Id;

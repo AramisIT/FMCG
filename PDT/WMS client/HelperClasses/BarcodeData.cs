@@ -106,11 +106,19 @@ namespace WMS_client.HelperClasses
 
         public bool SameWare(BarcodeData barcodeData)
             {
+            return SameWare(barcodeData, true);
+            }
+
+        public bool SameWare(BarcodeData barcodeData, bool checkParty)
+            {
             if (Nomenclature == null || barcodeData.Nomenclature == null) return false;
 
             if (barcodeData.Nomenclature.Id != Nomenclature.Id) return false;
 
-            if (!barcodeData.ProductionDate.Equals(ProductionDate)) return false;
+            if (checkParty)
+                {
+                if (!barcodeData.ProductionDate.Equals(ProductionDate)) return false;
+                }
 
             return true;
             }

@@ -376,7 +376,7 @@ namespace WMS_client
             return false;
             }
 
-        public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable)
+        public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable, long partyId)
             {
             PerformQuery("WritePickingResult", documentId, currentLineNumber, resultTable);
             return success;

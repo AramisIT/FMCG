@@ -173,7 +173,7 @@ namespace pdtExternalStorage
 
         bool WriteMovementResult(long documentId, DataTable resultTable);
 
-        bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable);
+        bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable, long partyId);
 
         bool ComplateMovement(long documentId, bool forceCompletion, out string errorMessage);
 

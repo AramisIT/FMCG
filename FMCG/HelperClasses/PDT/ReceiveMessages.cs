@@ -89,7 +89,7 @@ namespace AtosFMCG.HelperClasses.PDT
                     return new object[] { communication.WriteMovementResult(Convert.ToInt64(parameters[0]), parameters[1] as DataTable) };
 
                 case "WritePickingResult":
-                    return new object[] { communication.WritePickingResult(Convert.ToInt64(parameters[0]), Convert.ToInt32(parameters[1]), parameters[2] as DataTable) };
+                    return new object[] { communication.WritePickingResult(Convert.ToInt64(parameters[0]), Convert.ToInt32(parameters[1]), parameters[2] as DataTable, Convert.ToInt64(parameters[3])) };
 
                 case "GetPickingTask":
                     return GetPickingTask(parameters);
