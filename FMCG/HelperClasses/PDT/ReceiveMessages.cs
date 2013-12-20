@@ -104,6 +104,9 @@ namespace AtosFMCG.HelperClasses.PDT
                     return new object[] { PlatformMethods.GetPDTFileBlock(new Guid(parameters[0].ToString()), 
                     Convert.ToInt32(parameters[1]), Convert.ToInt32(parameters[2])) };
 
+                case "PrintStickers":
+                    return new object[] { communication.PrintStickers(parameters[0] as DataTable) };
+
                 }
 
             return new object[0];

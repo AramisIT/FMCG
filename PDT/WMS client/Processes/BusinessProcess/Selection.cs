@@ -256,16 +256,11 @@ namespace WMS_client.Processes
                 case KeyAction.Proceed:
                     if (this.pickingTaskData.StickerId > 0)
                         {
-                        saveFact();
+                        proceed();
                         }
                     startPalletChoosing();
                     break;
                 }
-            }
-
-        private void saveFact()
-            {
-            throw new NotImplementedException();
             }
         }
     }

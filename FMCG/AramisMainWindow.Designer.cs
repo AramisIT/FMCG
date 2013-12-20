@@ -30,9 +30,9 @@
             {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AramisMainWindow));
-            DevExpress.Utils.SuperToolTip superToolTip3 = new DevExpress.Utils.SuperToolTip();
-            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem3 = new DevExpress.Utils.ToolTipTitleItem();
-            DevExpress.Utils.ToolTipItem toolTipItem3 = new DevExpress.Utils.ToolTipItem();
+            DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.smallImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.openCatalogs = new DevExpress.XtraBars.BarButtonItem();
@@ -68,11 +68,13 @@
             this.barButtonItem14 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem15 = new DevExpress.XtraBars.BarButtonItem();
             this._PDTUpdateButton = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem16 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem17 = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup5 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.storehouseOperations = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.catalogsPageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -92,8 +94,7 @@
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.barButtonItem12 = new DevExpress.XtraBars.BarButtonItem();
-            this.ribbonPageGroup6 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.barButtonItem16 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem18 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.largeImagesCollection)).BeginInit();
@@ -141,10 +142,12 @@
             this.barButtonItem14,
             this.barButtonItem15,
             this._PDTUpdateButton,
-            this.barButtonItem16});
+            this.barButtonItem16,
+            this.barButtonItem17,
+            this.barButtonItem18});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 56;
+            this.ribbon.MaxItemId = 58;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
@@ -243,7 +246,7 @@
             // 
             // openReportsSetting
             // 
-            this.openReportsSetting.Caption = "Звіти (налаштування)";
+            this.openReportsSetting.Caption = "Звіти";
             this.openReportsSetting.Id = 26;
             this.openReportsSetting.LargeImageIndex = 31;
             this.openReportsSetting.Name = "openReportsSetting";
@@ -255,15 +258,15 @@
             this.serverState.Id = 28;
             this.serverState.LargeImageIndex = 4;
             this.serverState.Name = "serverState";
-            toolTipTitleItem3.Text = "Сервер не запущено!";
-            toolTipItem3.Appearance.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
-            toolTipItem3.Appearance.Options.UseImage = true;
-            toolTipItem3.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
-            toolTipItem3.LeftIndent = 6;
-            toolTipItem3.Text = "Сервер роботи з ТЗД не запущено...";
-            superToolTip3.Items.Add(toolTipTitleItem3);
-            superToolTip3.Items.Add(toolTipItem3);
-            this.serverState.SuperTip = superToolTip3;
+            toolTipTitleItem2.Text = "Сервер не запущено!";
+            toolTipItem2.Appearance.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem2.Appearance.Options.UseImage = true;
+            toolTipItem2.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem2.LeftIndent = 6;
+            toolTipItem2.Text = "Сервер роботи з ТЗД не запущено...";
+            superToolTip2.Items.Add(toolTipTitleItem2);
+            superToolTip2.Items.Add(toolTipItem2);
+            this.serverState.SuperTip = superToolTip2;
             this.serverState.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.serverState_ItemClick);
             // 
             // openStockBalance
@@ -431,6 +434,20 @@
             this._PDTUpdateButton.Name = "_PDTUpdateButton";
             this._PDTUpdateButton.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this._PDTUpdateButton_ItemClick);
             // 
+            // barButtonItem16
+            // 
+            this.barButtonItem16.Caption = "План відбору";
+            this.barButtonItem16.Id = 54;
+            this.barButtonItem16.Name = "barButtonItem16";
+            this.barButtonItem16.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem16_ItemClick);
+            // 
+            // barButtonItem17
+            // 
+            this.barButtonItem17.Caption = "Види звітів";
+            this.barButtonItem17.Id = 56;
+            this.barButtonItem17.Name = "barButtonItem17";
+            this.barButtonItem17.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem17_ItemClick);
+            // 
             // largeImagesCollection
             // 
             this.largeImagesCollection.ImageSize = new System.Drawing.Size(32, 32);
@@ -458,7 +475,6 @@
             this.ribbonPageGroup2,
             this.ribbonPageGroup3,
             this.ribbonPageGroup6,
-            this.ribbonPageGroup4,
             this.ribbonPageGroup5,
             this.storehouseOperations,
             this.catalogsPageGroup,
@@ -478,10 +494,11 @@
             this.ribbonPageGroup3.Name = "ribbonPageGroup3";
             this.ribbonPageGroup3.Text = "Приймання на склад";
             // 
-            // ribbonPageGroup4
+            // ribbonPageGroup6
             // 
-            this.ribbonPageGroup4.Name = "ribbonPageGroup4";
-            this.ribbonPageGroup4.Text = "Звіти";
+            this.ribbonPageGroup6.ItemLinks.Add(this.barButtonItem16);
+            this.ribbonPageGroup6.Name = "ribbonPageGroup6";
+            this.ribbonPageGroup6.Text = "Відвантаження";
             // 
             // ribbonPageGroup5
             // 
@@ -507,6 +524,7 @@
             // reportsRibbonPageGroup
             // 
             this.reportsRibbonPageGroup.ItemLinks.Add(this.barButtonItem15);
+            this.reportsRibbonPageGroup.ItemLinks.Add(this.barButtonItem18);
             this.reportsRibbonPageGroup.Name = "reportsRibbonPageGroup";
             this.reportsRibbonPageGroup.Text = "Звіти";
             // 
@@ -532,6 +550,7 @@
             // 
             this.favGroup.ItemLinks.Add(this.openUsers);
             this.favGroup.ItemLinks.Add(this.openReportsSetting);
+            this.favGroup.ItemLinks.Add(this.barButtonItem17);
             this.favGroup.Name = "favGroup";
             this.favGroup.Text = "Обране";
             // 
@@ -628,18 +647,12 @@
             this.barButtonItem12.LargeImageIndex = 0;
             this.barButtonItem12.Name = "barButtonItem12";
             // 
-            // ribbonPageGroup6
+            // barButtonItem18
             // 
-            this.ribbonPageGroup6.ItemLinks.Add(this.barButtonItem16);
-            this.ribbonPageGroup6.Name = "ribbonPageGroup6";
-            this.ribbonPageGroup6.Text = "Відвантаження";
-            // 
-            // barButtonItem16
-            // 
-            this.barButtonItem16.Caption = "План відбору";
-            this.barButtonItem16.Id = 54;
-            this.barButtonItem16.Name = "barButtonItem16";
-            this.barButtonItem16.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem16_ItemClick);
+            this.barButtonItem18.Caption = "Послідовність палет";
+            this.barButtonItem18.Id = 57;
+            this.barButtonItem18.Name = "barButtonItem18";
+            this.barButtonItem18.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem18_ItemClick);
             // 
             // AramisMainWindow
             // 
@@ -704,7 +717,6 @@
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup3;
-        private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem3;
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
@@ -729,6 +741,8 @@
         private DevExpress.XtraBars.BarButtonItem _PDTUpdateButton;
         private DevExpress.XtraBars.BarButtonItem barButtonItem16;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup6;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem17;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem18;
 
         }
     }

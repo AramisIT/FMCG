@@ -2,14 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Windows.Forms;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
+using Aramis.Platform;
 using Aramis.SystemConfigurations;
 using Aramis.UI.WinFormsDevXpress;
 using AramisWpfComponents.Excel;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Documents;
 using AtosFMCG.Enums;
+using AtosFMCG.TouchScreen.PalletSticker;
 using Catalogs;
 using Documents;
 using FMCG.DatabaseObjects.Enums;
@@ -1151,7 +1154,24 @@ order by [LineNumber]";
             return true;
             }
 
+        public bool PrintStickers(DataTable result)
+            {
+            List<Stickers> stickers = new List<Stickers>();
+            foreach (DataRow row in result.Rows)
+                {
+                var sticker = new Stickers();
+                sticker.Read(Convert.ToInt64(row[0]));
+                stickers.Add(sticker);
+                }
 
+            var stickersCreator = new StickersPrintingHelper(stickers, ThermoPrinters.GetCurrentPrinterName());
 
+            (UIConsts.MainWindow as Form).Invoke(new Action(() =>
+                {
+                    stickersCreator.Print();
+                }));
+
+            return true;
+            }
         }
     }

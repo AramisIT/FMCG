@@ -13,7 +13,8 @@ namespace WMS_client.Processes
             Acceptance,
             Inventory,
             Selection,
-            Movement
+            Movement,
+            StickerRepeating
             }
 
         /// <summary>Вибір процесу</summary>
@@ -37,9 +38,10 @@ namespace WMS_client.Processes
                     new List<TableData>
                         {
                             new TableData((long) Processes.Acceptance, "Приймання товару", acceptanceDocCount),
-                            new TableData((long) Processes.Inventory, "Інвентаризація", inventoryDocCount),
+                            new TableData((long) Processes.Inventory, "Інвентаризація", string.Empty),
                             new TableData((long) Processes.Selection, "Відбір", movementDocCount),
-                            new TableData((long) Processes.Movement, "Переміщення", string.Empty)
+                            new TableData((long) Processes.Movement, "Переміщення", string.Empty),
+                            new TableData((long) Processes.StickerRepeating, "Повтор етикетки", string.Empty)
                         };
                 MainProcess.ClearControls();
                 MainProcess.Process = new SelectTableList(
@@ -87,6 +89,10 @@ namespace WMS_client.Processes
                 case Processes.Inventory:
                     MainProcess.ClearControls();
                     process = new Inventory();
+                    break;
+                case Processes.StickerRepeating:
+                    MainProcess.ClearControls();
+                    process = new StickerRepeating();
                     break;
                 }
 

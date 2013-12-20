@@ -185,5 +185,7 @@ namespace pdtExternalStorage
             out long partyId, out DateTime productionDate,
             out int unitsPerBox, out int unitsToPick,
             out int lineNumber);
+
+        bool PrintStickers(DataTable result);
         }
     }

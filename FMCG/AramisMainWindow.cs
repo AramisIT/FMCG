@@ -382,5 +382,15 @@ namespace AtosFMCG
             {
             UserInterface.Current.ShowList(typeof(ShipmentPlan));
             }
+
+        private void barButtonItem17_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(MatrixAdapters));
+            }
+
+        private void barButtonItem18_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowReport("Послідовність палет");
+            }
         }
     }

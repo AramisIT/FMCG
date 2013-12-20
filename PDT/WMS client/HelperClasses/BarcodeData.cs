@@ -139,6 +139,10 @@ namespace WMS_client.HelperClasses
                 }
 
             PreviousStickerCode = previousPalletCode;
+            if (Nomenclature == null)
+                {
+                Nomenclature = new CatalogItem();
+                }
             Nomenclature.Description = nomenclatureDescription;
             Tray = new CatalogItem()
             {

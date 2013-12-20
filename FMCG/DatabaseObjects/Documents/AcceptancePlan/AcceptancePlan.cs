@@ -347,7 +347,7 @@ namespace Documents
 
         internal void PrintStickers(List<NomenclatureData> wareList)
             {
-            var stickers = createStickers(wareList);
+            List<Stickers> stickers = createStickers(wareList);
 
             Stickers.Rows.Clear();
             stickers.ForEach(sticker =>

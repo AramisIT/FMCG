@@ -381,5 +381,11 @@ namespace WMS_client
             PerformQuery("WritePickingResult", documentId, currentLineNumber, resultTable);
             return success;
             }
+
+        public bool PrintStickers(DataTable result)
+            {
+            PerformQuery("PrintStickers", result);
+            return success;
+            }
         }
     }
