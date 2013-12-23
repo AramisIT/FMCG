@@ -27,12 +27,16 @@ namespace WMS_client.HelperClasses
 
             if (finalBarcodeData.HasLiners || startBarcodeData.HasLiners)
                 {
-                appendResult(startBarcodeData.Liner.Id, finalBarcodeData.Liner.Id, startBarcodeData.LinersAmount, finalBarcodeData.LinersAmount, true);
+                var startLiner = startBarcodeData.Liner ?? new CatalogItem();
+                var endLiner = finalBarcodeData.Liner ?? new CatalogItem();
+                appendResult(startLiner.Id, endLiner.Id, startBarcodeData.LinersAmount, finalBarcodeData.LinersAmount, true);
                 }
 
             if (finalBarcodeData.HasTray || startBarcodeData.HasTray)
                 {
-                appendResult(startBarcodeData.Tray.Id, finalBarcodeData.Tray.Id, startBarcodeData.Tray.Id > 0 ? 1 : 0, finalBarcodeData.Tray.Id > 0 ? 1 : 0, true);
+                var startTray = startBarcodeData.Tray ?? new CatalogItem();
+                var endTray = finalBarcodeData.Tray ?? new CatalogItem();
+                appendResult(startTray.Id, endTray.Id, startTray.Id > 0 ? 1 : 0, endTray.Id > 0 ? 1 : 0, true);
                 }
             }
 
@@ -82,9 +86,18 @@ namespace WMS_client.HelperClasses
                 new DataColumn("FinalCodeOfPreviousPallet", typeof (long)),
                 new DataColumn("PlanValue", typeof (int)),
                 new DataColumn("FactValue", typeof (int)),
-                new DataColumn("StartCell", typeof (long)),
+                new DataColumn(START_CELL_COLUMN_NAME, typeof (long)),
                 new DataColumn("FinalCell", typeof (long))
                 });
+            }
+
+        private const string START_CELL_COLUMN_NAME = "StartCell";
+        internal void SetStartCell(CatalogItem cell)
+            {
+            foreach (DataRow row in Table.Rows)
+                {
+                row[START_CELL_COLUMN_NAME] = cell.Id;
+                }
             }
         }
     }

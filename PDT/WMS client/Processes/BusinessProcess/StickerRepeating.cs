@@ -49,7 +49,7 @@ namespace WMS_client.Processes
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
             top += delta * 2;
-            complateButton = MainProcess.CreateButton("Роздрукувати     (F5)", 5, top, 230, 35, string.Empty, complateProcess);
+            complateButton = MainProcess.CreateButton("Роздрукувати     (F4)", 5, top, 230, 35, string.Empty, complateProcess);
 
             updatePrintTask();
             }
@@ -139,7 +139,7 @@ namespace WMS_client.Processes
 
             if (!new ServerInteraction().PrintStickers(result))
                 {
-                CANT_COMPLATE_OPERATION.Warning();
+                Warning_CantComplateOperation();
                 return;
                 }
 

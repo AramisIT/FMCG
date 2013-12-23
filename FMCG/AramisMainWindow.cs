@@ -67,7 +67,7 @@ namespace AtosFMCG
 
             adminPropertiesPage.Visible = openByAdmnin;
             //Приховати системні (тестові та інш.) групи 
-           // updGroup.Visible = openByAdmnin;
+            // updGroup.Visible = openByAdmnin;
             favGroup.Visible = openByAdmnin;
             testGroup.Visible = openByAdmnin;
             serviceTablesGroup.Visible = openByAdmnin;
@@ -391,6 +391,16 @@ namespace AtosFMCG
         private void barButtonItem18_ItemClick(object sender, ItemClickEventArgs e)
             {
             UserInterface.Current.ShowReport("Послідовність палет");
+            }
+
+        private void barButtonItem19_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(Shipment));
+            }
+
+        private void barButtonItem20_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            ReceiveMessages.Сommunication.CreatePickingDocuments();
             }
         }
     }

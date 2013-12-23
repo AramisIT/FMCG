@@ -257,7 +257,7 @@ namespace WMS_client.Processes
             string errorDescription;
             if (!new ServerInteraction().ComplateAcceptance(acceptanceId, false, out errorDescription))
                 {
-                CANT_COMPLATE_OPERATION.Warning();
+                Warning_CantComplateOperation();
                 return;
                 }
             MainProcess.Process = new SelectingProcess();

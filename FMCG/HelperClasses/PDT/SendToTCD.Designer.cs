@@ -148,7 +148,7 @@
             this.message.Name = "message";
             this.message.Size = new System.Drawing.Size(292, 23);
             this.message.TabIndex = 0;
-            this.message.Text = "804$$1$$5$$10$$02.11.13$$31.01.14$$25.10.13$$100";
+            this.message.Text = "1479$$18691$$63$$120$$03.12.13$$03.12.14$$03.12.13$$1440";
             // 
             // send
             // 
@@ -1408,7 +1408,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(292, 23);
             this.textBox1.TabIndex = 115;
-            this.textBox1.Text = "803$$1$$5$$10$$02.11.13$$31.01.14$$25.10.13$$100";
+            this.textBox1.Text = "1618$$18936$$5$$75$$14.06.13$$14.06.14$$09.12.13$$900";
             // 
             // button7
             // 

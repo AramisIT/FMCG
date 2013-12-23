@@ -73,9 +73,10 @@
     <Compile Include="HelperClasses\BarcodeData.cs" />
     <Compile Include="HelperClasses\BarcodeWorker.cs" />
     <Compile Include="HelperClasses\TableMovementWriter.cs" />
+    <Compile Include="Processes\BusinessProcessesParameters.cs" />
     <Compile Include="Processes\BusinessProcess\StickerRepeating.cs" />
     <Compile Include="Processes\BusinessProcess\Movement.cs" />
-    <Compile Include="Processes\BusinessProcess\Selection.cs" />
+    <Compile Include="Processes\BusinessProcess\Picking.cs" />
     <Compile Include="Processes\BusinessProcess\Inventory.cs" />
     <Compile Include="Processes\ProcessData\InventoryData.cs" />
     <Compile Include="Processes\ProcessData\MovementData.cs" />

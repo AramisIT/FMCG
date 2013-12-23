@@ -19,6 +19,20 @@ namespace WMS_client
         #endregion
 
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+        public bool Visible
+            {
+            set
+                {
+                if (value)
+                    {
+                    Show();
+                    }
+                else
+                    {
+                    Hide();
+                    }
+                }
+            }
 
         #region Abstract methods
         public abstract string GetName();

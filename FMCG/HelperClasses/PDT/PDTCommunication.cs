@@ -17,6 +17,7 @@ using Catalogs;
 using Documents;
 using FMCG.DatabaseObjects.Enums;
 using FMCG.HelperClasses.PDT;
+using FMCG.Utils;
 using pdtExternalStorage;
 using Documents.GoodsAcceptance;
 
@@ -1029,28 +1030,53 @@ from @table");
             return q.ThrowedException == null;
             }
 
-        public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable, long partyId)
+        public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable, long partyId, out int sameWareNextTaskLineNumber)
             {
+            sameWareNextTaskLineNumber = 0;
+
             var document = new Moving();
             document.Read(documentId);
 
             var currentTime = SystemConfiguration.ServerDateTime;
 
-            var resultWareRow = resultTable.Rows[0];
-            var wareRow = document.NomenclatureInfo.Rows[currentLineNumber - 1];
-            wareRow[document.Party] = partyId;
-            wareRow[document.FactValue] = resultWareRow[document.FactValue.ColumnName];
-            wareRow[document.StartCell] = resultWareRow[document.StartCell.ColumnName];
-            wareRow[document.FinalCell] = Consts.RedemptionCell.Id;
-            wareRow[document.StartCodeOfPreviousPallet] = resultWareRow[document.StartCodeOfPreviousPallet.ColumnName];
-            wareRow[document.FinalCodeOfPreviousPallet] = 0L;
-            wareRow[document.RowState] = (int)RowsStates.Completed;
-            wareRow[document.RowDate] = currentTime;
-
-
+            var docTable = document.NomenclatureInfo;
             var palletCode = Convert.ToInt64(resultTable.Rows[0][document.PalletCode.ColumnName]);
 
-            wareRow[document.PalletCode] = palletCode;
+            var wareRow = docTable.Rows[currentLineNumber - 1];
+
+            for (int rowIndex = 0; rowIndex < resultTable.Rows.Count; rowIndex++)
+                {
+                var resultWareRow = resultTable.Rows[rowIndex];
+
+                DataRow docRow = null;
+                var isTare = rowIndex != 0;
+                if (isTare)
+                    {
+                    docRow = docTable.GetNewRow(document);
+                    docRow[document.Nomenclature] = Convert.ToInt64(resultWareRow[document.Nomenclature.ColumnName]);
+                    }
+                else
+                    {
+                    docRow = wareRow;
+                    docRow[document.Party] = partyId;
+                    }
+
+                docRow[document.PlanValue] = resultWareRow[document.PlanValue.ColumnName];
+                docRow[document.FactValue] = resultWareRow[document.FactValue.ColumnName];
+                docRow[document.StartCell] = resultWareRow[document.StartCell.ColumnName];
+                docRow[document.FinalCell] = Consts.RedemptionCell.Id;
+                docRow[document.StartCodeOfPreviousPallet] = resultWareRow[document.StartCodeOfPreviousPallet.ColumnName];
+                docRow[document.FinalCodeOfPreviousPallet] = 0L;
+                docRow[document.RowState] = (int)RowsStates.Completed;
+                docRow[document.RowDate] = currentTime;
+                docRow[document.PalletCode] = palletCode;
+
+                if (isTare)
+                    {
+                    docRow.AddRowToTable(document);
+                    }
+                }
+
             var boxesFinder = new BoxesFinder(resultTable, palletCode);
 
             if (boxesFinder.BoxesRowAdded)
@@ -1098,7 +1124,8 @@ where (m.State = @PlanState or m.State = @ProcessingState) AND m.MarkForDeleting
             return result;
             }
 
-        public bool GetPickingTask(long documentId, out long stickerId, out long wareId, out string wareDescription,
+        public bool GetPickingTask(long documentId, long palletId, int predefinedTaskLineNumber, int currentLineNumber,
+            out long stickerId, out long wareId, out string wareDescription,
             out long cellId, out string cellDescription,
             out long partyId, out DateTime productionDate,
             out int unitsPerBox, out int unitsToPick,
@@ -1110,20 +1137,34 @@ select top 1 cap.[State],
 task.PalletCode stickerId, task.LineNumber,
 task.Nomenclature wareId, rtrim(n.[description]) wareDescription,
 task.StartCell cellId, ISNULL(rtrim(c.[Description]), '') cellDescription,
-task.Party partyId, p.DateOfManufacture productionDate,
+task.Party partyId, isnull(p.DateOfManufacture, '0001-01-01') productionDate,
 n.UnitsQuantityPerPack unitsPerBox, task.PlanValue unitsToPick 
 
 from SubMovingNomenclatureInfo task
 join Nomenclature n on n.Id = task.Nomenclature
 left join Cells c on c.Id = task.StartCell
-join Parties p on p.Id = task.Party
+left join Parties p on p.Id = task.Party
 join Moving cap on cap.Id = task.IdDoc
 
 where IdDoc = @IdDoc and RowState = @RowState
+and (@currentLineNumber = 0 or task.LineNumber = @currentLineNumber)
+and (@nomenclature = 0 or task.Nomenclature = @nomenclature)
 order by [LineNumber]";
             var q = DB.NewQuery(sql);
             q.AddInputParameter("IdDoc", documentId);
             q.AddInputParameter("RowState", RowsStates.PlannedPicking);
+            q.AddInputParameter("currentLineNumber", predefinedTaskLineNumber);
+
+            var nomenclatureId = 0L;
+            if (palletId != 0)
+                {
+                var sticker = (Stickers)new Stickers().Read(palletId);
+                nomenclatureId = sticker.GetRef("Nomenclature");
+                }
+            q.AddInputParameter("nomenclature", nomenclatureId);
+
+            // В дальнейшем может потребоваться выбирать строку с переданной паллетой palletId, а может и не потребоваться
+
             var qResult = q.SelectRow();
 
             if (qResult == null)
@@ -1152,6 +1193,13 @@ order by [LineNumber]";
             unitsPerBox = Convert.ToInt32(qResult["unitsPerBox"]);
             unitsToPick = Convert.ToInt32(qResult["unitsToPick"]);
             lineNumber = Convert.ToInt32(qResult["LineNumber"]);
+
+            if (currentLineNumber > 0)
+                {
+                documentId.SetRowState(typeof(Moving), currentLineNumber, RowsStates.PlannedPicking);
+                }
+            documentId.SetRowState(typeof(Moving), lineNumber, RowsStates.Processing);
+
             return true;
             }
 
@@ -1173,6 +1221,58 @@ order by [LineNumber]";
                 }));
 
             return true;
+            }
+
+        public bool ReadConsts(out DataTable constsTable)
+            {
+            constsTable = new DataTable();
+            constsTable.Columns.Add("ConstName", typeof(string));
+            constsTable.Columns.Add("ConstValue", typeof(string));
+
+            constsTable.Rows.Add("WoodLinerId", Consts.NonStandartLiner.Id);
+
+            return true;
+            }
+
+        public bool CreatePickingDocuments()
+            {
+            var sql = @"select s.Id
+from ShipmentPlan s 
+left join Moving m on m.PickingPlan = s.Id
+where s.MarkForDeleting = 0 
+and (m.MarkForDeleting = 1 or m.Id is null)";
+            var docsIds = DB.NewQuery(sql).SelectToList<Int64>();
+            docsIds.ForEach(id => createMoving(id));
+            return true;
+            }
+
+        private bool createMoving(long shipmentId)
+            {
+            var document = new Moving();
+            document.SetRef("PickingPlan", shipmentId);
+            document.Date = DateTime.Now;
+
+            var q = DB.NewQuery(@"select Nomenclature, Quantity from SubShipmentPlanNomenclatureInfo where IdDoc = @IdDoc 
+order by LineNumber");
+            q.AddInputParameter("IdDoc", shipmentId);
+            var docTable = document.NomenclatureInfo;
+            q.Foreach(qResult =>
+                {
+                    var nomenclarute = Convert.ToInt64(qResult["Nomenclature"]);
+                    var quantity = Convert.ToDecimal(qResult["Quantity"]);
+
+                    var docRow = docTable.GetNewRow(document);
+                    docRow[document.Nomenclature] = nomenclarute;
+                    docRow[document.PlanValue] = quantity;
+                    docRow[document.RowState] = RowsStates.PlannedPicking;
+                    docRow.AddRowToTable(document);
+                });
+
+
+
+            var result = document.Write();
+
+            return result == WritingResult.Success;
             }
         }
     }

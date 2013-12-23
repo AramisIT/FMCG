@@ -4,6 +4,8 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using Aramis.DatabaseConnector;
+using Aramis.SystemConfigurations;
 using AtosFMCG.Enums;
 using FMCG.DatabaseObjects.Enums;
 using FMCG.UI;
@@ -12,6 +14,27 @@ namespace FMCG.Utils
     {
     public static class SolutionExtentions
         {
+        internal static void SetRowState(this long databaseObjectId, Type databaseObjectType, long lineNumber, RowsStates newRowState, string fieldName = "RowState")
+            {
+            var subtableName = string.Empty;
+            var configuration = SystemConfiguration.DBConfigurationTree[databaseObjectType.Name];
+
+            foreach (var tableInfo in configuration.InfoSubTables.Values)
+                {
+                if (tableInfo.SubtableFields.ContainsKey(fieldName))
+                    {
+                    subtableName = configuration.GetDatabaseTableName(tableInfo);
+                    break;
+                    }
+                }
+
+            var q = DB.NewQuery(string.Format("Update top(1) [{0}] Set [{1}] = @RowState where IdDoc = @DatabaseObjectId and LineNumber = @LineNumber", subtableName, fieldName));
+            q.AddInputParameter("DatabaseObjectId", databaseObjectId);
+            q.AddInputParameter("LineNumber", lineNumber);
+            q.AddInputParameter("RowState", (int)newRowState);
+            q.Execute();
+            }
+
         internal static Color GetRowColor(this RowsStates rowState)
             {
             switch (rowState)
@@ -31,6 +54,7 @@ namespace FMCG.Utils
 
             return Color.White;
             }
+
 
         internal static Color GetDocumentColor(this DataRow row)
             {

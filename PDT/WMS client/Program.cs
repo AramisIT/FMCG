@@ -37,7 +37,10 @@ namespace WMS_client
 
             new SystemInfo().SetReleaseMode(releaseMode);
 
+            Consts = new BusinessProcessesParameters();
             Application.Run(new MainForm(typeof(RegistrationProcess)));
             }
+
+        public static BusinessProcessesParameters Consts { get; set; }
         }
     }

@@ -346,13 +346,16 @@ namespace WMS_client
                 }
             }
 
-        public bool GetPickingTask(long documentId, out long stickerId,
+        public bool GetPickingTask(long documentId, long palletId, int predefinedTaskLineNumber,
+            int currentLineNumber,
+            out long stickerId,
             out long wareId, out string wareDescription,
             out long cellId, out string cellDescription,
             out long partyId, out DateTime productionDate,
-            out int unitsPerBox, out int unitsToPick, out int lineNumber)
+            out int unitsPerBox, out int unitsToPick,
+            out int lineNumber)
             {
-            PerformQuery("GetPickingTask", documentId);
+            PerformQuery("GetPickingTask", documentId, palletId, predefinedTaskLineNumber, currentLineNumber);
 
             if (IsExistParameters)
                 {
@@ -376,15 +379,30 @@ namespace WMS_client
             return false;
             }
 
-        public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable, long partyId)
+        public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable, long partyId, out int sameWareNextTaskLineNumber)
             {
-            PerformQuery("WritePickingResult", documentId, currentLineNumber, resultTable);
+            PerformQuery("WritePickingResult", documentId, currentLineNumber, resultTable, partyId);
+            sameWareNextTaskLineNumber = success ? Convert.ToInt32(Parameters[1]) : 0;
+
             return success;
             }
 
         public bool PrintStickers(DataTable result)
             {
             PerformQuery("PrintStickers", result);
+            return success;
+            }
+
+        public bool ReadConsts(out DataTable constsTable)
+            {
+            PerformQuery("ReadConsts");
+            constsTable = success ? Parameters[1] as DataTable : null;
+            return success;
+            }
+
+        public bool CreatePickingDocuments()
+            {
+            PerformQuery("CreatePickingDocuments");
             return success;
             }
         }

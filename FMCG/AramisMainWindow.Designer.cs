@@ -30,9 +30,9 @@
             {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AramisMainWindow));
-            DevExpress.Utils.SuperToolTip superToolTip2 = new DevExpress.Utils.SuperToolTip();
-            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem2 = new DevExpress.Utils.ToolTipTitleItem();
-            DevExpress.Utils.ToolTipItem toolTipItem2 = new DevExpress.Utils.ToolTipItem();
+            DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
+            DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
+            DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.smallImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.openCatalogs = new DevExpress.XtraBars.BarButtonItem();
@@ -70,6 +70,8 @@
             this._PDTUpdateButton = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem16 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem17 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem18 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem19 = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -94,7 +96,7 @@
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.barButtonItem12 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem18 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem20 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.largeImagesCollection)).BeginInit();
@@ -144,10 +146,12 @@
             this._PDTUpdateButton,
             this.barButtonItem16,
             this.barButtonItem17,
-            this.barButtonItem18});
+            this.barButtonItem18,
+            this.barButtonItem19,
+            this.barButtonItem20});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 58;
+            this.ribbon.MaxItemId = 60;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
@@ -258,15 +262,15 @@
             this.serverState.Id = 28;
             this.serverState.LargeImageIndex = 4;
             this.serverState.Name = "serverState";
-            toolTipTitleItem2.Text = "Сервер не запущено!";
-            toolTipItem2.Appearance.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
-            toolTipItem2.Appearance.Options.UseImage = true;
-            toolTipItem2.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
-            toolTipItem2.LeftIndent = 6;
-            toolTipItem2.Text = "Сервер роботи з ТЗД не запущено...";
-            superToolTip2.Items.Add(toolTipTitleItem2);
-            superToolTip2.Items.Add(toolTipItem2);
-            this.serverState.SuperTip = superToolTip2;
+            toolTipTitleItem1.Text = "Сервер не запущено!";
+            toolTipItem1.Appearance.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem1.Appearance.Options.UseImage = true;
+            toolTipItem1.Image = global::FMCG.Properties.Resources._1317825614_information_balloon;
+            toolTipItem1.LeftIndent = 6;
+            toolTipItem1.Text = "Сервер роботи з ТЗД не запущено...";
+            superToolTip1.Items.Add(toolTipTitleItem1);
+            superToolTip1.Items.Add(toolTipItem1);
+            this.serverState.SuperTip = superToolTip1;
             this.serverState.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.serverState_ItemClick);
             // 
             // openStockBalance
@@ -448,6 +452,21 @@
             this.barButtonItem17.Name = "barButtonItem17";
             this.barButtonItem17.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem17_ItemClick);
             // 
+            // barButtonItem18
+            // 
+            this.barButtonItem18.Caption = "Послідовність палет";
+            this.barButtonItem18.Id = 57;
+            this.barButtonItem18.Name = "barButtonItem18";
+            this.barButtonItem18.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem18_ItemClick);
+            // 
+            // barButtonItem19
+            // 
+            this.barButtonItem19.Caption = "Відвантаження";
+            this.barButtonItem19.Id = 58;
+            this.barButtonItem19.Name = "barButtonItem19";
+            this.barButtonItem19.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
+            this.barButtonItem19.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem19_ItemClick);
+            // 
             // largeImagesCollection
             // 
             this.largeImagesCollection.ImageSize = new System.Drawing.Size(32, 32);
@@ -497,6 +516,7 @@
             // ribbonPageGroup6
             // 
             this.ribbonPageGroup6.ItemLinks.Add(this.barButtonItem16);
+            this.ribbonPageGroup6.ItemLinks.Add(this.barButtonItem19);
             this.ribbonPageGroup6.Name = "ribbonPageGroup6";
             this.ribbonPageGroup6.Text = "Відвантаження";
             // 
@@ -504,6 +524,7 @@
             // 
             this.ribbonPageGroup5.ItemLinks.Add(this.printPalletLabel);
             this.ribbonPageGroup5.ItemLinks.Add(this.barButtonItem7);
+            this.ribbonPageGroup5.ItemLinks.Add(this.barButtonItem20);
             this.ribbonPageGroup5.Name = "ribbonPageGroup5";
             this.ribbonPageGroup5.Text = "Діагностика";
             // 
@@ -647,12 +668,12 @@
             this.barButtonItem12.LargeImageIndex = 0;
             this.barButtonItem12.Name = "barButtonItem12";
             // 
-            // barButtonItem18
+            // barButtonItem20
             // 
-            this.barButtonItem18.Caption = "Послідовність палет";
-            this.barButtonItem18.Id = 57;
-            this.barButtonItem18.Name = "barButtonItem18";
-            this.barButtonItem18.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem18_ItemClick);
+            this.barButtonItem20.Caption = "Створити переміщення";
+            this.barButtonItem20.Id = 59;
+            this.barButtonItem20.Name = "barButtonItem20";
+            this.barButtonItem20.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem20_ItemClick);
             // 
             // AramisMainWindow
             // 
@@ -743,6 +764,8 @@
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup6;
         private DevExpress.XtraBars.BarButtonItem barButtonItem17;
         private DevExpress.XtraBars.BarButtonItem barButtonItem18;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem19;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem20;
 
         }
     }

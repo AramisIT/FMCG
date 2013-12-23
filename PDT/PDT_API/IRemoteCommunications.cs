@@ -173,13 +173,14 @@ namespace pdtExternalStorage
 
         bool WriteMovementResult(long documentId, DataTable resultTable);
 
-        bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable, long partyId);
+        bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable, long partyId, out int sameWareNextTaskLineNumber);
 
         bool ComplateMovement(long documentId, bool forceCompletion, out string errorMessage);
 
         DataTable GetPickingDocuments();
 
-        bool GetPickingTask(long documentId, out long stickerId,
+        bool GetPickingTask(long documentId, long palletId, int predefinedTaskLineNumber, int currentLineNumber,
+            out long stickerId,
             out long wareId, out string wareDescription,
             out long cellId, out string cellDescription,
             out long partyId, out DateTime productionDate,
@@ -187,5 +188,9 @@ namespace pdtExternalStorage
             out int lineNumber);
 
         bool PrintStickers(DataTable result);
+
+        bool ReadConsts(out DataTable constsTable);
+
+        bool CreatePickingDocuments();
         }
     }

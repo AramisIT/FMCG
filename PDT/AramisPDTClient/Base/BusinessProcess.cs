@@ -17,7 +17,12 @@ namespace WMS_client
 
         #region Constructors
 
-        protected const string CANT_COMPLATE_OPERATION = "Невдала спроба завершення операції, спробуйте ще раз в зоні WiFi!";
+        private const string CANT_COMPLATE_OPERATION = "Невдала спроба завершення операції, спробуйте ще раз в зоні WiFi!";
+
+        protected void Warning_CantComplateOperation()
+            {
+            CANT_COMPLATE_OPERATION.Warning();
+            }
 
         protected BusinessProcess(int FormNumber)
             : this("", "", FormNumber) { }

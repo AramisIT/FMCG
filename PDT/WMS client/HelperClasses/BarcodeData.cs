@@ -39,6 +39,9 @@ namespace WMS_client.HelperClasses
 
         public CatalogItem Tray { get; set; }
 
+        /// <summary>
+        /// Total amount of bottles, boxes, etc. 
+        /// </summary>
         public int TotalUnitsQuantity { get; set; }
 
         public int UnitsPerBox { get; set; }
@@ -92,6 +95,7 @@ namespace WMS_client.HelperClasses
                     Liner = Liner.GetCopy(),
                     LinersAmount = LinersAmount,
                     Cell = Cell.GetCopy(),
+                    Party = Party.GetCopy(),
                     PreviousStickerCode = PreviousStickerCode
                 };
             }

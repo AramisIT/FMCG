@@ -11,6 +11,14 @@ namespace AtosFMCG.HelperClasses.PDT
     {
     public static class ReceiveMessages
         {
+        internal static PDTCommunication Ñommunication
+            {
+            get
+                {
+                return communication;
+                }
+            }
+
         private static readonly PDTCommunication communication;
 
         static ReceiveMessages()
@@ -89,7 +97,10 @@ namespace AtosFMCG.HelperClasses.PDT
                     return new object[] { communication.WriteMovementResult(Convert.ToInt64(parameters[0]), parameters[1] as DataTable) };
 
                 case "WritePickingResult":
-                    return new object[] { communication.WritePickingResult(Convert.ToInt64(parameters[0]), Convert.ToInt32(parameters[1]), parameters[2] as DataTable, Convert.ToInt64(parameters[3])) };
+                    int sameWareNextTaskLineNumber;
+                    var writePickingResultResult = communication.WritePickingResult(Convert.ToInt64(parameters[0]),
+                        Convert.ToInt32(parameters[1]), parameters[2] as DataTable, Convert.ToInt64(parameters[3]), out sameWareNextTaskLineNumber);
+                    return new object[] { writePickingResultResult, sameWareNextTaskLineNumber };
 
                 case "GetPickingTask":
                     return GetPickingTask(parameters);
@@ -106,6 +117,14 @@ namespace AtosFMCG.HelperClasses.PDT
 
                 case "PrintStickers":
                     return new object[] { communication.PrintStickers(parameters[0] as DataTable) };
+
+                case "CreatePickingDocuments":
+                    return new object[] { communication.CreatePickingDocuments() };
+
+                case "ReadConsts":
+                    DataTable constsTable;
+                    communication.ReadConsts(out constsTable);
+                    return new object[] { true, constsTable };
 
                 }
 
@@ -125,7 +144,7 @@ namespace AtosFMCG.HelperClasses.PDT
             int unitsToPick;
             int lineNumber;
 
-            if (!communication.GetPickingTask(Convert.ToInt64(parameters[0]),
+            if (!communication.GetPickingTask(Convert.ToInt64(parameters[0]), Convert.ToInt64(parameters[1]), Convert.ToInt32(parameters[2]), Convert.ToInt32(parameters[3]),
                 out stickerId,
                 out wareId, out wareDescription,
                 out cellId, out cellDescription,
