@@ -1051,10 +1051,14 @@ from @table");
                 var palletCode = Convert.ToInt64(resultTable.Rows[0][document.PalletCode.ColumnName]);
 
                 var wareRow = docTable.Rows[currentLineNumber - 1];
+                var newPickingTaskPlan = 0M;
 
                 for (int rowIndex = 0; rowIndex < resultTable.Rows.Count; rowIndex++)
                     {
                     var resultWareRow = resultTable.Rows[rowIndex];
+
+                    var plan = Convert.ToDecimal(resultWareRow[document.PlanValue.ColumnName]);
+                    var fact = Convert.ToDecimal(resultWareRow[document.FactValue.ColumnName]);
 
                     DataRow docRow = null;
                     var isTare = rowIndex != 0;
@@ -1067,10 +1071,12 @@ from @table");
                         {
                         docRow = wareRow;
                         docRow[document.Party] = partyId;
+
+                        newPickingTaskPlan = plan - fact;
                         }
 
-                    docRow[document.PlanValue] = resultWareRow[document.PlanValue.ColumnName];
-                    docRow[document.FactValue] = resultWareRow[document.FactValue.ColumnName];
+                    docRow[document.PlanValue] = plan;
+                    docRow[document.FactValue] = fact;
                     docRow[document.StartCell] = resultWareRow[document.StartCell.ColumnName];
                     docRow[document.FinalCell] = Consts.RedemptionCell.Id;
                     docRow[document.StartCodeOfPreviousPallet] =
@@ -1109,6 +1115,18 @@ from @table");
                     boxesRow.AddRowToTable(document);
                     }
 
+                if (newPickingTaskPlan > 0)
+                    {
+                    var newTaskRow = document.NomenclatureInfo.GetNewRow(document);
+                    
+                    newTaskRow[document.PlanValue] = newPickingTaskPlan;
+                    newTaskRow[document.Nomenclature] = wareRow[document.Nomenclature.ColumnName];
+                    newTaskRow[document.RowState] = (int)RowsStates.PlannedPicking;
+
+                    newTaskRow.AddRowToTable(document);
+
+                    sameWareNextTaskLineNumber = Convert.ToInt32(newTaskRow[Subtable.LINE_NUMBER_COLUMN_NAME]);
+                    }
 
                 var result = document.Write();
                 return result == WritingResult.Success;
@@ -1266,7 +1284,10 @@ and (m.MarkForDeleting = 1 or m.Id is null)";
             document.SetRef("PickingPlan", shipmentId);
             document.Date = DateTime.Now;
 
-            var q = DB.NewQuery(@"select Nomenclature, Quantity from SubShipmentPlanNomenclatureInfo where IdDoc = @IdDoc 
+            var q = DB.NewQuery(@"select Nomenclature, sum(Quantity) [Quantity] 
+from SubShipmentPlanNomenclatureInfo
+where IdDoc = @IdDoc 
+group by Nomenclature
 order by LineNumber");
             q.AddInputParameter("IdDoc", shipmentId);
             var docTable = document.NomenclatureInfo;
