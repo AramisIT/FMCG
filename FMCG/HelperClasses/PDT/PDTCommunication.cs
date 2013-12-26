@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using Aramis.Core;
+using Aramis.Core.WritingUtils;
 using Aramis.DatabaseConnector;
 using Aramis.Platform;
 using Aramis.SystemConfigurations;
@@ -876,12 +877,16 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
 
         public bool ComplateMovement(long documentId, bool forceCompletion, out string errorMessage)
             {
+            errorMessage = string.Empty;
             var document = new Moving();
             document.Read(documentId);
-            errorMessage = string.Empty;
+            using (var locker = new DatabaseObjectLocker(document))
+                {
+                if (!locker.LockForExclusiveAccess()) return false;
 
-            document.State = StatesOfDocument.Completed;
-            return document.Write() == WritingResult.Success;
+                document.State = StatesOfDocument.Completed;
+                return document.Write() == WritingResult.Success;
+                }
             }
 
         public bool GetNewMovementId(long userId, out long documentId)
@@ -1033,76 +1038,81 @@ from @table");
         public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable, long partyId, out int sameWareNextTaskLineNumber)
             {
             sameWareNextTaskLineNumber = 0;
+            var currentTime = SystemConfiguration.ServerDateTime;
 
             var document = new Moving();
             document.Read(documentId);
 
-            var currentTime = SystemConfiguration.ServerDateTime;
-
-            var docTable = document.NomenclatureInfo;
-            var palletCode = Convert.ToInt64(resultTable.Rows[0][document.PalletCode.ColumnName]);
-
-            var wareRow = docTable.Rows[currentLineNumber - 1];
-
-            for (int rowIndex = 0; rowIndex < resultTable.Rows.Count; rowIndex++)
+            using (var locker = new DatabaseObjectLocker(document))
                 {
-                var resultWareRow = resultTable.Rows[rowIndex];
+                if (!locker.LockForExclusiveAccess()) return false;
 
-                DataRow docRow = null;
-                var isTare = rowIndex != 0;
-                if (isTare)
+                var docTable = document.NomenclatureInfo;
+                var palletCode = Convert.ToInt64(resultTable.Rows[0][document.PalletCode.ColumnName]);
+
+                var wareRow = docTable.Rows[currentLineNumber - 1];
+
+                for (int rowIndex = 0; rowIndex < resultTable.Rows.Count; rowIndex++)
                     {
-                    docRow = docTable.GetNewRow(document);
-                    docRow[document.Nomenclature] = Convert.ToInt64(resultWareRow[document.Nomenclature.ColumnName]);
-                    }
-                else
-                    {
-                    docRow = wareRow;
-                    docRow[document.Party] = partyId;
+                    var resultWareRow = resultTable.Rows[rowIndex];
+
+                    DataRow docRow = null;
+                    var isTare = rowIndex != 0;
+                    if (isTare)
+                        {
+                        docRow = docTable.GetNewRow(document);
+                        docRow[document.Nomenclature] = Convert.ToInt64(resultWareRow[document.Nomenclature.ColumnName]);
+                        }
+                    else
+                        {
+                        docRow = wareRow;
+                        docRow[document.Party] = partyId;
+                        }
+
+                    docRow[document.PlanValue] = resultWareRow[document.PlanValue.ColumnName];
+                    docRow[document.FactValue] = resultWareRow[document.FactValue.ColumnName];
+                    docRow[document.StartCell] = resultWareRow[document.StartCell.ColumnName];
+                    docRow[document.FinalCell] = Consts.RedemptionCell.Id;
+                    docRow[document.StartCodeOfPreviousPallet] =
+                        resultWareRow[document.StartCodeOfPreviousPallet.ColumnName];
+                    docRow[document.FinalCodeOfPreviousPallet] = 0L;
+                    docRow[document.RowState] = (int)RowsStates.Completed;
+                    docRow[document.RowDate] = currentTime;
+                    docRow[document.PalletCode] = palletCode;
+
+                    if (isTare)
+                        {
+                        docRow.AddRowToTable(document);
+                        }
                     }
 
-                docRow[document.PlanValue] = resultWareRow[document.PlanValue.ColumnName];
-                docRow[document.FactValue] = resultWareRow[document.FactValue.ColumnName];
-                docRow[document.StartCell] = resultWareRow[document.StartCell.ColumnName];
-                docRow[document.FinalCell] = Consts.RedemptionCell.Id;
-                docRow[document.StartCodeOfPreviousPallet] = resultWareRow[document.StartCodeOfPreviousPallet.ColumnName];
-                docRow[document.FinalCodeOfPreviousPallet] = 0L;
-                docRow[document.RowState] = (int)RowsStates.Completed;
-                docRow[document.RowDate] = currentTime;
-                docRow[document.PalletCode] = palletCode;
+                var boxesFinder = new BoxesFinder(resultTable, palletCode);
 
-                if (isTare)
+                if (boxesFinder.BoxesRowAdded)
                     {
-                    docRow.AddRowToTable(document);
+                    var boxesRow = document.NomenclatureInfo.GetNewRow(document);
+
+                    boxesRow[document.Nomenclature] = boxesFinder.BoxesRow[document.Nomenclature.ColumnName];
+
+                    boxesRow[document.StartCodeOfPreviousPallet] = 0L;
+                    boxesRow[document.FinalCodeOfPreviousPallet] = 0L;
+                    boxesRow[document.RowState] = (int)RowsStates.Completed;
+                    boxesRow[document.RowDate] = currentTime;
+
+                    boxesRow[document.FactValue] = boxesFinder.BoxesRow[document.FactValue.ColumnName];
+
+                    boxesRow[document.FinalCell] = wareRow[document.FinalCell];
+                    boxesRow[document.StartCell] = wareRow[document.StartCell];
+
+                    boxesRow[document.PalletCode] = palletCode;
+
+                    boxesRow.AddRowToTable(document);
                     }
+
+
+                var result = document.Write();
+                return result == WritingResult.Success;
                 }
-
-            var boxesFinder = new BoxesFinder(resultTable, palletCode);
-
-            if (boxesFinder.BoxesRowAdded)
-                {
-                var boxesRow = document.NomenclatureInfo.GetNewRow(document);
-
-                boxesRow[document.Nomenclature] = boxesFinder.BoxesRow[document.Nomenclature.ColumnName];
-
-                boxesRow[document.StartCodeOfPreviousPallet] = 0L;
-                boxesRow[document.FinalCodeOfPreviousPallet] = 0L;
-                boxesRow[document.RowState] = (int)RowsStates.Completed;
-                boxesRow[document.RowDate] = currentTime;
-
-                boxesRow[document.FactValue] = boxesFinder.BoxesRow[document.FactValue.ColumnName];
-
-                boxesRow[document.FinalCell] = wareRow[document.FinalCell];
-                boxesRow[document.StartCell] = wareRow[document.StartCell];
-
-                boxesRow[document.PalletCode] = palletCode;
-
-                boxesRow.AddRowToTable(document);
-                }
-
-
-            var result = document.Write();
-            return result == WritingResult.Success;
             }
 
         public DataTable GetPickingDocuments()
@@ -1163,43 +1173,47 @@ order by [LineNumber]";
                 }
             q.AddInputParameter("nomenclature", nomenclatureId);
 
+            stickerId = wareId = cellId = partyId = unitsToPick = unitsPerBox = lineNumber = 0;
+            wareDescription = cellDescription = string.Empty;
+            productionDate = DateTime.MinValue;
+
             // В дальнейшем может потребоваться выбирать строку с переданной паллетой palletId, а может и не потребоваться
-
-            var qResult = q.SelectRow();
-
-            if (qResult == null)
+            using (var locker = new DatabaseObjectLocker(typeof(Moving), documentId))
                 {
-                stickerId = wareId = cellId = partyId = unitsToPick = unitsPerBox = lineNumber = 0;
-                wareDescription = cellDescription = string.Empty;
-                productionDate = DateTime.MinValue;
-                return true;
+                if (!locker.LockForExclusiveAccess()) return false;
+
+                var qResult = q.SelectRow();
+
+                if (qResult == null)
+                    {
+                    return true;
+                    }
+
+                var documentState = (StatesOfDocument)Convert.ToInt32(qResult["State"]);
+                if (documentState == StatesOfDocument.Planned)
+                    {
+                    var moving = (Moving)new Moving().Read(documentId);
+                    moving.State = StatesOfDocument.Processing;
+                    moving.Write();
+                    }
+
+                stickerId = Convert.ToInt64(qResult["stickerId"]);
+                wareId = Convert.ToInt64(qResult["wareId"]);
+                wareDescription = qResult["wareDescription"].ToString();
+                cellId = Convert.ToInt64(qResult["cellId"]);
+                cellDescription = qResult["cellDescription"].ToString();
+                partyId = Convert.ToInt64(qResult["partyId"]);
+                productionDate = (DateTime)qResult["productionDate"];
+                unitsPerBox = Convert.ToInt32(qResult["unitsPerBox"]);
+                unitsToPick = Convert.ToInt32(qResult["unitsToPick"]);
+                lineNumber = Convert.ToInt32(qResult["LineNumber"]);
+
+                if (currentLineNumber > 0)
+                    {
+                    documentId.SetRowState(typeof(Moving), currentLineNumber, RowsStates.PlannedPicking);
+                    }
+                documentId.SetRowState(typeof(Moving), lineNumber, RowsStates.Processing);
                 }
-
-            var documentState = (StatesOfDocument)Convert.ToInt32(qResult["State"]);
-            if (documentState == StatesOfDocument.Planned)
-                {
-                var moving = (Moving)new Moving().Read(documentId);
-                moving.State = StatesOfDocument.Processing;
-                moving.Write();
-                }
-
-            stickerId = Convert.ToInt64(qResult["stickerId"]);
-            wareId = Convert.ToInt64(qResult["wareId"]);
-            wareDescription = qResult["wareDescription"].ToString();
-            cellId = Convert.ToInt64(qResult["cellId"]);
-            cellDescription = qResult["cellDescription"].ToString();
-            partyId = Convert.ToInt64(qResult["partyId"]);
-            productionDate = (DateTime)qResult["productionDate"];
-            unitsPerBox = Convert.ToInt32(qResult["unitsPerBox"]);
-            unitsToPick = Convert.ToInt32(qResult["unitsToPick"]);
-            lineNumber = Convert.ToInt32(qResult["LineNumber"]);
-
-            if (currentLineNumber > 0)
-                {
-                documentId.SetRowState(typeof(Moving), currentLineNumber, RowsStates.PlannedPicking);
-                }
-            documentId.SetRowState(typeof(Moving), lineNumber, RowsStates.Processing);
-
             return true;
             }
 
