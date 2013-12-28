@@ -129,6 +129,7 @@ namespace WMS_client.HelperClasses
 
         public bool ReadStickerInfo()
             {
+            long nomenclatureId;
             string nomenclatureDescription;
             string trayDescription;
             long trayId;
@@ -142,7 +143,7 @@ namespace WMS_client.HelperClasses
             DateTime productionDate;
             if (
                 !new ServerInteraction().GetPalletBalance(StickerId,
-                    out nomenclatureDescription, out trayId, out linerId, out linersAmount,
+                    out nomenclatureId, out nomenclatureDescription, out trayId, out linerId, out linersAmount,
                     out unitsPerBox, out cellId, out cellDescription, out previousPalletCode, out productionDate, out partyId))
                 {
                 Cell = new CatalogItem();
@@ -151,11 +152,9 @@ namespace WMS_client.HelperClasses
                 }
 
             PreviousStickerCode = previousPalletCode;
-            if (Nomenclature == null)
-                {
-                Nomenclature = new CatalogItem();
-                }
-            Nomenclature.Description = nomenclatureDescription;
+
+            Nomenclature = new CatalogItem() { Description = nomenclatureDescription, Id = nomenclatureId };
+
             Tray = new CatalogItem()
             {
                 Id = trayId,

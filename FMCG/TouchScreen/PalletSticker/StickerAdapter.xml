@@ -67,6 +67,9 @@
           <Image Location="0,0" Size="137,137" Name="BarCode" Type="QRCode"/>
         </Cell>
       </Cells>
+      <Items>
+        <Barcode RotateAngle="0" FontSize="0" BarcodeType="CODE128" ParameterName="barcode" Location="35,315" Size="200,30"></Barcode>
+      </Items>
     </Layout>
   </LayoutsDefinitions>
   <ReportPartitions>

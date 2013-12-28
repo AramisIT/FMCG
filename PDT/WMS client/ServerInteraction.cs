@@ -158,21 +158,23 @@ namespace WMS_client
             return false;
             }
 
-        public bool GetStickerData(long acceptanceId, long stickerId, out string nomenclatureDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance)
+        public bool GetStickerData(long acceptanceId, long stickerId, out long nomenclatureId, out string nomenclatureDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance)
             {
             PerformQuery("GetStickerData", acceptanceId, stickerId);
 
             if (IsExistParameters)
                 {
-                nomenclatureDescription = Parameters[0] as string;
-                trayId = Convert.ToInt64(Parameters[1]);
-                unitsPerBox = Convert.ToInt32(Parameters[2]);
-                cellId = Convert.ToInt64(Parameters[3]);
-                cellDescription = Parameters[4] as string;
-                currentAcceptance = (bool)Parameters[5];
+                nomenclatureId = Convert.ToInt64(Parameters[0]);
+                nomenclatureDescription = Parameters[1] as string;
+                trayId = Convert.ToInt64(Parameters[2]);
+                unitsPerBox = Convert.ToInt32(Parameters[3]);
+                cellId = Convert.ToInt64(Parameters[4]);
+                cellDescription = Parameters[5] as string;
+                currentAcceptance = (bool)Parameters[6];
                 return true;
                 }
 
+            nomenclatureId = 0;
             nomenclatureDescription = null;
             trayId = 0;
             unitsPerBox = 0;
@@ -225,6 +227,7 @@ namespace WMS_client
             }
 
         public bool GetPalletBalance(long stickerId,
+            out long nomenclatureId,
             out string nomenclatureDescription,
             out long trayId,
             out long linerId, out byte linersAmount,
@@ -237,19 +240,21 @@ namespace WMS_client
 
             if (IsExistParameters)
                 {
-                nomenclatureDescription = Parameters[0] as string;
-                trayId = Convert.ToInt64(Parameters[1]);
-                linerId = Convert.ToInt64(Parameters[2]);
-                linersAmount = Convert.ToByte(Parameters[3]);
-                unitsPerBox = Convert.ToInt32(Parameters[4]);
-                cellId = Convert.ToInt64(Parameters[5]);
-                cellDescription = Parameters[6] as string;
-                previousPalletCode = Convert.ToInt64(Parameters[7]);
-                productionDate = Parameters[8].ToString().ToDateTime();
-                partyId = Convert.ToInt64(Parameters[9]);
+                nomenclatureId = Convert.ToInt64(Parameters[0]);
+                nomenclatureDescription = Parameters[1] as string;
+                trayId = Convert.ToInt64(Parameters[2]);
+                linerId = Convert.ToInt64(Parameters[3]);
+                linersAmount = Convert.ToByte(Parameters[4]);
+                unitsPerBox = Convert.ToInt32(Parameters[5]);
+                cellId = Convert.ToInt64(Parameters[6]);
+                cellDescription = Parameters[7] as string;
+                previousPalletCode = Convert.ToInt64(Parameters[8]);
+                productionDate = Parameters[9].ToString().ToDateTime();
+                partyId = Convert.ToInt64(Parameters[10]);
                 return true;
                 }
 
+            nomenclatureId = 0;
             nomenclatureDescription = null;
             trayId = 0;
             unitsPerBox = 0;
@@ -346,7 +351,7 @@ namespace WMS_client
                 }
             }
 
-        public bool GetPickingTask(long documentId, long palletId, int predefinedTaskLineNumber,
+        public bool GetPickingTask(int userId, long documentId, long palletId, int predefinedTaskLineNumber,
             int currentLineNumber,
             out long stickerId,
             out long wareId, out string wareDescription,
@@ -355,7 +360,7 @@ namespace WMS_client
             out int unitsPerBox, out int unitsToPick,
             out int lineNumber)
             {
-            PerformQuery("GetPickingTask", documentId, palletId, predefinedTaskLineNumber, currentLineNumber);
+            PerformQuery("GetPickingTask", userId, documentId, palletId, predefinedTaskLineNumber, currentLineNumber);
 
             if (IsExistParameters)
                 {
@@ -404,6 +409,14 @@ namespace WMS_client
             {
             PerformQuery("CreatePickingDocuments");
             return success;
+            }
+
+        public string GetUserName(int userId)
+            {
+            PerformQuery("GetUserName", userId);
+            if (!success) return string.Empty;
+
+            return Parameters[1] as string;
             }
         }
     }

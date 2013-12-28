@@ -28,16 +28,46 @@ namespace WMS_client.HelperClasses
             return barcode.Length >= 5 && barcode.StartsWith("C.");
             }
 
+        public static bool IsEmployee(this string barcode)
+            {
+            return barcode.Length >= 4 && barcode.StartsWith("EM.", StringComparison.InvariantCultureIgnoreCase);
+            }
+
+        private const int STICKER_ID_MAX_LENGTH = 19;
         public static bool IsSticker(this string barcode)
             {
             if (string.IsNullOrEmpty(barcode))
                 {
                 return false;
                 }
+
             barcode = barcode.Replace("$$", "$");
+
+            if (barcode[0] == 'S' && barcode.Substring(1).IsNumber())
+                {
+                return barcode.Length <= STICKER_ID_MAX_LENGTH;
+                }
+
             string[] values = barcode.Split('$');
 
             return values.Length > 1;
+            }
+
+        public static bool IsNumber(this string stringValue)
+            {
+            if (string.IsNullOrEmpty(stringValue))
+                {
+                return false;
+                }
+
+            foreach (char @char in stringValue)
+                {
+                if (!char.IsNumber(@char))
+                    {
+                    return false;
+                    }
+                }
+            return true;
             }
 
         enum BarcodeDataIndexes
@@ -62,8 +92,26 @@ namespace WMS_client.HelperClasses
             {
             var cellInfo = barcode.Substring(2).Split(';');
 
-            var cell = new CatalogItem() {Description = cellInfo[1], Id = Convert.ToInt64(cellInfo[0])};
+            var cell = new CatalogItem() { Description = cellInfo[1], Id = Convert.ToInt64(cellInfo[0]) };
             return cell;
+            }
+
+        public static int ToEmployeeCode(this string barcode)
+            {
+            var codeStr = barcode.Substring(3);
+            try
+                {
+                return Convert.ToInt32(codeStr);
+                }
+            catch
+                {
+                return 0;
+                }
+            }
+
+        private static bool IsShortStickerCode(this string barcode)
+            {
+            return !string.IsNullOrEmpty(barcode) && barcode[0] == 'S';
             }
 
         public static BarcodeData ToBarcodeData(this string barcode)
@@ -73,6 +121,14 @@ namespace WMS_client.HelperClasses
                 {
                 return result;
                 }
+
+            if (barcode.IsShortStickerCode())
+                {
+                result.StickerId = Convert.ToInt64(barcode.Substring(1));
+                result.Nomenclature = new CatalogItem();
+                return result;
+                }
+
             barcode = barcode.Replace("$$", "$");
 
             string[] values = barcode.Split('$');

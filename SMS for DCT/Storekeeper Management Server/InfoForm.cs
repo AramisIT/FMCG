@@ -11,7 +11,13 @@ namespace StorekeeperManagementServer
     public partial class InfoForm : Form
         {
         private readonly KeyboardHook hotKeys = new KeyboardHook();
-        private readonly StorekeeperManagementServer Server;
+        private readonly StorekeeperManagementServer server;
+
+        public StorekeeperManagementServer Server
+            {
+            get { return server; }
+            }
+
         public bool IsRun;
 
         private const string AMOUNT_OF_CONNECTIONS_TEXT = "Количество подключений: ";
@@ -19,31 +25,31 @@ namespace StorekeeperManagementServer
         public InfoForm(ReceiveMessage receiveMessage, ArrayList allowedIP, string serverIP, string updFolder)
             {
             InitializeComponent();
-            try
-                {
-                hotKeys.RegisterHotKey(KeyModifier.Control | KeyModifier.Alt, Keys.S);
-                hotKeys.KeyPressed += hotKeys_KeyPressed;
-                }
-            catch{}
+            //try
+            //    {
+            //    hotKeys.RegisterHotKey(KeyModifier.Control | KeyModifier.Alt, Keys.S);
+            //    hotKeys.KeyPressed += hotKeys_KeyPressed;
+            //    }
+            //catch { }
 
             setInfo();
 
             new PackageViaWireless();
             try
                 {
-                Server = new StorekeeperManagementServer(ShowInfo, InfoLabel, receiveMessage, allowedIP, serverIP, updFolder, out IsRun);
+                server = new StorekeeperManagementServer(ShowInfo, InfoLabel, receiveMessage, allowedIP, serverIP, updFolder, out IsRun);
                 }
-            catch {}
+            catch { }
             }
 
         public void EmulatePressKey(int key)
             {
-            Server.PressKeyOnTDC(key);
+            server.PressKeyOnTDC(key);
             }
 
         public void EmulateReadBarcode(string barcode)
             {
-            Server.PressKeyOnTDC(barcode);
+            server.PressKeyOnTDC(barcode);
             }
 
         private void hotKeys_KeyPressed(object sender, KeyPressedEventArgs e)
@@ -58,7 +64,7 @@ namespace StorekeeperManagementServer
             {
             textBoxForPaste.Text = "";
             textBoxForPaste.Paste();
-            Server.PressKeyOnTDC(textBoxForPaste.Text);
+            server.PressKeyOnTDC(textBoxForPaste.Text);
             }
 
         private void setInfo()
@@ -87,9 +93,9 @@ namespace StorekeeperManagementServer
                 SetTextCallback d = SetIPInformation;
                 try
                     {
-                    Invoke(d, new object[] {text});
+                    Invoke(d, new object[] { text });
                     }
-                catch {}
+                catch { }
                 }
             else
                 {
@@ -108,27 +114,27 @@ namespace StorekeeperManagementServer
 
         private void InfoForm_FormClosing(object sender, FormClosingEventArgs e)
             {
-            if (Server != null)
+            if (server != null)
                 {
-                Server.WriteToFileAboutUpdate(null);
+                server.WriteToFileAboutUpdate(null);
                 }
             }
 
         private void button1_Click(object sender, EventArgs e)
             {
-            if (((Button) sender).Text == "Set")
+            if (((Button)sender).Text == "Set")
                 {
                 bool res = RegisterHotKey(Handle, 101, 0, 124);
-                    //(uint)((System.Text.Encoding.ASCII.GetBytes(new char[] { 'A' })[0])));
+                //(uint)((System.Text.Encoding.ASCII.GetBytes(new char[] { 'A' })[0])));
                 if (res == false)
                     MessageBox.Show("Can't set vk %(");
 
-                ((Button) sender).Text = "Dispose";
+                ((Button)sender).Text = "Dispose";
                 }
             else
                 {
                 UnregisterHotKey(Handle, 100);
-                ((Button) sender).Text = "Set";
+                ((Button)sender).Text = "Set";
                 }
 
             #region Commented code
@@ -185,10 +191,10 @@ namespace StorekeeperManagementServer
 
             switch (m.Msg)
                 {
-                    case WM_HOTKEY:
-                        MessageBox.Show("OK !");
+                case WM_HOTKEY:
+                    MessageBox.Show("OK !");
 
-                        break;
+                    break;
                 }
             base.WndProc(ref m);
             }
@@ -199,76 +205,76 @@ namespace StorekeeperManagementServer
             //MessageBox.Show(e.KeyCode.ToString());
             }
 
-        private void button2_Click(object sender, EventArgs e) {}
+        private void button2_Click(object sender, EventArgs e) { }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
             {
-            Server.PingingUpdate(IsClientPing.Checked);
+            server.PingingUpdate(IsClientPing.Checked);
             }
 
         private void button3_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(116);
+            server.PressKeyOnTDC(116);
             }
 
         private void button4_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(120);
+            server.PressKeyOnTDC(120);
             }
 
         private void button5_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(117);
+            server.PressKeyOnTDC(117);
             }
 
         private void button8_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(121);
+            server.PressKeyOnTDC(121);
             }
 
         private void button9_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(122);
+            server.PressKeyOnTDC(122);
             }
 
         private void button10_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(123);
+            server.PressKeyOnTDC(123);
             }
 
         private void button7_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(119);
+            server.PressKeyOnTDC(119);
             }
 
         private void button6_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(118);
+            server.PressKeyOnTDC(118);
             }
 
         private void button11_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(115);
+            server.PressKeyOnTDC(115);
             }
 
         private void button12_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(114);
+            server.PressKeyOnTDC(114);
             }
 
         private void button13_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(113);
+            server.PressKeyOnTDC(113);
             }
 
         private void button14_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(112);
+            server.PressKeyOnTDC(112);
             }
 
         private void button15_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(Barcode1.Text);
+            server.PressKeyOnTDC(Barcode1.Text);
             }
 
         private void InfoForm_DoubleClick(object sender, EventArgs e)
@@ -282,29 +288,29 @@ namespace StorekeeperManagementServer
 
         private void button16_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(Barcode2.Text);
+            server.PressKeyOnTDC(Barcode2.Text);
             }
 
         private void button17_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(Barcode3.Text);
+            server.PressKeyOnTDC(Barcode3.Text);
             }
 
         private void button18_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(Barcode4.Text);
+            server.PressKeyOnTDC(Barcode4.Text);
             }
 
-        private void textBox2_TextChanged(object sender, EventArgs e) {}
+        private void textBox2_TextChanged(object sender, EventArgs e) { }
 
         private void button19_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(Barcode5.Text);
+            server.PressKeyOnTDC(Barcode5.Text);
             }
 
         private void button20_Click(object sender, EventArgs e)
             {
-            Server.PressKeyOnTDC(Barcode6.Text);
+            server.PressKeyOnTDC(Barcode6.Text);
             }
 
         private void button21_Click(object sender, EventArgs e)

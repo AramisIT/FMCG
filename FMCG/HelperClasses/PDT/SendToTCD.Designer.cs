@@ -1430,7 +1430,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(292, 23);
             this.textBox2.TabIndex = 117;
-            this.textBox2.Text = "C.2;C-01-02";
+            this.textBox2.Text = "em.2";
             // 
             // SendToTCD
             // 

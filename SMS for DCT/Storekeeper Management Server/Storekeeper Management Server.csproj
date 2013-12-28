@@ -109,7 +109,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="StorekeeperManagementServer.cs" />
-    <Compile Include="StorekeeperSession.cs" />
+    <Compile Include="DataTerminalSession.cs" />
     <Compile Include="Utils\KeyboardHook.cs" />
   </ItemGroup>
   <ItemGroup>

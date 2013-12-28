@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.WindowsCE.Forms;
+using WMS_client.HelperClasses;
 
 namespace WMS_client.Processes
     {
@@ -45,7 +46,7 @@ namespace WMS_client.Processes
                         };
                 MainProcess.ClearControls();
                 MainProcess.Process = new SelectTableList(
-                    MainProcess, selectProcess, "Оберіть процес", "Процеси", listOfElements, string.Empty, false);
+                    MainProcess, selectProcess, "Процеси", listOfElements, string.Empty, false);
                 }
             else
                 {
@@ -53,7 +54,16 @@ namespace WMS_client.Processes
                 }
             }
 
-        public override void OnBarcode(string Barcode) { }
+        public override void OnBarcode(string barcode)
+            {
+            if (!barcode.IsEmployee()) return;
+            var userCode = barcode.ToEmployeeCode();
+            if (userCode == 0) return;
+
+            MainProcess.User = userCode;
+            MainProcess.UserName = new ServerInteraction().GetUserName(MainProcess.User);
+            ToDoCommand = MainProcess.UserName;
+            }
 
         public override void OnHotKey(KeyAction TypeOfAction)
             {
@@ -70,6 +80,11 @@ namespace WMS_client.Processes
         #region Delegates
         private void selectProcess(long selectedIndex, string description)
             {
+            if (MainProcess.User <= 0)
+                {
+                "Необхідно авторизуватися (відсканувати себе)!".Warning();                
+                return;
+                }
             BusinessProcess process = null;
             Processes SelectedProcess = (Processes)selectedIndex;
 

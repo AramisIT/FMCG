@@ -98,7 +98,7 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
             try
                 {
                 var parameters = calatog.GetParametersValues();
-                result = ReceiveMessages.ReceiveMessage(calatog.Description, parameters);
+                result = ReceiveMessages.ReceiveMessage(calatog.Description, parameters, (int)SystemAramis.CurrentUserId);
                 }
             catch (Exception exp)
                 {

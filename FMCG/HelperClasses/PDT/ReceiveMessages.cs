@@ -26,7 +26,7 @@ namespace AtosFMCG.HelperClasses.PDT
             communication = new PDTCommunication();
             }
 
-        public static object[] ReceiveMessage(string procedure, object[] parameters)
+        public static object[] ReceiveMessage(string procedure, object[] parameters, int userId)
             {
             switch (procedure)
                 {
@@ -126,6 +126,8 @@ namespace AtosFMCG.HelperClasses.PDT
                     communication.ReadConsts(out constsTable);
                     return new object[] { true, constsTable };
 
+                case "GetUserName":
+                    return new object[] { true, communication.GetUserName(Convert.ToInt32(parameters[0])) };
                 }
 
             return new object[0];
@@ -144,7 +146,7 @@ namespace AtosFMCG.HelperClasses.PDT
             int unitsToPick;
             int lineNumber;
 
-            if (!communication.GetPickingTask(Convert.ToInt64(parameters[0]), Convert.ToInt64(parameters[1]), Convert.ToInt32(parameters[2]), Convert.ToInt32(parameters[3]),
+            if (!communication.GetPickingTask(Convert.ToInt32(parameters[0]), Convert.ToInt64(parameters[1]), Convert.ToInt64(parameters[2]), Convert.ToInt32(parameters[3]), Convert.ToInt32(parameters[4]),
                 out stickerId,
                 out wareId, out wareDescription,
                 out cellId, out cellDescription,
@@ -212,15 +214,17 @@ namespace AtosFMCG.HelperClasses.PDT
             long previousPalletCode;
             DateTime productionDate;
             long partyId;
+            long nomenclatureId;
 
             if (!communication.GetPalletBalance(Convert.ToInt64(parameters[0]),
+                    out nomenclatureId,
                     out nomenclatureDescription, out trayId, out linerId, out linersAmount,
                     out unitsPerBox, out cellId, out cellDescription, out previousPalletCode, out  productionDate, out partyId))
                 {
                 return new object[] { false };
                 }
 
-            return new object[] { nomenclatureDescription, trayId, linerId, linersAmount, unitsPerBox, cellId, cellDescription, previousPalletCode, 
+            return new object[] { nomenclatureId, nomenclatureDescription, trayId, linerId, linersAmount, unitsPerBox, cellId, cellDescription, previousPalletCode, 
             productionDate.ConvertToStringDateOnly(), partyId };
             }
 
@@ -545,6 +549,7 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
 
         private static object[] GetStickerData(object[] parameters)
             {
+            long nomenclatureId;
             string nomenclatureDescription;
             long trayId;
             int unitsPerBox;
@@ -553,12 +558,12 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
             bool currentAcceptance;
 
             if (!communication.GetStickerData(Convert.ToInt64(parameters[0]), Convert.ToInt64(parameters[1]),
-                    out nomenclatureDescription, out trayId, out unitsPerBox, out cellId, out cellDescription, out currentAcceptance))
+                    out nomenclatureId, out nomenclatureDescription, out trayId, out unitsPerBox, out cellId, out cellDescription, out currentAcceptance))
                 {
                 return new object[] { };
                 }
 
-            return new object[] { nomenclatureDescription, trayId, unitsPerBox, cellId, cellDescription, currentAcceptance };
+            return new object[] { nomenclatureId, nomenclatureDescription, trayId, unitsPerBox, cellId, cellDescription, currentAcceptance };
             }
 
         private static object[] ComplateAcceptance(object[] parameters)

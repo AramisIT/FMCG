@@ -383,14 +383,15 @@ namespace WMS_client.Processes
 
         private bool initAcceptance(long stickerId)
             {
-            var result= new ServerInteraction().GetAcceptanceId(stickerId,
+            var result = new ServerInteraction().GetAcceptanceId(stickerId,
                 out acceptanceId);
+            if (!result)
+                {
+                string.Format("Для палети {0} не знайдено документу!", stickerId).Warning();
+                }
 
-            string.Format("Для палети {0} не знайдено документу!", stickerId).Warning();
             return result;
             }
-
-
 
         private void updateStickerData()
             {
@@ -422,10 +423,11 @@ namespace WMS_client.Processes
             int unitsPerBox;
             string cellDescription;
             long cellId;
+            long nomenclatureId;
 
             if (
                 !new ServerInteraction().GetStickerData(acceptanceId, barcodeData.StickerId,
-                    out nomenclatureDescription, out trayId,
+                    out nomenclatureId, out nomenclatureDescription, out trayId,
                     out unitsPerBox, out cellId, out cellDescription, out currentAcceptance))
                 {
                 barcodeData.Cell = new CatalogItem();
@@ -433,7 +435,7 @@ namespace WMS_client.Processes
                 return;
                 }
 
-            barcodeData.Nomenclature.Description = nomenclatureDescription;
+            barcodeData.Nomenclature = new CatalogItem() { Description = nomenclatureDescription, Id = nomenclatureId };
             barcodeData.Tray = new CatalogItem()
             {
                 Id = trayId,

@@ -13,7 +13,7 @@ namespace StorekeeperManagementServer
 
     public delegate void UpdateCompleteDelegate(string IpAddress);
 
-    internal class StorekeeperManagementServer : IDisposable
+    public class StorekeeperManagementServer : IDisposable
         {
         #region Fields
         private const int SERVER_PORT = 8609;
@@ -31,6 +31,11 @@ namespace StorekeeperManagementServer
         private string FullUpdatePath;
         private readonly Label InfoLabel;
         #endregion
+
+        public CatchingConnections CatchingConnection
+            {
+            get { return ClientConnector; }
+            }
 
         public StorekeeperManagementServer(PrintingConnectionsInfoDelegate PrintingDelegate, Label InfoLabel,
                                            ReceiveMessage receiveMessage, ArrayList allowedIP, string serverIP,
@@ -90,6 +95,8 @@ namespace StorekeeperManagementServer
                 ClientConnector = new CatchingConnections(TCPServer, PrintingDelegate, AllowIpList, NeedToUpdateIpList,
                                                           WriteToFileAboutUpdate, FullUpdatePath, StringConnection,
                                                           receiveMessage);
+
+                //UIConsts.TryEx
                 }
             catch (Exception e)
                 {
@@ -190,7 +197,7 @@ namespace StorekeeperManagementServer
 
             Console.WriteLine("NewUpdateDetected(). Thread #{0}", Thread.CurrentThread.GetHashCode());
             Console.WriteLine("File {0} {1}!", e.FullPath, e.ChangeType);
-            NeedToUpdateIpList = (ArrayList) AllowIpList.Clone();
+            NeedToUpdateIpList = (ArrayList)AllowIpList.Clone();
             FullUpdatePath = e.FullPath;
             WriteToFileAboutUpdate(null);
             ClientConnector.RefreshUpdateStatusClients(NeedToUpdateIpList, FullUpdatePath);

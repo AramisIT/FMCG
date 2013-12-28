@@ -146,7 +146,7 @@ namespace pdtExternalStorage
 
         bool GetTareTable(out DataTable tareTable);
 
-        bool GetStickerData(long acceptanceId, long stickerId, out string nomenclatureDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance);
+        bool GetStickerData(long acceptanceId, long stickerId, out long nomenclatureId, out string nomenclatureDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance);
 
         bool GetAcceptanceId(long stickerId, out long acceptanceId);
 
@@ -155,6 +155,7 @@ namespace pdtExternalStorage
         bool ComplateAcceptance(long acceptanceId, bool forceCompletion, out string errorMessage);
 
         bool GetPalletBalance(long stickerId,
+            out long nomenclatureId,
             out string nomenclatureDescription,
             out long trayId,
             out long linerId, out byte linersAmount,
@@ -179,7 +180,7 @@ namespace pdtExternalStorage
 
         DataTable GetPickingDocuments();
 
-        bool GetPickingTask(long documentId, long palletId, int predefinedTaskLineNumber, int currentLineNumber,
+        bool GetPickingTask(int userId, long documentId, long palletId, int predefinedTaskLineNumber, int currentLineNumber,
             out long stickerId,
             out long wareId, out string wareDescription,
             out long cellId, out string cellDescription,
@@ -192,5 +193,7 @@ namespace pdtExternalStorage
         bool ReadConsts(out DataTable constsTable);
 
         bool CreatePickingDocuments();
+
+        string GetUserName(int userId);
         }
     }

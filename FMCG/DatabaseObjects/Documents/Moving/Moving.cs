@@ -79,7 +79,7 @@ namespace Documents
             }
         private string z_IncomeNumber = string.Empty;
 
-       [DataField(Description = "Дата накладної", ShowInList = true, StorageType = StorageTypes.Local)]
+        [DataField(Description = "Дата накладної", ShowInList = true, StorageType = StorageTypes.Local)]
         public string IncomeDate
             {
             get
@@ -100,7 +100,7 @@ namespace Documents
         private string z_IncomeDate = string.Empty;
         #endregion
 
-        [Table(Columns = "Nomenclature,PalletCode,RowState,RowDate, StartCodeOfPreviousPallet, FinalCodeOfPreviousPallet, PlanValue,FactValue,StartCell,FinalCell,Party")]
+        [Table(Columns = "Nomenclature,PalletCode,RowState,RowDate, Employee, StartCodeOfPreviousPallet, FinalCodeOfPreviousPallet, PlanValue,FactValue,StartCell,FinalCell,Party", AllowFiltering = true)]
         [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {
@@ -118,6 +118,9 @@ namespace Documents
 
         [SubTableField(Description = "Дата рядка", PropertyType = typeof(DateTime))]
         public DataColumn RowDate { get; set; }
+
+        [SubTableField(Description = "Виконавець", PropertyType = typeof(Users))]
+        public DataColumn Employee { get; set; }
 
         [SubTableField(Description = "Початковий код попередньої паллети", PropertyType = typeof(long))]
         public DataColumn StartCodeOfPreviousPallet { get; set; }
@@ -149,16 +152,16 @@ namespace Documents
             }
 
         //#region DocumentTable
-       
+
         //protected override void InitItemBeforeShowing()
         //    {
         //    base.InitItemBeforeShowing();
 
         //    ValueOfObjectPropertyChanged += AcceptanceOfGoods_ValueOfObjectPropertyChanged;
         //    TableRowChanged += AcceptanceOfGoods_TableRowChanged;
-            
+
         //    fillSourceData();
-           
+
         //    }
         //#endregion
 
@@ -175,13 +178,13 @@ namespace Documents
         //    IncomeDate = Source == null || Source.Id == 0 ? string.Empty : Source.Date.ToShortDateString();
         //    }
 
-      
 
-       
+
+
         //#endregion
 
         //#region Changed
-        
+
         //void AcceptanceOfGoods_ValueOfObjectPropertyChanged(string propertyName)
         //    {
         //    switch (propertyName)
@@ -204,6 +207,6 @@ namespace Documents
         //    }
         //#endregion
 
-       
+
         }
     }

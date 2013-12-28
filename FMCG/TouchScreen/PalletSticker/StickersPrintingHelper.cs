@@ -130,14 +130,15 @@ namespace AtosFMCG.TouchScreen.PalletSticker
                 new DataColumn("ExpiryDate", typeof(DateTime)),
                 new DataColumn("AcceptionDate", typeof(DateTime)),
                 new DataColumn("Driver", typeof(string)),
-                new DataColumn("Id", typeof(long))
+                new DataColumn("Id", typeof(long)),
+                new DataColumn("barcode", typeof(string))
                 });
 
             foreach (var stickersTask in stickersTasks)
                 {
                 dataSource.Rows.Add(stickersTask.Nomenclature, stickersTask.Barcode, stickersTask.PacksCount, stickersTask.UnitsQuantity,
                     stickersTask.ReleaseDate, stickersTask.HalpExpiryDate, stickersTask.ExpiryDate, stickersTask.AcceptionDate,
-                    stickersTask.Driver, stickersTask.Id);
+                    stickersTask.Driver, stickersTask.Id, string.Format("S{0}", stickersTask.Id));
                 }
 
             return dataSource;

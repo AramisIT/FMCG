@@ -1,5 +1,7 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Collections.Generic;
+using WMS_client.HelperClasses;
 
 namespace WMS_client.Processes
     {
@@ -44,16 +46,17 @@ namespace WMS_client.Processes
         #endregion
 
         /// <summary>Вибір з таблиці</summary>
-        public SelectTableList(WMSClient MainProcess, SelectFromListDelegate nextScr, string todoCommand, string descriptionHeader, IEnumerable<TableData> list, string btnText, bool back)
+        public SelectTableList(WMSClient MainProcess, SelectFromListDelegate nextScr, string descriptionHeader, IEnumerable<TableData> list, string btnText, bool back)
             : base(1)
             {
+            ToDoCommand = MainProcess.UserName;
+
             headerOfDescriptionColumn = descriptionHeader;
             navigateToNextScreen = nextScr;
             listOfElements = list;
             buttonText = btnText;
             isBackButton = back;
-            MainProcess.ToDoCommand = todoCommand;
-
+           
             sourceTable = new DataTable();
             sourceTable.Columns.AddRange(new[]
                                              {
@@ -104,7 +107,16 @@ namespace WMS_client.Processes
             navigateToNextScreen(selectedIndex, selectedDescription);
             }
 
-        public override void OnBarcode(string Barcode) { }
+        public override void OnBarcode(string barcode)
+            {
+            if (!barcode.IsEmployee()) return;
+            var userCode = barcode.ToEmployeeCode();
+            if (userCode == 0) return;
+
+            MainProcess.User = userCode;
+            MainProcess.UserName = new ServerInteraction().GetUserName(MainProcess.User);
+            ToDoCommand = MainProcess.UserName;
+            }
 
         public override void OnHotKey(KeyAction TypeOfAction)
             {

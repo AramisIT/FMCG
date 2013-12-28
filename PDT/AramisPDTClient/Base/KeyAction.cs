@@ -26,16 +26,14 @@ namespace WMS_client
         Problem = 113, // F2
 
         Proceed = 116, // F5
-        Incoming = 116, // F5
         F1 = 112, // F1
-        F5 = 116, // F5
         RepeatPrinting = 117, // F6
         BarCodeByHands = 122, // F11
         Act = 119, // F8
         F8 = 119, // F8
         Shipping = 120, // F9
         F9 = 120,
-        F10 = 121,
+        
         Exit = 121, // F10
         F11 = 122,
         F12 = 123

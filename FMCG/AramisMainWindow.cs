@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using Aramis.Core.WritingUtils;
 using Aramis.DatabaseConnector;
 using Aramis.DatabaseUpdating;
 using Aramis.UI.WinFormsDevXpress.Forms;
@@ -23,6 +25,7 @@ using Aramis.SystemConfigurations;
 using Aramis.UI;
 using Aramis;
 using Documents;
+using FMCG.Utils;
 using StorekeeperManagementServer;
 
 namespace AtosFMCG
@@ -198,6 +201,16 @@ namespace AtosFMCG
                     smServer = new InfoForm(ReceiveMessages.ReceiveMessage, PDTSettings.AllowedIPs(), Consts.ServerIP,
                                             Consts.UpdateFolderName);
 
+                    if (smServer.Server != null)
+                        {
+                        Func<List<KeyValuePair<Guid, int>>> method = smServer.Server.CatchingConnection.GetPdtSessions;
+
+                        UIConsts.SessionUpdated += () =>
+                            {
+                                method().ForEach(kvp => UIConsts.UpdateSession(kvp.Key, kvp.Value));
+                            };
+                        }
+
                     if (smServer.IsRun)
                         {
                         showSuccessResultOfConnection();
@@ -220,6 +233,11 @@ namespace AtosFMCG
                 exc.Message.WarningBox();
                 showFailResultOfConnection();
                 }
+            }
+
+        void UIConsts_SessionUpdated()
+            {
+            // UIConsts.UpdateSession();
             }
 
         private void showSuccessResultOfConnection()
@@ -260,12 +278,13 @@ namespace AtosFMCG
             {
             var tasks = new List<StickerInfo>()
                 {
-                    new StickerInfo() {Nomenclature = "Живчик 1л Апельсин", Barcode = "ыва",  Driver = "Жорняк", 
+                    new StickerInfo() {Nomenclature = "Живчик 1л Апельсин sdf sdfs dfsdfds", Barcode = "ыва",  Driver = "Жорняк", 
                 ReleaseDate = new DateTime(2013, 7,1),
                 HalpExpiryDate = new DateTime(2013, 8,30),
                 ExpiryDate = new DateTime(2013, 10,30),
                 AcceptionDate = DateTime.Now,
-                PacksCount = 150},
+                PacksCount = 150,
+                    Id=99443},
                 //    new StickerInfo() {Nomenclature = "Пиво светлое 0.5", Barcode = "ыва",  Driver = "Жорняк", 
                 //ReleaseDate = new DateTime(2013, 7,1),
                 //HalpExpiryDate = new DateTime(2013, 8,30),
@@ -277,7 +296,7 @@ namespace AtosFMCG
                 HalpExpiryDate = new DateTime(2013, 8,30),
                 ExpiryDate = new DateTime(2013, 10,30),
                 AcceptionDate = DateTime.Now,
-                PacksCount = 150}
+                PacksCount = 150,Id=99443}
                 };
 
             var stickersCreator = new StickersPrintingHelper(tasks, ThermoPrinters.GetCurrentPrinterName());
@@ -401,6 +420,18 @@ namespace AtosFMCG
         private void barButtonItem20_ItemClick(object sender, ItemClickEventArgs e)
             {
             ReceiveMessages.Сommunication.CreatePickingDocuments();
+            }
+
+        private void barButtonItem21_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            var locker = new DatabaseObjectLocker(typeof(Moving), 4);
+            var result = locker.LockForCurrentPdtThread();
+            Trace.WriteLine(result);
+            }
+
+        private void barButtonItem22_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowReport("Розбіжності при відборі");
             }
         }
     }

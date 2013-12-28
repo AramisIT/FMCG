@@ -4,7 +4,9 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using Aramis.Core.WritingUtils;
 using Aramis.DatabaseConnector;
+using Aramis.Platform;
 using Aramis.SystemConfigurations;
 using AtosFMCG.Enums;
 using FMCG.DatabaseObjects.Enums;
@@ -14,7 +16,16 @@ namespace FMCG.Utils
     {
     public static class SolutionExtentions
         {
-        internal static void SetRowState(this long databaseObjectId, Type databaseObjectType, long lineNumber, RowsStates newRowState, string fieldName = "RowState")
+        internal static bool LockForCurrentPdtThread(this DatabaseObjectLocker databaseObjectLocker)
+            {
+            var pdtIpIdStr = System.Threading.Thread.CurrentThread.Name;
+            var mainth = ThreadCover.IsMainThread();
+            var sessionId = mainth ? Guid.NewGuid() : new Guid(pdtIpIdStr);
+            databaseObjectLocker.SessionId = sessionId;
+            return databaseObjectLocker.LockForExclusiveAccess();
+            }
+
+        internal static void SetRowState(this long databaseObjectId, Type databaseObjectType, long lineNumber, RowsStates newRowState, string fieldName = "RowState", long employee = 0)
             {
             var subtableName = string.Empty;
             var configuration = SystemConfiguration.DBConfigurationTree[databaseObjectType.Name];
@@ -28,10 +39,14 @@ namespace FMCG.Utils
                     }
                 }
 
-            var q = DB.NewQuery(string.Format("Update top(1) [{0}] Set [{1}] = @RowState where IdDoc = @DatabaseObjectId and LineNumber = @LineNumber", subtableName, fieldName));
+            var q = DB.NewQuery(string.Format(@"
+            Update top(1) [{0}] 
+                Set [{1}] = @RowState, Employee = @employee
+                where IdDoc = @DatabaseObjectId and LineNumber = @LineNumber", subtableName, fieldName));
             q.AddInputParameter("DatabaseObjectId", databaseObjectId);
             q.AddInputParameter("LineNumber", lineNumber);
             q.AddInputParameter("RowState", (int)newRowState);
+            q.AddInputParameter("employee", employee);
             q.Execute();
             }
 

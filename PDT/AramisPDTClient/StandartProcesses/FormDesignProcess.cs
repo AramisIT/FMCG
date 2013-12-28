@@ -94,7 +94,7 @@ namespace WMS_client
                         }
                     break;
 
-                case KeyAction.F10:
+                case KeyAction.Exit:
 
                     MainProcess.CreateLabel("label", 5, 70, 100, ControlsStyle.LabelNormal);
                     if (CurrentControl == null)
@@ -134,7 +134,7 @@ namespace WMS_client
                     t.Show();
                     break;
 
-                case KeyAction.F5:
+                case KeyAction.Proceed:
 
                     if (CurrentControl != null)
                         {

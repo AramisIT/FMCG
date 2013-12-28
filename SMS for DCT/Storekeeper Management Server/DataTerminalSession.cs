@@ -10,7 +10,7 @@ using System.IO;
 namespace StorekeeperManagementServer
     {
     public delegate void CloseConnectionDelegate(DataTerminalSession storekeeperSession);
-    public delegate object[] ReceiveMessage(string procedure, object[] parameters);
+    public delegate object[] ReceiveMessage(string procedure, object[] parameters, int userId);
 
     public class DataTerminalSession
         {
@@ -19,6 +19,27 @@ namespace StorekeeperManagementServer
 
         private const int MOUSEEVENTF_LEFTDOWN = 0x02;
         private const int MOUSEEVENTF_LEFTUP = 0x04;
+
+        private int currentUserId;
+
+        public int CurrentUserId
+            {
+            get
+                {
+                lock (this)
+                    {
+                    return currentUserId;
+                    }
+                }
+
+            set
+                {
+                lock (this)
+                    {
+                    currentUserId = value;
+                    }
+                }
+            }
 
         public bool NeedToPing = false;
         private readonly TcpClient TCPClient;
@@ -45,13 +66,14 @@ namespace StorekeeperManagementServer
 
         #region Public methods
 
-        public DataTerminalSession(TcpClient MyTCPClient, NetworkStream MyTCPStream, CloseConnectionDelegate MyCloseConnectionMethod, UpdateCompleteDelegate InformAboutUpdateComplete, ReceiveMessage receiveMessage)
+        public DataTerminalSession(TcpClient MyTCPClient, NetworkStream MyTCPStream, CloseConnectionDelegate MyCloseConnectionMethod, UpdateCompleteDelegate InformAboutUpdateComplete, ReceiveMessage receiveMessage, Guid sessionId)
             {
             TCPClient = MyTCPClient;
             TCPStream = MyTCPStream;
             DeleteConnection = MyCloseConnectionMethod;
             this.receiveMessage = receiveMessage;
 
+            this.SessionId = sessionId;
 
             //Server1CAgent = new HandlingVia1CServer(@"Srvr=""localhost""; Ref=""newwms"";");
             //Server1CAgent = new HandlingVia1CServer(@"Srvr=""localhost""; Ref=""iboya81""; Usr=""Оборский Д.В.""; Pwd=""123456""");
@@ -145,7 +167,8 @@ namespace StorekeeperManagementServer
 
                 Trace.WriteLine(string.Format("Pack id: {0};\tquery = {1};\t{2}", package.PackageID, package.QueryName, DateTime.Now.ToString("mm:ss")));
 
-                object[] resultArray = receiveMessage(package.QueryName, ResultParameters);
+                CurrentUserId = package.ClientCode;
+                object[] resultArray = receiveMessage(package.QueryName, ResultParameters, package.ClientCode);
 
                 string resultStr = PackageConvertation.GetStrPatametersFromArray(resultArray);
                 package.DefineQueryAndParams("Answer", resultStr);
@@ -532,5 +555,7 @@ namespace StorekeeperManagementServer
             int Y = System.Windows.Forms.Cursor.Position.Y;
             mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, X, Y, 0, 0);
             }
+
+        public Guid SessionId { get; private set; }
         }
     }

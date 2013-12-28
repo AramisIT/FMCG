@@ -91,7 +91,7 @@ namespace WMS_client.Processes
         private ScanPallet scanPallet;
         private QuantityEditControls quantityEditControls;
         private BarcodeData pickingTaskData;
-        private int currentLineNumber = -1;
+        private int currentLineNumber = 0;
         private BarcodeData factPickingData;
         private int sameWareNextTaskLineNumber;
         private int totalUnitsQuantityOnPallet;
@@ -104,7 +104,10 @@ namespace WMS_client.Processes
             this.documentId = documentId;
 
             sameWareNextTaskLineNumber = 0;
-            startPalletChoosing(0, -1);
+            if (!startPalletChoosing(0, 0))
+                {
+                exitProcess();
+                }
             }
 
         private bool startPalletChoosing(long palletId, int _currentLineNumber)
@@ -117,7 +120,7 @@ namespace WMS_client.Processes
             if (!readNextPickingTask(palletId, predefinedTaskLineNumber, _currentLineNumber, out pickingPlan))
                 {
                 pickingTaskData = new BarcodeData();
-                "Нема зв'язку з сервером. Знайдіть WiFi та натисніть Далі (F4)".ShowMessage();
+                "Нема зв'язку з сервером. Знайдіть WiFi та натисніть Далі (F5)".ShowMessage();
                 return false;
                 }
 
@@ -134,8 +137,7 @@ namespace WMS_client.Processes
 
             pickingTaskData = pickingPlan;
 
-            var cellDescription = pickingTaskData.Cell.Id == 0 ? "<?>" : pickingTaskData.Cell.Description;
-            pickingTask.planPickingCell.Text = string.Format("Комірка {0}", cellDescription);
+            setCellDescription(pickingTaskData.Cell);
 
             int separationPosition = Math.Min(pickingTaskData.Nomenclature.Description.Length - 1, 24);
             pickingTask.pickingWareLine1.Text = pickingTaskData.Nomenclature.Description.Substring(0, separationPosition);
@@ -152,6 +154,12 @@ namespace WMS_client.Processes
             return true;
             }
 
+        private void setCellDescription(CatalogItem cell)
+            {
+            var cellDescription = cell.Id == 0 ? "<?>" : cell.Description;
+            pickingTask.planPickingCell.Text = string.Format("Комірка {0}", cellDescription);
+            }
+
         private void showParty(CatalogItem party)
             {
             pickingTask.productionDate.Text = string.Format("Дата вироб-ва {0}", party.Id == 0 ? "<?>" : party.Description);
@@ -165,8 +173,13 @@ namespace WMS_client.Processes
                 Warning_CantComplateOperation();
                 }
 
+            exitProcess();
+            }
+
+        private void exitProcess()
+            {
             MainProcess.ClearControls();
-            MainProcess.Process = new Movement();
+            MainProcess.Process = new SelectingProcess();
             }
 
         private bool readNextPickingTask(long palletId, int predefinedTaskLineNumber, int _currentLineNumber, out BarcodeData pickingPlan)
@@ -183,7 +196,7 @@ namespace WMS_client.Processes
             int unitsToPick;
             int taskLineNumber;
 
-            if (!new ServerInteraction().GetPickingTask(documentId, palletId, predefinedTaskLineNumber, _currentLineNumber,
+            if (!new ServerInteraction().GetPickingTask(MainProcess.User, documentId, palletId, predefinedTaskLineNumber, _currentLineNumber,
                 out stickerId,
                 out wareId, out wareDescription,
                 out cellId, out cellDescription,
@@ -254,7 +267,7 @@ namespace WMS_client.Processes
             quantityEditControls.linersCountTextBox = MainProcess.CreateTextBox(170, top, 55, string.Empty, ControlsStyle.LabelNormal, null, false);
 
             top += delta;
-            quantityEditControls.proceedButton = MainProcess.CreateButton("Продовжити              ( F4 )", 10, top, 220, 30, "modelButton", proceed);
+            quantityEditControls.proceedButton = MainProcess.CreateButton("Продовжити              ( F5 )", 10, top, 220, 30, "modelButton", proceed);
             }
 
         private void proceed()
@@ -279,10 +292,21 @@ namespace WMS_client.Processes
             var success = new ServerInteraction().WritePickingResult(documentId, currentLineNumber, resultWriter.Table, factPickingData.Party.Id, out _sameWareNextTaskLineNumber);
             if (success)
                 {
+                factPickingData = null;
                 this.sameWareNextTaskLineNumber = _sameWareNextTaskLineNumber;
-                startPalletChoosing(0, -1);
+                startPalletChoosing(0, 0);
+                }
+            else
+                {
+                if (MainProcess.ConnectionAgent.WifiEnabled
+                    && MainProcess.ConnectionAgent.OnLine)
+                    {
+                    "Нема доступу до документу".Warning();
+                    }
                 }
             }
+
+        private long lastScannedPalletId;
 
         public override void OnBarcode(string barcode)
             {
@@ -292,6 +316,18 @@ namespace WMS_client.Processes
             if (!barcode.IsSticker()) return;
 
             var barcodeData = barcode.ToBarcodeData();
+            if (lastScannedPalletId == barcodeData.StickerId
+                && "Повторить этикетку".Ask())
+                {
+                if (!new StickersPrinting(barcodeData.StickerId).Print())
+                    {
+                    Warning_CantComplateOperation();
+                    }
+                return;
+                }
+
+            lastScannedPalletId = barcodeData.StickerId;
+
             if (!barcodeData.ReadStickerInfo())
                 {
                 Warning_CantComplateOperation();
@@ -318,11 +354,16 @@ namespace WMS_client.Processes
                     sameWareNextTaskLineNumber = 0;
                     if (startPalletChoosing(barcodeData.StickerId, currentLineNumber))
                         {
+                        lastScannedPalletId = 0;
                         OnBarcode(barcode);
                         }
                     return;
                     }
                 }
+
+            setCellDescription(barcodeData.Cell);
+            factPickingData.Cell = barcodeData.Cell;
+            factPickingData.Party = barcodeData.Party;
 
             totalUnitsQuantityOnPallet = barcodeData.TotalUnitsQuantity;
             factPickingData.LinersAmount = barcodeData.LinersAmount;
@@ -360,11 +401,15 @@ namespace WMS_client.Processes
                     break;
 
                 case KeyAction.Complate:
-                    ComplateOperation();
+                    if ("Завершити виконання операції".Ask())
+                        {
+                        ComplateOperation();
+                        }
                     break;
 
+                case KeyAction.F12:
                 case KeyAction.Proceed:
-                    if (this.pickingTaskData.StickerId > 0)
+                    if (factPickingData != null && factPickingData.StickerId > 0)
                         {
                         proceed();
                         }

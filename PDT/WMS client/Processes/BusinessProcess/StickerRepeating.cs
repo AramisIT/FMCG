@@ -130,14 +130,7 @@ namespace WMS_client.Processes
 
         private void complateProcess()
             {
-            var result = new DataTable();
-            result.Columns.Add("Value", typeof(Int64));
-            foreach (var palletId in processedPallets.Keys)
-                {
-                result.Rows.Add(palletId);
-                }
-
-            if (!new ServerInteraction().PrintStickers(result))
+            if (!new StickersPrinting(processedPallets.Keys.ToList()).Print())
                 {
                 Warning_CantComplateOperation();
                 return;

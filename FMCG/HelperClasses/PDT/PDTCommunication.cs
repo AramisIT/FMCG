@@ -643,7 +643,7 @@ FROM LastPalletInCell ");
 
 
         public bool GetStickerData(long acceptanceId, long stickerId,
-                out string nomenclatureDescription, out long trayId,
+                out long nomenclatureId, out string nomenclatureDescription, out long trayId,
                 out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance)
             {
             long stickerAcceptanceId;
@@ -657,6 +657,7 @@ FROM LastPalletInCell ");
                 var sticker = new Stickers();
                 sticker.Read(stickerId);
 
+                nomenclatureId = sticker.Nomenclature.Id;
                 nomenclatureDescription = sticker.Nomenclature.Description;
                 trayId = sticker.Tray.Id;
                 unitsPerBox = sticker.Nomenclature.UnitsQuantityPerPack;
@@ -673,6 +674,7 @@ FROM LastPalletInCell ");
                 nomenclatureDescription = string.Empty;
                 trayId = 0;
                 unitsPerBox = 0;
+                nomenclatureId = 0;
                 }
             return true;
             }
@@ -767,7 +769,10 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
             return acceptance.Write() == WritingResult.Success;
             }
 
-        public bool GetPalletBalance(long palletId, out string nomenclatureDescription, out long trayId, out long linerId, out byte linersAmount,
+        public bool GetPalletBalance(long palletId,
+            out long nomenclatureId,
+            out string nomenclatureDescription, 
+            out long trayId, out long linerId, out byte linersAmount,
             out int unitsPerBox, out long cellId, out string cellDescription, out long previousPalletCode, out DateTime productionDate, out long partyId)
             {
             partyId = trayId = linerId = cellId = previousPalletCode = unitsPerBox = linersAmount = 0;
@@ -778,6 +783,7 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
 
             var sticker = new Stickers();
             sticker.Read(palletId);
+            nomenclatureId = sticker.Nomenclature.Id;
             nomenclatureDescription = sticker.Nomenclature.Description;
             unitsPerBox = sticker.Nomenclature.UnitsQuantityPerPack;
 
@@ -882,7 +888,7 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
             document.Read(documentId);
             using (var locker = new DatabaseObjectLocker(document))
                 {
-                if (!locker.LockForExclusiveAccess()) return false;
+                if (!locker.LockForCurrentPdtThread()) return false;
 
                 document.State = StatesOfDocument.Completed;
                 return document.Write() == WritingResult.Success;
@@ -1045,7 +1051,7 @@ from @table");
 
             using (var locker = new DatabaseObjectLocker(document))
                 {
-                if (!locker.LockForExclusiveAccess()) return false;
+                if (!locker.LockForCurrentPdtThread()) return false;
 
                 var docTable = document.NomenclatureInfo;
                 var palletCode = Convert.ToInt64(resultTable.Rows[0][document.PalletCode.ColumnName]);
@@ -1118,7 +1124,7 @@ from @table");
                 if (newPickingTaskPlan > 0)
                     {
                     var newTaskRow = document.NomenclatureInfo.GetNewRow(document);
-                    
+
                     newTaskRow[document.PlanValue] = newPickingTaskPlan;
                     newTaskRow[document.Nomenclature] = wareRow[document.Nomenclature.ColumnName];
                     newTaskRow[document.RowState] = (int)RowsStates.PlannedPicking;
@@ -1126,6 +1132,9 @@ from @table");
                     newTaskRow.AddRowToTable(document);
 
                     sameWareNextTaskLineNumber = Convert.ToInt32(newTaskRow[Subtable.LINE_NUMBER_COLUMN_NAME]);
+
+
+                    wareRow[document.PlanValue] = wareRow[document.FactValue];
                     }
 
                 var result = document.Write();
@@ -1136,14 +1145,12 @@ from @table");
         public DataTable GetPickingDocuments()
             {
             var q = DB.NewQuery(@"
-Select m.Id, (rtrim(c.[Description]) + ' № ' 
-+ CAST(p.number as nvarchar(max))
-) [Description] 
+Select m.Id, convert(nvarchar(max), day(p.Date), 4)+'.'+convert(nvarchar(max), month(p.Date), 4) [Description] 
 
 from Moving m
 join ShipmentPlan p on p.Id = m.PickingPlan
-left join Contractors c on c.Id = p.Contractor
 where (m.State = @PlanState or m.State = @ProcessingState) AND m.MarkForDeleting = 0 
+order by p.Date desc
 ");
             q.AddInputParameter("PlanState", (int)StatesOfDocument.Planned);
             q.AddInputParameter("ProcessingState", (int)StatesOfDocument.Processing);
@@ -1152,7 +1159,7 @@ where (m.State = @PlanState or m.State = @ProcessingState) AND m.MarkForDeleting
             return result;
             }
 
-        public bool GetPickingTask(long documentId, long palletId, int predefinedTaskLineNumber, int currentLineNumber,
+        public bool GetPickingTask(int userId, long documentId, long palletId, int predefinedTaskLineNumber, int currentLineNumber,
             out long stickerId, out long wareId, out string wareDescription,
             out long cellId, out string cellDescription,
             out long partyId, out DateTime productionDate,
@@ -1174,13 +1181,15 @@ left join Cells c on c.Id = task.StartCell
 left join Parties p on p.Id = task.Party
 join Moving cap on cap.Id = task.IdDoc
 
-where IdDoc = @IdDoc and RowState = @RowState
+where IdDoc = @IdDoc and (RowState = @PlannedPickingState or (RowState = @ProcessingState and Employee = @userId))
 and (@currentLineNumber = 0 or task.LineNumber = @currentLineNumber)
 and (@nomenclature = 0 or task.Nomenclature = @nomenclature)
 order by [LineNumber]";
             var q = DB.NewQuery(sql);
             q.AddInputParameter("IdDoc", documentId);
-            q.AddInputParameter("RowState", RowsStates.PlannedPicking);
+            q.AddInputParameter("PlannedPickingState", RowsStates.PlannedPicking);
+            q.AddInputParameter("ProcessingState", RowsStates.Processing);
+            q.AddInputParameter("userId", userId);
             q.AddInputParameter("currentLineNumber", predefinedTaskLineNumber);
 
             var nomenclatureId = 0L;
@@ -1198,7 +1207,7 @@ order by [LineNumber]";
             // В дальнейшем может потребоваться выбирать строку с переданной паллетой palletId, а может и не потребоваться
             using (var locker = new DatabaseObjectLocker(typeof(Moving), documentId))
                 {
-                if (!locker.LockForExclusiveAccess()) return false;
+                if (!locker.LockForCurrentPdtThread()) return false;
 
                 var qResult = q.SelectRow();
 
@@ -1230,7 +1239,7 @@ order by [LineNumber]";
                     {
                     documentId.SetRowState(typeof(Moving), currentLineNumber, RowsStates.PlannedPicking);
                     }
-                documentId.SetRowState(typeof(Moving), lineNumber, RowsStates.Processing);
+                documentId.SetRowState(typeof(Moving), lineNumber, RowsStates.Processing, employee: userId);
                 }
             return true;
             }
@@ -1268,7 +1277,7 @@ order by [LineNumber]";
 
         public bool CreatePickingDocuments()
             {
-            var sql = @"select s.Id
+            var sql = @"select distinct s.Id
 from ShipmentPlan s 
 left join Moving m on m.PickingPlan = s.Id
 where s.MarkForDeleting = 0 
@@ -1284,7 +1293,7 @@ and (m.MarkForDeleting = 1 or m.Id is null)";
             document.SetRef("PickingPlan", shipmentId);
             document.Date = DateTime.Now;
 
-            var q = DB.NewQuery(@"select Nomenclature, sum(Quantity) [Quantity] 
+            var q = DB.NewQuery(@"select Nomenclature, sum(Quantity) [Quantity], min(LineNumber) LineNumber
 from SubShipmentPlanNomenclatureInfo
 where IdDoc = @IdDoc 
 group by Nomenclature
@@ -1308,6 +1317,13 @@ order by LineNumber");
             var result = document.Write();
 
             return result == WritingResult.Success;
+            }
+
+        public string GetUserName(int userId)
+            {
+            var user = new Users();
+            user.Read(userId);
+            return user.Description;
             }
         }
     }

@@ -93,5 +93,48 @@ FROM [GetStockBalance] (
   left join Parties p on p.Id = rem.Party
 END
 
+
+
+
+
+
+
+
+PROCEDURE [dbo].[Report_PickingDiscrepancies] 
+	(@MovingId bigint)
+AS
+BEGIN
+
+declare @planId bigint;
+select @planId = isnull(PickingPlan,0) from Moving where Id = @movingId;
+
+with pickingPlan as 
+(
+select p.Nomenclature, sum(p.Quantity) PlanValue 
+	from SubShipmentPlanNomenclatureInfo p 
+	where p.IdDoc = @planId
+	group by Nomenclature
+	having sum(p.Quantity) > 0
+)
+, pickingFact as 
+(
+select f.Nomenclature, sum(f.FactValue) FactValue
+	from SubMovingNomenclatureInfo f
+	where f.IdDoc = @movingId and f.RowState = 2 -- complated
+	group by Nomenclature
+	having sum(f.FactValue) > 0
+)
+
+select p.Nomenclature NomenclatureId, p.PlanValue, 
+	ISNULL(f.FactValue, 0) FactValue,
+	rtrim(n.Description) Nomenclature
+	
+	from pickingPlan p
+	left join pickingFact f on p.Nomenclature = f.Nomenclature
+	join Nomenclature n on n.Id = p.Nomenclature
+	where PlanValue <> FactValue
+	order by n.Description
+END
+
 ";
     }
