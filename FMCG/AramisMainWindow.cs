@@ -438,5 +438,6 @@ namespace AtosFMCG
             {
             UserInterface.Current.ShowReport("Штрих-код працівника");
             }
+
         }
     }

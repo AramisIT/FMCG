@@ -5,17 +5,17 @@
     <Layout Name="BarCode_DETAILS" StartNewPage="True" >
       <Rows>
         <Row Height="40" />
-        <Row Height="200" />
+        <Row Height="214" />
       </Rows>
       <!--390px-->
       <Columns>
-        <Column Width="380" />
+        <Column Width="285" />
       </Columns>
       <Cells>
-        <Cell FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" CellValue="Name"  ValueType="Parameter" BehaviorOnDisplaying="Wrap"/>
+        <Cell FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" CellValue="Name"  ValueType="Parameter" BehaviorOnDisplaying="Wrap"/>
       </Cells>
       <Items>
-        <Barcode Location="70,60" Size="220,150" RotateAngle="0" FontSize="0" BarcodeType="CODE128" ParameterName="barcode" ></Barcode>
+        <Barcode Location="40,60" Size="205,150" RotateAngle="0" FontSize="0" BarcodeType="CODE128" ParameterName="barcode" ></Barcode>
       </Items>
     </Layout>
   </LayoutsDefinitions>
