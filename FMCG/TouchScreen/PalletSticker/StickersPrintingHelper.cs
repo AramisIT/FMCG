@@ -17,8 +17,8 @@ namespace AtosFMCG.TouchScreen.PalletSticker
     {
     class StickersPrintingHelper
         {
-        private const int STICKER_WIDTH = 390;
-        private const int STICKER_HEIGHT = 300;
+        public const int STICKER_WIDTH = 390;
+        public const int STICKER_HEIGHT = 300;
 
         public StickersPrintingHelper(List<StickerInfo> stickersTasks, string printerName)
             {

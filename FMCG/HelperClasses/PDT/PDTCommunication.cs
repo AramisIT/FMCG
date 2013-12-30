@@ -644,7 +644,8 @@ FROM LastPalletInCell ");
 
         public bool GetStickerData(long acceptanceId, long stickerId,
                 out long nomenclatureId, out string nomenclatureDescription, out long trayId,
-                out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance)
+                out int totalUnitsQuantity, out int unitsPerBox, 
+                out long cellId, out string cellDescription, out bool currentAcceptance)
             {
             long stickerAcceptanceId;
             RowsStates rowState;
@@ -661,6 +662,7 @@ FROM LastPalletInCell ");
                 nomenclatureDescription = sticker.Nomenclature.Description;
                 trayId = sticker.Tray.Id;
                 unitsPerBox = sticker.Nomenclature.UnitsQuantityPerPack;
+                totalUnitsQuantity = sticker.UnitsQuantity;
 
                 cellId = rowCellId;
                 cellDescription = FastInput.GetCashedData(typeof(Cells).Name).GetDescription(rowCellId);
@@ -675,6 +677,7 @@ FROM LastPalletInCell ");
                 trayId = 0;
                 unitsPerBox = 0;
                 nomenclatureId = 0;
+                totalUnitsQuantity = 0;
                 }
             return true;
             }

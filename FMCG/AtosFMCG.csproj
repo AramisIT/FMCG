@@ -168,6 +168,7 @@
       <DependentUpon>TypesOfCellItemsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Catalogs\TypesOfCell\TypesOfCell.cs" />
+    <Compile Include="DatabaseObjects\Catalogs\Users\UserBarcodePrintHelper.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Users\Users.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Users\UsersItemForm.cs">
       <SubType>Form</SubType>
@@ -362,6 +363,9 @@
     <None Include="images\Touchscreen 32.png" />
     <None Include="images\AcceptancePlan 32.png" />
     <None Include="images\Acceptance 32.png" />
+    <Content Include="DatabaseObjects\Catalogs\Users\UserBarcode.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="TouchScreen\PalletSticker\StickerAdapter.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

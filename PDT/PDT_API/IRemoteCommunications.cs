@@ -146,7 +146,7 @@ namespace pdtExternalStorage
 
         bool GetTareTable(out DataTable tareTable);
 
-        bool GetStickerData(long acceptanceId, long stickerId, out long nomenclatureId, out string nomenclatureDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance);
+        bool GetStickerData(long acceptanceId, long stickerId, out long nomenclatureId, out string nomenclatureDescription, out long trayId, out int totalUnitsQuantity, out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance);
 
         bool GetAcceptanceId(long stickerId, out long acceptanceId);
 

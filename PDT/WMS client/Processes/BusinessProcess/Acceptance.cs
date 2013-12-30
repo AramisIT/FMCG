@@ -424,17 +424,19 @@ namespace WMS_client.Processes
             string cellDescription;
             long cellId;
             long nomenclatureId;
+            int totalUnitsQuantity;
 
             if (
                 !new ServerInteraction().GetStickerData(acceptanceId, barcodeData.StickerId,
                     out nomenclatureId, out nomenclatureDescription, out trayId,
-                    out unitsPerBox, out cellId, out cellDescription, out currentAcceptance))
+                    out totalUnitsQuantity, out unitsPerBox, out cellId, out cellDescription, out currentAcceptance))
                 {
                 barcodeData.Cell = new CatalogItem();
                 barcodeData.StickerId = 0;
                 return;
                 }
 
+            barcodeData.TotalUnitsQuantity = totalUnitsQuantity;
             barcodeData.Nomenclature = new CatalogItem() { Description = nomenclatureDescription, Id = nomenclatureId };
             barcodeData.Tray = new CatalogItem()
             {

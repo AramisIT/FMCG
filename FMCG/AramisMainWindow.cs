@@ -433,5 +433,10 @@ namespace AtosFMCG
             {
             UserInterface.Current.ShowReport("Розбіжності при відборі");
             }
+
+        private void barButtonItem23_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowReport("Штрих-код працівника");
+            }
         }
     }

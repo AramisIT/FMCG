@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MatrixAdapter FrozenColumns="0">
+  <Tables/>
+  <LayoutsDefinitions>
+    <Layout Name="BarCode_DETAILS" StartNewPage="True" >
+      <Rows>
+        <Row Height="40" />
+        <Row Height="200" />
+      </Rows>
+      <!--390px-->
+      <Columns>
+        <Column Width="380" />
+      </Columns>
+      <Cells>
+        <Cell FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" CellValue="Name"  ValueType="Parameter" BehaviorOnDisplaying="Wrap"/>
+      </Cells>
+      <Items>
+        <Barcode Location="70,60" Size="220,150" RotateAngle="0" FontSize="0" BarcodeType="CODE128" ParameterName="barcode" ></Barcode>
+      </Items>
+    </Layout>
+  </LayoutsDefinitions>
+  <ReportPartitions>
+    <StaticPartition>
+      <Row>
+        <Atom Name="BarCode_DETAILS">
+          <DataParameter>Barcode</DataParameter>
+          <DataParameter>Name</DataParameter>
+        </Atom>
+      </Row>
+    </StaticPartition>
+  </ReportPartitions>
+</MatrixAdapter>

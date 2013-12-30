@@ -158,7 +158,9 @@ namespace WMS_client
             return false;
             }
 
-        public bool GetStickerData(long acceptanceId, long stickerId, out long nomenclatureId, out string nomenclatureDescription, out long trayId, out int unitsPerBox, out long cellId, out string cellDescription, out bool currentAcceptance)
+        public bool GetStickerData(long acceptanceId, long stickerId, out long nomenclatureId, out string nomenclatureDescription, out long trayId, 
+            out int totalUnitsQuantity, out int unitsPerBox, 
+            out long cellId, out string cellDescription, out bool currentAcceptance)
             {
             PerformQuery("GetStickerData", acceptanceId, stickerId);
 
@@ -167,16 +169,18 @@ namespace WMS_client
                 nomenclatureId = Convert.ToInt64(Parameters[0]);
                 nomenclatureDescription = Parameters[1] as string;
                 trayId = Convert.ToInt64(Parameters[2]);
-                unitsPerBox = Convert.ToInt32(Parameters[3]);
-                cellId = Convert.ToInt64(Parameters[4]);
-                cellDescription = Parameters[5] as string;
-                currentAcceptance = (bool)Parameters[6];
+                totalUnitsQuantity = Convert.ToInt32(Parameters[3]);
+                unitsPerBox = Convert.ToInt32(Parameters[4]);
+                cellId = Convert.ToInt64(Parameters[5]);
+                cellDescription = Parameters[6] as string;
+                currentAcceptance = (bool)Parameters[7];
                 return true;
                 }
 
             nomenclatureId = 0;
             nomenclatureDescription = null;
             trayId = 0;
+            totalUnitsQuantity = 0;
             unitsPerBox = 0;
             cellDescription = null;
             cellId = 0;
