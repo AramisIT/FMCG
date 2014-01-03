@@ -16,7 +16,7 @@ using FMCG.Utils;
 
 namespace Documents
     {
-    [Document(Description = "Інвентаризація", GUID = "0E87222E-830D-466A-826F-8ABBC4B36FEE", NumberType = NumberType.Int64, NumberIsReadonly = false)]
+    [Document(Description = "Інвентаризація", GUID = "0E87222E-830D-466A-826F-8ABBC4B36FEE", NumberType = NumberType.Int64, NumberIsReadonly = false, NumberUniquenessPeriod = NumberUniquenessPeriods.Year)]
     public class Inventory : DocumentTable
         {
         [DataField(Description = "Стан документу", ShowInList = true)]

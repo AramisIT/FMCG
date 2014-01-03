@@ -1280,11 +1280,12 @@ order by [LineNumber]";
 
         public bool CreatePickingDocuments()
             {
-            var sql = @"select distinct s.Id
-from ShipmentPlan s 
+            var sql = @"select s.Id from ShipmentPlan s 
 left join Moving m on m.PickingPlan = s.Id
-where s.MarkForDeleting = 0 
-and (m.MarkForDeleting = 1 or m.Id is null)";
+where s.MarkForDeleting = 0
+group by s.Id
+having Max(case when m.Id is null then 1 else m.MarkForDeleting end) = 1 
+and Min(case when m.Id is null then 1 else m.MarkForDeleting end) = 1";
             var docsIds = DB.NewQuery(sql).SelectToList<Int64>();
             docsIds.ForEach(id => createMoving(id));
             return true;

@@ -11,7 +11,7 @@ using Catalogs;
 namespace Documents
     {
     /// <summary>Відвантаження</summary>
-    [Document(Description = "Відвантаження", GUID = "003741EB-2D7A-49FD-B711-92A039FB4832", NumberType = NumberType.Int64, NumberIsReadonly = false)]
+    [Document(Description = "Відвантаження", GUID = "003741EB-2D7A-49FD-B711-92A039FB4832", NumberType = NumberType.Int64, NumberIsReadonly = false, NumberUniquenessPeriod = NumberUniquenessPeriods.Year)]
     public class Shipment : DocumentTable
         {
         #region Properties

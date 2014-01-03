@@ -14,7 +14,7 @@ using System.Drawing;
 namespace Documents
     {
     /// <summary>Переміщення</summary>
-    [Document(Description = "Переміщення", GUID = "015CC1EA-D666-431E-9D08-510395C78E4C", NumberType = NumberType.Int64, NumberIsReadonly = false)]
+    [Document(Description = "Переміщення", GUID = "015CC1EA-D666-431E-9D08-510395C78E4C", NumberType = NumberType.Int64, NumberIsReadonly = false, NumberUniquenessPeriod = NumberUniquenessPeriods.Year)]
     public class Moving : DocumentTable
         {
         [DataField(Description = "Стан документу", ShowInList = true)]

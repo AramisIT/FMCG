@@ -16,7 +16,7 @@ using Catalogs;
 namespace Documents
     {
     /// <summary>План відвантаження</summary>
-    [Document(Description = "План відбору", GUID = "029B0572-E5B5-48CD-9805-1211319A5633", NumberType = NumberType.Int32, NumberIsReadonly = false)]
+    [Document(Description = "План відбору", GUID = "029B0572-E5B5-48CD-9805-1211319A5633", NumberType = NumberType.Int32, NumberIsReadonly = false, NumberUniquenessPeriod = NumberUniquenessPeriods.Year)]
     public class ShipmentPlan : DocumentTable, IIncomeOwner, ISyncWith1C
         {
         #region Properties

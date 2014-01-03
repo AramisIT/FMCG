@@ -17,7 +17,7 @@ using TouchScreen.Models.Data;
 namespace Documents
     {
     /// <summary>План приходу</summary>
-    [Document(Description = "План приймання", GUID = "0455B8DB-F11B-4B3B-A727-D4E889A1EFCB", NumberType = NumberType.Int64, NumberIsReadonly = false, ShowLastModifiedDateInList = true)]
+    [Document(Description = "План приймання", GUID = "0455B8DB-F11B-4B3B-A727-D4E889A1EFCB", NumberType = NumberType.Int64, NumberIsReadonly = false, ShowLastModifiedDateInList = true, NumberUniquenessPeriod = NumberUniquenessPeriods.Year)]
     public class AcceptancePlan : DocumentTable, ISyncWith1C
         {
         #region Properties
