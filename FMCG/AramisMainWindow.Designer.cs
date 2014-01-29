@@ -76,6 +76,8 @@
             this.barButtonItem21 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem22 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem23 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem24 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem25 = new DevExpress.XtraBars.BarButtonItem();
             this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -154,10 +156,12 @@
             this.barButtonItem20,
             this.barButtonItem21,
             this.barButtonItem22,
-            this.barButtonItem23});
+            this.barButtonItem23,
+            this.barButtonItem24,
+            this.barButtonItem25});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 64;
+            this.ribbon.MaxItemId = 66;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
@@ -351,7 +355,7 @@
             // 
             // barButtonItem1
             // 
-            this.barButtonItem1.Caption = "Тачскрин";
+            this.barButtonItem1.Caption = "Тачскрин+";
             this.barButtonItem1.Id = 41;
             this.barButtonItem1.LargeGlyph = global::FMCG.Properties.Resources.Touchscreen_32;
             this.barButtonItem1.Name = "barButtonItem1";
@@ -502,6 +506,20 @@
             this.barButtonItem23.Name = "barButtonItem23";
             this.barButtonItem23.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openUsers_ItemClick);
             // 
+            // barButtonItem24
+            // 
+            this.barButtonItem24.Caption = "Сист. сообщение";
+            this.barButtonItem24.Id = 64;
+            this.barButtonItem24.Name = "barButtonItem24";
+            this.barButtonItem24.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem24_ItemClick);
+            // 
+            // barButtonItem25
+            // 
+            this.barButtonItem25.Caption = "Сист. повідомлення";
+            this.barButtonItem25.Id = 65;
+            this.barButtonItem25.Name = "barButtonItem25";
+            this.barButtonItem25.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem25_ItemClick);
+            // 
             // largeImagesCollection
             // 
             this.largeImagesCollection.ImageSize = new System.Drawing.Size(32, 32);
@@ -630,6 +648,7 @@
             // 
             this.testGroup.ItemLinks.Add(this.loadScreen);
             this.testGroup.ItemLinks.Add(this.tstInvoke);
+            this.testGroup.ItemLinks.Add(this.barButtonItem25);
             this.testGroup.Name = "testGroup";
             this.testGroup.Text = "Для тестів";
             // 
@@ -666,6 +685,7 @@
             // 
             this.testsPageGroup.ItemLinks.Add(this.barButtonItem9);
             this.testsPageGroup.ItemLinks.Add(this.barButtonItem21);
+            this.testsPageGroup.ItemLinks.Add(this.barButtonItem24);
             this.testsPageGroup.Name = "testsPageGroup";
             this.testsPageGroup.Text = "Тесты";
             // 
@@ -800,6 +820,8 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem21;
         private DevExpress.XtraBars.BarButtonItem barButtonItem22;
         private DevExpress.XtraBars.BarButtonItem barButtonItem23;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem24;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem25;
 
         }
     }

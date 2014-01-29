@@ -25,8 +25,8 @@ namespace TouchScreen.Models.Data
 
         public int StandartPalletsCount { get; set; }
         public int NonStandartPalletsCount { get; set; }
-        public int StandartPalletCountPer1 { get; set; }
-        public int NonStandartPalletCountPer1 { get; set; }
+        public int UnitsAmountInOneStandartPallet { get; set; }
+        public int UnitsAmountInOneNonStandartPallet { get; set; }
         public int UnitsOnNotFullPallet { get; set; }
         public int UnitsOnNotFullNonStandartPallet { get; set; }
 
@@ -40,16 +40,16 @@ namespace TouchScreen.Models.Data
 
         public void UpdateQuantity()
             {
-            Quantity = StandartPalletsCount * StandartPalletCountPer1 + UnitsOnNotFullPallet
-                       + NonStandartPalletsCount * NonStandartPalletCountPer1 + UnitsOnNotFullNonStandartPallet;
+            Quantity = StandartPalletsCount * UnitsAmountInOneStandartPallet + UnitsOnNotFullPallet
+                       + NonStandartPalletsCount * UnitsAmountInOneNonStandartPallet + UnitsOnNotFullNonStandartPallet;
             }
 
         public void UpdatePalletQuantity()
             {
             NonStandartPalletsCount = 0;
             UnitsOnNotFullNonStandartPallet = 0;
-            StandartPalletsCount = StandartPalletCountPer1 == 0 ? 0 : Quantity / StandartPalletCountPer1;
-            UnitsOnNotFullPallet = Quantity - StandartPalletsCount * StandartPalletCountPer1;
+            StandartPalletsCount = UnitsAmountInOneStandartPallet == 0 ? 0 : Quantity / UnitsAmountInOneStandartPallet;
+            UnitsOnNotFullPallet = Quantity - StandartPalletsCount * UnitsAmountInOneStandartPallet;
             }
         }
     }

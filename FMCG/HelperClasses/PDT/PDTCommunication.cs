@@ -644,7 +644,7 @@ FROM LastPalletInCell ");
 
         public bool GetStickerData(long acceptanceId, long stickerId,
                 out long nomenclatureId, out string nomenclatureDescription, out long trayId,
-                out int totalUnitsQuantity, out int unitsPerBox, 
+                out int totalUnitsQuantity, out int unitsPerBox,
                 out long cellId, out string cellDescription, out bool currentAcceptance)
             {
             long stickerAcceptanceId;
@@ -774,7 +774,7 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
 
         public bool GetPalletBalance(long palletId,
             out long nomenclatureId,
-            out string nomenclatureDescription, 
+            out string nomenclatureDescription,
             out long trayId, out long linerId, out byte linersAmount,
             out int unitsPerBox, out long cellId, out string cellDescription, out long previousPalletCode, out DateTime productionDate, out long partyId)
             {
@@ -1327,6 +1327,9 @@ order by LineNumber");
             {
             var user = new Users();
             user.Read(userId);
+
+            SystemMessage.InstanceMessage.Message = "descr = " + user.Description;
+            
             return user.Description;
             }
         }

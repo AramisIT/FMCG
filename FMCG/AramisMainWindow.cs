@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Media;
 using Aramis.Core.WritingUtils;
 using Aramis.DatabaseConnector;
 using Aramis.DatabaseUpdating;
@@ -439,5 +440,64 @@ namespace AtosFMCG
             UserInterface.Current.ShowReport("Штрих-код працівника");
             }
 
+        private void barButtonItem24_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            SystemMessage.InstanceMessage.Show();
+            }
+
+        private void barButtonItem25_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            SystemMessage.InstanceMessage.Show();
+            }
+
+        }
+
+    public class SystemMessage
+        {
+        public static SystemMessage systemMessage;
+        public static SystemMessage InstanceMessage
+            {
+            get
+                {
+                if (systemMessage == null)
+                    {
+                    systemMessage = new SystemMessage();
+                    }
+
+                return systemMessage;
+                }
+            }
+
+        private SystemMessage()
+            {
+            locker = new object();
+            }
+
+        private object locker;
+
+        private string message;
+        public string Message
+            {
+            set
+                {
+                lock (locker)
+                    {
+                    message = value;
+                    }
+                }
+
+            get
+                {
+                lock (locker)
+                    {
+                    return message;
+                    }
+                }
+            }
+
+        public void Show()
+            {
+            Message.AlertBox();
+            }
         }
     }

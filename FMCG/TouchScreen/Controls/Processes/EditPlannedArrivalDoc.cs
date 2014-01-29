@@ -552,17 +552,17 @@ and MarkForDeleting = 0
                         break;
 
                     case EditedColumns.StandartPalletCountPer1:
-                        updateEditControl(() => installNumberEditEditior(selectedRow.StandartPalletCountPer1, (enteredValue) =>
+                        updateEditControl(() => installNumberEditEditior(selectedRow.UnitsAmountInOneStandartPallet, (enteredValue) =>
                         {
-                            selectedRow.StandartPalletCountPer1 = enteredValue;
+                            selectedRow.UnitsAmountInOneStandartPallet = enteredValue;
                             selectedRow.UpdateQuantity();
                         }, "Кількість од. на стандарт. пал. змінено!"));
                         break;
 
                     case EditedColumns.NonStandartPalletCountPer1:
-                        updateEditControl(() => installNumberEditEditior(selectedRow.NonStandartPalletCountPer1, (enteredValue) =>
+                        updateEditControl(() => installNumberEditEditior(selectedRow.UnitsAmountInOneNonStandartPallet, (enteredValue) =>
                             {
-                                selectedRow.NonStandartPalletCountPer1 = enteredValue;
+                                selectedRow.UnitsAmountInOneNonStandartPallet = enteredValue;
                                 selectedRow.UpdateQuantity();
                             }, "Кількість од. на нестандарт. пал. змінено!"));
                         break;
@@ -665,8 +665,8 @@ and MarkForDeleting = 0
 
                 var nomenclature = new Nomenclature();
                 nomenclature.Read(value.Key);
-                selectedRow.StandartPalletCountPer1 = nomenclature.UnitsQuantityPerPallet;
-                selectedRow.NonStandartPalletCountPer1 = 0;
+                selectedRow.UnitsAmountInOneStandartPallet = nomenclature.UnitsQuantityPerPallet;
+                selectedRow.UnitsAmountInOneNonStandartPallet = 0;
                 selectedRow.UpdatePalletQuantity();
 
                 grid.RefreshDataSource();
@@ -870,7 +870,7 @@ and MarkForDeleting = 0
                             LineNumber = Convert.ToInt64(row["LineNumber"]),
                             Description = new ObjectValue(nomenclatureDescription, nomemclatureId),
                             ShelfLifeDays = shelfLifeDays,
-                            StandartPalletCountPer1 = unitsQuantityPerPallet
+                            UnitsAmountInOneStandartPallet = unitsQuantityPerPallet
                         };
 
                     element.Quantity = Convert.ToInt32(row[isTare ? Document.TareCount : Document.NomenclatureCount]);

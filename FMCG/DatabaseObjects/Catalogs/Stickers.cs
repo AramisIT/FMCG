@@ -144,6 +144,29 @@ namespace Catalogs
             }
         private int z_UnitsQuantity;
 
+        /// <summary>
+        /// Количество единиц в целой паллете (начальное количество паллет)
+        /// </summary>
+        [DataField(Description = "Количество единиц в целой паллете", ShowInList = true)]
+        public int StartUnitsQuantity
+            {
+            get
+                {
+                return z_StartUnitsQuantity;
+                }
+            set
+                {
+                if (z_StartUnitsQuantity == value)
+                    {
+                    return;
+                    }
+
+                z_StartUnitsQuantity = value;
+                NotifyPropertyChanged("StartUnitsQuantity");
+                }
+            }
+        private int z_StartUnitsQuantity;
+
         [DataField(Description = "Дата производства", ShowInList = false)]
         public DateTime ReleaseDate
             {

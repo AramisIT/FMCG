@@ -418,7 +418,7 @@
             this.standartPalletCountPer1Column.Caption = "Ед. в палл.";
             this.standartPalletCountPer1Column.DisplayFormat.FormatString = "{0:n0}";
             this.standartPalletCountPer1Column.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.standartPalletCountPer1Column.FieldName = "StandartPalletCountPer1";
+            this.standartPalletCountPer1Column.FieldName = "UnitsAmountInOneStandartPallet";
             this.standartPalletCountPer1Column.Name = "standartPalletCountPer1Column";
             this.standartPalletCountPer1Column.OptionsColumn.ReadOnly = true;
             this.standartPalletCountPer1Column.Visible = true;
@@ -435,7 +435,7 @@
             this.nonStandartPalletCountPer1Column.Caption = "Ед. на нест п.";
             this.nonStandartPalletCountPer1Column.DisplayFormat.FormatString = "{0:n0}";
             this.nonStandartPalletCountPer1Column.DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-            this.nonStandartPalletCountPer1Column.FieldName = "NonStandartPalletCountPer1";
+            this.nonStandartPalletCountPer1Column.FieldName = "UnitsAmountInOneNonStandartPallet";
             this.nonStandartPalletCountPer1Column.Name = "nonStandartPalletCountPer1Column";
             this.nonStandartPalletCountPer1Column.OptionsColumn.ReadOnly = true;
             this.nonStandartPalletCountPer1Column.RowIndex = 1;
