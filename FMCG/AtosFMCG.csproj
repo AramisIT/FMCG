@@ -120,6 +120,7 @@
     <Compile Include="AramisMainWindow.Designer.cs">
       <DependentUpon>AramisMainWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="DatabaseObjects\Catalogs\Barcodes.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Carriers.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Cells.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Cities.cs" />

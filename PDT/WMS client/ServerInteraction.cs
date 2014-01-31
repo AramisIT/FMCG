@@ -422,5 +422,26 @@ namespace WMS_client
 
             return Parameters[1] as string;
             }
+
+        public DataTable GetWares(string barcode)
+            {
+            PerformQuery("GetWares", barcode);
+            if (!success) return null;
+
+            return Parameters[1] as DataTable;
+            }
+
+        public bool SetBarcode(string barcode, long stickerId, out bool recordWasAdded)
+            {
+            PerformQuery("SetBarcode", barcode, stickerId);
+            if (!success)
+                {
+                recordWasAdded = false;
+                return false;
+                }
+
+            recordWasAdded = (bool)Parameters[1];
+            return true;
+            }
         }
     }

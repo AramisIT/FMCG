@@ -15,6 +15,7 @@ using AtosFMCG.DatabaseObjects.Documents;
 using AtosFMCG.Enums;
 using AtosFMCG.TouchScreen.PalletSticker;
 using Catalogs;
+using DevExpress.XtraBars;
 using Documents;
 using FMCG.DatabaseObjects.Enums;
 using FMCG.HelperClasses.PDT;
@@ -1329,8 +1330,42 @@ order by LineNumber");
             user.Read(userId);
 
             SystemMessage.InstanceMessage.Message = "descr = " + user.Description;
-            
+
             return user.Description;
+            }
+
+        public DataTable GetWares(string barcode)
+            {
+            var q = DB.NewQuery(@"select n.Id, rtrim(n.Description) [Description]
+from Barcodes b
+join Nomenclature n on n.Id = b.Nomenclature
+where b.Description = @barcode");
+            q.AddInputParameter("barcode", barcode);
+
+            var result = q.SelectToTable();
+            return result;
+            }
+
+        public bool SetBarcode(string barcode, long stickerId, out bool recordWasAdded)
+            {
+            var sticker = new Stickers();
+            sticker.Read(stickerId);
+            var nomenclatureId = sticker.GetRef("Nomenclature");
+
+            foreach (DataRow row in GetWares(barcode).Rows)
+                {
+                var barcodeAlreadyAttached = (long)row["Id"] == nomenclatureId;
+                if (barcodeAlreadyAttached)
+                    {
+                    recordWasAdded = false;
+                    return true;
+                    }
+                }
+
+            var barcodeRecord = new Barcodes() { Description = barcode };
+            barcodeRecord.SetRef("Nomenclature", nomenclatureId);
+            recordWasAdded = barcodeRecord.Write() == WritingResult.Success;
+            return recordWasAdded;
             }
         }
     }

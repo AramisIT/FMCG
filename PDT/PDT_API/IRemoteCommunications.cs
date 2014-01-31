@@ -195,5 +195,9 @@ namespace pdtExternalStorage
         bool CreatePickingDocuments();
 
         string GetUserName(int userId);
+
+        DataTable GetWares(string barcode);
+
+        bool SetBarcode(string barcode, long stickerId, out bool recordWasAdded);
         }
     }

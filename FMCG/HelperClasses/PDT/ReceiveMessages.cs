@@ -128,6 +128,14 @@ namespace AtosFMCG.HelperClasses.PDT
 
                 case "GetUserName":
                     return new object[] { true, communication.GetUserName(Convert.ToInt32(parameters[0])) };
+
+                case "GetWares":
+                    return new object[] { true, communication.GetWares(parameters[0] as string) };
+
+                case "SetBarcode":
+                    bool recordWasAdded;
+                    var setBarcodeResult = communication.SetBarcode(parameters[0] as string, Convert.ToInt64(parameters[1]), out recordWasAdded);
+                    return new object[] { setBarcodeResult, recordWasAdded };
                 }
 
             return new object[0];

@@ -15,7 +15,8 @@ namespace WMS_client.Processes
             Inventory,
             Selection,
             Movement,
-            StickerRepeating
+            StickerRepeating,
+            BarcodeChecking
             }
 
         /// <summary>Вибір процесу</summary>
@@ -42,7 +43,8 @@ namespace WMS_client.Processes
                             new TableData((long) Processes.Inventory, "Інвентаризація", string.Empty),
                             new TableData((long) Processes.Selection, "Відбір", movementDocCount),
                             new TableData((long) Processes.Movement, "Переміщення", string.Empty),
-                            new TableData((long) Processes.StickerRepeating, "Повтор етикетки", string.Empty)
+                            new TableData((long) Processes.StickerRepeating, "Повтор етикетки", string.Empty),
+                            new TableData((long) Processes.BarcodeChecking, "Перевірка штрих-коду", string.Empty)
                         };
                 MainProcess.ClearControls();
                 MainProcess.Process = new SelectTableList(
@@ -82,7 +84,7 @@ namespace WMS_client.Processes
             {
             if (MainProcess.User <= 0)
                 {
-                "Необхідно авторизуватися (відсканувати себе)!".Warning();                
+                "Необхідно авторизуватися (відсканувати себе)!".Warning();
                 return;
                 }
             BusinessProcess process = null;
@@ -108,6 +110,10 @@ namespace WMS_client.Processes
                 case Processes.StickerRepeating:
                     MainProcess.ClearControls();
                     process = new StickerRepeating();
+                    break;
+                case Processes.BarcodeChecking:
+                    MainProcess.ClearControls();
+                    process = new BarcodeChecking();
                     break;
                 }
 
