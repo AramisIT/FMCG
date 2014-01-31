@@ -199,5 +199,7 @@ namespace pdtExternalStorage
         DataTable GetWares(string barcode);
 
         bool SetBarcode(string barcode, long stickerId, out bool recordWasAdded);
+
+        void SetPalletStatus(long stickerId, bool fullPallet);
         }
     }

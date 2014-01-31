@@ -88,6 +88,7 @@
     <Compile Include="Processes\BusinessProcess\Acceptance.cs" />
     <Compile Include="Processes\ProcessData\IProcessData.cs" />
     <Compile Include="Processes\SelectingProcess.cs" />
+    <Compile Include="Processes\TempProcess\IsPalletFull.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">

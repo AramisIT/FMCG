@@ -136,6 +136,10 @@ namespace AtosFMCG.HelperClasses.PDT
                     bool recordWasAdded;
                     var setBarcodeResult = communication.SetBarcode(parameters[0] as string, Convert.ToInt64(parameters[1]), out recordWasAdded);
                     return new object[] { setBarcodeResult, recordWasAdded };
+
+                case "SetPalletStatus":
+                    communication.SetPalletStatus(Convert.ToInt64(parameters[0]), (bool)parameters[1]);
+                    break;
                 }
 
             return new object[0];

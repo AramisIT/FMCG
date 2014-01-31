@@ -158,8 +158,8 @@ namespace WMS_client
             return false;
             }
 
-        public bool GetStickerData(long acceptanceId, long stickerId, out long nomenclatureId, out string nomenclatureDescription, out long trayId, 
-            out int totalUnitsQuantity, out int unitsPerBox, 
+        public bool GetStickerData(long acceptanceId, long stickerId, out long nomenclatureId, out string nomenclatureDescription, out long trayId,
+            out int totalUnitsQuantity, out int unitsPerBox,
             out long cellId, out string cellDescription, out bool currentAcceptance)
             {
             PerformQuery("GetStickerData", acceptanceId, stickerId);
@@ -442,6 +442,11 @@ namespace WMS_client
 
             recordWasAdded = (bool)Parameters[1];
             return true;
+            }
+
+        public void SetPalletStatus(long stickerId, bool fullPallet)
+            {
+            PerformQuery("SetPalletStatus", stickerId, fullPallet);
             }
         }
     }

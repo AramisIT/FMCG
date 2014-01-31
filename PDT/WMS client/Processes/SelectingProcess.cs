@@ -16,7 +16,11 @@ namespace WMS_client.Processes
             Selection,
             Movement,
             StickerRepeating,
-            BarcodeChecking
+            BarcodeChecking,
+
+
+            // temp processes
+            IsPalletFull
             }
 
         /// <summary>Вибір процесу</summary>
@@ -44,7 +48,10 @@ namespace WMS_client.Processes
                             new TableData((long) Processes.Selection, "Відбір", movementDocCount),
                             new TableData((long) Processes.Movement, "Переміщення", string.Empty),
                             new TableData((long) Processes.StickerRepeating, "Повтор етикетки", string.Empty),
-                            new TableData((long) Processes.BarcodeChecking, "Перевірка штрих-коду", string.Empty)
+                            new TableData((long) Processes.BarcodeChecking, "Перевірка штрих-коду", string.Empty),
+
+
+                            new TableData((long) Processes.IsPalletFull, "Чи розпакована палета?", string.Empty)
                         };
                 MainProcess.ClearControls();
                 MainProcess.Process = new SelectTableList(
@@ -114,6 +121,11 @@ namespace WMS_client.Processes
                 case Processes.BarcodeChecking:
                     MainProcess.ClearControls();
                     process = new BarcodeChecking();
+                    break;
+
+                case Processes.IsPalletFull:
+                    MainProcess.ClearControls();
+                    process = new IsPalletFull();
                     break;
                 }
 

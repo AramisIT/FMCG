@@ -1367,5 +1367,36 @@ where b.Description = @barcode");
             recordWasAdded = barcodeRecord.Write() == WritingResult.Success;
             return recordWasAdded;
             }
+
+
+        public void SetPalletStatus(long stickerId, bool fullPallet)
+            {
+            var sticker = new Stickers();
+            sticker.Read(stickerId);
+
+            if (sticker.StartUnitsQuantity > 0)
+                {
+                return;
+                }
+
+            if (fullPallet)
+                {
+                sticker.StartUnitsQuantity = sticker.UnitsQuantity;
+                }
+            else
+                {
+                if (sticker.Nomenclature.UnitsQuantityPerPallet > sticker.UnitsQuantity)
+                    {
+                    sticker.StartUnitsQuantity = sticker.Nomenclature.UnitsQuantityPerPallet;
+                    }
+                else
+                    {
+                    // на практике такой ситуации не должно быть. Если же есть, главное, чтобы нач. количество было больше текущего
+                    sticker.StartUnitsQuantity = sticker.UnitsQuantity + 1;
+                    }
+                }
+
+            sticker.Write();
+            }
         }
     }
