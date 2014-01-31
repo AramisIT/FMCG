@@ -28,24 +28,29 @@ namespace WMS_client.Processes
             const int delta = 27;
 
             top += delta;
-            infoLabel = MainProcess.CreateLabel(string.Empty, 10, top, 230,
-                MobileFontSize.Normal, MobileFontPosition.Center, MobileFontColors.Default, FontStyle.Bold);
+            infoLabel = MainProcess.CreateLabel(string.Empty, 0, top, 240,
+                MobileFontSize.Little, MobileFontPosition.Center, MobileFontColors.Default, FontStyle.Bold);
 
             top += delta;
             additionalInfoLabel = MainProcess.CreateLabel(string.Empty, 10, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
-            top = 250;
+            top = 230;
             taskLabel = MainProcess.CreateLabel(string.Empty, 10, top, 220,
                MobileFontSize.Normal, MobileFontPosition.Center, MobileFontColors.Warning, FontStyle.Bold);
+
+            top += delta * 2;
+            MainProcess.CreateLabel("Завершення операції  -  Esc", 10, top, 220,
+               MobileFontSize.Normal, MobileFontPosition.Center, MobileFontColors.Default, FontStyle.Regular);
 
             showStartProcessMessage();
             }
 
         private void showStartProcessMessage()
             {
-            taskLabel.Text = "Скануйте штрих-код товару";
+            taskLabel.Text = "Скануйте продукцію";
             additionalInfoLabel.Text = string.Empty;
+            wareBarcode = null;
             }
 
         public override void OnBarcode(string barcode)
@@ -96,7 +101,8 @@ namespace WMS_client.Processes
             wareBarcode = barcode;
             if (table.Rows.Count > 0)
                 {
-                infoLabel.Text = table.Rows[0]["Description"] as string;
+                var wareName =table.Rows[0]["Description"] as string;
+                infoLabel.Text = wareName.Substring(0, Math.Min(wareName.Length, 40));
                 }
             additionalInfoLabel.Text = string.Format("Всього позицій: {0}", table.Rows.Count);
             taskLabel.Text = "Скануйте палету";
