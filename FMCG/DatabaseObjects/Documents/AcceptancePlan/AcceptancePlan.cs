@@ -393,8 +393,10 @@ namespace Documents
                 var createSpecificStikers = nomenclatureData.StandartPalletsCount > 0 ||
                                             nomenclatureData.NonStandartPalletsCount > 0;
 
+                var trayId = nomenclatureData.WithoutTray ? 0 : Consts.StandartTray.Id;
+
                 // список кортежей: первый элемент - кол-во упаковок, второй - количество штук, третий - Id поддона
-                var pallets = createSpecificStikers ? buildNonStandartQuantitiesList(nomenclatureData, countInOnePack) : buildStandartQuantitiesList(nomenclatureCount, countInOnePalet, countInOnePack);
+                var pallets = createSpecificStikers ? buildNonStandartQuantitiesList(nomenclatureData, countInOnePack, trayId) : buildStandartQuantitiesList(nomenclatureCount, countInOnePalet, countInOnePack, trayId);
 
                 foreach (var unitsQuantity in pallets)
                     {
@@ -410,34 +412,34 @@ namespace Documents
             return result;
             }
 
-        private List<Tuple<int, int, long, int>> buildNonStandartQuantitiesList(NomenclatureData nomenclatureData, int countInOnePack)
+        private List<Tuple<int, int, long, int>> buildNonStandartQuantitiesList(NomenclatureData nomenclatureData, int countInOnePack, long trayId)
             {
             var pallets = new List<Tuple<int, int, long, int>>();
-
+            
             for (int stickerIndex = 0; stickerIndex < nomenclatureData.StandartPalletsCount; stickerIndex++)
                 {
-                pallets.Add(new Tuple<int, int, long, int>(nomenclatureData.UnitsAmountInOneStandartPallet / countInOnePack, nomenclatureData.UnitsAmountInOneStandartPallet, Consts.StandartTray.Id, nomenclatureData.UnitsAmountInOneStandartPallet));
+                pallets.Add(new Tuple<int, int, long, int>(nomenclatureData.UnitsAmountInOneStandartPallet / countInOnePack, nomenclatureData.UnitsAmountInOneStandartPallet, trayId, nomenclatureData.UnitsAmountInOneStandartPallet));
                 }
 
             if (nomenclatureData.UnitsOnNotFullPallet > 0)
                 {
-                pallets.Add(new Tuple<int, int, long, int>(nomenclatureData.UnitsOnNotFullPallet / countInOnePack, nomenclatureData.UnitsOnNotFullPallet, Consts.StandartTray.Id, nomenclatureData.UnitsAmountInOneStandartPallet));
+                pallets.Add(new Tuple<int, int, long, int>(nomenclatureData.UnitsOnNotFullPallet / countInOnePack, nomenclatureData.UnitsOnNotFullPallet, trayId, nomenclatureData.UnitsAmountInOneStandartPallet));
                 }
 
             for (int stickerIndex = 0; stickerIndex < nomenclatureData.NonStandartPalletsCount; stickerIndex++)
                 {
-                pallets.Add(new Tuple<int, int, long, int>(nomenclatureData.UnitsAmountInOneNonStandartPallet / countInOnePack, nomenclatureData.UnitsAmountInOneNonStandartPallet, Consts.NonStandartTray.Id, nomenclatureData.UnitsAmountInOneNonStandartPallet));
+                pallets.Add(new Tuple<int, int, long, int>(nomenclatureData.UnitsAmountInOneNonStandartPallet / countInOnePack, nomenclatureData.UnitsAmountInOneNonStandartPallet, trayId, nomenclatureData.UnitsAmountInOneNonStandartPallet));
                 }
 
             if (nomenclatureData.UnitsOnNotFullNonStandartPallet > 0)
                 {
-                pallets.Add(new Tuple<int, int, long, int>(nomenclatureData.UnitsOnNotFullNonStandartPallet / countInOnePack, nomenclatureData.UnitsOnNotFullNonStandartPallet, Consts.NonStandartTray.Id, nomenclatureData.UnitsAmountInOneNonStandartPallet));
+                pallets.Add(new Tuple<int, int, long, int>(nomenclatureData.UnitsOnNotFullNonStandartPallet / countInOnePack, nomenclatureData.UnitsOnNotFullNonStandartPallet, trayId, nomenclatureData.UnitsAmountInOneNonStandartPallet));
                 }
 
             return pallets;
             }
 
-        private List<Tuple<int, int, long, int>> buildStandartQuantitiesList(int nomenclatureCount, int countInOnePalet, int countInOnePack)
+        private List<Tuple<int, int, long, int>> buildStandartQuantitiesList(int nomenclatureCount, int countInOnePalet, int countInOnePack, long trayId)
             {
             var pallets = new List<Tuple<int, int, long, int>>();
             while (nomenclatureCount > 0)
@@ -446,7 +448,7 @@ namespace Documents
                     {
                     nomenclatureCount -= countInOnePalet;
                     var packsCount = countInOnePack == 0 ? 0 : (int)(countInOnePalet / countInOnePack);
-                    pallets.Add(new Tuple<int, int, long, int>(packsCount, countInOnePalet, Consts.StandartTray.Id, countInOnePalet));
+                    pallets.Add(new Tuple<int, int, long, int>(packsCount, countInOnePalet, trayId, countInOnePalet));
                     }
                 else
                     {
@@ -455,7 +457,7 @@ namespace Documents
                         {
                         packsCount++;
                         }
-                    pallets.Add(new Tuple<int, int, long, int>(packsCount, nomenclatureCount, Consts.StandartTray.Id, countInOnePalet));
+                    pallets.Add(new Tuple<int, int, long, int>(packsCount, nomenclatureCount, trayId, countInOnePalet));
                     nomenclatureCount = 0;
                     }
                 }

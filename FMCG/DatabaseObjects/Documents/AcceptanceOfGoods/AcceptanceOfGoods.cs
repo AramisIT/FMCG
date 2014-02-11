@@ -318,7 +318,7 @@ and MarkForDeleting = 0");
             q.AddInputParameter("Driver", Driver.Id);
             q.AddInputParameter("Car", Car.Id);
             Plans.Rows.Clear();
-            q.Foreach(qResult => addPlanDocument(Convert.ToInt64(qResult[0])));
+            q.Foreach(qResult => addPlanDocument((long)qResult["Id"]));
             }
 
         private void addPlanDocument(long acceptancePlanId)

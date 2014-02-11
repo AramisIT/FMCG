@@ -84,6 +84,27 @@ namespace Catalogs
             }
         private bool z_AsDefaultNonStandartPallets;
 
+
+        [DataField(Description = "Прием без поддонов", ShowInList = true)]
+        public bool WithoutTray
+            {
+            get
+                {
+                return z_WithoutTray;
+                }
+            set
+                {
+                if (z_WithoutTray == value)
+                    {
+                    return;
+                    }
+
+                z_WithoutTray = value;
+                NotifyPropertyChanged("WithoutTray");
+                }
+            }
+        private bool z_WithoutTray;
+
         [DataField(Description = "Кіль-ть в упаковці", ShowInList = true)]
         public int UnitsQuantityPerPack
             {

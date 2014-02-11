@@ -666,6 +666,7 @@ and MarkForDeleting = 0
                 var nomenclature = new Nomenclature();
                 nomenclature.Read(value.Key);
                 selectedRow.UnitsAmountInOneStandartPallet = nomenclature.UnitsQuantityPerPallet;
+                selectedRow.WithoutTray = nomenclature.WithoutTray;
                 selectedRow.UnitsAmountInOneNonStandartPallet = 0;
                 selectedRow.UpdatePalletQuantity();
 
@@ -848,6 +849,7 @@ and MarkForDeleting = 0
                     long nomemclatureId = (long)row[isTare ? Document.Tare : Document.Nomenclature];
 
                     string nomenclatureDescription = null;
+                    bool withoutTray = false;
                     var shelfLifeDays = 0;
                     var unitsQuantityPerPallet = 0;
 
@@ -863,6 +865,7 @@ and MarkForDeleting = 0
                         nomenclatureDescription = nomenclature.Description;
                         shelfLifeDays = nomenclature.ShelfLife;
                         unitsQuantityPerPallet = nomenclature.UnitsQuantityPerPallet;
+                        withoutTray = nomenclature.WithoutTray;
                         }
 
                     NomenclatureData element = new NomenclatureData
@@ -870,7 +873,8 @@ and MarkForDeleting = 0
                             LineNumber = Convert.ToInt64(row["LineNumber"]),
                             Description = new ObjectValue(nomenclatureDescription, nomemclatureId),
                             ShelfLifeDays = shelfLifeDays,
-                            UnitsAmountInOneStandartPallet = unitsQuantityPerPallet
+                            UnitsAmountInOneStandartPallet = unitsQuantityPerPallet,
+                            WithoutTray = withoutTray
                         };
 
                     element.Quantity = Convert.ToInt32(row[isTare ? Document.TareCount : Document.NomenclatureCount]);
@@ -938,7 +942,7 @@ and MarkForDeleting = 0
                 }
             else
                 {
-                tare = new NomenclatureData()
+                tare = new NomenclatureData
                     {
                         Description = new ObjectValue(nomenclatureTray.Description, nomenclatureTray.Id),
                         Quantity = standartTrays

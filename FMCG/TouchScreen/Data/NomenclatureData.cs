@@ -30,6 +30,11 @@ namespace TouchScreen.Models.Data
         public int UnitsOnNotFullPallet { get; set; }
         public int UnitsOnNotFullNonStandartPallet { get; set; }
 
+        public NomenclatureData()
+            {
+            
+            }
+
         public static NomenclatureData ZeroValue
             {
             get
@@ -51,5 +56,7 @@ namespace TouchScreen.Models.Data
             StandartPalletsCount = UnitsAmountInOneStandartPallet == 0 ? 0 : Quantity / UnitsAmountInOneStandartPallet;
             UnitsOnNotFullPallet = Quantity - StandartPalletsCount * UnitsAmountInOneStandartPallet;
             }
+
+        public bool WithoutTray { get; set; }
         }
     }
