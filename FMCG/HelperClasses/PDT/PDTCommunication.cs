@@ -27,12 +27,8 @@ namespace AtosFMCG.HelperClasses.PDT
     {
     public class PDTCommunication : IRemoteCommunications
         {
-        #region Get
-        /// <summary>К-сть документів, що чекають обробки</summary>
-        /// <param name="acceptanceDocCount">К-сть документів "Прийманя"</param>
-        /// <param name="inventoryDocCount">К-сть документів "Інветаризація"</param>
-        /// <param name="selectionDocCount">К-сть документів "Відбір"</param>
-        /// <param name="movementDocCount">К-сть документів "Переміщення"</param>
+        
+        /// <summary>Получить кол-во документов доступных для обработки</summary>
         public bool GetCountOfDocuments(out string acceptanceDocCount, out string inventoryDocCount,
                                         out string selectionDocCount, out string movementDocCount)
             {
@@ -88,86 +84,6 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Picking])) a
                 }
 
             return true;
-            }
-
-
-
-        /// <summary>ІД документу плану приймання</summary>
-        /// <param name="count">Кількість товару</param>
-        /// <param name="goods">ІД товару</param>
-        /// <param name="car">ІД машини</param>
-        /// <returns>ІД документу плану приймання</returns>
-        private static long getIncomeDoc(double count, long goods, long car)
-            {
-            Query query = DB.NewQuery(@"--DECLARE @Goods	BIGINT=1
---DECLARE @Car	BIGINT=2
-DECLARE @Date	DATETIME2=CAST(GETDATE() AS DATE);
-
-WITH
-PlanData AS (
-	SELECT a.Id,SUM(n.NomenclatureCount) Count
-	FROM AcceptanceOfGoods a
-	JOIN AcceptancePlan p ON p.Id=a.Source
-	JOIN SubAcceptancePlanNomenclatureInfo n ON n.IdDoc=p.Id
-	WHERE 
-		a.MarkForDeleting=0 AND 
-		a.State=0 AND 
-		p.Car=@Car AND
-		n.Nomenclature=@Goods
-	GROUP BY a.Id)
-,FactData AS(
-	SELECT a.Id,SUM(n.NomenclatureCount) Count
-	FROM AcceptanceOfGoods a
-	JOIN AcceptancePlan p ON p.Id=a.Source
-	JOIN SubAcceptanceOfGoodsNomenclatureInfo n ON n.IdDoc=a.Id
-	WHERE
-		a.MarkForDeleting=0 AND
-		a.State=0 AND
-		p.Car=@Car AND
-		n.Nomenclature=@Goods
-	GROUP BY a.Id)
-
-SELECT 
-	a.Id,
-	ISNULL(p.Count,0) PlanCount,
-	ISNULL(f.Count,0) FactCount
-FROM AcceptanceOfGoods a 
-LEFT JOIN PlanData p ON p.Id=a.Id
-LEFT JOIN FactData f ON f.Id=a.Id
-JOIN AcceptancePlan pa ON pa.Id=a.Source
-WHERE 
-	a.MarkForDeleting=0
-	AND a.State<>4 -- 4='Завершено'
-	AND CAST(pa.Date AS DATE)=@Date
-");
-            query.AddInputParameter("Goods", goods);
-            query.AddInputParameter("Car", car);
-            DataTable table = query.SelectToTable();
-
-            if (table != null && table.Rows.Count > 0)
-                {
-                foreach (DataRow row in table.Rows)
-                    {
-                    double plan = Convert.ToDouble(row["PlanCount"]);
-                    double fact = Convert.ToDouble(row["FactCount"]);
-
-                    if (plan >= fact + count)
-                        {
-                        return Convert.ToInt64(row["Id"]);
-                        }
-                    }
-
-                //Якщо нема документу, що задовільняє умови - взяти перший
-                return Convert.ToInt64(table.Rows[0]["Id"]);
-                }
-
-            return 0L;
-            }
-        #endregion
-
-        public bool GetDataAboutMovingPallet(int palletId, out string goods, out DateTime date, out double boxCount, out double bottleCount)
-            {
-            throw new NotImplementedException();
             }
 
         public bool GetTareTable(out DataTable tareTable)

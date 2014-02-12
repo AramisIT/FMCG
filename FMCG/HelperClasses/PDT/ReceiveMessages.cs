@@ -235,12 +235,6 @@ namespace AtosFMCG.HelperClasses.PDT
             return new object[] { acceptanceId };
             }
 
-        #region Get
-       
-       
-
-
-
         /// <summary>
         /// К-сть документів, що чекають обробки
         /// </summary>
@@ -286,21 +280,6 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
             return new object[] { false };
             }
 
-        #endregion
-
-        #region Set
-       
-
-
-
-        #endregion
-
-        #region Check
-     
-
-
-
-
         private static object[] GetTareTable(object[] parameters)
             {
             DataTable table;
@@ -311,7 +290,6 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
 
             return new object[] { table };
             }
-
 
         private static object[] GetStickerData(object[] parameters)
             {
@@ -340,7 +318,6 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
 
             return new object[] { result, message };
             }
-
-        #endregion
+       
         }
     }
