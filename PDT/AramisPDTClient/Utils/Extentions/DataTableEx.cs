@@ -149,12 +149,51 @@ namespace System
 
         public static List<CatalogItem> ToItemsList(this DataTable table)
             {
-            var result = new List<CatalogItem>();
+            var itemsList = new List<CatalogItem>();
+            if (table == null || table.Rows.Count == 0) return itemsList;
+
+            DataColumn idColumn = null;
+            DataColumn descriptionColumn = null;
+
+            const string descriptionColumnName = "Description";
+            const string idColumnName = "Id";
+
+            if (table.Columns.Contains(descriptionColumnName) && table.Columns.Contains(idColumnName))
+                {
+                idColumn = table.Columns[idColumnName];
+                descriptionColumn = table.Columns[descriptionColumnName];
+                }
+            else
+                {
+                foreach (DataColumn column in table.Columns)
+                    {
+                    if (descriptionColumn == null && column.ColumnName != idColumnName && column.DataType.Equals(typeof(string)))
+                        {
+                        descriptionColumn = column;
+                        }
+
+                    if (idColumn == null && column.ColumnName != descriptionColumnName)
+                        {
+                        idColumn = column;
+                        }
+                    }
+
+                if (idColumn == null || descriptionColumn == null)
+                    {
+                    string.Format("ToItemsList error:\r\n{0}\r\n{1}",
+                        (idColumn == null ? "idColumn не найден" : string.Empty),
+                        (descriptionColumn == null ? "descriptionColumn не найден" : string.Empty)).ShowMessage();
+                    return itemsList;
+                    }
+                }
+
             foreach (DataRow row in table.Rows)
                 {
-                result.Add(new CatalogItem() { Id = Convert.ToInt64(row["Id"]), Description = row["Description"].ToString() });
+                var itemId = Convert.ToInt64(row[idColumn]);
+                var itemDescription = row[descriptionColumn].ToString();
+                itemsList.Add(new CatalogItem() { Id = itemId, Description = itemDescription });
                 }
-            return result;
+            return itemsList;
             }
 
         }
