@@ -191,36 +191,6 @@ namespace AtosFMCG.HelperClasses
             return false;
             }
 
-        /// <summary>Перевірка штрих-коду паллети (комірки) для переміщення</summary>
-        /// <param name="barcode">Штрих-код</param>
-        /// <param name="cellIsAccepted"> </param>
-        /// <param name="palletId">Код палети до якої встановлюватиметься паллета, що переміщується</param>
-        /// <returns>Чи вірний штрих-код</returns>
-        public static bool CheckPalletBarcodeForMoving(string barcode, bool cellIsAccepted, out long palletId, out bool iscell)
-            {
-            //Може бути три варіати,що було відскановано: 1) паллету, 2) комірку, 3) щось зайве
-            Type type = GetTypeOfData(barcode);
-
-            if (type == typeof(Cells))
-                {
-                //Note: Є можливість додати перевірку, що у цій комірці нічого не стоїть
-                GetIdFromBarcode(barcode, out palletId);
-                iscell = true;
-                return cellIsAccepted;
-                }
-
-            if (type == typeof (long))
-                {
-                //Note: Є можливість додати перевірку, що перед цією паллетою нічого не стоїть
-                GetIdFromBarcode(barcode, out palletId);
-                iscell = false;
-                return true;
-                }
-
-            palletId = 0;
-            iscell = false;
-            return false;
-            }
         #endregion
         }
     }

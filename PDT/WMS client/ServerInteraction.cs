@@ -9,31 +9,32 @@ namespace WMS_client
     {
     public class ServerInteraction : IRemoteCommunications
         {
-
-        public bool GetCarsForAcceptance(out System.Data.DataTable table)
+        private void performQuery(string QueryName, params object[] parameters)
             {
-            throw new NotImplementedException();
+            queryResultParameters = null;
+            if (!WMSClient.Current.OnLine && WMSClient.Current.MainForm.IsMainThread)
+                {
+                "Нет подключения к серверу".Warning();
+                return;
+                }
+
+            queryResultParameters = WMSClient.Current.PerformQuery(QueryName, parameters);
             }
 
-        public bool GetPlaceDataFromCode(string barcode, out string type, out long id)
+        private bool IsExistParameters
             {
-            throw new NotImplementedException();
+            get { return queryResultParameters != null && queryResultParameters.Length > 0 && queryResultParameters[0] != null; }
             }
 
-        public bool GetPermitInstallPalletManually()
+        private bool success
             {
-            throw new NotImplementedException();
+            get
+                {
+                return IsExistParameters && queryResultParameters[0] is bool && (bool)queryResultParameters[0];
+                }
             }
 
-        public bool GetDataAboutMovingPallet(int palletId, out string goods, out string date, out double boxCount, out double bottleCount)
-            {
-            throw new NotImplementedException();
-            }
-
-        public bool GetDataForInventory(out double count, out string nomenclature, out string date, out long palletId, out string measure, out long docId, out long lineNumber, out long cellId, out string cell)
-            {
-            throw new NotImplementedException();
-            }
+        private object[] queryResultParameters;
 
         /// <summary>К-сть документів, що чекають обробки</summary>
         /// <param name="acceptanceDocCount">К-сть документів "Прийманя"</param>
@@ -43,14 +44,14 @@ namespace WMS_client
         public bool GetCountOfDocuments(out string acceptanceDocCount, out string inventoryDocCount,
                                         out string selectionDocCount, out string movementDocCount)
             {
-            PerformQuery("GetCountOfDocuments");
+            performQuery("GetCountOfDocuments");
 
             if (IsExistParameters)
                 {
-                acceptanceDocCount = Parameters[0].ToString();
-                inventoryDocCount = Parameters[1].ToString();
-                selectionDocCount = Parameters[2].ToString();
-                movementDocCount = Parameters[3].ToString();
+                acceptanceDocCount = queryResultParameters[0].ToString();
+                inventoryDocCount = queryResultParameters[1].ToString();
+                selectionDocCount = queryResultParameters[2].ToString();
+                movementDocCount = queryResultParameters[3].ToString();
                 return true;
                 }
 
@@ -61,96 +62,14 @@ namespace WMS_client
 
             return false;
             }
-
-        public bool GetSelectionRowInfo(long contractor, out long id, out long palletId, out string goods, out string date, out double boxCount, out double unitCount, out int baseCount, out string cell)
+    
+        public bool GetTareTable(out DataTable tareTable)
             {
-            throw new NotImplementedException();
-            }
-
-        public bool GetAdditionalInfoAboutAccepnedGoods(double count, long goods, long car, long party, out long incomeDoc, out string date, out long cellId, out string cell, out long palett)
-            {
-            throw new NotImplementedException();
-            }
-
-        public void SetInventory(long docId, long lineNumber, long count)
-            {
-            throw new NotImplementedException();
-            }
-
-        public void SetMoving(long palletId, long newPos, bool isCell)
-            {
-            throw new NotImplementedException();
-            }
-
-        public void SetAcceptanceData(long nomenclature, long party, double boxCount, double bottleCount, long planId, long previousPallet, long cellId, bool isCell)
-            {
-            throw new NotImplementedException();
-            }
-
-        public void SetSelectionData(long docId, long palletId, long cellId)
-            {
-            throw new NotImplementedException();
-            }
-
-        public bool CheckBarcodeForExistUser(string barcode)
-            {
-            throw new NotImplementedException();
-            }
-
-        public bool CheckBarcodeForExistGoods(string barcode, out long id, out string description)
-            {
-            throw new NotImplementedException();
-            }
-
-        public bool CheckPalletBarcodeForMoving(string barcode, bool cellIsAccepted, out long palletId, out bool isCell)
-            {
-            throw new NotImplementedException();
-            }
-
-        public bool CheckInventoryPallet(string barcode, long cellId, out bool result)
-            {
-            throw new NotImplementedException();
-            }
-
-        public bool CheckCellFormShipment(string barcode, out long id)
-            {
-            throw new NotImplementedException();
-            }
-
-        private void PerformQuery(string QueryName, params object[] parameters)
-            {
-            Parameters = null;
-            if (!WMSClient.Current.OnLine && WMSClient.Current.MainForm.IsMainThread)
-                {
-                "Нет подключения к серверу".Warning();
-                return;
-                }
-
-            Parameters = WMSClient.Current.PerformQuery(QueryName, parameters);
-            }
-
-        private bool IsExistParameters
-            {
-            get { return Parameters != null && Parameters.Length > 0 && Parameters[0] != null; }
-            }
-
-        private bool success
-            {
-            get
-                {
-                return IsExistParameters && Parameters[0] is bool && (bool)Parameters[0];
-                }
-            }
-
-        private object[] Parameters;
-
-        public bool GetTareTable(out System.Data.DataTable tareTable)
-            {
-            PerformQuery("GetTareTable");
+            performQuery("GetTareTable");
 
             if (IsExistParameters)
                 {
-                tareTable = Parameters[0] as DataTable;
+                tareTable = queryResultParameters[0] as DataTable;
                 return tareTable is DataTable;
                 }
 
@@ -162,18 +81,18 @@ namespace WMS_client
             out int totalUnitsQuantity, out int unitsPerBox,
             out long cellId, out string cellDescription, out bool currentAcceptance)
             {
-            PerformQuery("GetStickerData", acceptanceId, stickerId);
+            performQuery("GetStickerData", acceptanceId, stickerId);
 
             if (IsExistParameters)
                 {
-                nomenclatureId = Convert.ToInt64(Parameters[0]);
-                nomenclatureDescription = Parameters[1] as string;
-                trayId = Convert.ToInt64(Parameters[2]);
-                totalUnitsQuantity = Convert.ToInt32(Parameters[3]);
-                unitsPerBox = Convert.ToInt32(Parameters[4]);
-                cellId = Convert.ToInt64(Parameters[5]);
-                cellDescription = Parameters[6] as string;
-                currentAcceptance = (bool)Parameters[7];
+                nomenclatureId = Convert.ToInt64(queryResultParameters[0]);
+                nomenclatureDescription = queryResultParameters[1] as string;
+                trayId = Convert.ToInt64(queryResultParameters[2]);
+                totalUnitsQuantity = Convert.ToInt32(queryResultParameters[3]);
+                unitsPerBox = Convert.ToInt32(queryResultParameters[4]);
+                cellId = Convert.ToInt64(queryResultParameters[5]);
+                cellDescription = queryResultParameters[6] as string;
+                currentAcceptance = (bool)queryResultParameters[7];
                 return true;
                 }
 
@@ -191,11 +110,11 @@ namespace WMS_client
 
         public bool GetAcceptanceId(long stickerId, out long acceptanceId)
             {
-            PerformQuery("GetAcceptanceId", stickerId);
+            performQuery("GetAcceptanceId", stickerId);
 
             if (IsExistParameters)
                 {
-                acceptanceId = Convert.ToInt64(Parameters[0]);
+                acceptanceId = Convert.ToInt64(queryResultParameters[0]);
                 return true;
                 }
 
@@ -203,25 +122,22 @@ namespace WMS_client
 
             return false;
             }
-
-
-
+       
         public bool WriteStickerFact(long acceptanceId, long stickerId, bool palletChanged, long cellId, long trayId, long linerId, int linersQuantity, int packsCount, int unitsCount)
             {
-            PerformQuery("WriteStickerFact", acceptanceId, stickerId, palletChanged, cellId, trayId, linerId, linersQuantity, packsCount, unitsCount);
+            performQuery("WriteStickerFact", acceptanceId, stickerId, palletChanged, cellId, trayId, linerId, linersQuantity, packsCount, unitsCount);
 
-            return IsExistParameters && Parameters[0] is bool && (bool)Parameters[0];
+            return IsExistParameters && queryResultParameters[0] is bool && (bool)queryResultParameters[0];
             }
-
 
         private const string QUERY_NOT_SERVED_MESSAGE = "Запит не виконано";
         public bool ComplateAcceptance(long acceptanceId, bool forceCompletion, out string errorMessage)
             {
-            PerformQuery("ComplateAcceptance", acceptanceId, forceCompletion);
-            if (IsExistParameters && Parameters[0] is bool && Parameters.Length > 1)
+            performQuery("ComplateAcceptance", acceptanceId, forceCompletion);
+            if (IsExistParameters && queryResultParameters[0] is bool && queryResultParameters.Length > 1)
                 {
-                errorMessage = Parameters[1].ToString();
-                return (bool)Parameters[0];
+                errorMessage = queryResultParameters[1].ToString();
+                return (bool)queryResultParameters[0];
                 }
             else
                 {
@@ -240,21 +156,21 @@ namespace WMS_client
             out long previousPalletCode,
             out DateTime productionDate, out long partyId)
             {
-            PerformQuery("GetPalletBalance", stickerId);
+            performQuery("GetPalletBalance", stickerId);
 
             if (IsExistParameters)
                 {
-                nomenclatureId = Convert.ToInt64(Parameters[0]);
-                nomenclatureDescription = Parameters[1] as string;
-                trayId = Convert.ToInt64(Parameters[2]);
-                linerId = Convert.ToInt64(Parameters[3]);
-                linersAmount = Convert.ToByte(Parameters[4]);
-                unitsPerBox = Convert.ToInt32(Parameters[5]);
-                cellId = Convert.ToInt64(Parameters[6]);
-                cellDescription = Parameters[7] as string;
-                previousPalletCode = Convert.ToInt64(Parameters[8]);
-                productionDate = Parameters[9].ToString().ToDateTime();
-                partyId = Convert.ToInt64(Parameters[10]);
+                nomenclatureId = Convert.ToInt64(queryResultParameters[0]);
+                nomenclatureDescription = queryResultParameters[1] as string;
+                trayId = Convert.ToInt64(queryResultParameters[2]);
+                linerId = Convert.ToInt64(queryResultParameters[3]);
+                linersAmount = Convert.ToByte(queryResultParameters[4]);
+                unitsPerBox = Convert.ToInt32(queryResultParameters[5]);
+                cellId = Convert.ToInt64(queryResultParameters[6]);
+                cellDescription = queryResultParameters[7] as string;
+                previousPalletCode = Convert.ToInt64(queryResultParameters[8]);
+                productionDate = queryResultParameters[9].ToString().ToDateTime();
+                partyId = Convert.ToInt64(queryResultParameters[10]);
                 return true;
                 }
 
@@ -274,11 +190,11 @@ namespace WMS_client
 
         public bool GetNewInventoryId(long userId, out long documentId)
             {
-            PerformQuery("GetNewInventoryId", userId);
+            performQuery("GetNewInventoryId", userId);
 
             if (IsExistParameters)
                 {
-                documentId = Convert.ToInt64(Parameters[0]);
+                documentId = Convert.ToInt64(queryResultParameters[0]);
                 return documentId > 0;
                 }
 
@@ -288,17 +204,17 @@ namespace WMS_client
 
         public bool WriteInventoryResult(long documentId, DataTable resultTable)
             {
-            PerformQuery("WriteInventoryResult", documentId, resultTable);
+            performQuery("WriteInventoryResult", documentId, resultTable);
             return success;
             }
 
         public bool ComplateInventory(long documentId, bool forceCompletion, out string errorMessage)
             {
-            PerformQuery("ComplateInventory", documentId, forceCompletion);
-            if (IsExistParameters && Parameters[0] is bool && Parameters.Length > 1)
+            performQuery("ComplateInventory", documentId, forceCompletion);
+            if (IsExistParameters && queryResultParameters[0] is bool && queryResultParameters.Length > 1)
                 {
-                errorMessage = Parameters[1].ToString();
-                return (bool)Parameters[0];
+                errorMessage = queryResultParameters[1].ToString();
+                return (bool)queryResultParameters[0];
                 }
             else
                 {
@@ -309,11 +225,11 @@ namespace WMS_client
 
         public bool GetNewMovementId(long userId, out long documentId)
             {
-            PerformQuery("GetNewMovementId", userId);
+            performQuery("GetNewMovementId", userId);
 
             if (IsExistParameters)
                 {
-                documentId = Convert.ToInt64(Parameters[0]);
+                documentId = Convert.ToInt64(queryResultParameters[0]);
                 return documentId > 0;
                 }
 
@@ -323,17 +239,17 @@ namespace WMS_client
 
         public bool WriteMovementResult(long documentId, DataTable resultTable)
             {
-            PerformQuery("WriteMovementResult", documentId, resultTable);
+            performQuery("WriteMovementResult", documentId, resultTable);
             return success;
             }
 
         public bool ComplateMovement(long documentId, bool forceCompletion, out string errorMessage)
             {
-            PerformQuery("ComplateMovement", documentId, forceCompletion);
-            if (IsExistParameters && Parameters[0] is bool && Parameters.Length > 1)
+            performQuery("ComplateMovement", documentId, forceCompletion);
+            if (IsExistParameters && queryResultParameters[0] is bool && queryResultParameters.Length > 1)
                 {
-                errorMessage = Parameters[1].ToString();
-                return (bool)Parameters[0];
+                errorMessage = queryResultParameters[1].ToString();
+                return (bool)queryResultParameters[0];
                 }
             else
                 {
@@ -344,10 +260,10 @@ namespace WMS_client
 
         public DataTable GetPickingDocuments()
             {
-            PerformQuery("GetPickingDocuments");
-            if (IsExistParameters && Parameters[0] is DataTable)
+            performQuery("GetPickingDocuments");
+            if (IsExistParameters && queryResultParameters[0] is DataTable)
                 {
-                return Parameters[0] as DataTable;
+                return queryResultParameters[0] as DataTable;
                 }
             else
                 {
@@ -364,20 +280,20 @@ namespace WMS_client
             out int unitsPerBox, out int unitsToPick,
             out int lineNumber)
             {
-            PerformQuery("GetPickingTask", userId, documentId, palletId, predefinedTaskLineNumber, currentLineNumber);
+            performQuery("GetPickingTask", userId, documentId, palletId, predefinedTaskLineNumber, currentLineNumber);
 
             if (IsExistParameters)
                 {
-                stickerId = Convert.ToInt64(Parameters[0]);
-                wareId = Convert.ToInt64(Parameters[1]);
-                wareDescription = Parameters[2].ToString();
-                cellId = Convert.ToInt64(Parameters[3]);
-                cellDescription = Parameters[4].ToString();
-                partyId = Convert.ToInt64(Parameters[5]);
-                productionDate = Parameters[6].ToString().ToDateTime();
-                unitsPerBox = Convert.ToInt32(Parameters[7]);
-                unitsToPick = Convert.ToInt32(Parameters[8]);
-                lineNumber = Convert.ToInt32(Parameters[9]);
+                stickerId = Convert.ToInt64(queryResultParameters[0]);
+                wareId = Convert.ToInt64(queryResultParameters[1]);
+                wareDescription = queryResultParameters[2].ToString();
+                cellId = Convert.ToInt64(queryResultParameters[3]);
+                cellDescription = queryResultParameters[4].ToString();
+                partyId = Convert.ToInt64(queryResultParameters[5]);
+                productionDate = queryResultParameters[6].ToString().ToDateTime();
+                unitsPerBox = Convert.ToInt32(queryResultParameters[7]);
+                unitsToPick = Convert.ToInt32(queryResultParameters[8]);
+                lineNumber = Convert.ToInt32(queryResultParameters[9]);
                 return true;
                 }
 
@@ -390,63 +306,63 @@ namespace WMS_client
 
         public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable, long partyId, out int sameWareNextTaskLineNumber)
             {
-            PerformQuery("WritePickingResult", documentId, currentLineNumber, resultTable, partyId);
-            sameWareNextTaskLineNumber = success ? Convert.ToInt32(Parameters[1]) : 0;
+            performQuery("WritePickingResult", documentId, currentLineNumber, resultTable, partyId);
+            sameWareNextTaskLineNumber = success ? Convert.ToInt32(queryResultParameters[1]) : 0;
 
             return success;
             }
 
         public bool PrintStickers(DataTable result)
             {
-            PerformQuery("PrintStickers", result);
+            performQuery("PrintStickers", result);
             return success;
             }
 
         public bool ReadConsts(out DataTable constsTable)
             {
-            PerformQuery("ReadConsts");
-            constsTable = success ? Parameters[1] as DataTable : null;
+            performQuery("ReadConsts");
+            constsTable = success ? queryResultParameters[1] as DataTable : null;
             return success;
             }
 
         public bool CreatePickingDocuments()
             {
-            PerformQuery("CreatePickingDocuments");
+            performQuery("CreatePickingDocuments");
             return success;
             }
 
         public string GetUserName(int userId)
             {
-            PerformQuery("GetUserName", userId);
+            performQuery("GetUserName", userId);
             if (!success) return string.Empty;
 
-            return Parameters[1] as string;
+            return queryResultParameters[1] as string;
             }
 
         public DataTable GetWares(string barcode)
             {
-            PerformQuery("GetWares", barcode);
+            performQuery("GetWares", barcode);
             if (!success) return null;
 
-            return Parameters[1] as DataTable;
+            return queryResultParameters[1] as DataTable;
             }
 
         public bool SetBarcode(string barcode, long stickerId, out bool recordWasAdded)
             {
-            PerformQuery("SetBarcode", barcode, stickerId);
+            performQuery("SetBarcode", barcode, stickerId);
             if (!success)
                 {
                 recordWasAdded = false;
                 return false;
                 }
 
-            recordWasAdded = (bool)Parameters[1];
+            recordWasAdded = (bool)queryResultParameters[1];
             return true;
             }
 
         public void SetPalletStatus(long stickerId, bool fullPallet)
             {
-            PerformQuery("SetPalletStatus", stickerId, fullPallet);
+            performQuery("SetPalletStatus", stickerId, fullPallet);
             }
         }
     }
