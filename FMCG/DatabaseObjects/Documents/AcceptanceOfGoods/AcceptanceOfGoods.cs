@@ -421,11 +421,12 @@ and MarkForDeleting = 0");
             return result;
             }
 
-        internal bool WriteStickerFact(long stickerId, long cellId, long trayId, long linerId, int linersQuantity, int packsCount, int unitsCount)
+        internal bool WriteStickerFact(long stickerId, long cellId, long previousStickerId, long trayId, long linerId, int linersQuantity, int packsCount, int unitsCount)
             {
             var goodsRows = findStickerRows(stickerId);
 
             setFactOnRow(goodsRows.WareRow, unitsCount, cellId, false);
+            goodsRows.WareRow[PreviousPalletCode] = previousStickerId;
 
             if (goodsRows.BoxRow != null)
                 {

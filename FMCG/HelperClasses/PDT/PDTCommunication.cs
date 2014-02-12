@@ -195,7 +195,7 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
             return documentFound;
             }
 
-        public bool WriteStickerFact(long acceptanceId, long stickerId, bool palletChanged, long cellId, long trayId, long linerId,
+        public bool WriteStickerFact(long acceptanceId, long stickerId, bool palletChanged, long cellId, long previousStickerId, long trayId, long linerId,
             int linersQuantity, int packsCount, int unitsCount)
             {
             if (palletChanged)
@@ -215,7 +215,7 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
 
             var acceptance = new AcceptanceOfGoods() { ReadingId = acceptanceId };
 
-            var result = acceptance.WriteStickerFact(stickerId, cellId, trayId, linerId, linersQuantity, packsCount, unitsCount);
+            var result = acceptance.WriteStickerFact(stickerId, cellId, previousStickerId, trayId, linerId, linersQuantity, packsCount, unitsCount);
             return result;
             }
 

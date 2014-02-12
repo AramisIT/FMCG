@@ -210,12 +210,13 @@ namespace AtosFMCG.HelperClasses.PDT
                 Convert.ToInt64(parameters[0]),
                 Convert.ToInt64(parameters[1]),
                 Convert.ToBoolean(parameters[2]),
-                Convert.ToInt64(parameters[3]),
-                Convert.ToInt64(parameters[4]),
+                Convert.ToInt64(parameters[3]), // cell id
+                Convert.ToInt64(parameters[4]), // previous sticker id
                 Convert.ToInt64(parameters[5]),
-                Convert.ToInt32(parameters[6]),
+                Convert.ToInt64(parameters[6]),
                 Convert.ToInt32(parameters[7]),
-                Convert.ToInt32(parameters[8])))
+                Convert.ToInt32(parameters[8]),
+                Convert.ToInt32(parameters[9])))
                 {
                 return new object[] { };
                 }

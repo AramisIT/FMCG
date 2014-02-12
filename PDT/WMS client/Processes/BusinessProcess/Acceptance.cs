@@ -176,11 +176,11 @@ namespace WMS_client.Processes
                     return;
                     }
 
-                trySetCell(barcodeData.Cell);
+                trySetCell(barcodeData.Cell, barcodeData.StickerId);
                 }
             else if (barcode.IsCell())
                 {
-                trySetCell(barcode.ToCell());
+                trySetCell(barcode.ToCell(), 0);
                 }
             }
 
@@ -295,12 +295,12 @@ namespace WMS_client.Processes
             });
             }
 
-        private void trySetCell(CatalogItem cell)
+        private void trySetCell(CatalogItem cell, long previousStickerId)
             {
             bool cellApproved = currentBarcodeData.Cell.Id == cell.Id || currentBarcodeData.Cell.Id == 0;
             if (cellApproved || string.Format(@"Розмістити у комірці ""{0}""?", cell.Description).Ask())
                 {
-                if (saveFact(cell))
+                if (saveFact(cell, previousStickerId))
                     {
                     startScanNextPallet();
                     }
@@ -312,7 +312,7 @@ namespace WMS_client.Processes
                 }
             }
 
-        private bool saveFact(CatalogItem cell)
+        private bool saveFact(CatalogItem cell, long previousStickerId)
             {
             if (currentBarcodeData == null) return true;
 
@@ -322,7 +322,7 @@ namespace WMS_client.Processes
             palletChanged |= currentBarcodeData.UnitsRemainder != unitsCount;
 
             if (!new ServerInteraction().WriteStickerFact(acceptanceId, currentBarcodeData.StickerId, palletChanged,
-                (cell ?? new CatalogItem()).Id, trayItem.Id, linerItem.Id, linersCount, packsCount, unitsCount + packsCount * currentBarcodeData.UnitsPerBox))
+                (cell ?? new CatalogItem()).Id, previousStickerId, trayItem.Id, linerItem.Id, linersCount, packsCount, unitsCount + packsCount * currentBarcodeData.UnitsPerBox))
                 {
                 return false;
                 }
