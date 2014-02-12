@@ -90,7 +90,7 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Picking])) a
             return true;
             }
 
-       
+
 
         /// <summary>ІД документу плану приймання</summary>
         /// <param name="count">Кількість товару</param>
@@ -164,7 +164,7 @@ WHERE
             return 0L;
             }
         #endregion
-        
+
         public bool GetDataAboutMovingPallet(int palletId, out string goods, out DateTime date, out double boxCount, out double bottleCount)
             {
             throw new NotImplementedException();
@@ -200,8 +200,7 @@ WHERE
 
             if (currentAcceptance)
                 {
-                var sticker = new Stickers();
-                sticker.Read(stickerId);
+                var sticker = new Stickers() { ReadingId = stickerId };
 
                 nomenclatureId = sticker.Nomenclature.Id;
                 nomenclatureDescription = sticker.Nomenclature.Description;
@@ -233,8 +232,7 @@ WHERE
             q.AddInputParameter("StickerId", stickerId);
 
             long cellId = q.SelectToList<long>().FirstOrDefault();
-            var cell = new Cells();
-            cell.Read(cellId);
+            var cell = new Cells() { ReadingId = cellId };
 
             return cell;
             }
@@ -273,7 +271,7 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
 
             if (documentFound && setProcessingStatus)
                 {
-                var doc = new AcceptanceOfGoods().Read(acceptanceId) as AcceptanceOfGoods;
+                var doc = new AcceptanceOfGoods() { ReadingId = acceptanceId };
                 doc.State = StatesOfDocument.Processing;
                 doc.Write();
                 }
@@ -286,10 +284,9 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
             {
             if (palletChanged)
                 {
-                var sticker = new Stickers();
-                sticker.Read(stickerId);
-                sticker.Tray = new Nomenclature().Read(trayId) as Nomenclature;
-                sticker.Liner = new Nomenclature().Read(linerId) as Nomenclature;
+                var sticker = new Stickers() { ReadingId = stickerId };
+                sticker.Tray = new Nomenclature() { ReadingId = trayId };
+                sticker.Liner = new Nomenclature() { ReadingId = linerId };
                 sticker.LinersQuantity = linersQuantity;
                 sticker.Quantity = packsCount;
                 sticker.UnitsQuantity = unitsCount;
@@ -300,8 +297,7 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
                     }
                 }
 
-            var acceptance = new AcceptanceOfGoods();
-            acceptance.Read(acceptanceId);
+            var acceptance = new AcceptanceOfGoods() { ReadingId = acceptanceId };
 
             var result = acceptance.WriteStickerFact(stickerId, cellId, trayId, linerId, linersQuantity, packsCount, unitsCount);
             return result;
@@ -309,8 +305,7 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
 
         public bool ComplateAcceptance(long acceptanceId, bool forceCompletion, out string errorMessage)
             {
-            var acceptance = new AcceptanceOfGoods();
-            acceptance.Read(acceptanceId);
+            var acceptance = new AcceptanceOfGoods() { ReadingId = acceptanceId };
             errorMessage = string.Empty;
 
             acceptance.State = StatesOfDocument.Completed;
@@ -329,8 +324,7 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
 
             GoodsRows goodsRows = getPalletBalance(palletId);
 
-            var sticker = new Stickers();
-            sticker.Read(palletId);
+            var sticker = new Stickers() { ReadingId = palletId };
             nomenclatureId = sticker.Nomenclature.Id;
             nomenclatureDescription = sticker.Nomenclature.Description;
             unitsPerBox = sticker.Nomenclature.UnitsQuantityPerPack;
@@ -421,8 +415,7 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
 
         public bool ComplateInventory(long documentId, bool forceCompletion, out string errorMessage)
             {
-            var inventory = new Inventory();
-            inventory.Read(documentId);
+            var inventory = new Inventory() { ReadingId = documentId };
             errorMessage = string.Empty;
 
             inventory.State = StatesOfDocument.Completed;
@@ -432,8 +425,7 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
         public bool ComplateMovement(long documentId, bool forceCompletion, out string errorMessage)
             {
             errorMessage = string.Empty;
-            var document = new Moving();
-            document.Read(documentId);
+            var document = new Moving() { ReadingId = documentId };
             using (var locker = new DatabaseObjectLocker(document))
                 {
                 if (!locker.LockForCurrentPdtThread()) return false;
@@ -480,7 +472,7 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
                 var isTare = rowIndex != 0;
                 if (!isTare)
                     {
-                    var sticker = (Stickers)new Stickers().Read(palletCode);
+                    var sticker = new Stickers() { ReadingId = palletCode };
                     newRow[inventory.Party] = sticker.GetRef("Party");
                     }
 
@@ -548,7 +540,7 @@ from @table");
                 var isTare = rowIndex != 0;
                 if (!isTare)
                     {
-                    var sticker = (Stickers)new Stickers().Read(palletCode);
+                    var sticker = new Stickers() { ReadingId = palletCode };
                     newRow[document.Party] = sticker.GetRef("Party");
                     }
 
@@ -594,8 +586,7 @@ from @table");
             sameWareNextTaskLineNumber = 0;
             var currentTime = SystemConfiguration.ServerDateTime;
 
-            var document = new Moving();
-            document.Read(documentId);
+            var document = new Moving() { ReadingId = documentId };
 
             using (var locker = new DatabaseObjectLocker(document))
                 {
@@ -743,7 +734,7 @@ order by [LineNumber]";
             var nomenclatureId = 0L;
             if (palletId != 0)
                 {
-                var sticker = (Stickers)new Stickers().Read(palletId);
+                var sticker = new Stickers() { ReadingId = palletId };
                 nomenclatureId = sticker.GetRef("Nomenclature");
                 }
             q.AddInputParameter("nomenclature", nomenclatureId);
@@ -767,7 +758,7 @@ order by [LineNumber]";
                 var documentState = (StatesOfDocument)Convert.ToInt32(qResult["State"]);
                 if (documentState == StatesOfDocument.Planned)
                     {
-                    var moving = (Moving)new Moving().Read(documentId);
+                    var moving = new Moving() { ReadingId = documentId };
                     moving.State = StatesOfDocument.Processing;
                     moving.Write();
                     }
@@ -797,8 +788,7 @@ order by [LineNumber]";
             List<Stickers> stickers = new List<Stickers>();
             foreach (DataRow row in result.Rows)
                 {
-                var sticker = new Stickers();
-                sticker.Read(Convert.ToInt64(row[0]));
+                var sticker = new Stickers() { ReadingId = row[0] };
                 stickers.Add(sticker);
                 }
 
@@ -870,8 +860,7 @@ order by LineNumber");
 
         public string GetUserName(int userId)
             {
-            var user = new Users();
-            user.Read(userId);
+            var user = new Users() { ReadingId = userId };
 
             SystemMessage.InstanceMessage.Message = "descr = " + user.Description;
 
@@ -892,8 +881,7 @@ where b.Description = @barcode");
 
         public bool SetBarcode(string barcode, long stickerId, out bool recordWasAdded)
             {
-            var sticker = new Stickers();
-            sticker.Read(stickerId);
+            var sticker = new Stickers() { ReadingId = stickerId };
             var nomenclatureId = sticker.GetRef("Nomenclature");
 
             foreach (DataRow row in GetWares(barcode).Rows)
@@ -915,8 +903,7 @@ where b.Description = @barcode");
 
         public void SetPalletStatus(long stickerId, bool fullPallet)
             {
-            var sticker = new Stickers();
-            sticker.Read(stickerId);
+            var sticker = new Stickers() { ReadingId = stickerId };
 
             if (sticker.StartUnitsQuantity > 0)
                 {

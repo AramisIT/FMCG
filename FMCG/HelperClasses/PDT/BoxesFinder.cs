@@ -35,7 +35,7 @@ namespace FMCG.HelperClasses.PDT
             var wareRow = resultTable.Rows[0];
 
             var nomenclatureId = Convert.ToInt64(wareRow["Nomenclature"]);
-            var nomenclature = (Nomenclature)new Nomenclature().Read(nomenclatureId);
+            var nomenclature = new Nomenclature() { ReadingId = nomenclatureId };
             if (!nomenclature.BoxType.Empty)
                 {
                 var planUnitsQuantity = Convert.ToInt32(wareRow["PlanValue"]);

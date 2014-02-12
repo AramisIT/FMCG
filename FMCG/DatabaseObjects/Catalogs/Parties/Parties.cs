@@ -128,7 +128,7 @@ namespace Catalogs
             query.AddInputParameter("Nomenclature", nomenclatureId);
             var partyId = query.SelectInt64();
 
-            return (Parties)new Parties().Read(partyId);
+            return new Parties() { ReadingId = partyId };
             }
         }
     }

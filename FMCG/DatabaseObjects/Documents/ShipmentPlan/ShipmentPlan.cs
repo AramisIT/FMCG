@@ -255,8 +255,7 @@ namespace Documents
                 }
             else
                 {
-                movement = new Moving();
-                movement.Read(movementId);
+                movement = new Moving() { ReadingId = movementId };
                 }
 
             UserInterface.Current.ShowItem(movement);

@@ -175,13 +175,13 @@ namespace Documents
         public DataColumn Party { get; set; }
 
         /// <summary>Тара</summary>
-        [SubTableField(Description = "Тара", PropertyType = typeof(bool), StorageType =  StorageTypes.Local, ReadOnly = true)]
+        [SubTableField(Description = "Тара", PropertyType = typeof(bool), StorageType = StorageTypes.Local, ReadOnly = true)]
         public DataColumn IsTare { get; set; }
         #endregion
         #endregion
 
         #region DocumentTable
-        readonly Dictionary<long, bool> tareDic = new Dictionary<long,bool>();
+        readonly Dictionary<long, bool> tareDic = new Dictionary<long, bool>();
 
         protected override WritingResult CheckingBeforeWriting()
             {
@@ -211,16 +211,15 @@ namespace Documents
 
         private void fillTareInRow(DataRow row)
             {
-            long nomenclatureId = (long) row[Nomenclature];
+            long nomenclatureId = (long)row[Nomenclature];
 
-            if(tareDic.ContainsKey(nomenclatureId))
+            if (tareDic.ContainsKey(nomenclatureId))
                 {
                 row[IsTare] = tareDic[nomenclatureId];
                 }
             else
                 {
-                Nomenclature nomenclature = new Nomenclature();
-                nomenclature.Read(nomenclatureId);
+                Nomenclature nomenclature = new Nomenclature() { ReadingId = nomenclatureId };
                 tareDic.Add(nomenclatureId, nomenclature.IsTare);
                 row[IsTare] = nomenclature.IsTare;
                 }

@@ -227,8 +227,7 @@ namespace Documents
                 }
             else
                 {
-                Nomenclature nomenclature = new Nomenclature();
-                nomenclature.Read(nomenclatureId);
+                Nomenclature nomenclature = new Nomenclature() { ReadingId = nomenclatureId };
                 tareDic.Add(nomenclatureId, nomenclature.IsTare);
                 row[IsTare] = nomenclature.IsTare;
                 }
@@ -244,8 +243,7 @@ namespace Documents
                 }
             else
                 {
-                Parties party = new Parties();
-                party.Read(partyId);
+                Parties party = new Parties() { ReadingId = partyId };
                 partyDic.Add(partyId, party.DateOfManufacture);
                 row[NomenclatureDate] = party.DateOfManufacture;
                 }
@@ -327,12 +325,10 @@ and MarkForDeleting = 0");
             row[AcceptancePlan] = acceptancePlanId;
             row.AddRowToTable(this);
 
-            var acceptancePlan = new AcceptancePlan();
-            acceptancePlan.Read(acceptancePlanId);
+            var acceptancePlan = new AcceptancePlan() { ReadingId = acceptancePlanId };
             foreach (DataRow stickerRow in acceptancePlan.Stickers.Rows)
                 {
-                var sticker = new Stickers();
-                sticker.Read(stickerRow[acceptancePlan.Sticker]);
+                var sticker = new Stickers() { ReadingId = stickerRow[acceptancePlan.Sticker] };
                 addWaresFromSticker(sticker);
                 }
             }
@@ -408,8 +404,7 @@ and MarkForDeleting = 0");
                         }
                     else
                         {
-                        var nomenclature = new Nomenclature();
-                        nomenclature.Read(nomenclatureId);
+                        var nomenclature = new Nomenclature() { ReadingId = nomenclatureId };
 
                         if (nomenclature.IsTare)
                             {

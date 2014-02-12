@@ -123,8 +123,7 @@ namespace AtosFMCG.TouchScreen.Controls
         private void fillInitData(AcceptancePlanData data)
             {
             //Document
-            Document = new AcceptancePlan();
-            Document.Read(data.Invoice.Key);
+            Document = new AcceptancePlan() { ReadingId = data.Invoice.Key };
 
             //Fields
             invoiceDate.Text = NavigatedButton.SPACES_FOR_ICOx32 + Document.Date.ToShortDateString();
@@ -275,8 +274,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
         private void SelectDriverValue(KeyValuePair<long, string> value)
             {
-            Drivers driverValue = new Drivers();
-            driverValue.Read(value.Key);
+            Drivers driverValue = new Drivers() { ReadingId = value.Key };
             Document.Driver = driverValue;
             driver.Text = setValueIntoButton(Document.Driver.Description);
             showMessage("Обрано нового водія!");
@@ -309,8 +307,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
         private void SelectCarValue(KeyValuePair<long, string> value)
             {
-            Cars driverValue = new Cars();
-            driverValue.Read(value.Key);
+            Cars driverValue = new Cars() { ReadingId = value.Key };
             Document.Car = driverValue;
             car.Text = setValueIntoButton(Document.Car.Description);
             showMessage("Обрано нову машину!");
@@ -357,7 +354,7 @@ namespace AtosFMCG.TouchScreen.Controls
             if (party.Id == 0)
                 {
                 party.DateOfManufacture = date;
-                party.Nomenclature = (Nomenclature)new Nomenclature().Read(nomenclature);
+                party.Nomenclature = new Nomenclature() { ReadingId = nomenclature };
                 party.FillAddData(shelfLifeDays);
                 party.Write();
                 }
@@ -392,8 +389,7 @@ namespace AtosFMCG.TouchScreen.Controls
                     newRow.SetRefValueToRowCell(Document, Document.NomenclatureParty, partyDic[new Product(data.Description.Id, data.Date.Date)]);
                     newRow.AddRowToTable(Document);
 
-                    var nomenclature = new Nomenclature();
-                    nomenclature.Read(data.Description.Id);
+                    var nomenclature = new Nomenclature() { ReadingId = data.Description.Id };
                     if (nomenclature.ShelfLife != data.ShelfLifeDays)
                         {
                         nomenclature.ShelfLife = data.ShelfLifeDays;
@@ -663,8 +659,7 @@ and MarkForDeleting = 0
 
                 selectedRow.Description = new ObjectValue(value);
 
-                var nomenclature = new Nomenclature();
-                nomenclature.Read(value.Key);
+                var nomenclature = new Nomenclature() { ReadingId = value.Key };
                 selectedRow.UnitsAmountInOneStandartPallet = nomenclature.UnitsQuantityPerPallet;
                 selectedRow.WithoutTray = nomenclature.WithoutTray;
                 selectedRow.UnitsAmountInOneNonStandartPallet = 0;
@@ -860,8 +855,7 @@ and MarkForDeleting = 0
                         }
                     else
                         {
-                        var nomenclature = new Nomenclature();
-                        nomenclature.Read(nomemclatureId);
+                        var nomenclature = new Nomenclature() { ReadingId = nomemclatureId };
                         nomenclatureDescription = nomenclature.Description;
                         shelfLifeDays = nomenclature.ShelfLife;
                         unitsQuantityPerPallet = nomenclature.UnitsQuantityPerPallet;
@@ -881,8 +875,7 @@ and MarkForDeleting = 0
 
                     if (!isTare)
                         {
-                        Parties party = new Parties();
-                        party.Read(row[Document.NomenclatureParty]);
+                        Parties party = new Parties() { ReadingId = row[Document.NomenclatureParty] };
                         element.Date = party.DateOfManufacture;
                         element.UpdatePalletQuantity();
                         }
@@ -953,8 +946,7 @@ and MarkForDeleting = 0
 
         private bool getBoxes(long nomenclatureId, int units, out NomenclatureData tare)
             {
-            var nomenclature = new Nomenclature();
-            nomenclature.Read(nomenclatureId);
+            var nomenclature = new Nomenclature() { ReadingId = nomenclatureId };
 
             if (nomenclature.IsKeg() || nomenclature.BoxType.Empty)
                 {

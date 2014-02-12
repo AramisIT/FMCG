@@ -376,8 +376,7 @@ namespace Documents
                 DataRow row = NomenclatureInfo.Rows[rowIndex];
 
                 var nomenclatureCount = Convert.ToInt32(row[NomenclatureCount]);
-                var nomenclature = new Nomenclature();
-                nomenclature.Read((long)row[Nomenclature]);
+                var nomenclature = new Nomenclature() { ReadingId = row[Nomenclature] };
                 var countInOnePalet = nomenclature.UnitsQuantityPerPallet;
                 var countInOnePack = nomenclature.UnitsQuantityPerPack;
                 if (countInOnePack == 0)
@@ -385,9 +384,7 @@ namespace Documents
                     countInOnePack = 1;// to avoid division by zero
                     }
 
-                var party = new Parties();
-                party.Read((long)row[NomenclatureParty]);
-
+                var party = new Parties() { ReadingId = row[NomenclatureParty] };
 
                 var nomenclatureData = wareList[rowIndex];
                 var createSpecificStikers = nomenclatureData.StandartPalletsCount > 0 ||
@@ -415,7 +412,7 @@ namespace Documents
         private List<Tuple<int, int, long, int>> buildNonStandartQuantitiesList(NomenclatureData nomenclatureData, int countInOnePack, long trayId)
             {
             var pallets = new List<Tuple<int, int, long, int>>();
-            
+
             for (int stickerIndex = 0; stickerIndex < nomenclatureData.StandartPalletsCount; stickerIndex++)
                 {
                 pallets.Add(new Tuple<int, int, long, int>(nomenclatureData.UnitsAmountInOneStandartPallet / countInOnePack, nomenclatureData.UnitsAmountInOneStandartPallet, trayId, nomenclatureData.UnitsAmountInOneStandartPallet));
