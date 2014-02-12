@@ -17,7 +17,6 @@ namespace WMS_client.Base.Visual
 
             dataGrid.TableStyles.Add(new DataGridTableStyle());
             dataGrid.TableStyles[0].MappingName = "Mobile";
-            dataGrid.PreferredRowHeight = 25;
             }
 
         public int SelectedIndex { get; set; }
@@ -73,6 +72,11 @@ namespace WMS_client.Base.Visual
                 {
                 selectItem();
                 }
+            }
+
+        internal void SetRowHeight(int rowHeight)
+            {
+            dataGrid.PreferredRowHeight = rowHeight;
             }
         }
     }

@@ -60,7 +60,7 @@
             this.dataGrid.ColumnHeadersVisible = false;
             this.dataGrid.Location = new System.Drawing.Point(13, 42);
             this.dataGrid.Name = "dataGrid";
-            this.dataGrid.Size = new System.Drawing.Size(215, 195);
+            this.dataGrid.Size = new System.Drawing.Size(215, 217);
             this.dataGrid.TabIndex = 2;
             this.dataGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGrid_KeyPress);
             // 

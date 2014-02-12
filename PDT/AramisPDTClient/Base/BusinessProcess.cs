@@ -62,7 +62,7 @@ namespace WMS_client
                 this.CellBarcode = CellBarcode;
                 }
 
-            
+
             Start();
             }
 
@@ -260,7 +260,14 @@ namespace WMS_client
 
         protected bool SelectFromList(List<CatalogItem> list, int selectedIndex, out CatalogItem selectedItem)
             {
+            const int defaultRowHeight = 25;
+            return SelectFromList(list, selectedIndex, defaultRowHeight, out selectedItem);
+            }
+
+        protected bool SelectFromList(List<CatalogItem> list, int selectedIndex, int rowHeight, out CatalogItem selectedItem)
+            {
             var selectingItemForm = new WMS_client.Base.Visual.SelectingItem();
+            selectingItemForm.SetRowHeight(rowHeight);
             selectingItemForm.DataSource = list;
             selectingItemForm.SelectedIndex = selectedIndex;
 
