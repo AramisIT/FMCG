@@ -6,6 +6,7 @@ using Aramis.DatabaseConnector;
 using Aramis.Platform;
 using AramisWpfComponents.Excel;
 using AtosFMCG.TouchScreen.Controls;
+using pdtExternalStorage;
 
 namespace AtosFMCG.HelperClasses.PDT
     {
@@ -94,7 +95,7 @@ namespace AtosFMCG.HelperClasses.PDT
                     return new object[] { true, communication.GetUserName(Convert.ToInt32(parameters[0])) };
 
                 case "GetWares":
-                    return new object[] { true, communication.GetWares(parameters[0] as string) };
+                    return new object[] { true, communication.GetWares(parameters[0] as string, (SelectionFilters)(int)parameters[1]) };
 
                 case "SetBarcode":
                     bool recordWasAdded;
@@ -104,6 +105,19 @@ namespace AtosFMCG.HelperClasses.PDT
                 case "SetPalletStatus":
                     communication.SetPalletStatus(Convert.ToInt64(parameters[0]), (bool)parameters[1]);
                     break;
+
+                case "GetParties":
+                        {
+                        var table = communication.GetParties(Convert.ToInt64(parameters[0]), (SelectionFilters)Convert.ToInt32(parameters[1]));
+                        return new object[] { true, table };
+                        }
+                    break;
+
+                case "GetWaresInKegs":
+                        {
+                        var table = communication.GetWaresInKegs((SelectionFilters)Convert.ToInt32(parameters[0]));
+                        return new object[] { true, table };
+                        }
                 }
 
             return new object[0];
@@ -319,6 +333,6 @@ WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
 
             return new object[] { result, message };
             }
-       
+
         }
     }

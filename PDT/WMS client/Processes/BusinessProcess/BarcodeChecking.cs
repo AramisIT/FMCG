@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Linq;
+using pdtExternalStorage;
 using WMS_client.HelperClasses;
 using System.Collections.Generic;
 using System.Data;
@@ -92,7 +93,7 @@ namespace WMS_client.Processes
 
         private void handleWareBarcode(string barcode)
             {
-            var table = new ServerInteraction().GetWares(barcode);
+            var table = new ServerInteraction().GetWares(barcode, SelectionFilters.All);
             if (table == null)
                 {
                 return;

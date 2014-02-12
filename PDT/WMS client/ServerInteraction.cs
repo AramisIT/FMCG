@@ -62,7 +62,7 @@ namespace WMS_client
 
             return false;
             }
-    
+
         public bool GetTareTable(out DataTable tareTable)
             {
             performQuery("GetTareTable");
@@ -122,7 +122,7 @@ namespace WMS_client
 
             return false;
             }
-       
+
         public bool WriteStickerFact(long acceptanceId, long stickerId, bool palletChanged, long cellId, long previousStickerId, long trayId, long linerId, int linersQuantity, int packsCount, int unitsCount)
             {
             performQuery("WriteStickerFact", acceptanceId, stickerId, palletChanged, cellId, trayId, linerId, linersQuantity, packsCount, unitsCount);
@@ -339,9 +339,9 @@ namespace WMS_client
             return queryResultParameters[1] as string;
             }
 
-        public DataTable GetWares(string barcode)
+        public DataTable GetWares(string barcode, SelectionFilters selectionFilter)
             {
-            performQuery("GetWares", barcode);
+            performQuery("GetWares", barcode, (int)selectionFilter);
             if (!success) return null;
 
             return queryResultParameters[1] as DataTable;
@@ -363,6 +363,28 @@ namespace WMS_client
         public void SetPalletStatus(long stickerId, bool fullPallet)
             {
             performQuery("SetPalletStatus", stickerId, fullPallet);
+            }
+
+        public DataTable GetParties(long wareId, SelectionFilters selectionFilter)
+            {
+            performQuery("GetParties", wareId, (int)selectionFilter);
+
+            if (success)
+                {
+                return queryResultParameters[1] as DataTable;
+                }
+            return null;
+            }
+
+        public DataTable GetWaresInKegs(SelectionFilters selectionFilter)
+            {
+            performQuery("GetWaresInKegs", (int)selectionFilter);
+
+            if (success)
+                {
+                return queryResultParameters[1] as DataTable;
+                }
+            return null;
             }
         }
     }

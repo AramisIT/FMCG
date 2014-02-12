@@ -53,23 +53,6 @@ namespace WMS_client.HelperClasses
             return values.Length > 1;
             }
 
-        public static bool IsNumber(this string stringValue)
-            {
-            if (string.IsNullOrEmpty(stringValue))
-                {
-                return false;
-                }
-
-            foreach (char @char in stringValue)
-                {
-                if (!char.IsNumber(@char))
-                    {
-                    return false;
-                    }
-                }
-            return true;
-            }
-
         enum BarcodeDataIndexes
             {
             StickerId,
@@ -144,7 +127,7 @@ namespace WMS_client.HelperClasses
                 return result;
                 }
 
-           // result.TotalUnitsQuantity = Convert.ToInt32(values[(int)BarcodeDataIndexes.UnitsQuantity]);
+            // result.TotalUnitsQuantity = Convert.ToInt32(values[(int)BarcodeDataIndexes.UnitsQuantity]);
 
             result.Nomenclature = new CatalogItem()
             {

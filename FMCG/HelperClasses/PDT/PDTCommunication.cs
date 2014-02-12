@@ -16,6 +16,7 @@ using AtosFMCG.Enums;
 using AtosFMCG.TouchScreen.PalletSticker;
 using Catalogs;
 using DevExpress.XtraBars;
+using DevExpress.XtraEditors;
 using Documents;
 using FMCG.DatabaseObjects.Enums;
 using FMCG.HelperClasses.PDT;
@@ -27,7 +28,7 @@ namespace AtosFMCG.HelperClasses.PDT
     {
     public class PDTCommunication : IRemoteCommunications
         {
-        
+
         /// <summary>Получить кол-во документов доступных для обработки</summary>
         public bool GetCountOfDocuments(out string acceptanceDocCount, out string inventoryDocCount,
                                         out string selectionDocCount, out string movementDocCount)
@@ -708,14 +709,16 @@ order by [LineNumber]";
                 stickers.Add(sticker);
                 }
 
-            var stickersCreator = new StickersPrintingHelper(stickers, ThermoPrinters.GetCurrentPrinterName());
-
-            (UIConsts.MainWindow as Form).Invoke(new Action(() =>
-                {
-                    stickersCreator.Print();
-                }));
+            printStickers(stickers);
 
             return true;
+            }
+
+        private static void printStickers(List<Stickers> stickers)
+            {
+            var stickersCreator = new StickersPrintingHelper(stickers, ThermoPrinters.GetCurrentPrinterName());
+
+            (UIConsts.MainWindow as Form).Invoke(new Action(() => { stickersCreator.Print(); }));
             }
 
         public bool ReadConsts(out DataTable constsTable)
@@ -783,7 +786,114 @@ order by LineNumber");
             return user.Description;
             }
 
-        public DataTable GetWares(string barcode)
+        public DataTable GetParties(long wareId, SelectionFilters selectionFilter)
+            {
+            switch (selectionFilter)
+                {
+                case SelectionFilters.RecentlyShipped:
+                    var q = DB.NewQuery(string.Format(@"
+declare @boundDate date = DATEADD (day , -{0}, cast(GETDATE() as date));
+
+select distinct p.Id, p.TheDeadlineSuitability ExpirationDate from Moving
+
+join dbo.SubMovingNomenclatureInfo n on n.IdDoc = Moving.Id
+join Parties p on p.Id = n.Party
+
+where Moving.PickingPlan > 0 and Moving.Date >= @boundDate 
+and n.Nomenclature = @Nomenclature and Moving.MarkForDeleting = 0 
+
+order by p.TheDeadlineSuitability", RECENTLY_SHIPPED_DAYS_AMOUNT));
+                    q.AddInputParameter("Nomenclature", wareId);
+
+                    var result = q.SelectToTable();
+                    var expirationColumn = new DataColumn("Expiration", typeof(string));
+                    result.Columns.Add(expirationColumn);
+
+                    var dataTimeColumn = result.Columns["ExpirationDate"];
+                    foreach (DataRow row in result.Rows)
+                        {
+                        var expirationDate = (DateTime)row[dataTimeColumn];
+                        row[expirationColumn] = expirationDate.ConvertToStringDateOnly();
+                        }
+                    result.Columns.Remove(dataTimeColumn);
+
+                    return result;
+
+                default:
+                    return new DataTable();
+                }
+            }
+
+        public DataTable GetWaresInKegs(SelectionFilters selectionFilter)
+            {
+            var q = DB.NewQuery(@"
+select n.Id, rtrim(n.Description) [Description]
+from Nomenclature n 
+where BoxType > 0 and UnitsQuantityPerPallet > 0 and UnitsQuantityPerPack = 1 and IsTare = 0 and ShelfLife > 0 and MarkForDeleting = 0 
+");
+
+            var result = q.SelectToTable();
+
+            switch (selectionFilter)
+                {
+                case SelectionFilters.All:
+                    return result;
+
+                case SelectionFilters.RecentlyShipped:
+                    return filterRecentlyShippedWares(result);
+                }
+            return result;
+            }
+
+        public long CreateNewSticker(long wareId, DateTime expirationDate, int unitsQuantity, int boxesCount)
+            {
+            var party = Parties.FindByExpirationDate(wareId, expirationDate);
+
+            if (party.IsNull() || party.Empty)
+                {
+                return 0;
+                }
+
+            var nomenclature = new Nomenclature() { ReadingId = wareId };
+            var sticker = new Stickers()
+                {
+                    Nomenclature = nomenclature,
+                    Party = party,
+                    UnitsQuantity = unitsQuantity,
+                    Quantity = boxesCount,
+                    ReleaseDate = party.DateOfManufacture,
+                    ExpiryDate = party.TheDeadlineSuitability
+                };
+
+            // подразумевается, что паллета начатая
+            sticker.StartUnitsQuantity = nomenclature.UnitsQuantityPerPallet > unitsQuantity
+                ? nomenclature.UnitsQuantityPerPallet
+                : unitsQuantity;
+
+            var stickerExists = sticker.Write() == WritingResult.Success;
+
+            if (stickerExists)
+                {
+                printStickers(new List<Stickers>() { sticker });
+                }
+
+            return stickerExists ? sticker.Id : 0;
+            }
+
+        public long CreateNewAcceptance(long employeeId)
+            {
+            var acceptance = new AcceptanceOfGoods()
+                {
+                    State = StatesOfDocument.Processing,
+                    Date = SystemConfiguration.ServerDateTime,
+                    Responsible = new Users() { ReadingId = employeeId }
+                };
+
+            var writeResult = acceptance.Write();
+            return writeResult == WritingResult.Success ? acceptance.Id : 0;
+            }
+
+        public DataTable GetWares(string barcode, SelectionFilters selectionFilter)
             {
             var q = DB.NewQuery(@"select n.Id, rtrim(n.Description) [Description]
 from Barcodes b
@@ -792,6 +902,53 @@ where b.Description = @barcode");
             q.AddInputParameter("barcode", barcode);
 
             var result = q.SelectToTable();
+
+            switch (selectionFilter)
+                {
+                case SelectionFilters.All:
+                    return result;
+
+                case SelectionFilters.RecentlyShipped:
+                    return filterRecentlyShippedWares(result);
+                }
+            return result;
+            }
+
+        private readonly int RECENTLY_SHIPPED_DAYS_AMOUNT = getRecentlyShippedDaysAmount();
+
+        private static int getRecentlyShippedDaysAmount()
+            {
+#if DEBUG
+            return 1000;
+#endif
+            return 1;
+            }
+
+        private DataTable filterRecentlyShippedWares(DataTable waresIdsTable)
+            {
+            while (waresIdsTable.Columns.Count > 1)
+                {
+                waresIdsTable.Columns.RemoveAt(1);
+                }
+
+            waresIdsTable.Columns[0].ColumnName = "Value";
+
+            var q = DB.NewQuery(string.Format(@"
+declare @boundDate date = DATEADD (day , -{0}, cast(GETDATE() as date));
+
+select distinct nom.Id, rtrim(nom.Description) [Description] from  Moving
+
+join dbo.SubMovingNomenclatureInfo n on n.IdDoc = Moving.Id
+join @ids as wares on n.Nomenclature = wares.Value
+join Nomenclature nom on nom.Id = n.Nomenclature
+
+where Moving.PickingPlan > 0 and Moving.MarkForDeleting = 0 and Moving.Date >= @boundDate
+
+order by rtrim(nom.Description)
+", RECENTLY_SHIPPED_DAYS_AMOUNT));
+            q.AddInputTVPParameter("ids", waresIdsTable, "ListOfInt64");
+            var result = q.SelectToTable();
+
             return result;
             }
 
@@ -800,7 +957,7 @@ where b.Description = @barcode");
             var sticker = new Stickers() { ReadingId = stickerId };
             var nomenclatureId = sticker.GetRef("Nomenclature");
 
-            foreach (DataRow row in GetWares(barcode).Rows)
+            foreach (DataRow row in GetWares(barcode, SelectionFilters.All).Rows)
                 {
                 var barcodeAlreadyAttached = (long)row["Id"] == nomenclatureId;
                 if (barcodeAlreadyAttached)

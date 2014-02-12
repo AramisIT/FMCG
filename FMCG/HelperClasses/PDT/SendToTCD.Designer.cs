@@ -170,7 +170,7 @@
             this.sendMe.Name = "sendMe";
             this.sendMe.Size = new System.Drawing.Size(122, 38);
             this.sendMe.TabIndex = 4;
-            this.sendMe.Text = "us_1";
+            this.sendMe.Text = "em.2";
             this.sendMe.UseVisualStyleBackColor = true;
             this.sendMe.Click += new System.EventHandler(this.sendMe_Click);
             // 
@@ -205,7 +205,7 @@
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(122, 38);
             this.button4.TabIndex = 8;
-            this.button4.Text = "nm_1";
+            this.button4.Text = "4820000193344";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.sendMe_Click);
             // 
@@ -217,7 +217,7 @@
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(122, 38);
             this.button5.TabIndex = 9;
-            this.button5.Text = "nm_2";
+            this.button5.Text = "4820000190350";
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.sendMe_Click);
             // 
@@ -229,7 +229,7 @@
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(122, 38);
             this.button6.TabIndex = 10;
-            this.button6.Text = "nm_3";
+            this.button6.Text = "4820000197458";
             this.button6.UseVisualStyleBackColor = true;
             this.button6.Click += new System.EventHandler(this.sendMe_Click);
             // 

@@ -103,10 +103,15 @@ namespace Catalogs
             fillDescription();
             }
 
+        protected override void InitItemBeforeShowing()
+            {
+            fillDescription();
+            }
+
         /// <summary>Заповння найменування документу</summary>
         private void fillDescription()
             {
-            Description = string.Format("{0}: {1}", Nomenclature.Description, DateOfManufacture.ToShortDateString());
+            Description = string.Format("{1}: {0}", Nomenclature.Description, DateOfManufacture.ToShortDateString());
             }
         #endregion
 
@@ -127,6 +132,22 @@ namespace Catalogs
             query.AddInputParameter("Date", productionDate);
             query.AddInputParameter("Nomenclature", nomenclatureId);
             var partyId = query.SelectInt64();
+
+            return new Parties() { ReadingId = partyId };
+            }
+
+        internal static Parties FindByExpirationDate(long wareId, DateTime expirationDate)
+            {
+            var q = DB.NewQuery(@"
+select top 1 Id from Parties p 
+
+where p.Nomenclature = @Nomenclature and 
+p.TheDeadlineSuitability = @ExpirationDate
+and p.MarkForDeleting = 0 
+");
+            q.AddInputParameter("Nomenclature", wareId);
+            q.AddInputParameter("ExpirationDate", expirationDate);
+            var partyId = q.SelectInt64();
 
             return new Parties() { ReadingId = partyId };
             }

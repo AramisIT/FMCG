@@ -17,7 +17,7 @@ namespace WMS_client.Processes
             Movement,
             StickerRepeating,
             BarcodeChecking,
-
+            ReturnFromHaul,
 
             // temp processes
             IsPalletFull
@@ -47,6 +47,7 @@ namespace WMS_client.Processes
                             new TableData((long) Processes.Inventory, "Інвентаризація", string.Empty),
                             new TableData((long) Processes.Selection, "Відбір", movementDocCount),
                             new TableData((long) Processes.Movement, "Переміщення", string.Empty),
+                            new TableData((long) Processes.ReturnFromHaul, "Повернення з рейсу", string.Empty),
                             new TableData((long) Processes.StickerRepeating, "Повтор етикетки", string.Empty),
                             new TableData((long) Processes.BarcodeChecking, "Перевірка штрих-коду", string.Empty),
 
@@ -118,6 +119,12 @@ namespace WMS_client.Processes
                     MainProcess.ClearControls();
                     process = new StickerRepeating();
                     break;
+
+                case Processes.ReturnFromHaul:
+                    MainProcess.ClearControls();
+                    process = new ReturnFromHaul();
+                    break;
+
                 case Processes.BarcodeChecking:
                     MainProcess.ClearControls();
                     process = new BarcodeChecking();
