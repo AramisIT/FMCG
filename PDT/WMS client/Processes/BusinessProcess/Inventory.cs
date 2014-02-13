@@ -11,9 +11,9 @@ namespace WMS_client.Processes
         {
         private class AcceptancePalletControls : HideableControlsCollection
             {
-            public MobileTextBox packsCountTextBox;
-            public MobileTextBox unitsCountTextBox;
-            public MobileTextBox linersQuantityTextBox;
+            public MobileTextBox PacksCountTextBox;
+            public MobileTextBox UnitsCountTextBox;
+            public MobileTextBox LinersQuantityTextBox;
 
             public MobileLabel nomenclatureLabel;
             public MobileLabel cellLabel;
@@ -261,11 +261,11 @@ namespace WMS_client.Processes
 
             palletEditControls.packsLabel = MainProcess.CreateLabel("упаковок:", 5, top, 80,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
-            palletEditControls.packsCountTextBox = MainProcess.CreateTextBox(90, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
+            palletEditControls.PacksCountTextBox = MainProcess.CreateTextBox(90, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
 
             palletEditControls.unitsLabel = MainProcess.CreateLabel("+ шт.:", 135, top, 55,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
-            palletEditControls.unitsCountTextBox = MainProcess.CreateTextBox(195, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
+            palletEditControls.UnitsCountTextBox = MainProcess.CreateTextBox(195, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
 
             top += delta;
             palletEditControls.stickerIdInfoLabel = MainProcess.CreateLabel(string.Empty, 5, top, 230,
@@ -278,7 +278,7 @@ namespace WMS_client.Processes
             top += delta + delta;
             palletEditControls.linersLabel = MainProcess.CreateLabel("Кількість прокладок:", 5, top, 180,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
-            palletEditControls.linersQuantityTextBox = MainProcess.CreateTextBox(190, top, 45, string.Empty, ControlsStyle.LabelNormal, null, false);
+            palletEditControls.LinersQuantityTextBox = MainProcess.CreateTextBox(190, top, 45, string.Empty, ControlsStyle.LabelNormal, null, false);
 
             top += delta;
             palletEditControls.linerButton = MainProcess.CreateButton(string.Empty, 5, top, 230, 35, "modelButton", linerButton_Click);
@@ -369,53 +369,20 @@ namespace WMS_client.Processes
 
         public int packsCount
             {
-            get
-                {
-                if (string.IsNullOrEmpty(palletEditControls.packsCountTextBox.Text))
-                    {
-                    return 0;
-                    }
-
-                return Convert.ToInt32(palletEditControls.packsCountTextBox.Text);
-                }
-            set
-                {
-                palletEditControls.packsCountTextBox.Text = (value == 0) ? string.Empty : value.ToString();
-                }
+            get { return palletEditControls.PacksCountTextBox.GetNumber(); }
+            set { palletEditControls.PacksCountTextBox.SetNumber(value); }
             }
 
         public int unitsCount
             {
-            get
-                {
-                if (string.IsNullOrEmpty(palletEditControls.unitsCountTextBox.Text))
-                    {
-                    return 0;
-                    }
-
-                return Convert.ToInt32(palletEditControls.unitsCountTextBox.Text);
-                }
-            set
-                {
-                palletEditControls.unitsCountTextBox.Text = (value == 0) ? string.Empty : value.ToString();
-                }
+            get { return palletEditControls.UnitsCountTextBox.GetNumber(); }
+            set { palletEditControls.UnitsCountTextBox.SetNumber(value); }
             }
 
         public byte linersCount
             {
-            get
-                {
-                if (string.IsNullOrEmpty(palletEditControls.linersQuantityTextBox.Text))
-                    {
-                    return 0;
-                    }
-
-                return Convert.ToByte(palletEditControls.linersQuantityTextBox.Text);
-                }
-            set
-                {
-                palletEditControls.linersQuantityTextBox.Text = (value == 0) ? string.Empty : value.ToString();
-                }
+            get { return (byte)palletEditControls.LinersQuantityTextBox.GetNumber(); }
+            set { palletEditControls.LinersQuantityTextBox.SetNumber(value); }
             }
 
         private void updateStickerData()

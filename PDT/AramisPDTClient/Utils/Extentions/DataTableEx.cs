@@ -8,7 +8,7 @@ using WMS_client;
 
 namespace System
     {
-    public static class DataTableEx
+    public static class ControlsEx
         {
         public static DataRow FindRowInTable(DataTable Table, DataRow Row, string ColumnsNames, ref int StartIndex)
             {
@@ -134,7 +134,7 @@ namespace System
         public static void AddRowCopy(DataTable WritableTable, DataRow SourceRow)
             {
             var NewRow = WritableTable.NewRow();
-            DataTableEx.CopyRow(NewRow, SourceRow);
+            ControlsEx.CopyRow(NewRow, SourceRow);
             WritableTable.Rows.Add(NewRow);
             }
 
@@ -196,5 +196,32 @@ namespace System
             return itemsList;
             }
 
+        public static int GetNumber(this MobileTextBox textBox, int maxValue, int defaultValue)
+            {
+            var result = textBox.GetNumber();
+            return result <= maxValue ? result : defaultValue;
+            }
+
+        public static int GetNumber(this MobileTextBox textBox)
+            {
+            if (string.IsNullOrEmpty(textBox.Text))
+                {
+                return 0;
+                }
+
+            try
+                {
+                return Convert.ToInt32(textBox.Text);
+                }
+            catch
+                {
+                return 0;
+                }
+            }
+
+        public static void SetNumber(this MobileTextBox textBox, int value)
+            {
+            textBox.Text = (value == 0) ? string.Empty : value.ToString();
+            }
         }
     }

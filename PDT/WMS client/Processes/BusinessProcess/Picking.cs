@@ -36,54 +36,19 @@ namespace WMS_client.Processes
 
         public byte linersCount
             {
-            get
-                {
-                if (string.IsNullOrEmpty(quantityEditControls.linersCountTextBox.Text))
-                    {
-                    return 0;
-                    }
-
-                long value = Convert.ToInt64(quantityEditControls.linersCountTextBox.Text);
-                if (value > 10)
-                    {
-                    return 0;
-                    }
-                return (byte)value;
-                }
+            get { return (byte)quantityEditControls.linersCountTextBox.GetNumber(9, 0); }
             }
 
         public int packsCount
             {
-            get
-                {
-                if (string.IsNullOrEmpty(quantityEditControls.packsCountTextBox.Text))
-                    {
-                    return 0;
-                    }
-
-                return Convert.ToInt32(quantityEditControls.packsCountTextBox.Text);
-                }
-            set
-                {
-                quantityEditControls.packsCountTextBox.Text = (value == 0) ? string.Empty : value.ToString();
-                }
+            get { return quantityEditControls.packsCountTextBox.GetNumber(); }
+            set { quantityEditControls.packsCountTextBox.SetNumber(value); }
             }
 
         public int unitsCount
             {
-            get
-                {
-                if (string.IsNullOrEmpty(quantityEditControls.unitsCountTextBox.Text))
-                    {
-                    return 0;
-                    }
-
-                return Convert.ToInt32(quantityEditControls.unitsCountTextBox.Text);
-                }
-            set
-                {
-                quantityEditControls.unitsCountTextBox.Text = (value == 0) ? string.Empty : value.ToString();
-                }
+            get { return quantityEditControls.unitsCountTextBox.GetNumber(); }
+            set { quantityEditControls.unitsCountTextBox.SetNumber(value); }
             }
 
         private long documentId;

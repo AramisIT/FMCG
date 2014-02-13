@@ -332,53 +332,20 @@ namespace WMS_client.Processes
 
         public int packsCount
             {
-            get
-                {
-                if (string.IsNullOrEmpty(palletEditControls.packsCountTextBox.Text))
-                    {
-                    return 0;
-                    }
-
-                return Convert.ToInt32(palletEditControls.packsCountTextBox.Text);
-                }
-            set
-                {
-                palletEditControls.packsCountTextBox.Text = (value == 0) ? string.Empty : value.ToString();
-                }
+            get { return palletEditControls.packsCountTextBox.GetNumber(); }
+            set { palletEditControls.packsCountTextBox.SetNumber(value); }
             }
 
         public int unitsCount
             {
-            get
-                {
-                if (string.IsNullOrEmpty(palletEditControls.unitsCountTextBox.Text))
-                    {
-                    return 0;
-                    }
-
-                return Convert.ToInt32(palletEditControls.unitsCountTextBox.Text);
-                }
-            set
-                {
-                palletEditControls.unitsCountTextBox.Text = (value == 0) ? string.Empty : value.ToString();
-                }
+            get { return palletEditControls.unitsCountTextBox.GetNumber(); }
+            set { palletEditControls.unitsCountTextBox.SetNumber(value); }
             }
 
         public int linersCount
             {
-            get
-                {
-                if (string.IsNullOrEmpty(palletEditControls.linersQuantityTextBox.Text))
-                    {
-                    return 0;
-                    }
-
-                return Convert.ToInt32(palletEditControls.linersQuantityTextBox.Text);
-                }
-            set
-                {
-                palletEditControls.linersQuantityTextBox.Text = (value == 0) ? string.Empty : value.ToString();
-                }
+            get { return palletEditControls.linersQuantityTextBox.GetNumber(); }
+            set { palletEditControls.linersQuantityTextBox.SetNumber(value); }
             }
 
         private bool initAcceptance(long stickerId)

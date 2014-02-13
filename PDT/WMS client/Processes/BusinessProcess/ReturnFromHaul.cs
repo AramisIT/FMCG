@@ -20,7 +20,25 @@ namespace WMS_client.Processes
             public MobileButton ItIsKegButton;
             }
 
+        private class ReturnWareControls : HideableControlsCollection
+            {
+            public MobileLabel WareLabel;
+            public MobileLabel PartyLabel;
+
+            public MobileLabel QuantityLabel;
+            public MobileTextBox UnitsCountTextBox;
+
+            public MobileLabel QuantityBoxesLabel;
+            public MobileTextBox PacksCountTextBox;
+           
+            public MobileLabel ComplateTipLabel;
+
+            public MobileButton ItIsKegButton;
+            }
+
         private WareIdentificationControls wareIdentificationControls;
+
+        private ReturnWareControls returnWareControls;
 
         private long acceptanceId;
         private CatalogItem currentWareItem;
@@ -110,21 +128,35 @@ namespace WMS_client.Processes
                 return;
                 }
 
-            identifyWare(table);
+            if (!identifyWare(table)) return;
+
+            showWare();
             }
 
-        private void identifyWare(DataTable waresTable)
+        private void showWare()
             {
-            if (!selectingItem(waresTable, out currentWareItem)) return;
+            ShowControls(returnWareControls);
+            }
+
+        private bool identifyWare(DataTable waresTable)
+            {
+            if (!selectingItem(waresTable, out currentWareItem)) return false;
 
             var parties = new ServerInteraction().GetParties(currentWareItem.Id, SelectionFilters.RecentlyShipped);
             if (parties == null || parties.Rows.Count == 0)
                 {
                 "Не найдено ни одной партии!".ShowMessage();
-                return;
+                currentWareItem = null;
+                return false;
                 }
 
-            if (!selectingItem(parties, out currentParty)) return;
+            if (!selectingItem(parties, out currentParty))
+                {
+                currentWareItem = null;
+                return false;
+                }
+
+            return true;
             }
 
         private bool selectingItem(DataTable table, out CatalogItem selectedItem)
