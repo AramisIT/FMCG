@@ -22,7 +22,7 @@ namespace WMS_client
 
             Type ParamType = Parameter.GetType();
 
-            if (ParamType == Type.GetType("System.Boolean"))
+            if (ParamType == typeof(bool))
                 {
                 return "1" + ((bool)Parameter ? "1" : "0");
                 }
@@ -38,7 +38,7 @@ namespace WMS_client
                 return "2" + Parameter.ToString();
                 }
 
-            if (ParamType == Type.GetType("System.String"))
+            if (ParamType == typeof(string))
                 {
                 return "3" + Parameter.ToString();
                 }
@@ -46,6 +46,12 @@ namespace WMS_client
             if (Parameter is System.Data.DataTable)
                 {
                 return "4" + CreateTable(Parameter as DataTable);
+                }
+
+            if (Parameter is DateTime)
+                {
+                var dateTime = (DateTime)Parameter;
+                return "6" + dateTime.ToStandartString();
                 }
 
             return "3" + Parameter.ToString();
@@ -79,6 +85,11 @@ namespace WMS_client
             if (Parameter[0] == '4')
                 {
                 return GetTable(Parameter.Substring(1, Parameter.Length - 1));
+                }
+
+            if (Parameter[0] == '6')
+                {
+                return Parameter.Substring(1, Parameter.Length - 1).ToDateTime();
                 }
 
             return null;
@@ -154,15 +165,19 @@ namespace WMS_client
                 string HeaderName = header.Substring(1, header.Length - 1);
                 if (header[0] == '1')
                     {
-                    Table.Columns.Add(HeaderName, Type.GetType("System.Boolean"));
+                    Table.Columns.Add(HeaderName, typeof(bool));
                     }
                 if (header[0] == '2')
                     {
-                    Table.Columns.Add(HeaderName, Type.GetType("System.Double"));
+                    Table.Columns.Add(HeaderName, typeof(double));
                     }
                 if (header[0] == '3')
                     {
-                    Table.Columns.Add(HeaderName, Type.GetType("System.String"));
+                    Table.Columns.Add(HeaderName, typeof(string));
+                    }
+                if (header[0] == '6')
+                    {
+                    Table.Columns.Add(HeaderName, typeof(DateTime));
                     }
                 }
 
@@ -176,16 +191,18 @@ namespace WMS_client
                 string Value;
                 for (int j = 0; j < fields.Length; j++)
                     {
-                    if (Table.Columns[j].DataType == Type.GetType("System.Double"))
+                    if (Table.Columns[j].DataType == typeof(double))
                         {
-                        Value = fields[j].Replace(',', '.');
+                        Row[j] = fields[j].Replace(',', '.');
+                        }
+                    else if (Table.Columns[j].DataType == typeof(DateTime))
+                        {
+                        Row[j] = fields[j].ToDateTime();
                         }
                     else
                         {
-                        Value = fields[j];
+                        Row[j] = fields[j];
                         }
-
-                    Row[j] = Value;
                     }
                 Table.Rows.Add(Row);
                 }
