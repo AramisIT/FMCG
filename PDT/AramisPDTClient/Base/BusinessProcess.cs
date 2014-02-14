@@ -4,6 +4,7 @@ using System.Data;
 using System.Reflection;
 using System.Windows.Forms;
 using AramisPDTClient;
+using WMS_client.Base.Visual;
 using WMS_client.Processes;
 using WMS_client.Utils;
 
@@ -102,8 +103,8 @@ namespace WMS_client
 
         protected bool IsLoad;
         public abstract void DrawControls();
-        public abstract void OnBarcode(string barcode);
-        public abstract void OnHotKey(KeyAction key);
+        protected abstract void OnBarcode(string barcode);
+        protected abstract void OnHotKey(KeyAction key);
         public string CellName;
         public string CellBarcode;
         public int NextFormNumber = 1;
@@ -111,6 +112,27 @@ namespace WMS_client
         public bool IsExistParameters { get { return ResultParameters != null && ResultParameters.Length > 0 && ResultParameters[0] != null; } }
         public bool IsAnswerIsTrue { get { return IsExistParameters && Convert.ToBoolean(ResultParameters[0]); } }
         public ProcessType BusinessProcessType;
+
+        public void HandleBarcode(string barcode)
+            {
+            if (selectingFromList) return;
+
+            OnBarcode(barcode);
+            }
+
+        public void HandleHotKey(KeyAction key)
+            {
+            if (selectingFromList)
+                {
+                if (key == KeyAction.Esc)
+                    {
+                    selectingItemForm.CancelSelecting();
+                    }
+                return;
+                }
+
+            OnHotKey(key);
+            }
 
         protected bool SuccessQueryResult
             {
@@ -174,8 +196,8 @@ namespace WMS_client
                 {
                 FormNumber = NextFormNumber;
                 MainProcess.ClearControls();
-                MainProcess.OnBarcode = OnBarcode;
-                MainProcess.MainForm.SetOnHotKeyPressed(OnHotKey);
+                MainProcess.OnBarcode = HandleBarcode;
+                MainProcess.MainForm.SetOnHotKeyPressed(HandleHotKey);
 
                 Start();
                 }
@@ -191,8 +213,8 @@ namespace WMS_client
                 }
             else
                 {
-                MainProcess.OnBarcode = OnBarcode;
-                MainProcess.MainForm.SetOnHotKeyPressed(OnHotKey);
+                MainProcess.OnBarcode = HandleBarcode;
+                MainProcess.MainForm.SetOnHotKeyPressed(HandleHotKey);
                 //MainProcess.HotKeyAgent.OnHotKeyPressed = OnHotKey;
                 }
             }
@@ -277,16 +299,25 @@ namespace WMS_client
             return SelectFromList(list, selectedIndex, defaultRowHeight, out selectedItem);
             }
 
+        private volatile bool selectingFromList;
+        private SelectingItem selectingItemForm;
+
         protected bool SelectFromList(List<CatalogItem> list, int selectedIndex, int rowHeight, out CatalogItem selectedItem)
             {
-            var selectingItemForm = new WMS_client.Base.Visual.SelectingItem();
-            selectingItemForm.SetRowHeight(rowHeight);
-            selectingItemForm.DataSource = list;
-            selectingItemForm.SelectedIndex = selectedIndex;
+            var _selectingItemForm = new WMS_client.Base.Visual.SelectingItem();
+            _selectingItemForm.SetRowHeight(rowHeight);
+            _selectingItemForm.DataSource = list;
+            _selectingItemForm.SelectedIndex = selectedIndex;
 
-            if (selectingItemForm.ShowDialog() == DialogResult.OK)
+            this.selectingItemForm = _selectingItemForm;
+            selectingFromList = true;
+            var selectResult = _selectingItemForm.ShowDialog();
+            selectingFromList = false;
+            this.selectingItemForm = null;
+
+            if (selectResult == DialogResult.OK)
                 {
-                selectedItem = list[selectingItemForm.SelectedIndex < 0 ? 0 : selectingItemForm.SelectedIndex];
+                selectedItem = list[_selectingItemForm.SelectedIndex < 0 ? 0 : _selectingItemForm.SelectedIndex];
                 return true;
                 }
 

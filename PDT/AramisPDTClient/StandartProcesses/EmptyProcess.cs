@@ -93,7 +93,7 @@ namespace WMS_client
         {
         }
 
-        public override void OnBarcode(string Barcode)
+        protected override void OnBarcode(string Barcode)
         {
             lock (this)
             {
@@ -124,7 +124,7 @@ namespace WMS_client
         //    SetFormHotKeys(KeyAction.Exit);
         //}
 
-        public override void OnHotKey(KeyAction TypeOfAction)
+        protected override void OnHotKey(KeyAction TypeOfAction)
         {
             switch (TypeOfAction)
             {

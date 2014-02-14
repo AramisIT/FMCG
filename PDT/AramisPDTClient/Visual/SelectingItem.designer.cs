@@ -62,7 +62,7 @@
             this.dataGrid.Name = "dataGrid";
             this.dataGrid.Size = new System.Drawing.Size(215, 217);
             this.dataGrid.TabIndex = 2;
-            this.dataGrid.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.dataGrid_KeyPress);
+            
             // 
             // SelectingItem
             // 
@@ -74,12 +74,14 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "SelectingItem";
             this.Text = "Вибір елементу";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.SelectingItem_Load);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SelectingItem_KeyPress);
             this.ResumeLayout(false);
 
             }

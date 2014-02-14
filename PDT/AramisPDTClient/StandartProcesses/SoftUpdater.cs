@@ -70,12 +70,12 @@ namespace WMS_client
 
             }
 
-        public override void OnBarcode(string barcode)
+        protected override void OnBarcode(string barcode)
             {
 
             }
 
-        public override void OnHotKey(KeyAction key)
+        protected override void OnHotKey(KeyAction key)
             {
 
             }

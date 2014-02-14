@@ -50,6 +50,16 @@ namespace WMS_client.Base.Visual
 
         private void button2_Click(object sender, EventArgs e)
             {
+            CancelSelecting();
+            }
+
+        public void CancelSelecting()
+            {
+            if (InvokeRequired)
+                {
+                Invoke(new Action(CancelSelecting));
+                return;
+                }
             DialogResult = DialogResult.Cancel;
             Close();
             }
@@ -66,17 +76,21 @@ namespace WMS_client.Base.Visual
             Close();
             }
 
-        private void dataGrid_KeyPress(object sender, KeyPressEventArgs e)
-            {
-            if (e.KeyChar == (byte)Keys.Enter)
-                {
-                selectItem();
-                }
-            }
-
         internal void SetRowHeight(int rowHeight)
             {
             dataGrid.PreferredRowHeight = rowHeight;
+            }
+
+        private void SelectingItem_KeyPress(object sender, KeyPressEventArgs e)
+            {
+            var pressedKey = (Keys)e.KeyChar;
+
+            switch (pressedKey)
+                {
+                case Keys.Enter:
+                    selectItem();
+                    break;
+                }
             }
         }
     }

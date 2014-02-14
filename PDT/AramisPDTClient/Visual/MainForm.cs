@@ -236,7 +236,7 @@ namespace WMS_client
                 }
             else
                 {
-                Client.Process.OnBarcode(Barcode);
+                Client.Process.HandleBarcode(Barcode);
                 }
             }
 
