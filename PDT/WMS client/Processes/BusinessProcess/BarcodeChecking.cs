@@ -54,7 +54,7 @@ namespace WMS_client.Processes
             wareBarcode = null;
             }
 
-        public override void OnBarcode(string barcode)
+        protected override void OnBarcode(string barcode)
             {
             barcode = barcode.Replace("\r\r", "$$");
 
@@ -109,7 +109,7 @@ namespace WMS_client.Processes
             taskLabel.Text = "Скануйте палету";
             }
 
-        public override void OnHotKey(KeyAction TypeOfAction)
+        protected override void OnHotKey(KeyAction TypeOfAction)
             {
             switch (TypeOfAction)
                 {

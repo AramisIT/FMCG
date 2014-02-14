@@ -273,7 +273,7 @@ namespace WMS_client.Processes
 
         private long lastScannedPalletId;
 
-        public override void OnBarcode(string barcode)
+        protected override void OnBarcode(string barcode)
             {
             barcode = barcode.Replace("\r\r", "$$");
 
@@ -353,7 +353,7 @@ namespace WMS_client.Processes
             quantityEditControls.linersCountTextBox.Text = controlsVisible ? string.Empty : barcodeData.LinersAmount.ToString();
             }
 
-        public override void OnHotKey(KeyAction key)
+        protected override void OnHotKey(KeyAction key)
             {
             switch (key)
                 {

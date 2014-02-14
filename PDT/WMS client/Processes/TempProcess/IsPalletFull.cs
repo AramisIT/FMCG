@@ -30,7 +30,7 @@ namespace WMS_client.Processes
             }
 
 
-        public override void OnBarcode(string barcode)
+        protected override void OnBarcode(string barcode)
             {
             barcode = barcode.Replace("\r\r", "$$");
             if (!barcode.IsSticker())
@@ -44,7 +44,7 @@ namespace WMS_client.Processes
             new ServerInteraction().SetPalletStatus(barcode.ToBarcodeData().StickerId, fullPallet);
             }
 
-        public override void OnHotKey(KeyAction TypeOfAction)
+        protected override void OnHotKey(KeyAction TypeOfAction)
             {
             switch (TypeOfAction)
                 {

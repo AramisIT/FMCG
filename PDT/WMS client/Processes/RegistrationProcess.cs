@@ -38,7 +38,7 @@ namespace WMS_client.Processes
                 }
             }
 
-        public override void OnBarcode(string barcode)
+        protected override void OnBarcode(string barcode)
             {
             if (!barcode.IsEmployee()) return;
             var userCode = barcode.ToEmployeeCode();
@@ -91,7 +91,7 @@ namespace WMS_client.Processes
                 }
             }
 
-        public override void OnHotKey(KeyAction TypeOfAction)
+        protected override void OnHotKey(KeyAction TypeOfAction)
             {
             switch (TypeOfAction)
                 {
