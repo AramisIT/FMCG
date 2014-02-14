@@ -13,6 +13,7 @@ namespace WMS_client.Processes
             : base(1)
             {
             BusinessProcessType = ProcessType.Registration;
+            MainProcess.User = 0;
             }
 
         public override void DrawControls()
@@ -22,7 +23,7 @@ namespace WMS_client.Processes
 
             MainProcess.CreateButton("Створити відвантаження", 10, 205, 220, 35, "", createShipment);
 
-            MainProcess.CreateButton("Вхід", 10, 275, 220, 35, "Вхід", () => OnBarcode(string.Empty));
+            MainProcess.CreateButton("Вхід", 10, 275, 220, 35, "Вхід", startSelectingProcess);
             }
 
         public void createShipment()
@@ -37,7 +38,18 @@ namespace WMS_client.Processes
                 }
             }
 
-        public override void OnBarcode(string Barcode)
+        public override void OnBarcode(string barcode)
+            {
+            if (!barcode.IsEmployee()) return;
+            var userCode = barcode.ToEmployeeCode();
+            if (userCode == 0) return;
+
+            MainProcess.User = userCode;
+            MainProcess.UserName = new ServerInteraction().GetUserName(MainProcess.User);
+            startSelectingProcess();
+            }
+
+        private void startSelectingProcess()
             {
             new SoftUpdater();
 
@@ -46,15 +58,9 @@ namespace WMS_client.Processes
                 Warning_CantComplateOperation();
                 return;
                 }
-            //return;
-            //if (Barcode.IsValidBarcode())
-            //{
-            //Регистрация успешна!
-            MainProcess.User = 0;
+            
             MainProcess.ClearControls();
-            //Открыть окно выбора процесса
             MainProcess.Process = new SelectingProcess();
-            //}
             }
 
         private bool initConsts()
