@@ -5,7 +5,6 @@ using System.Threading;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.IO;
-﻿using WMS_client;
 
 namespace StorekeeperManagementServer
     {
@@ -136,7 +135,7 @@ namespace StorekeeperManagementServer
                     }
 
 
-                object[] ResultParameters = PackageConvertation.GetPatametersFromStr(package.Parameters);
+                object[] ResultParameters = Aramis.Net.PackageConvertation.GetPatametersFromStr(package.Parameters);
 
                 if (package.QueryName == PACKAGE_CONFIRMATION_NAME)
                     {
@@ -170,7 +169,7 @@ namespace StorekeeperManagementServer
                 CurrentUserId = package.ClientCode;
                 object[] resultArray = receiveMessage(package.QueryName, ResultParameters, package.ClientCode);
 
-                string resultStr = PackageConvertation.GetStrPatametersFromArray(resultArray);
+                string resultStr = Aramis.Net.PackageConvertation.GetStrPatametersFromArray(resultArray);
                 package.DefineQueryAndParams("Answer", resultStr);
                 WritePackage(package);
                 //#region Handling via 1C server
@@ -375,7 +374,7 @@ namespace StorekeeperManagementServer
                         }
 
 
-                    WriteStream(PackageViaWireless.BuildPackage(0, "Ping", PackageConvertation.GetStrPatametersFromArray(DateTime.Now.Ticks.ToString(), sb.ToString()), false, out packageId), packageId);
+                    WriteStream(PackageViaWireless.BuildPackage(0, "Ping", Aramis.Net.PackageConvertation.GetStrPatametersFromArray(DateTime.Now.Ticks.ToString(), sb.ToString()), false, out packageId), packageId);
                     PingSent = true;
                     return null;
                     }
@@ -386,7 +385,7 @@ namespace StorekeeperManagementServer
                     Byte[] answer;
                     if (NewConnection)
                         {
-                        answer = PackageViaWireless.BuildPackage(0, "TimeSynchronization", PackageConvertation.GetStrPatametersFromArray(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")), false, out packageId);
+                        answer = PackageViaWireless.BuildPackage(0, "TimeSynchronization", Aramis.Net.PackageConvertation.GetStrPatametersFromArray(DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")), false, out packageId);
                         // Sending answer 
                         WriteStream(answer, packageId);
 
@@ -394,14 +393,14 @@ namespace StorekeeperManagementServer
                         }
                     if (KeyPress != 0)
                         {
-                        answer = PackageViaWireless.BuildPackage(0, "KeyPressing", PackageConvertation.GetStrPatametersFromArray(KeyPress), false, out packageId);
+                        answer = PackageViaWireless.BuildPackage(0, "KeyPressing", Aramis.Net.PackageConvertation.GetStrPatametersFromArray(KeyPress), false, out packageId);
                         WriteStream(answer, packageId);
                         KeyPress = 0;
                         }
 
                     if (SendBarcode != null)
                         {
-                        answer = PackageViaWireless.BuildPackage(0, "BarcodeEvent", PackageConvertation.GetStrPatametersFromArray(SendBarcode), false, out packageId);
+                        answer = PackageViaWireless.BuildPackage(0, "BarcodeEvent", Aramis.Net.PackageConvertation.GetStrPatametersFromArray(SendBarcode), false, out packageId);
                         WriteStream(answer, packageId);
                         SendBarcode = null;
                         }
@@ -439,7 +438,7 @@ namespace StorekeeperManagementServer
 
         private void WriteStream(Byte[] packageData, string packageId)
             {
-            var parameters = PackageConvertation.GetStrPatametersFromArray(new object[] { packageId });
+            var parameters = Aramis.Net.PackageConvertation.GetStrPatametersFromArray(new object[] { packageId });
             var packageOfDeliveryConfirmation = new PackageViaWireless(0, true);
             packageOfDeliveryConfirmation.DefineQueryAndParams(PACKAGE_CONFIRMATION_NAME, parameters);
 

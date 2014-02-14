@@ -54,8 +54,9 @@
     <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PackageConvertation">
-      <HintPath>..\..\..\..\UTK\GreenHouse\GreenHouse\bin\Release\PackageConvertation.dll</HintPath>
+    <Reference Include="PackageConvertation, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Common\PackageViaWireless\PackageConvertation\bin\Release\PackageConvertation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

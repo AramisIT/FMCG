@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\PackageConvertation.cs" />
     <Compile Include="StandartProcesses\SoftUpdater.cs" />
     <Compile Include="Utils\Extentions\DataTableEx.cs" />
     <Compile Include="Utils\Extentions\Extentions.cs" />
@@ -78,7 +79,6 @@
     <Compile Include="Base\CompactPackage.cs" />
     <Compile Include="Base\DataDrawing.cs" />
     <Compile Include="Base\KeyAction.cs" />
-    <Compile Include="Base\PackageConvertation.cs" />
     <Compile Include="Base\Process.cs" />
     <Compile Include="Base\ProcessType.cs" />
     <Compile Include="Base\ServerAgent.cs" />
@@ -132,6 +132,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Docs\Creating a screen Readme.txt" />
     <Content Include="Docs\PdtScreenSizes.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />

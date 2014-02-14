@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-        this.Command = new System.Windows.Forms.Label();
+        this.commandLabel = new System.Windows.Forms.Label();
         this.CellName = new System.Windows.Forms.Label();
         this.BarcodeLabel = new System.Windows.Forms.Label();
         this.BarcodeTextBox = new System.Windows.Forms.TextBox();
@@ -39,11 +39,11 @@
         this.progressText = new System.Windows.Forms.Label();
         this.SuspendLayout();
         // 
-        // Command
+        // commandLabel
         // 
-        resources.ApplyResources(this.Command, "Command");
-        this.Command.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
-        this.Command.Name = "Command";
+        resources.ApplyResources(this.commandLabel, "commandLabel");
+        this.commandLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+        this.commandLabel.Name = "commandLabel";
         // 
         // CellName
         // 
@@ -105,7 +105,7 @@
         this.Controls.Add(this.BarcodeLabel);
         this.Controls.Add(this.BarcodeTextBox);
         this.Controls.Add(this.CellName);
-        this.Controls.Add(this.Command);
+        this.Controls.Add(this.commandLabel);
         this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
         this.KeyPreview = true;
         this.MaximizeBox = false;
@@ -113,7 +113,6 @@
         this.Name = "MainForm";
         this.TopMost = true;
         this.Load += new System.EventHandler(this.Form1_Load);
-        
         this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
         this.ResumeLayout(false);
 
@@ -121,7 +120,7 @@
 
         #endregion
 
-        public System.Windows.Forms.Label Command;
+        private System.Windows.Forms.Label commandLabel;
         private System.Windows.Forms.Label CellName;
         private System.Windows.Forms.Label BarcodeLabel;
         private System.Windows.Forms.PictureBox LogoOffLine;

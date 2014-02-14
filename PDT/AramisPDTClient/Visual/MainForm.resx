@@ -118,28 +118,28 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="Command.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="commandLabel.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 11pt, style=Bold</value>
   </data>
-  <data name="Command.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 37</value>
+  <data name="commandLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 37</value>
   </data>
-  <data name="Command.Size" type="System.Drawing.Size, System.Drawing">
-    <value>234, 22</value>
+  <data name="commandLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>240, 22</value>
   </data>
-  <data name="Command.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopCenter</value>
+  <data name="commandLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopRight</value>
   </data>
-  <data name="&gt;&gt;Command.Name" xml:space="preserve">
-    <value>Command</value>
+  <data name="&gt;&gt;commandLabel.Name" xml:space="preserve">
+    <value>commandLabel</value>
   </data>
-  <data name="&gt;&gt;Command.Type" xml:space="preserve">
+  <data name="&gt;&gt;commandLabel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;Command.Parent" xml:space="preserve">
+  <data name="&gt;&gt;commandLabel.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;Command.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;commandLabel.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
   <data name="CellName.Font" type="System.Drawing.Font, System.Drawing">
@@ -207,7 +207,7 @@
     <value>104, 37</value>
   </data>
   <data name="BarcodeTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>130, 23</value>
+    <value>130, 21</value>
   </data>
   <data name="BarcodeTextBox.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
@@ -604,7 +604,7 @@
     <value>0</value>
   </data>
   <metadata name="$this.FormFactorShadowProperty" xml:space="preserve">
-    <value>WEBPAD</value>
+    <value>Pocket_PC</value>
   </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

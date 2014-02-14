@@ -32,6 +32,19 @@ namespace WMS_client
             get { return !LogoOnLine.InvokeRequired; }
             }
 
+        public string CommandText
+            {
+            get { return commandLabel.Text; }
+            set
+                {
+                if (value != null)
+                    {
+                    commandLabel.Text = value.ToUpper();
+                    }
+                Refresh();
+                }
+            }
+
         #endregion
 
         #region Private fields
@@ -60,7 +73,7 @@ namespace WMS_client
         public MainForm(Type startProcessType)
             : this(startProcessType, false)
             {
-
+            commandLabel.TextAlign = ContentAlignment.TopCenter;
             }
 
         public MainForm(Type startProcessType, bool test)
@@ -137,13 +150,13 @@ namespace WMS_client
                     {
                     //Note: Online
                     BackColor = Color.FromArgb(219, 236, 242);
-                    Command.ForeColor = Color.DarkGreen;
+                    commandLabel.ForeColor = Color.DarkGreen;
                     }
                 else
                     {
                     //Note: Offline
                     BackColor = Color.FromArgb(220, 220, 220);
-                    Command.ForeColor = Color.FromArgb(58, 58, 58);
+                    commandLabel.ForeColor = Color.FromArgb(58, 58, 58);
                     }
                 }
             }
@@ -251,7 +264,7 @@ namespace WMS_client
             BarcodeLabel.Visible = true;
             BarcodeTextBox.Enabled = true;
             BarcodeTextBox.Visible = true;
-            Command.Visible = false;
+            commandLabel.Visible = false;
             BarcodeTextBox.Focus();
             }
 
@@ -260,7 +273,7 @@ namespace WMS_client
             BarcodeLabel.Visible = false;
             BarcodeTextBox.Enabled = false;
             BarcodeTextBox.Visible = false;
-            Command.Visible = true;
+            commandLabel.Visible = true;
             }
 
         public void SetOnHotKeyPressed(OnHotKeyPressedDelegate OnHotKeyPressed)
@@ -293,7 +306,7 @@ namespace WMS_client
 
                 }
             }
-        
+
         private void BarcodeTextBox_LostFocus(object sender, EventArgs e)
             {
             BarCodeByHandsCancel();
@@ -314,6 +327,7 @@ namespace WMS_client
             }
 
         #endregion
+
 
         private void LogoOnLine_Paint(object sender, PaintEventArgs e)
             {

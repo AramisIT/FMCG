@@ -13,6 +13,10 @@ namespace WMS_client
         {
         public static event Action<BusinessProcess> OnProcessCreated;
 
+        public const int TOPMOST_CONTROL_Y_POSITION = 80;
+
+        public const int VERTICAL_DISTANCE_BETWEEN_CONTROLS = 27;
+
         protected bool isLoading;
 
         #region Constructors
@@ -67,6 +71,15 @@ namespace WMS_client
             }
 
         #endregion
+
+        protected void SelectFromCatalog(List<CatalogItem> itemsList, Action<CatalogItem> onSelect)
+            {
+            CatalogItem selectedItem;
+            if (SelectFromList(itemsList, out selectedItem))
+                {
+                onSelect(selectedItem);
+                }
+            }
 
         protected string ToDoCommand
             {

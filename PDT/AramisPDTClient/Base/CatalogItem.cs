@@ -16,6 +16,11 @@ namespace WMS_client
             return string.Format("{0} (Id = {1})", Description, Id);
             }
 
+        public bool Empty
+            {
+            get { return Id <= 0; }
+            }
+
         public CatalogItem GetCopy()
             {
             return new CatalogItem()
@@ -23,6 +28,12 @@ namespace WMS_client
                     Description = Description,
                     Id = Id
                 };
+            }
+
+        public void Clear()
+            {
+            Description = string.Empty;
+            Id = 0;
             }
         }
     }
