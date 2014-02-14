@@ -21,7 +21,7 @@ namespace pdtExternalStorage
 
         bool GetStickerData(long acceptanceId, long stickerId, out long nomenclatureId,
             out string nomenclatureDescription, out long trayId, out int totalUnitsQuantity, out int unitsPerBox,
-            out long cellId, out string cellDescription, out bool currentAcceptance);
+            out long cellId, out string cellDescription, out bool currentAcceptance, out int wareBarcodesCount);
 
         bool GetAcceptanceId(long stickerId, out long acceptanceId);
 

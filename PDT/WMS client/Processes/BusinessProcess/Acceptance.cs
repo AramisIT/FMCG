@@ -48,6 +48,7 @@ namespace WMS_client.Processes
         private BarcodeData currentBarcodeData;
         private long lastStickerId;
         private long acceptanceId;
+        private bool waitingForWareBarcode;
 
         private const string INVALID_BARCODE_MSG = "Відсканований штрих-код не вірний";
 
@@ -79,7 +80,17 @@ namespace WMS_client.Processes
         protected override void OnBarcode(string barcode)
             {
             barcode = barcode.Replace("\r\r", "$$");
-
+            if (waitingForWareBarcode)
+                {
+                if (!barcode.IsItEAN13())
+                    {
+                    "Отсканируйте товар!".ShowMessage();
+                    }
+                waitingForWareBarcode = false;
+                bool recordWasAdded;
+                new ServerInteraction().SetBarcode(barcode, currentBarcodeData.StickerId, out recordWasAdded);
+                return;
+                }
             if (scanNextPalletControls.Visible)
                 {
                 scanNextPalletOnBarcode(barcode);
@@ -134,15 +145,17 @@ namespace WMS_client.Processes
                 }
 
             bool currentAcceptance;
-            readStickerInfo(acceptanceId, barcodeData, out currentAcceptance);
+            readStickerInfo(false, acceptanceId, barcodeData, out currentAcceptance);
             if (barcodeData.StickerId == 0)
                 {
+                waitingForWareBarcode = false;
                 string.Format("Палети {0} нема у документі.", barcodeData.StickerId).Warning();
                 return;
                 }
 
             if (!currentAcceptance)
                 {
+                waitingForWareBarcode = false;
                 "Відсканований піддон не входить до документу!".Warning();
                 return;
                 }
@@ -167,7 +180,7 @@ namespace WMS_client.Processes
                     }
 
                 bool currentAcceptance;
-                readStickerInfo(acceptanceId, barcodeData, out currentAcceptance);
+                readStickerInfo(true, acceptanceId, barcodeData, out currentAcceptance);
 
                 bool cellFounded = barcodeData.Cell.Id != 0;
                 if (!cellFounded)
@@ -226,7 +239,8 @@ namespace WMS_client.Processes
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
 
             top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
-            palletEditControls.trayButton = MainProcess.CreateButton("<піддон>", 5, top, 230, 35, "modelButton", trayButton_Click);
+            palletEditControls.trayButton = MainProcess.CreateButton(string.Empty, 5, top, 230, 35, "modelButton", trayButton_Click);
+            updateTrayDescription();
 
             top += 2 * VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.linersLabel = MainProcess.CreateLabel("Кількість прокладок:", 5, top, 180,
@@ -243,6 +257,12 @@ namespace WMS_client.Processes
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             palletEditControls.cellLabel = MainProcess.CreateLabel("<?>", 95, top, 140,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
+            }
+
+        private void updateTrayDescription()
+            {
+            var tray = (trayItem ?? new CatalogItem()).Empty ? "без піддону" : trayItem.Description;
+            palletEditControls.trayButton.Text = tray;
             }
 
         private void complateProcess()
@@ -271,7 +291,7 @@ namespace WMS_client.Processes
             chooseTray(tray =>
                 {
                     trayItem = tray;
-                    palletEditControls.trayButton.Text = trayItem.Description;
+                    updateTrayDescription();
                 });
             }
 
@@ -353,8 +373,8 @@ namespace WMS_client.Processes
             {
             palletEditControls.cellLabel.Text = (currentBarcodeData.Cell != null && currentBarcodeData.Cell.Id > 0) ? currentBarcodeData.Cell.Description : "<?>";
             palletEditControls.nomenclatureLabel.Text = currentBarcodeData.Nomenclature.Description;
-            palletEditControls.trayButton.Text = currentBarcodeData.Tray.Description;
             trayItem = currentBarcodeData.Tray;
+            updateTrayDescription();
 
             palletEditControls.stickerIdInfoLabel.Text = string.Format("Код палети: {0}", currentBarcodeData.StickerId);
 
@@ -372,7 +392,7 @@ namespace WMS_client.Processes
             updateLinerButton();
             }
 
-        private void readStickerInfo(long acceptanceId, BarcodeData barcodeData, out bool currentAcceptance)
+        private void readStickerInfo(bool tryingToLocate, long acceptanceId, BarcodeData barcodeData, out bool currentAcceptance)
             {
             string nomenclatureDescription;
             long trayId;
@@ -381,11 +401,12 @@ namespace WMS_client.Processes
             long cellId;
             long nomenclatureId;
             int totalUnitsQuantity;
+            int wareBarcodesCount;
 
             if (
                 !new ServerInteraction().GetStickerData(acceptanceId, barcodeData.StickerId,
                     out nomenclatureId, out nomenclatureDescription, out trayId,
-                    out totalUnitsQuantity, out unitsPerBox, out cellId, out cellDescription, out currentAcceptance))
+                    out totalUnitsQuantity, out unitsPerBox, out cellId, out cellDescription, out currentAcceptance, out wareBarcodesCount))
                 {
                 barcodeData.StickerId = 0;
                 return;
@@ -401,10 +422,15 @@ namespace WMS_client.Processes
             barcodeData.UnitsPerBox = Convert.ToInt32(unitsPerBox);
             barcodeData.Cell.Description = cellDescription;
             barcodeData.Cell.Id = cellId;
+
+            if (!tryingToLocate
+                && barcodeData.StickerId > 0
+                && wareBarcodesCount == 0
+                && "Для данной продукции нет штрих-кодов. Идентифицировать товар?".Ask())
+                {
+                waitingForWareBarcode = true;
+                "Сканируйте любую единицу продукции".ShowMessage();
+                }
             }
-
-
-
-
         }
     }

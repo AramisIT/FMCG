@@ -79,7 +79,8 @@ namespace WMS_client
 
         public bool GetStickerData(long acceptanceId, long stickerId, out long nomenclatureId, out string nomenclatureDescription, out long trayId,
             out int totalUnitsQuantity, out int unitsPerBox,
-            out long cellId, out string cellDescription, out bool currentAcceptance)
+            out long cellId, out string cellDescription, out bool currentAcceptance,
+            out int wareBarcodesCount)
             {
             performQuery("GetStickerData", acceptanceId, stickerId);
 
@@ -93,9 +94,11 @@ namespace WMS_client
                 cellId = Convert.ToInt64(queryResultParameters[5]);
                 cellDescription = queryResultParameters[6] as string;
                 currentAcceptance = (bool)queryResultParameters[7];
+                wareBarcodesCount = Convert.ToInt32(queryResultParameters[8]);
                 return true;
                 }
 
+            wareBarcodesCount = 0;
             nomenclatureId = 0;
             nomenclatureDescription = null;
             trayId = 0;

@@ -107,7 +107,8 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Picking])) a
         public bool GetStickerData(long acceptanceId, long stickerId,
                 out long nomenclatureId, out string nomenclatureDescription, out long trayId,
                 out int totalUnitsQuantity, out int unitsPerBox,
-                out long cellId, out string cellDescription, out bool currentAcceptance)
+                out long cellId, out string cellDescription, out bool currentAcceptance,
+                out int wareBarcodesCount)
             {
             long stickerAcceptanceId;
             RowsStates rowState;
@@ -127,6 +128,24 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Picking])) a
 
                 cellId = rowCellId;
                 cellDescription = FastInput.GetCashedData(typeof(Cells).Name).GetDescription(rowCellId);
+
+                var q = DB.NewQuery("select count(*) from Barcodes where MarkForDeleting = 0 and Nomenclature = @Ware");
+                q.AddInputParameter("Ware", nomenclatureId);
+
+                wareBarcodesCount = q.SelectInt32();
+                if (wareBarcodesCount == 0)
+                    {
+                    var isKeg = !sticker.Nomenclature.BoxType.Empty
+                                && sticker.Nomenclature.UnitsQuantityPerPallet > 0
+                                && sticker.Nomenclature.UnitsQuantityPerPack == 1
+                                && sticker.Nomenclature.ShelfLife > 0;
+
+                    if (isKeg)
+                        {
+                        // у кеги не может быть штрих-кода
+                        wareBarcodesCount = -1;
+                        }
+                    }
                 }
             else
                 {
@@ -139,7 +158,9 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Picking])) a
                 unitsPerBox = 0;
                 nomenclatureId = 0;
                 totalUnitsQuantity = 0;
+                wareBarcodesCount = 0;
                 }
+
             return true;
             }
 
@@ -829,7 +850,12 @@ order by p.TheDeadlineSuitability", RECENTLY_SHIPPED_DAYS_AMOUNT));
             var q = DB.NewQuery(@"
 select n.Id, rtrim(n.Description) [Description]
 from Nomenclature n 
-where BoxType > 0 and UnitsQuantityPerPallet > 0 and UnitsQuantityPerPack = 1 and IsTare = 0 and ShelfLife > 0 and MarkForDeleting = 0 
+where BoxType > 0 
+and UnitsQuantityPerPallet > 0
+and UnitsQuantityPerPack = 1 
+and IsTare = 0 
+and ShelfLife > 0 
+and MarkForDeleting = 0 
 ");
 
             var result = q.SelectToTable();
