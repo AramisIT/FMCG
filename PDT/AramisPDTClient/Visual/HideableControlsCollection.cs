@@ -27,6 +27,11 @@ namespace WMS_client.Processes
                 }
             }
 
+        protected virtual MobileTextBox GetDefaultTextBox()
+            {
+            return null;
+            }
+
         public void Show()
             {
             checkControlsList();
@@ -34,6 +39,12 @@ namespace WMS_client.Processes
             controls.ForEach(control => control.Show());
 
             Visible = true;
+
+            var textBoxForFocusing = GetDefaultTextBox();
+            if (textBoxForFocusing != null)
+                {
+                textBoxForFocusing.Focus();
+                }
             }
 
 

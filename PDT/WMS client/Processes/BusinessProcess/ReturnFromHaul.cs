@@ -38,6 +38,11 @@ namespace WMS_client.Processes
 
             public MobileLabel ScanPalletLabel;
             public MobileButton NewPalletButton;
+
+            protected override MobileTextBox GetDefaultTextBox()
+                {
+                return UnitsCountTextBox;
+                }
             }
 
         private class AddressIdentificationControls : HideableControlsCollection
@@ -406,10 +411,21 @@ namespace WMS_client.Processes
             if (!barcode.IsItEAN13()) return;
 
             var table = new ServerInteraction().GetWares(barcode, SelectionFilters.RecentlyShipped);
+            if (table == null) return;
 
             if (table == null || table.Rows.Count == 0)
                 {
-                string.Format("Штрих-код не найден!\r\n{0}", barcode).ShowMessage();
+                var allBarcodes = new ServerInteraction().GetWares(barcode, SelectionFilters.All);
+                if (allBarcodes == null) return;
+
+                var databaseHasn_tBarcode = allBarcodes.Rows.Count == 0;
+                if (databaseHasn_tBarcode)
+                    {
+                    "Штрих-кода нет в базе".ShowMessage();
+                    return;
+                    }
+
+                string.Format("Не было недавних отгрузок с таким штрих-кодом!\r\n{0}", barcode).ShowMessage();
                 return;
                 }
 

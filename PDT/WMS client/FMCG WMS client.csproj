@@ -86,7 +86,6 @@
     <Compile Include="Processes\ProcessData\MovementData.cs" />
     <Compile Include="Processes\ProcessData\PlaningData.cs" />
     <Compile Include="Processes\ProcessData\SelectionData.cs" />
-    <Compile Include="Processes\SelectTableList.cs" />
     <Compile Include="Processes\BusinessProcess\Acceptance.cs" />
     <Compile Include="Processes\ProcessData\IProcessData.cs" />
     <Compile Include="Processes\SelectingProcess.cs" />

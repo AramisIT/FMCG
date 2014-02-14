@@ -102,8 +102,12 @@ namespace WMS_client.Processes
             wareBarcode = barcode;
             if (table.Rows.Count > 0)
                 {
-                var wareName =table.Rows[0]["Description"] as string;
+                var wareName = table.Rows[0]["Description"] as string;
                 infoLabel.Text = wareName.Substring(0, Math.Min(wareName.Length, 40));
+                }
+            else
+                {
+                infoLabel.Text = string.Empty;
                 }
             additionalInfoLabel.Text = string.Format("Всього позицій: {0}", table.Rows.Count);
             taskLabel.Text = "Скануйте палету";
