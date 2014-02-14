@@ -425,6 +425,27 @@ and MarkForDeleting = 0");
             {
             var goodsRows = findStickerRows(stickerId);
 
+            var isReturnFromHaul = Contractor.Empty;
+            if (isReturnFromHaul)
+                {
+                var sticker = new Stickers() { ReadingId = stickerId };
+
+                if (goodsRows.WareRow == null)
+                    {
+                    goodsRows.WareRow = addNewNomenclatureRow(stickerId, sticker.GetRef("Nomenclature"));
+                    goodsRows.WareRow[NomenclatureParty] = sticker.GetRef("Party");
+                    }
+
+                if (packsCount > 0 && goodsRows.BoxRow == null)
+                    {
+                    var packId = sticker.Nomenclature.GetRef("BoxType");
+                    if (packId > 0)
+                        {
+                        goodsRows.BoxRow = addNewNomenclatureRow(stickerId, packId);
+                        }
+                    }
+                }
+
             setFactOnRow(goodsRows.WareRow, unitsCount, cellId, false);
             goodsRows.WareRow[PreviousPalletCode] = previousStickerId;
 
@@ -437,47 +458,45 @@ and MarkForDeleting = 0");
                 {
                 if (goodsRows.LinerRow == null)
                     {
-                    goodsRows.LinerRow = addNewNomenclatureRow(stickerId);
+                    goodsRows.LinerRow = addNewNomenclatureRow(stickerId, linerId);
                     }
-                setFactOnRow(goodsRows.LinerRow, linersQuantity, cellId, true, linerId);
+                setFactOnRow(goodsRows.LinerRow, linersQuantity, cellId, true);
                 }
 
             int traysQuantity = trayId > 0 ? 1 : 0;
             if (goodsRows.TrayRow == null && traysQuantity > 0)
                 {
-                goodsRows.TrayRow = addNewNomenclatureRow(stickerId);
+                goodsRows.TrayRow = addNewNomenclatureRow(stickerId, trayId);
                 }
             if (goodsRows.TrayRow != null)
                 {
-                setFactOnRow(goodsRows.TrayRow, traysQuantity, cellId, true, trayId);
+                setFactOnRow(goodsRows.TrayRow, traysQuantity, cellId, true);
                 }
 
             SetSubtableModified(NomenclatureInfo.TableName);
 
-            return Write() == WritingResult.Success;
+            var result = Write() == WritingResult.Success;
+
+            return result;
             }
 
-        private DataRow addNewNomenclatureRow(long stickerId)
+        private DataRow addNewNomenclatureRow(long stickerId, long nomenclatureId)
             {
             var newRow = NomenclatureInfo.GetNewRow(this);
             newRow[NomenclatureCode] = stickerId;
+            newRow[Nomenclature] = nomenclatureId;
             newRow.AddRowToTable(this);
 
             return newRow;
             }
 
-        private void setFactOnRow(DataRow row, int count, long cellId, bool isTare, long nomenclatureId = -1)
+        private void setFactOnRow(DataRow row, int count, long cellId, bool isTare)
             {
-            row[NomenclatureFact] = count;
+            row[NomenclatureFact] = count + Convert.ToDecimal(row[NomenclatureFact]);
             row[NomenclatureCell] = cellId;
             row[NomenclatureState] = RowsStates.Completed;
             row[NomenclatureRowDate] = DateTime.Now;
             row[IsTare] = isTare;
-
-            if (nomenclatureId >= 0)
-                {
-                row[Nomenclature] = nomenclatureId;
-                }
             }
 
         internal Color GetNomenclatureRowColor(DataRow row)

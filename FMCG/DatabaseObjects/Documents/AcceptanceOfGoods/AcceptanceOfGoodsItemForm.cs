@@ -1,9 +1,11 @@
 using System;
 using System.Windows.Forms;
+using Aramis.UI;
 using Aramis.UI.WinFormsDevXpress;
 using Aramis.Core;
 using Aramis.Enums;
 using Aramis.Attributes;
+using Catalogs;
 using DevExpress.XtraBars;
 using DevExpress.XtraGrid.Columns;
 using Documents;
@@ -152,6 +154,20 @@ namespace AtosFMCG.DatabaseObjects.Documents
             e.Appearance.BackColor = Document.GetNomenclatureRowColor(nomenclatureView.GetDataRow(e.RowHandle));
             }
 
-       
+        private void openPalletButton_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            var currentRow = nomenclatureView.GetFocusedDataRow();
+            if (currentRow != null)
+                {
+                var sticker = new Stickers() { ReadingId = currentRow[Document.NomenclatureCode] };
+                if (sticker.Empty) return;
+
+                UserInterface.Current.ShowItem(sticker);
+                }
+            }
+
+
+
+
         }
     }

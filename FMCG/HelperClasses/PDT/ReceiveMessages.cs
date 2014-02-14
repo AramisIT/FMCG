@@ -118,6 +118,18 @@ namespace AtosFMCG.HelperClasses.PDT
                         var table = communication.GetWaresInKegs((SelectionFilters)Convert.ToInt32(parameters[0]));
                         return new object[] { true, table };
                         }
+
+                case "CreateNewSticker":
+                    return new object[] { true, communication.CreateNewSticker(Convert.ToInt64(parameters[0]), 
+                    (DateTime)parameters[1], 
+                    Convert.ToInt32(parameters[2]),
+                    Convert.ToInt32(parameters[3]),
+                     Convert.ToInt64(parameters[4]),
+                    Convert.ToInt32(parameters[5]))};
+
+                case "CreateNewAcceptance":
+                    return new object[] { true, communication.CreateNewAcceptance(Convert.ToInt64(parameters[0])) };
+
                 }
 
             return new object[0];

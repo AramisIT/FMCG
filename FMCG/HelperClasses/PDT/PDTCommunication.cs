@@ -845,7 +845,7 @@ where BoxType > 0 and UnitsQuantityPerPallet > 0 and UnitsQuantityPerPack = 1 an
             return result;
             }
 
-        public long CreateNewSticker(long wareId, DateTime expirationDate, int unitsQuantity, int boxesCount)
+        public long CreateNewSticker(long wareId, DateTime expirationDate, int unitsQuantity, int boxesCount, long linerId, int linersCount)
             {
             var party = Parties.FindByExpirationDate(wareId, expirationDate);
 
@@ -862,7 +862,10 @@ where BoxType > 0 and UnitsQuantityPerPallet > 0 and UnitsQuantityPerPack = 1 an
                     UnitsQuantity = unitsQuantity,
                     Quantity = boxesCount,
                     ReleaseDate = party.DateOfManufacture,
-                    ExpiryDate = party.TheDeadlineSuitability
+                    ExpiryDate = party.TheDeadlineSuitability,
+                    AcceptionDate = DateTime.Now,
+                    Liner = new Nomenclature() { ReadingId = linerId },
+                    LinersQuantity = linersCount
                 };
 
             // подразумевается, что паллета начатая

@@ -125,7 +125,7 @@ namespace WMS_client
 
         public bool WriteStickerFact(long acceptanceId, long stickerId, bool palletChanged, long cellId, long previousStickerId, long trayId, long linerId, int linersQuantity, int packsCount, int unitsCount)
             {
-            performQuery("WriteStickerFact", acceptanceId, stickerId, palletChanged, cellId, trayId, linerId, linersQuantity, packsCount, unitsCount);
+            performQuery("WriteStickerFact", acceptanceId, stickerId, palletChanged, cellId, previousStickerId, trayId, linerId, linersQuantity, packsCount, unitsCount);
 
             return IsExistParameters && queryResultParameters[0] is bool && (bool)queryResultParameters[0];
             }
@@ -385,6 +385,28 @@ namespace WMS_client
                 return queryResultParameters[1] as DataTable;
                 }
             return null;
+            }
+
+        public long CreateNewSticker(long wareId, DateTime expirationDate, int unitsQuantity, int boxesCount, long linerId, int linersCount)
+            {
+            performQuery("CreateNewSticker", wareId, expirationDate, unitsQuantity, boxesCount, linerId, linersCount);
+
+            if (success)
+                {
+                return Convert.ToInt64(queryResultParameters[1]);
+                }
+            return 0;
+            }
+
+        public long CreateNewAcceptance(long userId)
+            {
+            performQuery("CreateNewAcceptance", userId);
+
+            if (success)
+                {
+                return Convert.ToInt64(queryResultParameters[1]);
+                }
+            return 0;
             }
         }
     }

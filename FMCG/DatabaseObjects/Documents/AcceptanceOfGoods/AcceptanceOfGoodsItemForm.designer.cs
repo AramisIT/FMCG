@@ -37,6 +37,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.showTareBarButtonItem = new DevExpress.XtraBars.BarCheckItem();
             this.showNomenclatureBarButtonItem = new DevExpress.XtraBars.BarCheckItem();
+            this.openPalletButton = new DevExpress.XtraBars.BarButtonItem();
             this.NomenclatureInfoButtonsBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.PlansBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
             this.panelControl = new DevExpress.XtraEditors.PanelControl();
@@ -140,9 +141,10 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem2,
             this.cancel,
             this.showTareBarButtonItem,
-            this.showNomenclatureBarButtonItem});
+            this.showNomenclatureBarButtonItem,
+            this.openPalletButton});
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 21;
+            this.ribbon.MaxItemId = 22;
             this.ribbon.Name = "ribbon";
             this.ribbon.Size = new System.Drawing.Size(884, 49);
             this.ribbon.StatusBar = this.PlansBar;
@@ -164,11 +166,19 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.showNomenclatureBarButtonItem.Name = "showNomenclatureBarButtonItem";
             this.showNomenclatureBarButtonItem.CheckedChanged += new DevExpress.XtraBars.ItemClickEventHandler(this.showNomenclatureBarButtonItem_CheckedChanged);
             // 
+            // openPalletButton
+            // 
+            this.openPalletButton.Caption = "Показати палету";
+            this.openPalletButton.Id = 21;
+            this.openPalletButton.Name = "openPalletButton";
+            this.openPalletButton.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openPalletButton_ItemClick);
+            // 
             // NomenclatureInfoButtonsBar
             // 
             this.NomenclatureInfoButtonsBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.NomenclatureInfoButtonsBar.ItemLinks.Add(this.showNomenclatureBarButtonItem);
             this.NomenclatureInfoButtonsBar.ItemLinks.Add(this.showTareBarButtonItem);
+            this.NomenclatureInfoButtonsBar.ItemLinks.Add(this.openPalletButton);
             this.NomenclatureInfoButtonsBar.Location = new System.Drawing.Point(0, 0);
             this.NomenclatureInfoButtonsBar.Name = "NomenclatureInfoButtonsBar";
             this.NomenclatureInfoButtonsBar.Ribbon = this.ribbon;
@@ -513,6 +523,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
             this.Text = "Item form";
+            
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Itemform_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).EndInit();
@@ -583,5 +594,6 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private DevExpress.XtraBars.BarButtonItem barButtonItem10;
         private DevExpress.XtraBars.BarButtonItem createAcceptanceButtonItem;
         private DevExpress.XtraEditors.DateEdit date;
+        private DevExpress.XtraBars.BarButtonItem openPalletButton;
     }
 }

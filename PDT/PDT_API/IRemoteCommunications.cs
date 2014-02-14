@@ -83,5 +83,9 @@ namespace pdtExternalStorage
         DataTable GetParties(long wareId, SelectionFilters selectionFilter);
 
         DataTable GetWaresInKegs(SelectionFilters selectionFilter);
+
+        long CreateNewSticker(long wareId, DateTime expirationDate, int unitsQuantity, int boxesCount, long linerId, int linersCount);
+
+        long CreateNewAcceptance(long userId);
         }
     }
