@@ -152,32 +152,30 @@ namespace WMS_client.HelperClasses
                     out nomenclatureId, out nomenclatureDescription, out trayId, out linerId, out linersAmount,
                     out unitsPerBox, out cellId, out cellDescription, out previousPalletCode, out productionDate, out partyId))
                 {
-                Cell = new CatalogItem();
                 StickerId = 0;
                 return false;
                 }
 
             PreviousStickerCode = previousPalletCode;
 
-            Nomenclature = new CatalogItem() { Description = nomenclatureDescription, Id = nomenclatureId };
+            Nomenclature.Id = nomenclatureId;
+            Nomenclature.Description = nomenclatureDescription;
 
-            Tray = new CatalogItem()
-            {
-                Id = trayId,
-                Description = new Repository().GetTrayDescription(trayId)
-            };
+            Tray.Id = trayId;
+            Tray.Description = new Repository().GetTrayDescription(trayId);
 
-            Liner = new CatalogItem()
-            {
-                Id = linerId,
-                Description = new Repository().GetLinerDescription(linerId)
-            };
+            Liner.Id = linerId;
+            Liner.Description = new Repository().GetLinerDescription(linerId);
 
-            Party = new CatalogItem() { Id = partyId, Description = productionDate.ToStandartString() };
+            Party.Id = partyId;
+            Party.Description = productionDate.ToStandartString();
+
             LinersAmount = linersAmount;
 
             UnitsPerBox = Convert.ToInt32(unitsPerBox);
-            Cell = new CatalogItem() { Description = cellDescription, Id = cellId };
+
+            Cell.Id = cellId;
+            Cell.Description = cellDescription;
 
             return true;
             }
