@@ -188,24 +188,24 @@ namespace WMS_client.Processes
             pickingTask = new PickingTaskControls();
 
             int top = 42;
-            const int delta = 27;
 
-            top += delta;
+
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             pickingTask.planPickingCell = MainProcess.CreateLabel(string.Empty, 10, top, 230,
                MobileFontSize.Large, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             pickingTask.pickingWareLine1 = MainProcess.CreateLabel(string.Empty, 10, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
-            top += delta - 7;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS - 7;
             pickingTask.pickingWareLine2 = MainProcess.CreateLabel(string.Empty, 10, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             pickingTask.productionDate = MainProcess.CreateLabel(string.Empty, 10, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             pickingTask.planedQuantity = MainProcess.CreateLabel(string.Empty, 10, top, 230,
                MobileFontSize.Large, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
@@ -221,17 +221,17 @@ namespace WMS_client.Processes
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
             quantityEditControls.packsCountTextBox = MainProcess.CreateTextBox(170, top, 55, string.Empty, ControlsStyle.LabelNormal, null, false);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             quantityEditControls.unitsLabel = MainProcess.CreateLabel("Відібрано одиниць", 10, top, 150,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
             quantityEditControls.unitsCountTextBox = MainProcess.CreateTextBox(170, top, 55, string.Empty, ControlsStyle.LabelNormal, null, false);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             quantityEditControls.linersLabel = MainProcess.CreateLabel("Знято прокладок", 10, top, 150,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             quantityEditControls.linersCountTextBox = MainProcess.CreateTextBox(170, top, 55, string.Empty, ControlsStyle.LabelNormal, null, false);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             quantityEditControls.proceedButton = MainProcess.CreateButton("Продовжити              ( F5 )", 10, top, 220, 30, "modelButton", proceed);
             }
 

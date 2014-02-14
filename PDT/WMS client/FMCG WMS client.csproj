@@ -75,6 +75,7 @@
     <Compile Include="HelperClasses\TableMovementWriter.cs" />
     <Compile Include="Processes\BusinessProcessesParameters.cs" />
     <Compile Include="Processes\BusinessProcess\BarcodeChecking.cs" />
+    <Compile Include="Processes\BusinessProcess\ParusProcess.cs" />
     <Compile Include="Processes\BusinessProcess\ReturnFromHaul.cs" />
     <Compile Include="Processes\BusinessProcess\ProcessHelpers\StickersPrinting.cs" />
     <Compile Include="Processes\BusinessProcess\StickerRepeating.cs" />

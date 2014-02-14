@@ -7,7 +7,7 @@ using System;
 
 namespace WMS_client.Processes
     {
-    public class Inventory : BusinessProcess
+    public class Inventory : ParusProcess
         {
         private class AcceptancePalletControls : HideableControlsCollection
             {
@@ -53,7 +53,7 @@ namespace WMS_client.Processes
         private const string INVALID_BARCODE_MSG = "Відсканований штрих-код не вірний";
 
         public Inventory()
-            : base(1)
+            : base()
             {
             ToDoCommand = "ІНВЕНТАРИЗАЦІЯ";
             checkAcceptanceCache();
@@ -239,9 +239,9 @@ namespace WMS_client.Processes
             scanNextPalletControls = new ScanPalletControls();
 
             int top = 140;
-            const int delta = 27;
 
-            top += delta;
+
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             scanNextPalletControls.WillLabel = MainProcess.CreateLabel("Відскануйте палету", 10, top, 230,
                MobileFontSize.Large, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
@@ -251,13 +251,13 @@ namespace WMS_client.Processes
             {
             palletEditControls = new AcceptancePalletControls();
             int top = 42;
-            const int delta = 27;
 
-            top += delta;
+
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.nomenclatureLabel = MainProcess.CreateLabel("<номенклатура>", 5, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
 
             palletEditControls.packsLabel = MainProcess.CreateLabel("упаковок:", 5, top, 80,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
@@ -267,24 +267,24 @@ namespace WMS_client.Processes
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             palletEditControls.UnitsCountTextBox = MainProcess.CreateTextBox(195, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.stickerIdInfoLabel = MainProcess.CreateLabel(string.Empty, 5, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.trayButton = MainProcess.CreateButton("", 5, top, 230, 35, "modelButton", trayButton_Click);
             updateTrayDescription();
 
-            top += delta + delta;
+            top += 2 * VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.linersLabel = MainProcess.CreateLabel("Кількість прокладок:", 5, top, 180,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             palletEditControls.LinersQuantityTextBox = MainProcess.CreateTextBox(190, top, 45, string.Empty, ControlsStyle.LabelNormal, null, false);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.linerButton = MainProcess.CreateButton(string.Empty, 5, top, 230, 35, "modelButton", linerButton_Click);
             updateLinerButton();
 
-            top += delta + delta;
+            top += 2 * VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.cellCaptionLabel = MainProcess.CreateLabel("Комірка:", 5, top, 80,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             palletEditControls.cellLabel = MainProcess.CreateLabel("<?>", 95, top, 140,
@@ -315,7 +315,7 @@ namespace WMS_client.Processes
 
         private void trayButton_Click()
             {
-            selectFromCatalog(new Repository().GetTraysList(), (selectedItem) =>
+            chooseTray((selectedItem) =>
                 {
                     currentBarcodeData.Tray = selectedItem;
                     updateTrayDescription();
@@ -328,22 +328,13 @@ namespace WMS_client.Processes
             palletEditControls.trayButton.Text = tray.Id == 0 ? "без піддону" : tray.Description;
             }
 
-        private void selectFromCatalog(List<CatalogItem> itemsList, Action<CatalogItem> onSelect)
-            {
-            CatalogItem selectedItem;
-            if (SelectFromList(itemsList, out selectedItem))
-                {
-                onSelect(selectedItem);
-                }
-            }
-
         private void linerButton_Click()
             {
-            selectFromCatalog(new Repository().GetLinersList(), (selectedItem) =>
-            {
-                currentBarcodeData.Liner = selectedItem;
-                updateLinerButton();
-            });
+            chooseLiner(liner =>
+                {
+                    currentBarcodeData.Liner = liner;
+                    updateLinerButton();
+                });
             }
 
         private bool saveFact()

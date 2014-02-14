@@ -8,7 +8,7 @@ using System;
 namespace WMS_client.Processes
     {
     /// <summary>Приймання товару</summary>
-    public class Acceptance : BusinessProcess
+    public class Acceptance : ParusProcess
         {
         private class AcceptancePalletControls : HideableControlsCollection
             {
@@ -53,7 +53,7 @@ namespace WMS_client.Processes
 
         /// <summary>Приймання товару</summary>
         public Acceptance()
-            : base(1)
+            : base()
             {
             ToDoCommand = "Приймання товару";
             checkAcceptanceCache();
@@ -195,11 +195,9 @@ namespace WMS_client.Processes
             scanNextPalletControls = new ScanPalletControls();
 
             int top = 140;
-            const int delta = 27;
 
-            top += delta;
             scanNextPalletControls.WillLabel = MainProcess.CreateLabel("Відскануйте палету", 10, top, 230,
-               MobileFontSize.Large, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
+                           MobileFontSize.Large, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
             }
 
@@ -207,13 +205,13 @@ namespace WMS_client.Processes
             {
             palletEditControls = new AcceptancePalletControls();
             int top = 42;
-            const int delta = 27;
 
-            top += delta;
+
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.nomenclatureLabel = MainProcess.CreateLabel("<номенклатура>", 5, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
 
             palletEditControls.packsLabel = MainProcess.CreateLabel("упаковок:", 5, top, 80,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
@@ -223,24 +221,24 @@ namespace WMS_client.Processes
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             palletEditControls.unitsCountTextBox = MainProcess.CreateTextBox(195, top, 40, string.Empty, ControlsStyle.LabelNormal, null, false);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.stickerIdInfoLabel = MainProcess.CreateLabel(string.Empty, 5, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.trayButton = MainProcess.CreateButton("<піддон>", 5, top, 230, 35, "modelButton", trayButton_Click);
 
-            top += delta + delta;
+            top += 2 * VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.linersLabel = MainProcess.CreateLabel("Кількість прокладок:", 5, top, 180,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             palletEditControls.linersQuantityTextBox = MainProcess.CreateTextBox(190, top, 45, string.Empty, ControlsStyle.LabelNormal, null, false);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             linerItem = new CatalogItem();
             palletEditControls.linerButton = MainProcess.CreateButton(string.Empty, 5, top, 230, 35, "modelButton", linerButton_Click);
             updateLinerButton();
 
-            top += delta + delta;
+            top += 2 * VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.cellCaptionLabel = MainProcess.CreateLabel("Комірка:", 5, top, 80,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
             palletEditControls.cellLabel = MainProcess.CreateLabel("<?>", 95, top, 140,
@@ -265,34 +263,25 @@ namespace WMS_client.Processes
 
         private void updateLinerButton()
             {
-            palletEditControls.linerButton.Text = linerItem.Id > 0 ? linerItem.Description : "<тип прокладки>";
+            palletEditControls.linerButton.Text = linerItem.Empty ? "<тип прокладки>" : linerItem.Description;
             }
 
         private void trayButton_Click()
             {
-            selectFromCatalog(new Repository().GetTraysList(), (selectedItem) =>
+            chooseTray(tray =>
                 {
-                    palletEditControls.trayButton.Text = selectedItem.Description;
-                    trayItem = selectedItem;
+                    trayItem = tray;
+                    palletEditControls.trayButton.Text = trayItem.Description;
                 });
-            }
-
-        private void selectFromCatalog(List<CatalogItem> itemsList, Action<CatalogItem> onSelect)
-            {
-            CatalogItem selectedItem;
-            if (SelectFromList(itemsList, out selectedItem))
-                {
-                onSelect(selectedItem);
-                }
             }
 
         private void linerButton_Click()
             {
-            selectFromCatalog(new Repository().GetLinersList(), (selectedItem) =>
-            {
-                linerItem = selectedItem;
-                updateLinerButton();
-            });
+            chooseLiner(liner =>
+                {
+                    linerItem = liner;
+                    updateLinerButton();
+                });
             }
 
         private void trySetCell(CatalogItem cell, long previousStickerId)

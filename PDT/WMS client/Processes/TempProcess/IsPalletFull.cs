@@ -22,7 +22,7 @@ namespace WMS_client.Processes
         public override sealed void DrawControls()
             {
             int top = 42;
-            const int delta = 27;
+            
 
             top = 230;
             taskLabel = MainProcess.CreateLabel("Скануйте палету", 10, top, 220,

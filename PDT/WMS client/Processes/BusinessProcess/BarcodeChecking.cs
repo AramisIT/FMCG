@@ -26,13 +26,13 @@ namespace WMS_client.Processes
         public override sealed void DrawControls()
             {
             int top = 42;
-            const int delta = 27;
 
-            top += delta;
+
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             infoLabel = MainProcess.CreateLabel(string.Empty, 0, top, 240,
                 MobileFontSize.Little, MobileFontPosition.Center, MobileFontColors.Default, FontStyle.Bold);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             additionalInfoLabel = MainProcess.CreateLabel(string.Empty, 10, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
@@ -40,7 +40,7 @@ namespace WMS_client.Processes
             taskLabel = MainProcess.CreateLabel(string.Empty, 10, top, 220,
                MobileFontSize.Normal, MobileFontPosition.Center, MobileFontColors.Warning, FontStyle.Bold);
 
-            top += delta * 2;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS * 2;
             MainProcess.CreateLabel("Завершення операції  -  Esc", 10, top, 220,
                MobileFontSize.Normal, MobileFontPosition.Center, MobileFontColors.Default, FontStyle.Regular);
 

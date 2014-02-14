@@ -28,27 +28,27 @@ namespace WMS_client.Processes
         public override sealed void DrawControls()
             {
             int top = 42;
-            const int delta = 27;
 
-            top += delta;
+
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             MainProcess.CreateLabel("Відскануйте піддон", 10, top, 230,
                 MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             currentNomenclatureLabel = MainProcess.CreateLabel(string.Empty, 10, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
-            top += delta;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             MainProcess.CreateLabel("Код палети", 10, top, 100,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
 
             currentStickerIdTextBox = MainProcess.CreateTextBox(120, top, 80, string.Empty, ControlsStyle.LabelNormal, palletCodeEntered, false);
 
-            top += delta * 3;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS * 3;
             printTaskLabel = MainProcess.CreateLabel(string.Empty, 10, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
-            top += delta * 2;
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS * 2;
             complateButton = MainProcess.CreateButton("Роздрукувати     (F4)", 5, top, 230, 35, string.Empty, complateProcess);
 
             updatePrintTask();
