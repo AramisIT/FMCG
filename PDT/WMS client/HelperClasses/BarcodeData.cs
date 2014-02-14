@@ -7,6 +7,14 @@ namespace WMS_client.HelperClasses
     {
     public class BarcodeData
         {
+        public BarcodeData()
+            {
+            Nomenclature = new CatalogItem();
+            Party = new CatalogItem();
+            Cell = new CatalogItem();
+            Tray = new CatalogItem();
+            Liner = new CatalogItem();
+            }
 
         public int UnitsRemainder
             {
@@ -35,9 +43,11 @@ namespace WMS_client.HelperClasses
 
         public long StickerId { get; set; }
 
-        public CatalogItem Nomenclature { get; set; }
+        public CatalogItem Nomenclature { get; private set; }
 
-        public CatalogItem Tray { get; set; }
+        public CatalogItem Tray { get; private set; }
+
+        public CatalogItem Liner { get; private set; }
 
         /// <summary>
         /// Total amount of bottles, boxes, etc. 
@@ -46,17 +56,13 @@ namespace WMS_client.HelperClasses
 
         public int UnitsPerBox { get; set; }
 
-        public CatalogItem Liner { get; set; }
-
         public byte LinersAmount { get; set; }
 
         public bool HasLiners
             {
             get
                 {
-                return LinersAmount > 0
-                       && Liner != null
-                       && Liner.Id != 0;
+                return LinersAmount > 0 && Liner.Id > 0;
                 }
             }
 
@@ -69,9 +75,9 @@ namespace WMS_client.HelperClasses
                 }
             }
 
-        public CatalogItem Cell { get; set; }
+        public CatalogItem Cell { get; private set; }
 
-        public CatalogItem Party { get; set; }
+        public CatalogItem Party { get; private set; }
 
         public long PreviousStickerCode { get; set; }
 
@@ -79,7 +85,7 @@ namespace WMS_client.HelperClasses
             {
             get
                 {
-                return Nomenclature == null || Nomenclature.Id == 0;
+                return Nomenclature.Id == 0;
                 }
             }
 
@@ -174,6 +180,11 @@ namespace WMS_client.HelperClasses
             Cell = new CatalogItem() { Description = cellDescription, Id = cellId };
 
             return true;
+            }
+
+        public bool LocatedIdCell
+            {
+            get { return Cell != null && !Cell.Empty; }
             }
         }
     }

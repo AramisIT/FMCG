@@ -171,14 +171,15 @@ namespace WMS_client.Processes
 
             currentLineNumber = taskLineNumber;
             pickingPlan = new BarcodeData();
-            pickingPlan.Nomenclature = new CatalogItem() { Id = wareId, Description = wareDescription };
-            pickingPlan.Cell = new CatalogItem() { Id = cellId, Description = cellDescription };
+            pickingPlan.Nomenclature.Id = wareId;
+            pickingPlan.Nomenclature.Description = wareDescription;
+            pickingPlan.Cell.Id = cellId;
+            pickingPlan.Cell.Description = cellDescription;
             pickingPlan.UnitsPerBox = unitsPerBox;
             pickingPlan.StickerId = stickerId;
             pickingPlan.TotalUnitsQuantity = unitsToPick;
-            pickingPlan.Party = new CatalogItem() { Description = productionDate.ToStandartString(), Id = partyId };
-            pickingPlan.Tray = new CatalogItem();
-            pickingPlan.Liner = new CatalogItem();
+            pickingPlan.Party.Description = productionDate.ToStandartString();
+            pickingPlan.Party.Id = partyId;
 
             return true;
             }
@@ -242,12 +243,11 @@ namespace WMS_client.Processes
             var palletNotEmptyNow = totalUnitsQuantityOnPallet != factPickingData.TotalUnitsQuantity;
             if (palletNotEmptyNow)
                 {
-                factPickingData.Tray = new CatalogItem();
                 factPickingData.LinersAmount = linersCount;
                 }
 
-            pickingTaskData.Tray = factPickingData.Tray;
-            pickingTaskData.Liner = factPickingData.Liner;
+            pickingTaskData.Tray.CopyFrom(factPickingData.Tray);
+            pickingTaskData.Liner.CopyFrom(factPickingData.Liner);
             pickingTaskData.LinersAmount = factPickingData.LinersAmount;
 
             var resultWriter = new TableMovementWriter(pickingTaskData, factPickingData);
@@ -327,13 +327,13 @@ namespace WMS_client.Processes
                 }
 
             setCellDescription(barcodeData.Cell);
-            factPickingData.Cell = barcodeData.Cell;
-            factPickingData.Party = barcodeData.Party;
+            factPickingData.Cell.CopyFrom(barcodeData.Cell);
+            factPickingData.Party.CopyFrom(barcodeData.Party);
 
             totalUnitsQuantityOnPallet = barcodeData.TotalUnitsQuantity;
             factPickingData.LinersAmount = barcodeData.LinersAmount;
-            factPickingData.Liner = barcodeData.Liner;
-            factPickingData.Tray = barcodeData.Tray;
+            factPickingData.Liner.CopyFrom(barcodeData.Liner);
+            factPickingData.Tray.CopyFrom(barcodeData.Tray);
 
             packsCount = pickingTaskData.FullPacksCount;
             unitsCount = pickingTaskData.UnitsRemainder;

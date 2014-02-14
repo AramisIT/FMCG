@@ -21,5 +21,10 @@ namespace WMS_client.Processes
             {
             SelectFromCatalog(new Repository().GetTraysList(), action);
             }
+
+        protected void showPalletCellNotFountMessage()
+            {
+            "Відсканованої палети нема на залишках".Warning();
+            }
         }
     }

@@ -177,7 +177,7 @@ namespace WMS_client.Processes
                 "Відсканованої палети нема на залишках".Warning();
                 return;
                 }
-            this.finalBarcodeData.Cell = barcodeData.Cell;
+            this.finalBarcodeData.Cell.CopyFrom(barcodeData.Cell);
             this.finalBarcodeData.PreviousStickerCode = barcodeData.StickerId;
             saveMovement();
             }
@@ -198,7 +198,7 @@ namespace WMS_client.Processes
             //    }
             //else if (string.Format(@"Розмістити палету першою у комірці ""{0}""?", scannedCell.Description).Ask())
             //    {
-            finalBarcodeData.Cell = scannedCell;
+            finalBarcodeData.Cell.CopyFrom(scannedCell);
             finalBarcodeData.PreviousStickerCode = 0;
             saveMovement();
             //}
@@ -227,7 +227,7 @@ namespace WMS_client.Processes
             scanNextPalletControls = new ScanPalletControls();
 
             int top = 60;
-            
+
 
             scanNextPalletControls.MovedPalletName = MainProcess.CreateLabel(string.Empty, 10, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);

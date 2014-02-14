@@ -108,7 +108,6 @@ namespace WMS_client.HelperClasses
             if (barcode.IsShortStickerCode())
                 {
                 result.StickerId = Convert.ToInt64(barcode.Substring(1));
-                result.Nomenclature = new CatalogItem();
                 return result;
                 }
 
@@ -129,10 +128,7 @@ namespace WMS_client.HelperClasses
 
             // result.TotalUnitsQuantity = Convert.ToInt32(values[(int)BarcodeDataIndexes.UnitsQuantity]);
 
-            result.Nomenclature = new CatalogItem()
-            {
-                Id = Convert.ToInt64(values[(int)BarcodeDataIndexes.NomenclatureId])
-            };
+            result.Nomenclature.Id = Convert.ToInt64(values[(int)BarcodeDataIndexes.NomenclatureId]);
 
             return result;
             }

@@ -35,5 +35,19 @@ namespace WMS_client
             Description = string.Empty;
             Id = 0;
             }
+
+        public void CopyFrom(CatalogItem item)
+            {
+            if (item == null)
+                {
+                Id = 0;
+                Description = string.Empty;
+                }
+            else
+                {
+                Id = item.Id;
+                Description = item.Description;
+                }
+            }
         }
     }

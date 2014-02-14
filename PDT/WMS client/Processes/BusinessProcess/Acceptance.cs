@@ -387,21 +387,20 @@ namespace WMS_client.Processes
                     out nomenclatureId, out nomenclatureDescription, out trayId,
                     out totalUnitsQuantity, out unitsPerBox, out cellId, out cellDescription, out currentAcceptance))
                 {
-                barcodeData.Cell = new CatalogItem();
                 barcodeData.StickerId = 0;
                 return;
                 }
 
             barcodeData.TotalUnitsQuantity = totalUnitsQuantity;
-            barcodeData.Nomenclature = new CatalogItem() { Description = nomenclatureDescription, Id = nomenclatureId };
-            barcodeData.Tray = new CatalogItem()
-            {
-                Id = trayId,
-                Description = new Repository().GetTrayDescription(trayId)
-            };
+            barcodeData.Nomenclature.Id = nomenclatureId;
+            barcodeData.Nomenclature.Description = nomenclatureDescription;
+
+            barcodeData.Tray.Id = trayId;
+            barcodeData.Tray.Description = new Repository().GetTrayDescription(trayId);
 
             barcodeData.UnitsPerBox = Convert.ToInt32(unitsPerBox);
-            barcodeData.Cell = new CatalogItem() { Description = cellDescription, Id = cellId };
+            barcodeData.Cell.Description = cellDescription;
+            barcodeData.Cell.Id = cellId;
             }
 
 

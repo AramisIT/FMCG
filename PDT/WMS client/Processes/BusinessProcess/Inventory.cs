@@ -183,16 +183,15 @@ namespace WMS_client.Processes
             if (barcodeData.StickerId == currentBarcodeData.PreviousStickerCode) return;
 
             barcodeData.ReadStickerInfo();
-            bool cellFounded = barcodeData.Cell.Id != 0;
-            if (!cellFounded)
+            if (!barcodeData.LocatedIdCell)
                 {
-                "Відсканованої палети нема на залишках".Warning();
+                showPalletCellNotFountMessage();
                 return;
                 }
 
             if (!string.Format(@"Розмістити у комірці ""{0}"" після палети № {1}", barcodeData.Cell.Description, barcodeData.StickerId).Ask()) return;
 
-            this.currentBarcodeData.Cell = barcodeData.Cell;
+            this.currentBarcodeData.Cell.CopyFrom(barcodeData.Cell);
             this.currentBarcodeData.PreviousStickerCode = barcodeData.StickerId;
             notifyCellUpdated();
             }
@@ -213,7 +212,7 @@ namespace WMS_client.Processes
                 }
             else if (string.Format(@"Розмістити палету першою у комірці ""{0}""?", scannedCell.Description).Ask())
                 {
-                currentBarcodeData.Cell = scannedCell;
+                currentBarcodeData.Cell.CopyFrom(scannedCell);
                 currentBarcodeData.PreviousStickerCode = 0;
                 notifyCellUpdated();
                 }
@@ -317,7 +316,7 @@ namespace WMS_client.Processes
             {
             chooseTray((selectedItem) =>
                 {
-                    currentBarcodeData.Tray = selectedItem;
+                    currentBarcodeData.Tray.CopyFrom(selectedItem);
                     updateTrayDescription();
                 });
             }
@@ -332,7 +331,7 @@ namespace WMS_client.Processes
             {
             chooseLiner(liner =>
                 {
-                    currentBarcodeData.Liner = liner;
+                    currentBarcodeData.Liner.CopyFrom(liner);
                     updateLinerButton();
                 });
             }
