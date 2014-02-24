@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using Aramis.Attributes;
 using Aramis.Core;
+using Aramis.DatabaseConnector;
 using Aramis.Enums;
+using AtosFMCG.TouchScreen.PalletSticker;
 using Catalogs;
 
 namespace SystemObjects
@@ -245,6 +247,85 @@ namespace SystemObjects
                 {
                 SetValueForObjectProperty("ParentOfCell", value);
                 }
+            }
+
+        internal void CreateNewCells()
+            {
+            var createdCellsQuantity = 0;
+
+            for (int row = StartRow; row <= FinishRow; row++)
+                {
+                for (int rack = StartRack; rack <= FinishRack; rack++)
+                    {
+                    createdCellsQuantity += Convert.ToInt32(createNewCell(0, row, rack, 0, 0));
+                    }
+                }
+
+            if (createdCellsQuantity > 0)
+                {
+                string.Format("Создано {0} ячеек!", createdCellsQuantity).AlertBox();
+                }
+            }
+
+        private bool createNewCell(int floor, int row, int rack, int storey, int position)
+            {
+            var q = DB.NewQuery(@"
+Select top 1 Id 
+from Cells 
+where MarkForDeleting = 0 
+    and Floor = @Floor
+    and [Row] = @Row
+    and Rack = @Rack
+    and Storey = @Storey
+    and Position = @Position");
+            q.AddInputParameter("Row", row);
+            q.AddInputParameter("Rack", rack);
+            q.AddInputParameter("Floor", floor);
+            q.AddInputParameter("Storey", storey);
+            q.AddInputParameter("Position", position);
+
+            if (q.SelectInt64() > 0) return false;
+
+            var newCell = new Cells()
+            {
+                Floor = floor,
+                Row = row,
+                Rack = rack,
+                Storey = storey,
+                Position = position,
+                ParentId = ParentOfCell,
+                TypeOfCell = TypeOfCell,
+                Description = string.Format("{0} {1:D2}-{2:D2}", Prefix.Trim(), row, rack)
+            };
+
+            var writeResult = newCell.Write();
+            return writeResult == WritingResult.Success;
+            }
+
+        internal void PrintCells()
+            {
+            var q = DB.NewQuery(@"
+Select Id 
+from Cells 
+where MarkForDeleting = 0 
+    and [Row] between @StartRow and @FinishRow
+    and Rack between @StartRack and @FinishRack
+    and (TypeOfCell = @TypeOfCell or @TypeOfCell = 0)");
+            q.AddInputParameter("StartRack", StartRack);
+            q.AddInputParameter("FinishRack", FinishRack);
+            q.AddInputParameter("StartRow", StartRow);
+            q.AddInputParameter("FinishRow", FinishRow);
+            q.AddInputParameter("TypeOfCell", TypeOfCell.Id);
+
+            var cells = new List<Cells>();
+            q.SelectToList<Int64>().ForEach(cellId => cells.Add(new Cells() { ReadingId = cellId }));
+
+            if (cells.Count == 0)
+                {
+                "Нема даних для друку".WarningBox();
+                return;
+                }
+            new CellsPrintingHelper(cells).Print();
             }
         }
     }

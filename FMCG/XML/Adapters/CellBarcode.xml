@@ -7,13 +7,14 @@
     <Layout Name="BarCode_DETAILS" StartNewPage="True" >
       <Rows>
         <Row Height="254" />
+        <!--<Row Height="50" />-->
       </Rows>
       <!--390px-->
       <Columns>
         <Column Width="255" />
       </Columns>
       <Cells>
-        <Cell FontSize="50" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" CellValue="Name"  ValueType="Parameter" BehaviorOnDisplaying="Cut"/>
+        <Cell ColumnsInterval="0" BehaviorOnDisplaying="Wrap" FontSize="50" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top" CellValue="Name"  ValueType="Parameter"/>
       </Cells>
       <Items>
         <Barcode Location="15,100" Size="210,220" RotateAngle="0" FontSize="16" BarcodeType="CODE128" ParameterName="barcode" ></Barcode>

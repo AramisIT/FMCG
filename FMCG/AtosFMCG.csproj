@@ -139,11 +139,11 @@
     <Compile Include="DatabaseObjects\Catalogs\Barcodes.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Carriers.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Cells.cs" />
-    <Compile Include="DatabaseObjects\SystemObjects\CellsProcessing\CellsProcessing.cs" />
-    <Compile Include="DatabaseObjects\SystemObjects\CellsProcessing\CellsProcessingForm.cs">
+    <Compile Include="SystemObjects\CellsProcessing\CellsProcessing.cs" />
+    <Compile Include="SystemObjects\CellsProcessing\CellsProcessingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DatabaseObjects\SystemObjects\CellsProcessing\CellsProcessingForm.Designer.cs">
+    <Compile Include="SystemObjects\CellsProcessing\CellsProcessingForm.Designer.cs">
       <DependentUpon>CellsProcessingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\Printing\StickersPrintingHelper.cs" />
@@ -425,7 +425,7 @@
     <EmbeddedResource Include="DatabaseObjects\Catalogs\Users\UsersItemForm.resx">
       <DependentUpon>UsersItemForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DatabaseObjects\SystemObjects\CellsProcessing\CellsProcessingForm.resx">
+    <EmbeddedResource Include="SystemObjects\CellsProcessing\CellsProcessingForm.resx">
       <DependentUpon>CellsProcessingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TouchScreen\Controls\Editors\NumberEdit.resx">

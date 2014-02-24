@@ -27,7 +27,7 @@ using Aramis.SystemConfigurations;
 using Aramis.UI;
 using Aramis;
 using Documents;
-using FMCG.DatabaseObjects.SystemObjects.CellsProcessing;
+using FMCG.DatabaseObjects.SystemObjects;
 using FMCG.Utils;
 using FMCG.Utils.Printing;
 using StorekeeperManagementServer;
