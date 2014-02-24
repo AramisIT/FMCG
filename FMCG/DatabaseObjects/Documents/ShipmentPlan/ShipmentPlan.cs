@@ -371,7 +371,10 @@ ORDER BY Date DESC");
             {
             foreach (DataRow row in NomenclatureInfo.Rows)
                 {
-                row[Party] = Parties.Find((long)row[Nomenclature], (DateTime)row[ProductionDate]).Id;
+                var nomenclatureId = (long) row[Nomenclature];
+                var productionDate = (DateTime) row[ProductionDate];
+
+                //row[Party] = Parties.Find(nomenclatureId, productionDate, ).Id;
                 }
             }
         }

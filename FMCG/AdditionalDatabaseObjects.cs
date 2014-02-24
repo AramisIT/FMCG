@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Aramis.Platform;
 using Aramis.Platform.SystemSetup;
 
 namespace FMCG
     {
-    public class AdditionalDatabaseObjects : CheckSolutionDBStruct
+    public class AdditionalDatabaseObjects : SQLDatabaseUpdating
         {
         private readonly List<string> afterTableCreatedSP = new List<string>()
             {

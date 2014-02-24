@@ -6,12 +6,12 @@ using Aramis.SystemConfigurations;
 using Aramis.Attributes;
 using Aramis.UI.WinFormsDevXpress;
 using Catalogs;
-using Catalogs.Helpers;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraEditors;
 using Aramis.Core;
 using System.Windows.Forms;
+using FMCG.Utils.Printing;
 
 namespace AtosFMCG.DatabaseObjects.Catalogs
     {
@@ -177,8 +177,8 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
                 {
                 UIConsts.Skin = (Skins)(Skin.SelectedIndex);
 
-                UIConsts.Manager.GetFormsList(AramisObjectType.Catalog, true).ForEach(ItemFormTuner.ComplateFormSkinUpdating);
-                UIConsts.Manager.GetFormsList(AramisObjectType.Document, true).ForEach(ItemFormTuner.ComplateFormSkinUpdating);
+                UIConsts.WindowsManager.GetFormsList(AramisObjectType.Catalog, true).ForEach(ItemFormTuner.ComplateFormSkinUpdating);
+                UIConsts.WindowsManager.GetFormsList(AramisObjectType.Document, true).ForEach(ItemFormTuner.ComplateFormSkinUpdating);
                 }
             }
 
@@ -195,7 +195,7 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
                 return;
                 }
 
-            new UserBarcodePrintHelper(User.Id, User.Description, ThermoPrinters.GetCurrentPrinterName()).Print();
+            new UserBarcodePrintHelper(User.Id, User.Description).Print();
             }
 
         }

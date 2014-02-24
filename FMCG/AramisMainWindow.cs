@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
+using SystemObjects;
 using Aramis.Core.WritingUtils;
 using Aramis.DatabaseConnector;
 using Aramis.DatabaseUpdating;
@@ -26,7 +27,9 @@ using Aramis.SystemConfigurations;
 using Aramis.UI;
 using Aramis;
 using Documents;
+using FMCG.DatabaseObjects.SystemObjects.CellsProcessing;
 using FMCG.Utils;
+using FMCG.Utils.Printing;
 using StorekeeperManagementServer;
 
 namespace AtosFMCG
@@ -300,7 +303,7 @@ namespace AtosFMCG
                 PacksCount = 150,Id=99443}
                 };
 
-            var stickersCreator = new StickersPrintingHelper(tasks, ThermoPrinters.GetCurrentPrinterName());
+            var stickersCreator = new StickersPrintingHelper(tasks);
             stickersCreator.Print();
 
             //Window palletPrintForm = new Window();
@@ -448,6 +451,23 @@ namespace AtosFMCG
         private void barButtonItem25_ItemClick(object sender, ItemClickEventArgs e)
             {
             SystemMessage.InstanceMessage.Show();
+            }
+
+        private void barButtonItem26_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            UserInterface.Current.ShowList(typeof(Barcodes));
+            }
+
+        private void barButtonItem27_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            startCellsProcessing();
+            }
+
+        private void startCellsProcessing()
+            {
+            var sysObject = new CellsProcessing();
+            var form = new CellsProcessingForm { Item = sysObject };
+            UserInterface.Current.ShowSystemObject(sysObject, form);
             }
 
         }

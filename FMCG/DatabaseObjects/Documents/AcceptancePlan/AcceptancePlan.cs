@@ -12,6 +12,7 @@ using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
 using AtosFMCG.TouchScreen.PalletSticker;
 using Catalogs;
+using FMCG.Utils.Printing;
 using TouchScreen.Models.Data;
 
 namespace Documents
@@ -363,7 +364,7 @@ namespace Documents
                 return;
                 }
 
-            var stickersCreator = new StickersPrintingHelper(stickers, ThermoPrinters.GetCurrentPrinterName());
+            var stickersCreator = new StickersPrintingHelper(stickers);
             stickersCreator.Print();
             }
 

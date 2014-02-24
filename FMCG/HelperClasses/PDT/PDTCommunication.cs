@@ -21,6 +21,7 @@ using Documents;
 using FMCG.DatabaseObjects.Enums;
 using FMCG.HelperClasses.PDT;
 using FMCG.Utils;
+using FMCG.Utils.Printing;
 using pdtExternalStorage;
 using Documents.GoodsAcceptance;
 
@@ -737,7 +738,7 @@ order by [LineNumber]";
 
         private static void printStickers(List<Stickers> stickers)
             {
-            var stickersCreator = new StickersPrintingHelper(stickers, ThermoPrinters.GetCurrentPrinterName());
+            var stickersCreator = new StickersPrintingHelper(stickers);
 
             (UIConsts.MainWindow as Form).Invoke(new Action(() => { stickersCreator.Print(); }));
             }

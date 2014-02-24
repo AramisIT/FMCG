@@ -345,16 +345,16 @@ namespace AtosFMCG.TouchScreen.Controls
 
         /// <summary>Отримати партію для номенталатури на обрану дату</summary>
         /// <param name="date">Дата</param>
-        /// <param name="nomenclature">Номенклатура</param>
+        /// <param name="nomenclatureId">Номенклатура</param>
         /// <returns>Партія</returns>
-        private Parties getPartyForNomenclatureByDate(DateTime date, long nomenclature, int shelfLifeDays)
+        private Parties getPartyForNomenclatureByDate(DateTime date, long nomenclatureId, int shelfLifeDays)
             {
-            Parties party = Parties.Find(nomenclature, date);
+            Parties party = Parties.Find(nomenclatureId, date, shelfLifeDays);
 
             if (party.Id == 0)
                 {
                 party.DateOfManufacture = date;
-                party.Nomenclature = new Nomenclature() { ReadingId = nomenclature };
+                party.Nomenclature = new Nomenclature() { ReadingId = nomenclatureId };
                 party.FillAddData(shelfLifeDays);
                 party.Write();
                 }

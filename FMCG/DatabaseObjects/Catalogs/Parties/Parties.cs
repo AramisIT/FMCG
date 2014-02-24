@@ -96,6 +96,15 @@ namespace Catalogs
 
         #endregion
 
+        public int ShelfLifeDays
+            {
+            get
+                {
+                var days = (TheDeadlineSuitability - DateOfManufacture).TotalDays;
+                return (int)days;
+                }
+            }
+
         #region Fill
         public void FillAddData(int shelfLifeDays)
             {
@@ -126,10 +135,17 @@ namespace Catalogs
             }
         #endregion
 
-        internal static Parties Find(long nomenclatureId, DateTime productionDate)
+        internal static Parties Find(long nomenclatureId, DateTime productionDate, int shelfLifeDays)
             {
-            Query query = DB.NewQuery(@"SELECT Top 1 Id FROM Parties WHERE markForDeleting = 0 and Nomenclature=@Nomenclature AND CAST(DateOfManufacture AS DATE)=@Date");
-            query.AddInputParameter("Date", productionDate);
+            Query query = DB.NewQuery(@"SELECT Top 1 Id 
+FROM Parties 
+WHERE markForDeleting = 0 
+    and Nomenclature=@Nomenclature 
+    AND CAST(DateOfManufacture AS DATE)=@Date
+    and CAST(TheDeadlineSuitability AS DATE)=@ExpirationDate");
+
+            query.AddInputParameter("Date", productionDate.Date);
+            query.AddInputParameter("ExpirationDate", productionDate.AddDays(shelfLifeDays).Date);
             query.AddInputParameter("Nomenclature", nomenclatureId);
             var partyId = query.SelectInt64();
 

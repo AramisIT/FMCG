@@ -7,6 +7,7 @@ using Aramis.Core;
 using Aramis.SystemConfigurations;
 using AtosFMCG.TouchScreen.PalletSticker;
 using Catalogs;
+using FMCG.Utils.Printing;
 
 namespace Catalogs
     {
@@ -301,7 +302,7 @@ namespace Catalogs
 
         private void printSticker(Stickers sticker)
             {
-            var stickersCreator = new StickersPrintingHelper(new List<Stickers>() { sticker }, ThermoPrinters.GetCurrentPrinterName());
+            var stickersCreator = new StickersPrintingHelper(new List<Stickers>() { sticker });
             stickersCreator.Print();
             }
 

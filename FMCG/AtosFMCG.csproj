@@ -139,6 +139,14 @@
     <Compile Include="DatabaseObjects\Catalogs\Barcodes.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Carriers.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Cells.cs" />
+    <Compile Include="DatabaseObjects\SystemObjects\CellsProcessing\CellsProcessing.cs" />
+    <Compile Include="DatabaseObjects\SystemObjects\CellsProcessing\CellsProcessingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DatabaseObjects\SystemObjects\CellsProcessing\CellsProcessingForm.Designer.cs">
+      <DependentUpon>CellsProcessingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\Printing\StickersPrintingHelper.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Cities.cs" />
     <Compile Include="DatabaseObjects\Catalogs\ClassifierUnits.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Consts\Consts.cs" />
@@ -185,7 +193,7 @@
       <DependentUpon>TypesOfCellItemsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DatabaseObjects\Catalogs\TypesOfCell\TypesOfCell.cs" />
-    <Compile Include="DatabaseObjects\Catalogs\Users\UserBarcodePrintHelper.cs" />
+    <Compile Include="Utils\Printing\UserBarcodePrintHelper.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Users\Users.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Users\UsersItemForm.cs">
       <SubType>Form</SubType>
@@ -349,7 +357,7 @@
     </Compile>
     <Compile Include="TouchScreen\Events\ScreenChangedArgs.cs" />
     <Compile Include="TouchScreen\PalletSticker\StickerInfo.cs" />
-    <Compile Include="TouchScreen\PalletSticker\StickersPrintingHelper.cs" />
+    <Compile Include="Utils\Printing\CellsPrintingHelper.cs" />
     <Compile Include="TouchScreen\Screens\Base\BaseOfT.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -376,14 +384,18 @@
     </Compile>
     <Compile Include="UIConfigurator.cs" />
     <Compile Include="UI\StatesColors.cs" />
+    <Compile Include="Utils\Printing\ThermalTransferPrinting.cs" />
     <Compile Include="Utils\SolutionExtentions.cs" />
     <None Include="images\Touchscreen 32.png" />
     <None Include="images\AcceptancePlan 32.png" />
     <None Include="images\Acceptance 32.png" />
-    <Content Include="DatabaseObjects\Catalogs\Users\UserBarcode.xml">
+    <Content Include="XML\Adapters\CellBarcode.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="TouchScreen\PalletSticker\StickerAdapter.xml">
+    <Content Include="XML\Adapters\UserBarcode.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XML\Adapters\StickerAdapter.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
@@ -412,6 +424,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DatabaseObjects\Catalogs\Users\UsersItemForm.resx">
       <DependentUpon>UsersItemForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DatabaseObjects\SystemObjects\CellsProcessing\CellsProcessingForm.resx">
+      <DependentUpon>CellsProcessingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TouchScreen\Controls\Editors\NumberEdit.resx">
       <DependentUpon>NumberEdit.cs</DependentUpon>

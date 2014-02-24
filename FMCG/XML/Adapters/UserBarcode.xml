@@ -9,7 +9,7 @@
       </Rows>
       <!--390px-->
       <Columns>
-        <Column Width="285" />
+        <Column Width="255" />
       </Columns>
       <Cells>
         <Cell FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" CellValue="Name"  ValueType="Parameter" BehaviorOnDisplaying="Wrap"/>

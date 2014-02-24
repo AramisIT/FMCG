@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <MatrixAdapter FrozenColumns="0">
   <Tables>
-    <Table SourceName="barCodeSourceTable" Name="bc">
+    <Table SourceName="SourceTable" Name="bc">
       <Column Name="Nomenclature" Description="Номенклатура"/>
       <Column Name="BarCode" Description="Штрих-код"/>
     </Table>

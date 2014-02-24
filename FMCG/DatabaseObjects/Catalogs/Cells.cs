@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Aramis;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
 using Aramis.Enums;
+using AtosFMCG.TouchScreen.PalletSticker;
 using Catalogs;
 
 namespace Catalogs
@@ -121,6 +123,18 @@ namespace Catalogs
             }
         private int z_Position;
 
+        public string Barcode
+            {
+            get { return string.Format("C.{0};{1}", Id, Description); }
+            }
 
+        public override Dictionary<string, Action<DatabaseObject>> GetActions()
+            {
+            var result = new Dictionary<string, Action<DatabaseObject>>();
+
+            result.Add("Друкувати", item => new CellsPrintingHelper(new List<Cells>() { item as Cells }).Print());
+
+            return result;
+            }
         }
     }
