@@ -28,7 +28,7 @@ namespace Catalogs
                 }
             }
 
-        [DataField(Description = "Этаж", ShowInList = true)]
+        [DataField(Description = "Этаж", ShowInList = false, ShowInForm = false)]
         public int Floor
             {
             get
@@ -85,7 +85,7 @@ namespace Catalogs
             }
         private int z_Rack;
 
-        [DataField(Description = "Ярус", ShowInList = true)]
+        [DataField(Description = "Ярус", ShowInList = false, ShowInForm = false)]
         public int Storey
             {
             get
@@ -104,7 +104,7 @@ namespace Catalogs
             }
         private int z_Storey;
 
-        [DataField(Description = "Позиция", ShowInList = true)]
+        [DataField(Description = "Позиция", ShowInList = false, ShowInForm = false)]
         public int Position
             {
             get
@@ -134,7 +134,18 @@ namespace Catalogs
 
             result.Add("Друкувати", item => new CellsPrintingHelper(new List<Cells>() { item as Cells }).Print());
 
+            result.Add("Оновити найменування", item => (item as Cells).UpdateDescription());
+
             return result;
+            }
+
+        public void UpdateDescription(string prefix = "")
+            {
+            if (string.IsNullOrEmpty(prefix) && Description.Trim().Length > 0)
+                {
+                prefix = Description.Substring(0, 1);
+                }
+            Description = string.Format("{0} {1:D2}-{2:D2}", prefix.Trim(), Row, Rack);
             }
         }
     }

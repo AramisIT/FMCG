@@ -294,9 +294,10 @@ where MarkForDeleting = 0
                 Storey = storey,
                 Position = position,
                 ParentId = ParentOfCell,
-                TypeOfCell = TypeOfCell,
-                Description = string.Format("{0} {1:D2}-{2:D2}", Prefix.Trim(), row, rack)
+                TypeOfCell = TypeOfCell
             };
+
+            newCell.UpdateDescription(Prefix);
 
             var writeResult = newCell.Write();
             return writeResult == WritingResult.Success;
