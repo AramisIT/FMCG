@@ -368,7 +368,7 @@ namespace AtosFMCG
 
         private void barButtonItem8_ItemClick(object sender, ItemClickEventArgs e)
             {
-            new RemaindersUpdater().Update();
+            new MotionsCreatorsUpdatingHelper().Update();
             }
 
         private void barButtonItem9_ItemClick(object sender, ItemClickEventArgs e)

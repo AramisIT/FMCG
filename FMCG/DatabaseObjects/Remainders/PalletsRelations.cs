@@ -4,20 +4,20 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using Aramis.Core;
-using Aramis.Core.Reminders;
+using Aramis.Core.Records;
 using Catalogs;
 using Documents;
 using FMCG.DatabaseObjects.Enums;
 
 namespace FMCG.DatabaseObjects.Remainders
     {
-    class PalletsRelations : Remainder
+    class PalletsRelations : BalanceRecord
         {
-        RemainderTableField Pallet = RemainderTableField.Group;
+        MotionsTableField Pallet = MotionsTableField.Group;
 
-        RemainderTableField PreviousPallet = RemainderTableField.Group;
+        MotionsTableField PreviousPallet = MotionsTableField.Group;
 
-        RemainderTableField Quantity = RemainderTableField.Number;
+        MotionsTableField Quantity = MotionsTableField.Number;
 
         public override DatabaseObject[] GetObjectsOfMotions()
             {

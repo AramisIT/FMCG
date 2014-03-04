@@ -4,26 +4,26 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using Aramis.Core;
-using Aramis.Core.Reminders;
+using Aramis.Core.Records;
 using Catalogs;
 using Documents;
 using FMCG.DatabaseObjects.Enums;
 
 namespace FMCG.DatabaseObjects.Remainders
     {
-    class StockBalance : Remainder
+    class StockBalance : BalanceRecord
         {
-        RemainderTableField Nomenclature = RemainderTableField.Group;
+        MotionsTableField Nomenclature = MotionsTableField.Group;
 
-        RemainderTableField Cell = RemainderTableField.Group;
+        MotionsTableField Cell = MotionsTableField.Group;
 
-        RemainderTableField State = RemainderTableField.Group;
+        MotionsTableField State = MotionsTableField.Group;
 
-        RemainderTableField Party = RemainderTableField.Group;
+        MotionsTableField Party = MotionsTableField.Group;
 
-        RemainderTableField Code = RemainderTableField.Group;
+        MotionsTableField Code = MotionsTableField.Group;
 
-        RemainderTableField Quantity = RemainderTableField.Number;
+        MotionsTableField Quantity = MotionsTableField.Number;
 
         public override DatabaseObject[] GetObjectsOfMotions()
             {

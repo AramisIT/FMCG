@@ -100,10 +100,12 @@ END
 
 
 
-PROCEDURE [dbo].[Report_PickingDiscrepancies] 
-	(@MovingId bigint)
+PROCEDURE [Report_PickingDiscrepancies] 
+	(@StartDate datetime2)
 AS
 BEGIN
+
+declare @MovingId bigint = isnull((select top 1 Id from Moving where Moving.State = 4 and cast([Date] as date) = CAST(@StartDate as date) order by [DATE] desc),0);
 
 declare @planId bigint;
 select @planId = isnull(PickingPlan,0) from Moving where Id = @movingId;
@@ -135,6 +137,7 @@ select p.Nomenclature NomenclatureId, p.PlanValue,
 	where PlanValue <> FactValue
 	order by n.Description
 END
+
 
 ";
     }

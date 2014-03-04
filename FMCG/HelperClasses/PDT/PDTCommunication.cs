@@ -623,7 +623,8 @@ from @table");
         public DataTable GetPickingDocuments()
             {
             var q = DB.NewQuery(@"
-Select m.Id, convert(nvarchar(max), day(p.Date), 4)+'.'+convert(nvarchar(max), month(p.Date), 4) [Description] 
+Select m.Id, convert(nvarchar(max), day(p.Date), 4)+'.'+convert(nvarchar(max), month(p.Date), 4) + ' ' + convert(nvarchar(max),datepart(hour, p.Date)) + ':' + 
+convert(nvarchar(max),datepart(MINUTE, p.Date)) [Description] 
 
 from Moving m
 join ShipmentPlan p on p.Id = m.PickingPlan
