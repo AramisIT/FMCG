@@ -311,7 +311,8 @@ from Cells
 where MarkForDeleting = 0 
     and [Row] between @StartRow and @FinishRow
     and Rack between @StartRack and @FinishRack
-    and (TypeOfCell = @TypeOfCell or @TypeOfCell = 0)");
+    and (TypeOfCell = @TypeOfCell or @TypeOfCell = 0)
+order by Row, Rack");
             q.AddInputParameter("StartRack", StartRack);
             q.AddInputParameter("FinishRack", FinishRack);
             q.AddInputParameter("StartRow", StartRow);
