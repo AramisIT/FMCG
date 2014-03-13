@@ -94,6 +94,12 @@
     <Compile Include="Visual\Controls\MobileLabel.cs" />
     <Compile Include="Visual\Controls\MobileTable.cs" />
     <Compile Include="Visual\Controls\MobileTextBox.cs" />
+    <Compile Include="Visual\RemoteCallDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visual\RemoteCallDialog.designer.cs">
+      <DependentUpon>RemoteCallDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Visual\EmptyDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,6 +124,9 @@
     <Compile Include="WMSClient.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Visual\RemoteCallDialog.resx">
+      <DependentUpon>RemoteCallDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Visual\EmptyDialog.resx">
       <DependentUpon>EmptyDialog.cs</DependentUpon>
     </EmbeddedResource>

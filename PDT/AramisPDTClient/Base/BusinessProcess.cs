@@ -130,7 +130,7 @@ namespace WMS_client
                     }
                 return;
                 }
-
+            
             OnHotKey(key);
             }
 

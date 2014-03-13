@@ -450,6 +450,11 @@ namespace StorekeeperManagementServer
                 lastPackageId = packageId;
                 actualLastPackageTime = DateTime.Now;
 
+                if (!TCPStream.CanWrite)
+                    {
+                    CloseChannels();
+                    return;
+                    }
                 TCPStream.Write(packageData, 0, packageData.Length);
                 }
             waitForConfirmationReply = true;
