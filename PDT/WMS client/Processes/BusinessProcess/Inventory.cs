@@ -303,6 +303,7 @@ namespace WMS_client.Processes
                 Warning_CantComplateOperation();
                 return;
                 }
+            ClearControls();
             MainProcess.Process = new SelectingProcess();
             }
 

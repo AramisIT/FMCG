@@ -5,7 +5,7 @@ class ProceduresOfFMCG
     {
     private string procedures = @"
 
-PROCEDURE [dbo].[Report_PalletsOrder]
+PROCEDURE PROCEDURE [dbo].[Report_PalletsOrder]
 	(@StartDate Datetime2,	
 	@Cell bigint)
 AS
@@ -46,12 +46,15 @@ select n.Cell, r.Pallet, n.OrdinalNumber+1 from PalletsRelations r
 join PalletsNumbers n on n.Pallet= r.PreviousPallet
 )
 
-select p.*, rtrim(Cells.Description) CellName from PalletsNumbers p
-join Cells on Cells.Id = p.Cell
+select p.*, rtrim(Cells.Description) CellName, 
+	isnull(rtrim(n.Description), 'не найден товар') Nomenclature 
+	from PalletsNumbers p
+	join Cells on Cells.Id = p.Cell
+	join Stickers s on s.Id = p.pallet
+	left join Nomenclature n on n.Id = s.Nomenclature
 
 order by p.Cell, CellName 
 END
-
 
 
 

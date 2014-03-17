@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using Aramis;
 using Aramis.Common_classes;
 using Aramis.DatabaseConnector;
+using Aramis.Enums;
 using Aramis.Platform;
 using AramisWpfComponents.Excel;
 using AtosFMCG.TouchScreen.Controls;
@@ -20,6 +23,24 @@ namespace AtosFMCG.HelperClasses.PDT
                 }
             }
 
+        public static List<object> LastParameters
+            {
+            get
+                {
+                lock (lastParametersLocker)
+                    {
+                    return lastParameters;
+                    }
+                }
+            set
+                {
+                lock (lastParametersLocker)
+                    {
+                    lastParameters = value;
+                    }
+                }
+            }
+
         private static readonly PDTCommunication communication;
 
         static ReceiveMessages()
@@ -27,112 +48,148 @@ namespace AtosFMCG.HelperClasses.PDT
             communication = new PDTCommunication();
             }
 
+        private static List<object> lastParameters;
+        private static object lastParametersLocker = new object();
+
         public static object[] ReceiveMessage(string procedure, object[] parameters, int userId)
             {
-            switch (procedure)
+            try
                 {
-                case "GetCountOfDocuments":
-                    return GetCountOfDocuments();
-                case "GetContractorsForSelection":
-                    return GetContractorsForSelection();
-                case "GetTareTable":
-                    return GetTareTable(parameters);
-                case "GetStickerData":
-                    return GetStickerData(parameters);
-                case "GetAcceptanceId":
-                    return GetAcceptanceId(parameters);
-                case "WriteStickerFact":
-                    return WriteStickerFact(parameters);
-                case "ComplateAcceptance":
-                    return ComplateAcceptance(parameters);
-                case "ComplateInventory":
-                    return ComplateInventory(parameters);
-                case "GetPalletBalance":
-                    return GetPalletBalance(parameters);
-                case "GetNewInventoryId":
-                    return GetNewInventoryId(parameters);
-                case "WriteInventoryResult":
-                    return new object[] { communication.WriteInventoryResult(Convert.ToInt64(parameters[0]), parameters[1] as DataTable) };
+                LastParameters = parameters.ToList();
+                LastParameters.Insert(0, procedure);
 
-                case "GetNewMovementId":
-                    return GetNewMovementId(parameters);
-                case "ComplateMovement":
-                    return ComplateMovement(parameters);
-                case "WriteMovementResult":
-                    return new object[] { communication.WriteMovementResult(Convert.ToInt64(parameters[0]), parameters[1] as DataTable) };
+                switch (procedure)
+                    {
+                    case "GetCountOfDocuments":
+                        return GetCountOfDocuments();
+                    case "GetContractorsForSelection":
+                        return GetContractorsForSelection();
+                    case "GetTareTable":
+                        return GetTareTable(parameters);
+                    case "GetStickerData":
+                        return GetStickerData(parameters);
+                    case "GetAcceptanceId":
+                        return GetAcceptanceId(parameters);
+                    case "WriteStickerFact":
+                        return WriteStickerFact(parameters);
+                    case "ComplateAcceptance":
+                        return ComplateAcceptance(parameters);
+                    case "ComplateInventory":
+                        return ComplateInventory(parameters);
+                    case "GetPalletBalance":
+                        return GetPalletBalance(parameters);
+                    case "GetNewInventoryId":
+                        return GetNewInventoryId(parameters);
+                    case "WriteInventoryResult":
+                        return new object[]
+                                {
+                                communication.WriteInventoryResult(Convert.ToInt64(parameters[0]),
+                                    parameters[1] as DataTable)
+                                };
 
-                case "WritePickingResult":
-                    int sameWareNextTaskLineNumber;
-                    var writePickingResultResult = communication.WritePickingResult(Convert.ToInt64(parameters[0]),
-                        Convert.ToInt32(parameters[1]), parameters[2] as DataTable, Convert.ToInt64(parameters[3]), out sameWareNextTaskLineNumber);
-                    return new object[] { writePickingResultResult, sameWareNextTaskLineNumber };
+                    case "GetNewMovementId":
+                        return GetNewMovementId(parameters);
+                    case "ComplateMovement":
+                        return ComplateMovement(parameters);
+                    case "WriteMovementResult":
+                        return new object[]
+                                {
+                                communication.WriteMovementResult(Convert.ToInt64(parameters[0]),
+                                    parameters[1] as DataTable)
+                                };
 
-                case "GetPickingTask":
-                    return GetPickingTask(parameters);
+                    case "WritePickingResult":
+                        int sameWareNextTaskLineNumber;
+                        var writePickingResultResult =
+                            communication.WritePickingResult(Convert.ToInt64(parameters[0]),
+                                Convert.ToInt32(parameters[1]), parameters[2] as DataTable,
+                                Convert.ToInt64(parameters[3]), out sameWareNextTaskLineNumber);
+                        return new object[] { writePickingResultResult, sameWareNextTaskLineNumber };
 
-                case "GetPickingDocuments":
-                    return new object[] { communication.GetPickingDocuments() };
+                    case "GetPickingTask":
+                        return GetPickingTask(parameters);
 
-                case "GetPDTFiles":
-                    return new object[] { PlatformMethods.GetPDTFiles().ToTable() };
+                    case "GetPickingDocuments":
+                        return new object[] { communication.GetPickingDocuments() };
 
-                case "GetPDTFileBlock":
-                    return new object[] { PlatformMethods.GetPDTFileBlock(new Guid(parameters[0].ToString()), 
-                    Convert.ToInt32(parameters[1]), Convert.ToInt32(parameters[2])) };
+                    case "GetPDTFiles":
+                        return new object[] { PlatformMethods.GetPDTFiles().ToTable() };
 
-                case "PrintStickers":
-                    return new object[] { communication.PrintStickers(parameters[0] as DataTable) };
+                    case "GetPDTFileBlock":
+                        return new object[]
+                                {
+                                PlatformMethods.GetPDTFileBlock(new Guid(parameters[0].ToString()),
+                                    Convert.ToInt32(parameters[1]), Convert.ToInt32(parameters[2]))
+                                };
 
-                case "CreatePickingDocuments":
-                    return new object[] { communication.CreatePickingDocuments() };
+                    case "PrintStickers":
+                        return new object[] { communication.PrintStickers(parameters[0] as DataTable) };
 
-                case "ReadConsts":
-                    DataTable constsTable;
-                    communication.ReadConsts(out constsTable);
-                    return new object[] { true, constsTable };
+                    case "CreatePickingDocuments":
+                        return new object[] { communication.CreatePickingDocuments() };
 
-                case "GetUserName":
-                    return new object[] { true, communication.GetUserName(Convert.ToInt32(parameters[0])) };
+                    case "ReadConsts":
+                        DataTable constsTable;
+                        communication.ReadConsts(out constsTable);
+                        return new object[] { true, constsTable };
 
-                case "GetWares":
-                    return new object[] { true, communication.GetWares(parameters[0] as string, (SelectionFilters)(int)parameters[1]) };
+                    case "GetUserName":
+                        return new object[] { true, communication.GetUserName(Convert.ToInt32(parameters[0])) };
 
-                case "SetBarcode":
-                    bool recordWasAdded;
-                    var setBarcodeResult = communication.SetBarcode(parameters[0] as string, Convert.ToInt64(parameters[1]), out recordWasAdded);
-                    return new object[] { setBarcodeResult, recordWasAdded };
+                    case "GetWares":
+                        return new object[]
+                                {
+                                true,
+                                communication.GetWares(parameters[0] as string, (SelectionFilters) (int) parameters[1])
+                                };
 
-                case "SetPalletStatus":
-                    communication.SetPalletStatus(Convert.ToInt64(parameters[0]), (bool)parameters[1]);
-                    break;
+                    case "SetBarcode":
+                        bool recordWasAdded;
+                        var setBarcodeResult = communication.SetBarcode(parameters[0] as string,
+                            Convert.ToInt64(parameters[1]), out recordWasAdded);
+                        return new object[] { setBarcodeResult, recordWasAdded };
 
-                case "GetParties":
-                        {
-                        var table = communication.GetParties(Convert.ToInt64(parameters[0]), (SelectionFilters)Convert.ToInt32(parameters[1]));
-                        return new object[] { true, table };
-                        }
-                    break;
+                    case "SetPalletStatus":
+                        communication.SetPalletStatus(Convert.ToInt64(parameters[0]), (bool)parameters[1]);
+                        break;
 
-                case "GetWaresInKegs":
-                        {
-                        var table = communication.GetWaresInKegs((SelectionFilters)Convert.ToInt32(parameters[0]));
-                        return new object[] { true, table };
-                        }
+                    case "GetParties":
+                            {
+                            var table = communication.GetParties(Convert.ToInt64(parameters[0]),
+                                (SelectionFilters)Convert.ToInt32(parameters[1]));
+                            return new object[] { true, table };
+                            }
+                        break;
 
-                case "CreateNewSticker":
-                    return new object[] { true, communication.CreateNewSticker(Convert.ToInt64(parameters[0]), 
-                    (DateTime)parameters[1], 
-                    Convert.ToInt32(parameters[2]),
-                    Convert.ToInt32(parameters[3]),
-                     Convert.ToInt64(parameters[4]),
-                    Convert.ToInt32(parameters[5]))};
+                    case "GetWaresInKegs":
+                            {
+                            var table = communication.GetWaresInKegs((SelectionFilters)Convert.ToInt32(parameters[0]));
+                            return new object[] { true, table };
+                            }
 
-                case "CreateNewAcceptance":
-                    return new object[] { true, communication.CreateNewAcceptance(Convert.ToInt64(parameters[0])) };
+                    case "CreateNewSticker":
+                        return new object[]
+                                {
+                                true, communication.CreateNewSticker(Convert.ToInt64(parameters[0]),
+                                    (DateTime) parameters[1],
+                                    Convert.ToInt32(parameters[2]),
+                                    Convert.ToInt32(parameters[3]),
+                                    Convert.ToInt64(parameters[4]),
+                                    Convert.ToInt32(parameters[5]))
+                                };
 
+                    case "CreateNewAcceptance":
+                        return new object[] { true, communication.CreateNewAcceptance(Convert.ToInt64(parameters[0])) };
+
+                    }
+
+                return new object[0];
                 }
-
-            return new object[0];
+            catch (Exception exp)
+                {
+                exp.Message.Error(ErrorLevels.Low);
+                return new object[0];
+                }
             }
 
         private static object[] GetPickingTask(object[] parameters)
@@ -217,17 +274,18 @@ namespace AtosFMCG.HelperClasses.PDT
             DateTime productionDate;
             long partyId;
             long nomenclatureId;
-
+            int totalUnitsQuantity;
             if (!communication.GetPalletBalance(Convert.ToInt64(parameters[0]),
                     out nomenclatureId,
                     out nomenclatureDescription, out trayId, out linerId, out linersAmount,
-                    out unitsPerBox, out cellId, out cellDescription, out previousPalletCode, out  productionDate, out partyId))
+                    out unitsPerBox, out cellId, out cellDescription, out previousPalletCode, out  productionDate, out partyId, out totalUnitsQuantity))
                 {
                 return new object[] { false };
                 }
 
             return new object[] { nomenclatureId, nomenclatureDescription, trayId, linerId, linersAmount, unitsPerBox, cellId, cellDescription, previousPalletCode, 
-            productionDate.ConvertToStringDateOnly(), partyId };
+            productionDate.ConvertToStringDateOnly(), partyId,
+            totalUnitsQuantity};
             }
 
         private static object[] WriteStickerFact(object[] parameters)

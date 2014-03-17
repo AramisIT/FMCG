@@ -146,11 +146,13 @@ namespace WMS_client.HelperClasses
             long cellId;
             long previousPalletCode;
             long partyId;
+            int totalUnitsQuantity;
             DateTime productionDate;
             if (
                 !new ServerInteraction().GetPalletBalance(StickerId,
                     out nomenclatureId, out nomenclatureDescription, out trayId, out linerId, out linersAmount,
-                    out unitsPerBox, out cellId, out cellDescription, out previousPalletCode, out productionDate, out partyId))
+                    out unitsPerBox, out cellId, out cellDescription, out previousPalletCode, out productionDate, out partyId,
+                    out totalUnitsQuantity))
                 {
                 StickerId = 0;
                 return false;
@@ -158,6 +160,7 @@ namespace WMS_client.HelperClasses
 
             PreviousStickerCode = previousPalletCode;
 
+            TotalUnitsQuantity = totalUnitsQuantity;
             Nomenclature.Id = nomenclatureId;
             Nomenclature.Description = nomenclatureDescription;
 

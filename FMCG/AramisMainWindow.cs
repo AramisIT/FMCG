@@ -4,12 +4,14 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using SystemObjects;
 using Aramis.Core.WritingUtils;
 using Aramis.DatabaseConnector;
 using Aramis.DatabaseUpdating;
+using Aramis.UI.InputDevices;
 using Aramis.UI.WinFormsDevXpress.Forms;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.HelperClasses.PDT;
@@ -225,7 +227,7 @@ namespace AtosFMCG
                         }
                     }
                 //Якщо сервер запущено і цю дію робить Адмін - відкрити вікно симулювання читання штрих-коду
-                else if (SystemAramis.CurrentUser.Id == CatalogUsers.Admin.Id)
+                else //if (SystemAramis.CurrentUser.Id == CatalogUsers.Admin.Id)
                     {
                     SendToTCD sendForm = new SendToTCD(smServer);
                     sendForm.Show();
@@ -413,6 +415,7 @@ namespace AtosFMCG
 
         private void barButtonItem18_ItemClick(object sender, ItemClickEventArgs e)
             {
+            runSMServer();
             UserInterface.Current.ShowReport("Послідовність палет");
             }
 
@@ -468,6 +471,18 @@ namespace AtosFMCG
             var sysObject = new CellsProcessing();
             var form = new CellsProcessingForm { Item = sysObject };
             UserInterface.Current.ShowSystemObject(sysObject, form);
+            }
+
+        private void barButtonItem28_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            var parameters = ReceiveMessages.LastParameters;
+            if (parameters == null || parameters.Count == 0) return;
+
+            var message = new StringBuilder(string.Format("Procedure: \"{0}\"\r\n\r\n", parameters.First()));
+            parameters.RemoveAt(0);
+            int index = 0;
+            parameters.ForEach(parameter => message.AppendLine(string.Format("[{0}] = \"{1}\"", index++, parameter)));
+            message.ToString().AlertBox();
             }
 
         }

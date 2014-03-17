@@ -157,7 +157,8 @@ namespace WMS_client
             out int unitsPerBox,
             out long cellId, out string cellDescription,
             out long previousPalletCode,
-            out DateTime productionDate, out long partyId)
+            out DateTime productionDate, out long partyId,
+            out int totalUnitsQuantity)
             {
             performQuery("GetPalletBalance", stickerId);
 
@@ -174,6 +175,7 @@ namespace WMS_client
                 previousPalletCode = Convert.ToInt64(queryResultParameters[8]);
                 productionDate = queryResultParameters[9].ToString().ToDateTime();
                 partyId = Convert.ToInt64(queryResultParameters[10]);
+                totalUnitsQuantity = Convert.ToInt32(queryResultParameters[11]);
                 return true;
                 }
 
@@ -184,6 +186,7 @@ namespace WMS_client
             cellDescription = null;
             cellId = 0;
             previousPalletCode = 0;
+            totalUnitsQuantity = 0;
             linerId = 0;
             linersAmount = 0;
             productionDate = DateTime.MinValue;

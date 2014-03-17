@@ -38,7 +38,8 @@ namespace pdtExternalStorage
             out int unitsPerBox,
             out long cellId, out string cellDescription,
             out long previousPalletCode,
-            out DateTime productionDate, out long partyId);
+            out DateTime productionDate, out long partyId,
+            out int totalUnitsQuantity);
 
         bool GetNewInventoryId(long userId, out long documentId);
 

@@ -255,9 +255,10 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
             out long nomenclatureId,
             out string nomenclatureDescription,
             out long trayId, out long linerId, out byte linersAmount,
-            out int unitsPerBox, out long cellId, out string cellDescription, out long previousPalletCode, out DateTime productionDate, out long partyId)
+            out int unitsPerBox, out long cellId, out string cellDescription, out long previousPalletCode, out DateTime productionDate, out long partyId,
+            out int totalUnitsQuantity)
             {
-            partyId = trayId = linerId = cellId = previousPalletCode = unitsPerBox = linersAmount = 0;
+            partyId = trayId = linerId = cellId = previousPalletCode = totalUnitsQuantity = unitsPerBox = linersAmount = 0;
             productionDate = DateTime.MinValue;
             cellDescription = string.Empty;
 
@@ -286,6 +287,7 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
                 var productionDateObj = goodsRows.WareRow["ProductionDate"];
                 productionDate = productionDateObj.IsNull() ? DateTime.MinValue : (DateTime)productionDateObj;
                 partyId = Convert.ToInt64(goodsRows.WareRow["Party"]);
+                totalUnitsQuantity = Convert.ToInt32(goodsRows.WareRow[GoodsRows.QUANTITY]);
                 }
 
             var q = DB.NewQuery("select top 1 relation.PreviousPallet from dbo.GetPalletsRelations ('0001-01-01', @palletId, 0) relation");
