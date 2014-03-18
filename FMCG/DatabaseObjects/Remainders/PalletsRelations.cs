@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -11,12 +12,16 @@ using FMCG.DatabaseObjects.Enums;
 
 namespace FMCG.DatabaseObjects.Remainders
     {
+    [Description("Последовательность паллет")]
     class PalletsRelations : BalanceRecord
         {
+        [Description("Код паллеты")]
         MotionsTableField Pallet = MotionsTableField.Group;
 
+        [Description("Код предыдущей паллеты")]
         MotionsTableField PreviousPallet = MotionsTableField.Group;
 
+        [Description("Количество")]
         MotionsTableField Quantity = MotionsTableField.Number;
 
         public override DatabaseObject[] GetObjectsOfMotions()

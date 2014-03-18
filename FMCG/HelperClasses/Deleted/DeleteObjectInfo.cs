@@ -40,7 +40,7 @@ namespace AtosFMCG
             if (string.IsNullOrEmpty(subName))
                 {
                 subTableName = null;
-                fieldName = databaseObjectInfo.InfoDict[field].Attr.Description;
+                fieldName = databaseObjectInfo.FieldsDictionary[field].Attr.Description;
                 }
             else
                 {

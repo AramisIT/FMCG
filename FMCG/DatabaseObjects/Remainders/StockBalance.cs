@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -11,18 +12,25 @@ using FMCG.DatabaseObjects.Enums;
 
 namespace FMCG.DatabaseObjects.Remainders
     {
+    [Description("Остатки на складе")]
     class StockBalance : BalanceRecord
         {
+        [Description("Номенклатура")]
         MotionsTableField Nomenclature = MotionsTableField.Group;
 
+        [Description("Ячейка")]
         MotionsTableField Cell = MotionsTableField.Group;
 
+        [Description("Состояние строки")]
         MotionsTableField State = MotionsTableField.Group;
 
+        [Description("Партия")]
         MotionsTableField Party = MotionsTableField.Group;
 
+        [Description("Код паллеты")]
         MotionsTableField Code = MotionsTableField.Group;
 
+        [Description("Количество")]
         MotionsTableField Quantity = MotionsTableField.Number;
 
         public override DatabaseObject[] GetObjectsOfMotions()
