@@ -1,8 +1,10 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Input;
 using Aramis.Core;
 using Aramis.Core.WritingUtils;
 using Aramis.DatabaseConnector;
@@ -29,6 +31,25 @@ namespace AtosFMCG.HelperClasses.PDT
     {
     public class PDTCommunication : IRemoteCommunications
         {
+        private ConcurrentDictionary<string, long> userIdsDictionary = new ConcurrentDictionary<string, long>();
+
+        public void SetUserId(int userId)
+            {
+            var threadName = System.Threading.Thread.CurrentThread.Name;
+            userIdsDictionary.AddOrUpdate(threadName, userId, (key, value) => userId);
+            }
+
+        private long getUserId()
+            {
+            var threadName = System.Threading.Thread.CurrentThread.Name;
+            long userId;
+            if (userIdsDictionary.TryGetValue(threadName, out userId))
+                {
+                return userId;
+                }
+
+            return 0;
+            }
 
         /// <summary>Получить кол-во документов доступных для обработки</summary>
         public bool GetCountOfDocuments(out string acceptanceDocCount, out string inventoryDocCount,
@@ -343,10 +364,10 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
             return result;
             }
 
-        public bool GetNewInventoryId(long userId, out long documentId)
+        public bool GetNewInventoryId(out long documentId)
             {
             var doc = new Inventory();
-            doc.SetRef("Responsible", userId);
+            doc.SetRef("Responsible", getUserId());
             doc.Date = SystemConfiguration.ServerDateTime;
             var writeResult = doc.Write();
 
@@ -376,11 +397,12 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
                 }
             }
 
-        public bool GetNewMovementId(long userId, out long documentId)
+        public bool GetNewMovementId(out long documentId)
             {
             var doc = new Moving();
-            doc.SetRef("Responsible", userId);
+            doc.SetRef("Responsible", getUserId());
             doc.Date = SystemConfiguration.ServerDateTime;
+            doc.SetRef("Responsible", getUserId());
             var writeResult = doc.Write();
 
             documentId = doc.Id;
@@ -470,7 +492,7 @@ from @table");
 
             new BoxesFinder(resultTable, palletCode);
 
-
+            var userId = getUserId();
             for (int rowIndex = 0; rowIndex < resultTable.Rows.Count; rowIndex++)
                 {
                 var sourceRow = resultTable.Rows[rowIndex];
@@ -496,7 +518,7 @@ from @table");
 
                 newRow[document.StartCell] = Convert.ToInt64(sourceRow[document.StartCell.ColumnName]);
                 newRow[document.FinalCell] = Convert.ToInt64(sourceRow[document.FinalCell.ColumnName]);
-
+                newRow[document.Employee] = userId;
                 newRow[Subtable.LINE_NUMBER_COLUMN_NAME] = lastLineNumber + rowIndex + 1;
                 newRow.AddRowToTable(document);
                 }
@@ -506,12 +528,12 @@ from @table");
             q = DB.NewQuery(@"insert into subMovingNomenclatureInfo([IdDoc],[LineNumber],[PalletCode],[Nomenclature],
 [PlanValue],[FactValue],[RowState],[RowDate],
 [StartCodeOfPreviousPallet] ,[FinalCodeOfPreviousPallet],
-[StartCell],[FinalCell], [Party])
+[StartCell],[FinalCell], [Party], [Employee])
  
 select @IdDoc, [LineNumber],[PalletCode],[Nomenclature],
 [PlanValue],[FactValue],[RowState],[RowDate],
 [StartCodeOfPreviousPallet] ,[FinalCodeOfPreviousPallet],
-[StartCell],[FinalCell], [Party]
+[StartCell],[FinalCell], [Party], [Employee]
 from @table");
 
             q.AddInputTVPParameter("table", rowsToInsert, "dbo.tvp_Moving_NomenclatureInfo");
@@ -640,7 +662,7 @@ order by p.Date desc
             return result;
             }
 
-        public bool GetPickingTask(int userId, long documentId, long palletId, int predefinedTaskLineNumber, int currentLineNumber,
+        public bool GetPickingTask(long documentId, long palletId, int predefinedTaskLineNumber, int currentLineNumber,
             out long stickerId, out long wareId, out string wareDescription,
             out long cellId, out string cellDescription,
             out long partyId, out DateTime productionDate,
@@ -670,7 +692,7 @@ order by [LineNumber]";
             q.AddInputParameter("IdDoc", documentId);
             q.AddInputParameter("PlannedPickingState", RowsStates.PlannedPicking);
             q.AddInputParameter("ProcessingState", RowsStates.Processing);
-            q.AddInputParameter("userId", userId);
+            q.AddInputParameter("userId", getUserId());
             q.AddInputParameter("currentLineNumber", predefinedTaskLineNumber);
 
             var nomenclatureId = 0L;
@@ -720,7 +742,7 @@ order by [LineNumber]";
                     {
                     documentId.SetRowState(typeof(Moving), currentLineNumber, RowsStates.PlannedPicking);
                     }
-                documentId.SetRowState(typeof(Moving), lineNumber, RowsStates.Processing, employee: userId);
+                documentId.SetRowState(typeof(Moving), lineNumber, RowsStates.Processing, employee: getUserId());
                 }
             return true;
             }
@@ -913,14 +935,14 @@ and MarkForDeleting = 0
             return stickerExists ? sticker.Id : 0;
             }
 
-        public long CreateNewAcceptance(long employeeId)
+        public long CreateNewAcceptance()
             {
             var acceptance = new AcceptanceOfGoods()
                 {
                     State = StatesOfDocument.Processing,
-                    Date = SystemConfiguration.ServerDateTime,
-                    Responsible = new Users() { ReadingId = employeeId }
+                    Date = SystemConfiguration.ServerDateTime
                 };
+            acceptance.SetRef("Responsible", getUserId());
 
             var writeResult = acceptance.Write();
             return writeResult == WritingResult.Success ? acceptance.Id : 0;

@@ -40,7 +40,7 @@ namespace AtosFMCG.HelperClasses.PDT
                     }
                 }
             }
-
+        
         private static readonly PDTCommunication communication;
 
         static ReceiveMessages()
@@ -55,6 +55,8 @@ namespace AtosFMCG.HelperClasses.PDT
             {
             try
                 {
+                communication.SetUserId(userId);
+
                 LastParameters = parameters.ToList();
                 LastParameters.Insert(0, procedure);
 
@@ -179,7 +181,7 @@ namespace AtosFMCG.HelperClasses.PDT
                                 };
 
                     case "CreateNewAcceptance":
-                        return new object[] { true, communication.CreateNewAcceptance(Convert.ToInt64(parameters[0])) };
+                        return new object[] { true, communication.CreateNewAcceptance() };
 
                     }
 
@@ -205,7 +207,7 @@ namespace AtosFMCG.HelperClasses.PDT
             int unitsToPick;
             int lineNumber;
 
-            if (!communication.GetPickingTask(Convert.ToInt32(parameters[0]), Convert.ToInt64(parameters[1]), Convert.ToInt64(parameters[2]), Convert.ToInt32(parameters[3]), Convert.ToInt32(parameters[4]),
+            if (!communication.GetPickingTask(Convert.ToInt64(parameters[1]), Convert.ToInt64(parameters[2]), Convert.ToInt32(parameters[3]), Convert.ToInt32(parameters[4]),
                 out stickerId,
                 out wareId, out wareDescription,
                 out cellId, out cellDescription,
@@ -232,7 +234,7 @@ namespace AtosFMCG.HelperClasses.PDT
             {
             long documentId;
 
-            if (!communication.GetNewMovementId(Convert.ToInt64(parameters[0]), out documentId))
+            if (!communication.GetNewMovementId(out documentId))
                 {
                 return new object[] { 0 };
                 }
@@ -252,7 +254,7 @@ namespace AtosFMCG.HelperClasses.PDT
             {
             long documentId;
 
-            if (!communication.GetNewInventoryId(Convert.ToInt64(parameters[0]), out documentId))
+            if (!communication.GetNewInventoryId(out documentId))
                 {
                 return new object[] { 0 };
                 }

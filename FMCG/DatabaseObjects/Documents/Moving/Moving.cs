@@ -150,63 +150,6 @@ namespace Documents
                     return row.GetDocumentColor();
                 };
             }
-
-        //#region DocumentTable
-
-        //protected override void InitItemBeforeShowing()
-        //    {
-        //    base.InitItemBeforeShowing();
-
-        //    ValueOfObjectPropertyChanged += AcceptanceOfGoods_ValueOfObjectPropertyChanged;
-        //    TableRowChanged += AcceptanceOfGoods_TableRowChanged;
-
-        //    fillSourceData();
-
-        //    }
-        //#endregion
-
-        //#region Filling
-        //private void fillSourceData()
-        //    {
-        //    IIncomeOwner owner = Source as IIncomeOwner;
-
-        //    if (owner != null)
-        //        {
-        //        IncomeNumber = owner.IncomeNumber;
-        //        }
-
-        //    IncomeDate = Source == null || Source.Id == 0 ? string.Empty : Source.Date.ToShortDateString();
-        //    }
-
-
-
-
-        //#endregion
-
-        //#region Changed
-
-        //void AcceptanceOfGoods_ValueOfObjectPropertyChanged(string propertyName)
-        //    {
-        //    switch (propertyName)
-        //        {
-        //        case "Source":
-        //            fillSourceData();
-        //            break;
-        //        }
-        //    }
-
-        //void AcceptanceOfGoods_TableRowChanged(DataTable dataTable, DataColumn currentColumn, DataRow currentRow)
-        //    {
-        //    if (dataTable.Equals(NomenclatureInfo))
-        //        {
-        //        if (currentColumn.Equals(Nomenclature))
-        //            {
-        //          //  fillTareInRow(currentRow);
-        //            }
-        //        }
-        //    }
-        //#endregion
-
-
+        
         }
     }

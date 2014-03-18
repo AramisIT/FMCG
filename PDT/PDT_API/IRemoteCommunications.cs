@@ -41,13 +41,13 @@ namespace pdtExternalStorage
             out DateTime productionDate, out long partyId,
             out int totalUnitsQuantity);
 
-        bool GetNewInventoryId(long userId, out long documentId);
+        bool GetNewInventoryId(out long documentId);
 
         bool WriteInventoryResult(long documentId, DataTable resultTable);
 
         bool ComplateInventory(long documentId, bool forceCompletion, out string errorDescription);
 
-        bool GetNewMovementId(long userId, out long documentId);
+        bool GetNewMovementId(out long documentId);
 
         bool WriteMovementResult(long documentId, DataTable resultTable);
 
@@ -58,7 +58,7 @@ namespace pdtExternalStorage
 
         DataTable GetPickingDocuments();
 
-        bool GetPickingTask(int userId, long documentId, long palletId, int predefinedTaskLineNumber,
+        bool GetPickingTask(long documentId, long palletId, int predefinedTaskLineNumber,
             int currentLineNumber,
             out long stickerId,
             out long wareId, out string wareDescription,
@@ -87,6 +87,6 @@ namespace pdtExternalStorage
 
         long CreateNewSticker(long wareId, DateTime expirationDate, int unitsQuantity, int boxesCount, long linerId, int linersCount);
 
-        long CreateNewAcceptance(long userId);
+        long CreateNewAcceptance();
         }
     }

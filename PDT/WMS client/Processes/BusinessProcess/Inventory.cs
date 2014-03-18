@@ -355,7 +355,7 @@ namespace WMS_client.Processes
 
         private bool initDocument()
             {
-            return new ServerInteraction().GetNewInventoryId(0, out documentId);
+            return new ServerInteraction().GetNewInventoryId(out documentId);
             }
 
         public int packsCount

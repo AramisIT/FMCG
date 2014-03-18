@@ -161,7 +161,7 @@ namespace WMS_client.Processes
             int unitsToPick;
             int taskLineNumber;
 
-            if (!new ServerInteraction().GetPickingTask(MainProcess.User, documentId, palletId, predefinedTaskLineNumber, _currentLineNumber,
+            if (!new ServerInteraction().GetPickingTask(documentId, palletId, predefinedTaskLineNumber, _currentLineNumber,
                 out stickerId,
                 out wareId, out wareDescription,
                 out cellId, out cellDescription,

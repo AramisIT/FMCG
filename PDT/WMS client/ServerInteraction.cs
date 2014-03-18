@@ -194,9 +194,9 @@ namespace WMS_client
             return false;
             }
 
-        public bool GetNewInventoryId(long userId, out long documentId)
+        public bool GetNewInventoryId(out long documentId)
             {
-            performQuery("GetNewInventoryId", userId);
+            performQuery("GetNewInventoryId");
 
             if (IsExistParameters)
                 {
@@ -229,9 +229,9 @@ namespace WMS_client
                 }
             }
 
-        public bool GetNewMovementId(long userId, out long documentId)
+        public bool GetNewMovementId(out long documentId)
             {
-            performQuery("GetNewMovementId", userId);
+            performQuery("GetNewMovementId");
 
             if (IsExistParameters)
                 {
@@ -277,7 +277,7 @@ namespace WMS_client
                 }
             }
 
-        public bool GetPickingTask(int userId, long documentId, long palletId, int predefinedTaskLineNumber,
+        public bool GetPickingTask(long documentId, long palletId, int predefinedTaskLineNumber,
             int currentLineNumber,
             out long stickerId,
             out long wareId, out string wareDescription,
@@ -286,7 +286,7 @@ namespace WMS_client
             out int unitsPerBox, out int unitsToPick,
             out int lineNumber)
             {
-            performQuery("GetPickingTask", userId, documentId, palletId, predefinedTaskLineNumber, currentLineNumber);
+            performQuery("GetPickingTask", documentId, palletId, predefinedTaskLineNumber, currentLineNumber);
 
             if (IsExistParameters)
                 {
@@ -404,9 +404,9 @@ namespace WMS_client
             return 0;
             }
 
-        public long CreateNewAcceptance(long userId)
+        public long CreateNewAcceptance()
             {
-            performQuery("CreateNewAcceptance", userId);
+            performQuery("CreateNewAcceptance");
 
             if (success)
                 {

@@ -107,15 +107,8 @@ namespace WMS_client.Processes
                 switch (TypeOfAction)
                     {
                     case KeyAction.Complate:
-                        complateProcess();
-                        return;
-
                     case KeyAction.Esc:
-                        if ("Завершити операцію?".Ask())
-                            {
-                            MainProcess.ClearControls();
-                            MainProcess.Process = new SelectingProcess();
-                            }
+                        complateProcess();
                         return;
                     }
                 }
@@ -162,7 +155,7 @@ namespace WMS_client.Processes
                 }
             else if (barcode.IsCell())
                 {
-                onCellScan(barcode.ToCell());
+                onCellScan(barcode.ToCell(), 0);
                 }
             }
 
@@ -177,31 +170,14 @@ namespace WMS_client.Processes
                 "Відсканованої палети нема на залишках".Warning();
                 return;
                 }
-            this.finalBarcodeData.Cell.CopyFrom(barcodeData.Cell);
-            this.finalBarcodeData.PreviousStickerCode = barcodeData.StickerId;
-            saveMovement();
+            onCellScan(barcodeData.Cell, barcodeData.StickerId);
             }
 
-        private void onCellScan(CatalogItem scannedCell)
+        private void onCellScan(CatalogItem scannedCell, long previousStickerCode)
             {
-            //if (scannedCell.Id == startBarcodeData.Cell.Id)
-            //    {
-            //    if (startBarcodeData.PreviousStickerCode == 0)
-            //        {
-
-            //        }
-            //    else if ("Зараз палета перша у комірці?".Ask())
-            //        {
-            //        finalBarcodeData.PreviousStickerCode = 0;
-
-            //        }
-            //    }
-            //else if (string.Format(@"Розмістити палету першою у комірці ""{0}""?", scannedCell.Description).Ask())
-            //    {
             finalBarcodeData.Cell.CopyFrom(scannedCell);
-            finalBarcodeData.PreviousStickerCode = 0;
+            finalBarcodeData.PreviousStickerCode = previousStickerCode;
             saveMovement();
-            //}
             }
 
         private void startScanNextPallet()
@@ -288,20 +264,26 @@ namespace WMS_client.Processes
 
             }
 
-        private void complateProcess()
+        private bool complateProcess()
             {
             if (!"Завершить операцию?".Ask())
                 {
-                return;
+                return false;
                 }
 
             string errorDescription;
-            if (!new ServerInteraction().ComplateMovement(documentId, false, out errorDescription))
+            if (documentId > 0)
                 {
-                Warning_CantComplateOperation();
-                return;
+                if (!new ServerInteraction().ComplateMovement(documentId, false, out errorDescription))
+                    {
+                    Warning_CantComplateOperation();
+                    return false;
+                    }
                 }
+
+            ClearControls();
             MainProcess.Process = new SelectingProcess();
+            return true;
             }
 
         private bool saveMovement()
@@ -323,7 +305,7 @@ namespace WMS_client.Processes
 
         private bool initDocument()
             {
-            return new ServerInteraction().GetNewMovementId(0, out documentId);
+            return new ServerInteraction().GetNewMovementId(out documentId);
             }
 
         }

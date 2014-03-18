@@ -370,7 +370,7 @@ namespace WMS_client.Processes
 
             if (acceptanceId == 0)
                 {
-                acceptanceId = new ServerInteraction().CreateNewAcceptance(MainProcess.User);
+                acceptanceId = new ServerInteraction().CreateNewAcceptance();
                 if (acceptanceId == 0)
                     {
                     return;
