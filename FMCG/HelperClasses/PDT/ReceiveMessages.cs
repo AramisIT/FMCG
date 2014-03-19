@@ -207,7 +207,7 @@ namespace AtosFMCG.HelperClasses.PDT
             int unitsToPick;
             int lineNumber;
 
-            if (!communication.GetPickingTask(Convert.ToInt64(parameters[1]), Convert.ToInt64(parameters[2]), Convert.ToInt32(parameters[3]), Convert.ToInt32(parameters[4]),
+            if (!communication.GetPickingTask(Convert.ToInt64(parameters[0]), Convert.ToInt64(parameters[1]), Convert.ToInt32(parameters[2]), Convert.ToInt32(parameters[3]),
                 out stickerId,
                 out wareId, out wareDescription,
                 out cellId, out cellDescription,
