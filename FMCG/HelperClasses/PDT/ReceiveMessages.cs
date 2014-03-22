@@ -105,9 +105,6 @@ namespace AtosFMCG.HelperClasses.PDT
                                 Convert.ToInt64(parameters[3]), out sameWareNextTaskLineNumber);
                         return new object[] { writePickingResultResult, sameWareNextTaskLineNumber };
 
-                    case "GetPickingTask":
-                        return GetPickingTask(parameters);
-
                     case "GetPickingDocuments":
                         return new object[] { communication.GetPickingDocuments() };
 
@@ -163,21 +160,10 @@ namespace AtosFMCG.HelperClasses.PDT
                             return new object[] { true, table };
                             }
 
-                    case "CreateNewSticker":
-                        return new object[]
-                                {
-                                true, communication.CreateNewSticker(Convert.ToInt64(parameters[0]),
-                                    (DateTime) parameters[1],
-                                    Convert.ToInt32(parameters[2]),
-                                    Convert.ToInt32(parameters[3]),
-                                    Convert.ToInt64(parameters[4]),
-                                    Convert.ToInt32(parameters[5]))
-                                };
-
                     case "CreateNewAcceptance":
                         return new object[] { true, communication.CreateNewAcceptance() };
 
-                    default: 
+                    default: //CreateNewSticker
                         RemoteExecutionMethodCoverBuilder<PDTCommunication>.HandlePdtQueryDelegate dynamicMethod;
                         if (methodCovers.TryGetValue(procedure, out dynamicMethod))
                             {
@@ -194,34 +180,6 @@ namespace AtosFMCG.HelperClasses.PDT
                 exp.Message.Error(ErrorLevels.Low);
                 return new object[0];
                 }
-            }
-
-        private static object[] GetPickingTask(object[] parameters)
-            {
-            long stickerId;
-            long wareId;
-            string wareDescription;
-            long cellId;
-            string cellDescription;
-            long partyId;
-            DateTime productionDate;
-            int unitsPerBox;
-            int unitsToPick;
-            int lineNumber;
-
-            if (!communication.GetPickingTask(Convert.ToInt64(parameters[0]), Convert.ToInt64(parameters[1]), Convert.ToInt32(parameters[2]), Convert.ToInt32(parameters[3]),
-                out stickerId,
-                out wareId, out wareDescription,
-                out cellId, out cellDescription,
-                out partyId, out productionDate,
-                out unitsPerBox, out unitsToPick,
-                out lineNumber))
-                {
-                return new object[] { };
-                }
-
-            return new object[] { stickerId, wareId, wareDescription, cellId, cellDescription, partyId, productionDate.ConvertToStringDateOnly(), 
-            unitsPerBox, unitsToPick, lineNumber};
             }
 
         private static object[] ComplateMovement(object[] parameters)

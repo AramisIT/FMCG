@@ -26,6 +26,16 @@ namespace WMS_client
             get { return queryResultParameters != null && queryResultParameters.Length > 0 && queryResultParameters[0] != null; }
             }
 
+        public bool remoteFunctionBoolResult
+            {
+            get { return (bool)queryResultParameters[1]; }
+            }
+
+        public object remoteFunctionResult
+            {
+            get { return queryResultParameters[1]; }
+            }
+
         private bool success
             {
             get
@@ -288,19 +298,19 @@ namespace WMS_client
             {
             performQuery("GetPickingTask", documentId, palletId, predefinedTaskLineNumber, currentLineNumber);
 
-            if (IsExistParameters)
+            if (success)
                 {
-                stickerId = Convert.ToInt64(queryResultParameters[0]);
-                wareId = Convert.ToInt64(queryResultParameters[1]);
-                wareDescription = queryResultParameters[2].ToString();
-                cellId = Convert.ToInt64(queryResultParameters[3]);
-                cellDescription = queryResultParameters[4].ToString();
-                partyId = Convert.ToInt64(queryResultParameters[5]);
-                productionDate = queryResultParameters[6].ToString().ToDateTime();
-                unitsPerBox = Convert.ToInt32(queryResultParameters[7]);
-                unitsToPick = Convert.ToInt32(queryResultParameters[8]);
-                lineNumber = Convert.ToInt32(queryResultParameters[9]);
-                return true;
+                stickerId = Convert.ToInt64(queryResultParameters[2]);
+                wareId = Convert.ToInt64(queryResultParameters[3]);
+                wareDescription = queryResultParameters[4].ToString();
+                cellId = Convert.ToInt64(queryResultParameters[5]);
+                cellDescription = queryResultParameters[6].ToString();
+                partyId = Convert.ToInt64(queryResultParameters[7]);
+                productionDate = queryResultParameters[8].ToString().ToDateTime();
+                unitsPerBox = Convert.ToInt32(queryResultParameters[9]);
+                unitsToPick = Convert.ToInt32(queryResultParameters[10]);
+                lineNumber = Convert.ToInt32(queryResultParameters[11]);
+                return remoteFunctionBoolResult;
                 }
 
             stickerId = wareId = cellId = partyId = unitsToPick = unitsPerBox = lineNumber = 0;
@@ -399,7 +409,7 @@ namespace WMS_client
 
             if (success)
                 {
-                return Convert.ToInt64(queryResultParameters[1]);
+                return Convert.ToInt64(remoteFunctionResult);
                 }
             return 0;
             }
