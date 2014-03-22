@@ -46,12 +46,12 @@ namespace WMS_client
             {
             performQuery("GetCountOfDocuments");
 
-            if (IsExistParameters)
+            if (success)
                 {
-                acceptanceDocCount = queryResultParameters[0].ToString();
-                inventoryDocCount = queryResultParameters[1].ToString();
-                selectionDocCount = queryResultParameters[2].ToString();
-                movementDocCount = queryResultParameters[3].ToString();
+                acceptanceDocCount = queryResultParameters[2].ToString();
+                inventoryDocCount = queryResultParameters[3].ToString();
+                selectionDocCount = queryResultParameters[4].ToString();
+                movementDocCount = queryResultParameters[5].ToString();
                 return true;
                 }
 
@@ -67,10 +67,10 @@ namespace WMS_client
             {
             performQuery("GetTareTable");
 
-            if (IsExistParameters)
+            if (success)
                 {
-                tareTable = queryResultParameters[0] as DataTable;
-                return tareTable is DataTable;
+                tareTable = queryResultParameters[2] as DataTable;
+                return (bool)queryResultParameters[1];
                 }
 
             tareTable = null;

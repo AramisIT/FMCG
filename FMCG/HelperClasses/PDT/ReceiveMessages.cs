@@ -6,6 +6,7 @@ using Aramis;
 using Aramis.Common_classes;
 using Aramis.DatabaseConnector;
 using Aramis.Enums;
+using Aramis.Network.PdtTCP;
 using Aramis.Platform;
 using AramisWpfComponents.Excel;
 using AtosFMCG.TouchScreen.Controls;
@@ -40,12 +41,14 @@ namespace AtosFMCG.HelperClasses.PDT
                     }
                 }
             }
-        
+
         private static readonly PDTCommunication communication;
+        private static Dictionary<string, RemoteExecutionMethodCoverBuilder<PDTCommunication>.HandlePdtQueryDelegate> methodCovers;
 
         static ReceiveMessages()
             {
             communication = new PDTCommunication();
+            methodCovers = new RemoteExecutionMethodCoverBuilder<PDTCommunication>().BuildMethodCovers();
             }
 
         private static List<object> lastParameters;
@@ -62,12 +65,6 @@ namespace AtosFMCG.HelperClasses.PDT
 
                 switch (procedure)
                     {
-                    case "GetCountOfDocuments":
-                        return GetCountOfDocuments();
-                    case "GetContractorsForSelection":
-                        return GetContractorsForSelection();
-                    case "GetTareTable":
-                        return GetTareTable(parameters);
                     case "GetStickerData":
                         return GetStickerData(parameters);
                     case "GetAcceptanceId":
@@ -135,9 +132,6 @@ namespace AtosFMCG.HelperClasses.PDT
                         communication.ReadConsts(out constsTable);
                         return new object[] { true, constsTable };
 
-                    case "GetUserName":
-                        return new object[] { true, communication.GetUserName(Convert.ToInt32(parameters[0])) };
-
                     case "GetWares":
                         return new object[]
                                 {
@@ -183,6 +177,14 @@ namespace AtosFMCG.HelperClasses.PDT
                     case "CreateNewAcceptance":
                         return new object[] { true, communication.CreateNewAcceptance() };
 
+                    default: 
+                        RemoteExecutionMethodCoverBuilder<PDTCommunication>.HandlePdtQueryDelegate dynamicMethod;
+                        if (methodCovers.TryGetValue(procedure, out dynamicMethod))
+                            {
+                            var results = dynamicMethod(communication, parameters);
+                            return results;
+                            }
+                        break;
                     }
 
                 return new object[0];
@@ -321,63 +323,7 @@ namespace AtosFMCG.HelperClasses.PDT
 
             return new object[] { acceptanceId };
             }
-
-        /// <summary>
-        /// К-сть документів, що чекають обробки
-        /// </summary>
-        /// <returns>Прийманя, Інветаризація, Відбір, Переміщення</returns>
-        private static object[] GetCountOfDocuments()
-            {
-            string acceptanceDocCount;
-            string inventoryDocCount;
-            string selectionDocCount;
-            string movementDocCount;
-            communication.GetCountOfDocuments(out acceptanceDocCount, out inventoryDocCount,
-                                              out selectionDocCount, out movementDocCount);
-            return new object[]
-                       {
-                           acceptanceDocCount,
-                           inventoryDocCount,
-                           selectionDocCount,
-                           movementDocCount
-                       };
-            }
-
-        /// <summary>
-        /// Отримати список конрагентів для відбіру продукції
-        /// </summary>
-        /// <returns>Таблиця контрагентів (Description, Id)</returns>
-        private static object[] GetContractorsForSelection()
-            {
-            Query query = DB.NewQuery(@"DECLARE @Today DATETIME2=CAST(GETDATE() AS Date)
-DECLARE @ShipmentPlan_Type uniqueidentifier='029B0572-E5B5-48CD-9805-1211319A5633'
-
-SELECT RTRIM(RTRIM(c.Description)+' №'+CAST(s.Number AS VARCHAR)) Description, c.Id Id
-FROM ShipmentPlan s 
-JOIN Contractors c ON c.Id=s.Contractor
-JOIN Movement m ON m.Source=s.Id AND m.SourceType=@ShipmentPlan_Type
-WHERE s.State=0 AND s.MarkForDeleting=0 AND CAST(s.Date AS DATE)=@Today");
-            DataTable table = query.SelectToTable();
-
-            if (table != null)
-                {
-                return new object[] { true, table };
-                }
-
-            return new object[] { false };
-            }
-
-        private static object[] GetTareTable(object[] parameters)
-            {
-            DataTable table;
-            if (!communication.GetTareTable(out table))
-                {
-                return new object[] { };
-                }
-
-            return new object[] { table };
-            }
-
+        
         private static object[] GetStickerData(object[] parameters)
             {
             long nomenclatureId;

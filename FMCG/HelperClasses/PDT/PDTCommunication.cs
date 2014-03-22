@@ -135,7 +135,7 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Picking])) a
             long stickerAcceptanceId;
             RowsStates rowState;
             long rowCellId;
-            GetAcceptanceId(stickerId, false, out stickerAcceptanceId, out rowState, out rowCellId);
+            getAcceptanceId(stickerId, false, out stickerAcceptanceId, out rowState, out rowCellId);
             currentAcceptance = acceptanceId == stickerAcceptanceId;
 
             if (currentAcceptance)
@@ -201,10 +201,10 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Picking])) a
             {
             RowsStates rowState;
             long cellId;
-            return GetAcceptanceId(stickerId, true, out acceptanceId, out rowState, out cellId);
+            return getAcceptanceId(stickerId, true, out acceptanceId, out rowState, out cellId);
             }
 
-        public bool GetAcceptanceId(long stickerId, bool setProcessingStatus, out long acceptanceId, out RowsStates rowState, out long cellId)
+        private bool getAcceptanceId(long stickerId, bool setProcessingStatus, out long acceptanceId, out RowsStates rowState, out long cellId)
             {
             var q = DB.NewQuery(@"select top 1 info.IdDoc, info.NomenclatureState [State], info.NomenclatureCell
 
