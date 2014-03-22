@@ -54,6 +54,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.tablePanelControl = new DevExpress.XtraEditors.PanelControl();
+            this.Date = new DevExpress.XtraEditors.DateEdit();
+            this.dateLabel = new DevExpress.XtraEditors.LabelControl();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.panelControl)).BeginInit();
             this.panelControl.SuspendLayout();
@@ -66,6 +68,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
             ((System.ComponentModel.ISupportInitialize)(this.pictureEdit1.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tablePanelControl)).BeginInit();
             this.tablePanelControl.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Date.Properties.VistaTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Date.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -118,7 +122,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.ribbon.MaxItemId = 18;
             this.ribbon.Name = "ribbon";
             this.ribbon.Size = new System.Drawing.Size(742, 49);
-            this.ribbon.StatusBar = this.ribbonStatusBar;
+            this.ribbon.StatusBar = this.NomenclatureInfoBar;
             this.ribbon.ToolbarLocation = DevExpress.XtraBars.Ribbon.RibbonQuickAccessToolbarLocation.Above;
             // 
             // NomenclatureInfoBar
@@ -132,6 +136,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
             // panelControl
             // 
             this.panelControl.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.panelControl.Controls.Add(this.dateLabel);
+            this.panelControl.Controls.Add(this.Date);
             this.panelControl.Controls.Add(this.IncomeDate);
             this.panelControl.Controls.Add(this.IncomeNumber);
             this.panelControl.Controls.Add(this.PickingPlan);
@@ -143,7 +149,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.panelControl.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelControl.Location = new System.Drawing.Point(0, 49);
             this.panelControl.Name = "panelControl";
-            this.panelControl.Size = new System.Drawing.Size(742, 53);
+            this.panelControl.Size = new System.Drawing.Size(742, 82);
             this.panelControl.TabIndex = 2;
             // 
             // IncomeDate
@@ -228,7 +234,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.NomenclatureInfo.MainView = this.nomenclatureView;
             this.NomenclatureInfo.MenuManager = this.ribbon;
             this.NomenclatureInfo.Name = "NomenclatureInfo";
-            this.NomenclatureInfo.Size = new System.Drawing.Size(738, 419);
+            this.NomenclatureInfo.Size = new System.Drawing.Size(738, 390);
             this.NomenclatureInfo.TabIndex = 1;
             this.NomenclatureInfo.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.nomenclatureView});
@@ -303,12 +309,33 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.tablePanelControl.Controls.Add(this.NomenclatureInfo);
             this.tablePanelControl.Controls.Add(this.NomenclatureInfoBar);
             this.tablePanelControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tablePanelControl.Location = new System.Drawing.Point(0, 102);
+            this.tablePanelControl.Location = new System.Drawing.Point(0, 131);
             this.tablePanelControl.Name = "tablePanelControl";
-            this.tablePanelControl.Size = new System.Drawing.Size(742, 450);
+            this.tablePanelControl.Size = new System.Drawing.Size(742, 421);
             this.tablePanelControl.TabIndex = 24;
             // 
-            // MovementItemForm
+            // Date
+            // 
+            this.Date.EditValue = null;
+            this.Date.Location = new System.Drawing.Point(99, 53);
+            this.Date.MenuManager = this.ribbon;
+            this.Date.Name = "Date";
+            this.Date.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.Date.Properties.VistaTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.Date.Size = new System.Drawing.Size(156, 20);
+            this.Date.TabIndex = 21;
+            // 
+            // dateLabel
+            // 
+            this.dateLabel.Location = new System.Drawing.Point(10, 57);
+            this.dateLabel.Name = "dateLabel";
+            this.dateLabel.Size = new System.Drawing.Size(26, 13);
+            this.dateLabel.TabIndex = 22;
+            this.dateLabel.Text = "Дата";
+            // 
+            // MovingItemForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -319,7 +346,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
             this.KeyPreview = true;
-            this.Name = "MovementItemForm";
+            this.Name = "MovingItemForm";
             this.Ribbon = this.ribbon;
             this.StatusBar = this.ribbonStatusBar;
             this.Text = "Item form";
@@ -338,6 +365,8 @@ namespace AtosFMCG.DatabaseObjects.Documents
             ((System.ComponentModel.ISupportInitialize)(this.pictureEdit1.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tablePanelControl)).EndInit();
             this.tablePanelControl.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.Date.Properties.VistaTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Date.Properties)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -368,5 +397,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private DevExpress.XtraEditors.LabelControl IncomeNumber;
         private DevExpress.XtraEditors.LabelControl IncomeDate;
         private DevExpress.XtraEditors.PanelControl tablePanelControl;
+        private DevExpress.XtraEditors.LabelControl dateLabel;
+        private DevExpress.XtraEditors.DateEdit Date;
     }
 }

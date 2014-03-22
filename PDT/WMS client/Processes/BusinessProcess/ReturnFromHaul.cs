@@ -17,7 +17,7 @@ namespace WMS_client.Processes
 
             public MobileLabel ComplateTipLabel;
 
-            public MobileButton ItIsKegButton;
+            
             }
 
         private class ReturnWareControls : HideableControlsCollection
@@ -194,7 +194,7 @@ namespace WMS_client.Processes
             wareIdentificationControls.ComplateTipLabel = MainProcess.CreateLabel("Завершить F4", 5, top, 230,
                MobileFontSize.Normal, MobileFontPosition.Center, MobileFontColors.Default, FontStyle.Bold);
 
-            wareIdentificationControls.ItIsKegButton = MainProcess.CreateButton("Возврат кеги", 5, 270, 230, 40, string.Empty, itIsKeg_ButtonClick);
+            //wareIdentificationControls.ItIsKegButton = MainProcess.CreateButton("Возврат кеги", 5, 270, 230, 40, string.Empty, itIsKeg_ButtonClick);
             }
 
 

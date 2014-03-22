@@ -976,7 +976,7 @@ where b.Description = @barcode");
 #if DEBUG
             return 1000;
 #endif
-            return 1;
+            return 2;
             }
 
         private DataTable filterRecentlyShippedWares(DataTable waresIdsTable)
