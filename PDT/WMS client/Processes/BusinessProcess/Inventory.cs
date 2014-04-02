@@ -30,6 +30,7 @@ namespace WMS_client.Processes
         private class ScanPalletControls : HideableControlsCollection
             {
             public MobileLabel WillLabel;
+            public MobileButton FinishCellButton;
             }
 
         /// <summary>
@@ -56,6 +57,10 @@ namespace WMS_client.Processes
             : base()
             {
             ToDoCommand = "²ÍÂÅÍÒÀÐÈÇÀÖ²ß";
+
+            currentCellPallets = new DataTable();
+            currentCellPallets.Columns.Add("Value", typeof(long));
+
             checkAcceptanceCache();
             }
 
@@ -180,7 +185,12 @@ namespace WMS_client.Processes
 
         private void onAnotherStickerScan(BarcodeData barcodeData)
             {
-            if (barcodeData.StickerId == currentBarcodeData.PreviousStickerCode) return;
+            if (barcodeData.StickerId == currentBarcodeData.PreviousStickerCode
+                && !currentBarcodeData.Cell.Empty)
+                {
+                notifyCellUpdated();
+                return;
+                }
 
             barcodeData.ReadStickerInfo();
             if (!barcodeData.LocatedIdCell)
@@ -231,19 +241,31 @@ namespace WMS_client.Processes
             ShowControls(scanNextPalletControls);
             palletEditControls.cellLabel.SetFontColor(MobileFontColors.Disable);
             cellDefined = false;
+            updateFinishCellText();
+            }
+
+        private CatalogItem currentCell = new CatalogItem();
+        private DataTable currentCellPallets;
+
+        private void updateFinishCellText()
+            {
+            scanNextPalletControls.FinishCellButton.Visible = !currentCell.Empty;
+            scanNextPalletControls.FinishCellButton.Text = string.Format("çàâåðøèòü ïåðåñ÷åò â {0}", currentCell.Description);
             }
 
         private void createScanPalletLabelControls()
             {
             scanNextPalletControls = new ScanPalletControls();
 
-            int top = 140;
+            int top = 120;
 
 
             top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             scanNextPalletControls.WillLabel = MainProcess.CreateLabel("Â³äñêàíóéòå ïàëåòó", 10, top, 230,
                MobileFontSize.Large, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
 
+            top += VERTICAL_DISTANCE_BETWEEN_CONTROLS * 2;
+            scanNextPalletControls.FinishCellButton = MainProcess.CreateButton(string.Empty, 5, top, 230, 55, "modelButton", () => finishCell());
             }
 
         private void createPalletControls()
@@ -297,6 +319,8 @@ namespace WMS_client.Processes
                 return;
                 }
 
+            //if (!finishCell()) return;
+
             string errorDescription;
             if (!new ServerInteraction().ComplateInventory(documentId, false, out errorDescription))
                 {
@@ -305,6 +329,18 @@ namespace WMS_client.Processes
                 }
             ClearControls();
             MainProcess.Process = new SelectingProcess();
+            }
+
+        private bool finishCell()
+            {
+            var result = new ServerInteraction().FinishCellInventory(documentId, currentCell.Id, currentCellPallets);
+            if (result)
+                {
+                currentCell.Clear();
+                currentCellPallets.Rows.Clear();
+                updateFinishCellText();
+                }
+            return result;
             }
 
         private void updateLinerButton()
@@ -350,7 +386,24 @@ namespace WMS_client.Processes
             currentBarcodeData.TotalUnitsQuantity = unitsCount + packsCount * currentBarcodeData.UnitsPerBox;
 
             var movementWriter = new TableMovementWriter(startBarcodeData, currentBarcodeData);
-            return new ServerInteraction().WriteInventoryResult(documentId, movementWriter.Table);
+            bool result = new ServerInteraction().WriteInventoryResult(documentId, movementWriter.Table);
+
+            if (result)
+                {
+                onPaletSaved(currentBarcodeData.Cell, currentBarcodeData.StickerId);
+                }
+            return result;
+            }
+
+        private void onPaletSaved(CatalogItem cell, long paletId)
+            {
+            if (currentCell.Id != cell.Id)
+                {
+                currentCell = cell;
+                currentCellPallets.Rows.Clear();
+                }
+
+            currentCellPallets.Rows.Add(paletId);
             }
 
         private bool initDocument()

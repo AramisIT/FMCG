@@ -66,7 +66,7 @@ namespace Documents
             }
 
 
-        [Table(Columns = "Nomenclature,PalletCode,RowState,RowDate, StartCodeOfPreviousPallet, FinalCodeOfPreviousPallet, PlanValue,FactValue,StartCell,FinalCell,Party", ShowLineNumberColumn = true)]
+        [Table(Columns = "Nomenclature,PalletCode,RowState,RowDate, StartCodeOfPreviousPallet, FinalCodeOfPreviousPallet, PlanValue,FactValue,StartCell,FinalCell,Party", AllowFiltering = true)]
         [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {

@@ -750,7 +750,7 @@
             this.button45.Name = "button45";
             this.button45.Size = new System.Drawing.Size(88, 24);
             this.button45.TabIndex = 52;
-            this.button45.Text = "L1000018";
+            this.button45.Text = "S1111";
             this.button45.UseVisualStyleBackColor = true;
             this.button45.Click += new System.EventHandler(this.sendMe_Click);
             // 
@@ -786,7 +786,7 @@
             this.button50.Name = "button50";
             this.button50.Size = new System.Drawing.Size(88, 24);
             this.button50.TabIndex = 61;
-            this.button50.Text = "L1000045";
+            this.button50.Text = "S3861";
             this.button50.UseVisualStyleBackColor = true;
             this.button50.Click += new System.EventHandler(this.sendMe_Click);
             // 
@@ -942,7 +942,7 @@
             this.button61.Name = "button61";
             this.button61.Size = new System.Drawing.Size(88, 24);
             this.button61.TabIndex = 89;
-            this.button61.Text = "L1000036";
+            this.button61.Text = "S4691";
             this.button61.UseVisualStyleBackColor = true;
             this.button61.Click += new System.EventHandler(this.sendMe_Click);
             // 
@@ -1134,7 +1134,7 @@
             this.button77.Name = "button77";
             this.button77.Size = new System.Drawing.Size(88, 24);
             this.button77.TabIndex = 73;
-            this.button77.Text = "L1000027";
+            this.button77.Text = "S4378";
             this.button77.UseVisualStyleBackColor = true;
             this.button77.Click += new System.EventHandler(this.sendMe_Click);
             // 

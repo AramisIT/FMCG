@@ -172,21 +172,22 @@ namespace WMS_client
             {
             performQuery("GetPalletBalance", stickerId);
 
-            if (IsExistParameters)
+            if (success)
                 {
-                nomenclatureId = Convert.ToInt64(queryResultParameters[0]);
-                nomenclatureDescription = queryResultParameters[1] as string;
-                trayId = Convert.ToInt64(queryResultParameters[2]);
-                linerId = Convert.ToInt64(queryResultParameters[3]);
-                linersAmount = Convert.ToByte(queryResultParameters[4]);
-                unitsPerBox = Convert.ToInt32(queryResultParameters[5]);
-                cellId = Convert.ToInt64(queryResultParameters[6]);
-                cellDescription = queryResultParameters[7] as string;
-                previousPalletCode = Convert.ToInt64(queryResultParameters[8]);
-                productionDate = queryResultParameters[9].ToString().ToDateTime();
-                partyId = Convert.ToInt64(queryResultParameters[10]);
-                totalUnitsQuantity = Convert.ToInt32(queryResultParameters[11]);
-                return true;
+                nomenclatureId = Convert.ToInt64(queryResultParameters[2]);
+                nomenclatureDescription = queryResultParameters[3] as string;
+                trayId = Convert.ToInt64(queryResultParameters[4]);
+                linerId = Convert.ToInt64(queryResultParameters[5]);
+                linersAmount = Convert.ToByte(queryResultParameters[6]);
+                unitsPerBox = Convert.ToInt32(queryResultParameters[7]);
+                cellId = Convert.ToInt64(queryResultParameters[8]);
+                cellDescription = queryResultParameters[9] as string;
+                previousPalletCode = Convert.ToInt64(queryResultParameters[10]);
+                productionDate = queryResultParameters[11].ToString().ToDateTime();
+                partyId = Convert.ToInt64(queryResultParameters[12]);
+                totalUnitsQuantity = Convert.ToInt32(queryResultParameters[13]);
+
+                return remoteFunctionBoolResult;
                 }
 
             nomenclatureId = 0;
@@ -423,6 +424,18 @@ namespace WMS_client
                 return Convert.ToInt64(queryResultParameters[1]);
                 }
             return 0;
+            }
+
+        public bool FinishCellInventory(long documentId, long cellId, DataTable currentCellPallets)
+            {
+            performQuery("FinishCellInventory", documentId, cellId, currentCellPallets);
+
+            if (success)
+                {
+                return remoteFunctionBoolResult;
+                }
+
+            return false;
             }
         }
     }

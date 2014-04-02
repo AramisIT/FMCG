@@ -75,8 +75,6 @@ namespace AtosFMCG.HelperClasses.PDT
                         return ComplateAcceptance(parameters);
                     case "ComplateInventory":
                         return ComplateInventory(parameters);
-                    case "GetPalletBalance":
-                        return GetPalletBalance(parameters);
                     case "GetNewInventoryId":
                         return GetNewInventoryId(parameters);
                     case "WriteInventoryResult":
@@ -163,7 +161,7 @@ namespace AtosFMCG.HelperClasses.PDT
                     case "CreateNewAcceptance":
                         return new object[] { true, communication.CreateNewAcceptance() };
 
-                    default: //CreateNewSticker
+                    default: //CreateNewSticker, GetPalletBalance
                         RemoteExecutionMethodCoverBuilder<PDTCommunication>.HandlePdtQueryDelegate dynamicMethod;
                         if (methodCovers.TryGetValue(procedure, out dynamicMethod))
                             {
@@ -220,34 +218,6 @@ namespace AtosFMCG.HelperClasses.PDT
                 }
 
             return new object[] { documentId };
-            }
-
-        private static object[] GetPalletBalance(object[] parameters)
-            {
-            string nomenclatureDescription;
-            string trayDescription;
-            long trayId;
-            long linerId;
-            byte linersAmount;
-            int unitsPerBox;
-            string cellDescription;
-            long cellId;
-            long previousPalletCode;
-            DateTime productionDate;
-            long partyId;
-            long nomenclatureId;
-            int totalUnitsQuantity;
-            if (!communication.GetPalletBalance(Convert.ToInt64(parameters[0]),
-                    out nomenclatureId,
-                    out nomenclatureDescription, out trayId, out linerId, out linersAmount,
-                    out unitsPerBox, out cellId, out cellDescription, out previousPalletCode, out  productionDate, out partyId, out totalUnitsQuantity))
-                {
-                return new object[] { false };
-                }
-
-            return new object[] { nomenclatureId, nomenclatureDescription, trayId, linerId, linersAmount, unitsPerBox, cellId, cellDescription, previousPalletCode, 
-            productionDate.ConvertToStringDateOnly(), partyId,
-            totalUnitsQuantity};
             }
 
         private static object[] WriteStickerFact(object[] parameters)

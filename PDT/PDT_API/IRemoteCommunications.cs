@@ -6,7 +6,7 @@ namespace pdtExternalStorage
     public interface IRemoteCommunications
         {
 
-
+        bool FinishCellInventory(long documentId, long cellId, DataTable currentCellPallets);
 
         /// <summary>К-сть документів, що чекають обробки</summary>
         /// <param name="acceptanceDocCount">К-сть документів "Прийманя"</param>

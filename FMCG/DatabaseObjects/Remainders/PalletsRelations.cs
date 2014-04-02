@@ -55,6 +55,7 @@ namespace FMCG.DatabaseObjects.Remainders
 
                 SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
                 SetExceptionsValues(item.FinalCodeOfPreviousPallet, 0);
+                SetExceptionsValues("MarkForDeleting", 1);
 
                 StartNewMotionsCollection();
 
@@ -64,6 +65,7 @@ namespace FMCG.DatabaseObjects.Remainders
 
                 SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
                 SetExceptionsValues(item.StartCodeOfPreviousPallet, 0);
+                SetExceptionsValues("MarkForDeleting", 1);
 
                 return item.RowDate.ColumnName;
                 }

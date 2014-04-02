@@ -411,6 +411,13 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
 
         public bool WriteInventoryResult(long documentId, DataTable resultTable)
             {
+            return writeInventoryResult(documentId, resultTable, true);
+            }
+
+        private bool writeInventoryResult(long documentId, DataTable resultTable, bool resultOfOnePallet)
+            {
+            if (resultTable.Rows.Count == 0) return true;
+
             var q = DB.NewQuery("select max(LineNumber) lastRowNumber from subInventoryNomenclatureInfo where IdDoc = @IdDoc");
             q.AddInputParameter("IdDoc", documentId);
             var lastLineNumber = q.SelectInt64();
@@ -421,9 +428,16 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
             // Эта строка должна быть в этом месте, т.к. после получения таблицы можно обращаться к столбцам, они уже не null
             var docTable = inventory.NomenclatureInfo;
 
-            var palletCode = Convert.ToInt64(resultTable.Rows[0][inventory.PalletCode.ColumnName]);
+            var palletCode = 0L;
+            var firstDataRow = resultTable.Rows[0];
+            if (resultOfOnePallet)
+                {
+                palletCode = Convert.ToInt64(firstDataRow[inventory.PalletCode.ColumnName]);
+                new BoxesFinder(resultTable, palletCode);
+                }
 
-            new BoxesFinder(resultTable, palletCode);
+            long startCodeOfPreviousPallet = 0;
+            long finalCodeOfPreviousPallet = 0;
 
             for (int rowIndex = 0; rowIndex < resultTable.Rows.Count; rowIndex++)
                 {
@@ -432,22 +446,32 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
                 newRow[inventory.RowState] = (int)RowsStates.Completed;
                 newRow[inventory.RowDate] = currentTime;
 
-                var isTare = rowIndex != 0;
-                if (!isTare)
+                if (resultOfOnePallet)
                     {
-                    var sticker = new Stickers() { ReadingId = palletCode };
-                    newRow[inventory.Party] = sticker.GetRef("Party");
+                    var isTare = rowIndex != 0;
+                    if (!isTare)
+                        {
+                        var sticker = new Stickers() { ReadingId = palletCode };
+                        newRow[inventory.Party] = sticker.GetRef("Party");
+
+                        startCodeOfPreviousPallet = Convert.ToInt64(sourceRow[inventory.StartCodeOfPreviousPallet.ColumnName]);
+                        finalCodeOfPreviousPallet = Convert.ToInt64(sourceRow[inventory.FinalCodeOfPreviousPallet.ColumnName]);
+                        }
+                    }
+                else
+                    {
+                    newRow[inventory.Party] = Convert.ToInt64(sourceRow[inventory.Party.ColumnName]);
                     }
 
                 newRow[inventory.Nomenclature] = Convert.ToInt64(sourceRow[inventory.Nomenclature.ColumnName]);
                 newRow[inventory.PlanValue] = Convert.ToDecimal(sourceRow[inventory.PlanValue.ColumnName]);
                 newRow[inventory.FactValue] = Convert.ToDecimal(sourceRow[inventory.FactValue.ColumnName]);
 
-                newRow[inventory.PalletCode] = palletCode;
+                newRow[inventory.PalletCode] = Convert.ToInt64(sourceRow[inventory.PalletCode.ColumnName]);
 
                 newRow[inventory.StartCodeOfPreviousPallet] = Convert.ToInt64(sourceRow[inventory.StartCodeOfPreviousPallet.ColumnName]);
                 newRow[inventory.FinalCodeOfPreviousPallet] = Convert.ToInt64(sourceRow[inventory.FinalCodeOfPreviousPallet.ColumnName]);
-
+                
                 newRow[inventory.StartCell] = Convert.ToInt64(sourceRow[inventory.StartCell.ColumnName]);
                 newRow[inventory.FinalCell] = Convert.ToInt64(sourceRow[inventory.FinalCell.ColumnName]);
 
@@ -455,9 +479,69 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
                 newRow.AddRowToTable(inventory);
                 }
 
-            var rowsToInsert = inventory.NomenclatureInfo;
+            if (resultOfOnePallet)
+                {
+                // Если из-за неверных движений есть остатки в какой-нибудь ячейке еще, их нужно обнулить
+                q = DB.NewQuery(@" 
+select @palet PalletCode, 0 StartCodeOfPreviousPallet, 0 FinalCodeOfPreviousPallet, Nomenclature, Party, Quantity PlanValue, Cell StartCell 
+	from dbo.GetStockBalance('0001-01-01', 0, 0, 2, 0, @palet) balance
+	where Cell <> @cell
 
-            q = DB.NewQuery(@"insert into subInventoryNomenclatureInfo([IdDoc],[LineNumber],[PalletCode],[Nomenclature],
+union all
+
+select rel.Pallet PalletCode, case when rel.Quantity > 0 then rel.PreviousPallet else 0 end StartCodeOfPreviousPallet,
+case when rel.Quantity > 0 then 0 else rel.PreviousPallet end FinalCodeOfPreviousPallet, 0 Nomenclature, 0 Party, 
+0 PlanValue, 0 StartCell
+	from dbo.GetPalletsRelations('0001-01-01', @palet, 0) rel	
+	where rel.PreviousPallet <> @startPrevPalet and @palet > 0
+	
+union all
+
+select rel.Pallet PalletCode, case when rel.Quantity > 0 then @finishPrevPalet else 0 end StartCodeOfPreviousPallet,
+case when rel.Quantity > 0 then 0 else @finishPrevPalet end FinalCodeOfPreviousPallet, 0 Nomenclature, 0 Party, 
+0 PlanValue, 0 StartCell
+	from dbo.GetPalletsRelations('0001-01-01', 0, @finishPrevPalet) rel	
+	where rel.Pallet <> @palet and @finishPrevPalet > 0
+");
+                q.AddInputParameter("palet", palletCode);
+                q.AddInputParameter("cell", firstDataRow[inventory.StartCell.ColumnName]);
+                q.AddInputParameter("startPrevPalet", startCodeOfPreviousPallet);
+                q.AddInputParameter("finishPrevPalet", finalCodeOfPreviousPallet);
+                var addTable = q.SelectToTable();
+
+                lastLineNumber = Convert.ToInt64(docTable.Rows[docTable.Rows.Count - 1][Subtable.LINE_NUMBER_COLUMN_NAME]);
+                for (int rowIndex = 0; rowIndex < addTable.Rows.Count; rowIndex++)
+                    {
+                    var sourceRow = addTable.Rows[rowIndex];
+
+                    var newRow = docTable.GetNewRow(inventory);
+                    newRow[inventory.RowState] = (int)RowsStates.Completed;
+                    newRow[inventory.RowDate] = currentTime;
+                    newRow[inventory.Party] = Convert.ToInt64(sourceRow[inventory.Party.ColumnName]);
+
+                    newRow[inventory.Nomenclature] = Convert.ToInt64(sourceRow[inventory.Nomenclature.ColumnName]);
+                    newRow[inventory.PlanValue] = Convert.ToDecimal(sourceRow[inventory.PlanValue.ColumnName]);
+                    newRow[inventory.FactValue] = 0M;
+
+                    newRow[inventory.PalletCode] = Convert.ToInt64(sourceRow[inventory.PalletCode.ColumnName]);
+
+                    newRow[inventory.StartCodeOfPreviousPallet] = Convert.ToInt64(sourceRow[inventory.StartCodeOfPreviousPallet.ColumnName]);
+                    newRow[inventory.FinalCodeOfPreviousPallet] = Convert.ToInt64(sourceRow[inventory.FinalCodeOfPreviousPallet.ColumnName]);
+
+                    newRow[inventory.StartCell] = Convert.ToInt64(sourceRow[inventory.StartCell.ColumnName]);
+                    newRow[inventory.FinalCell] = 0L;
+
+                    newRow[Subtable.LINE_NUMBER_COLUMN_NAME] = lastLineNumber + rowIndex + 1;
+                    newRow.AddRowToTable(inventory);
+                    }
+                }
+
+            return appendRowsToInventory(documentId, docTable);
+            }
+
+        private bool appendRowsToInventory(long documentId, DataTable rowsToInsert)
+            {
+            var q = DB.NewQuery(@"insert into subInventoryNomenclatureInfo([IdDoc],[LineNumber],[PalletCode],[Nomenclature],
 [PlanValue],[FactValue],[RowState],[RowDate],
 [StartCodeOfPreviousPallet] ,[FinalCodeOfPreviousPallet],
 [StartCell],[FinalCell], [Party])
@@ -473,7 +557,8 @@ from @table");
 
             q.Execute();
 
-            return q.ThrowedException == null;
+            var result = q.ThrowedException == null;
+            return result;
             }
 
         public bool WriteMovementResult(long documentId, DataTable resultTable)
@@ -1028,7 +1113,6 @@ order by rtrim(nom.Description)
             return recordWasAdded;
             }
 
-
         public void SetPalletStatus(long stickerId, bool fullPallet)
             {
             var sticker = new Stickers() { ReadingId = stickerId };
@@ -1056,6 +1140,49 @@ order by rtrim(nom.Description)
                 }
 
             sticker.Write();
+            }
+
+        public bool FinishCellInventory(long documentId, long cellId, DataTable currentCellPallets)
+            {
+            var q = DB.NewQuery(@"
+select 0 FactValue, 0 FinalCodeOfPreviousPallet, 0 FinalCell,
+	balance.Code PalletCode, balance.Nomenclature, balance.Party,
+	balance.Quantity PlanValue, balance.Cell StartCell,
+	isnull(rel.PreviousPallet, 0) StartCodeOfPreviousPallet
+	from dbo.GetStockBalance('0001-01-01', 0, @cell, 2, 0, 0) balance
+	left join @palets p on p.Value = balance.Code
+	left join dbo.GetPalletsRelations('0001-01-01', 0, 0) rel on rel.Pallet = balance.Code
+	where p.Value is null
+	
+	order by balance.Code
+");
+            q.AddInputParameter("cell", cellId);
+
+            q.AddInputTVPParameter("palets", currentCellPallets, "ListOfInt64");
+            var inventoryResult = q.SelectToTable();
+
+            var balanceFixed = writeInventoryResult(documentId, inventoryResult, false);
+            if (!balanceFixed) return false;
+
+            // deletion wrong relations
+            q = DB.NewQuery(@"
+declare @lastPalletCode bigint = isnull((select top 1 p.Value
+	from @palets p 
+	left join SubInventoryNomenclatureInfo num on p.Value = num.FinalCodeOfPreviousPallet and num.IdDoc = @documentId and num.Party <> 0 and num.FinalCell = @cell 
+	where num.IdDoc is null), 0);
+
+select rel.Pallet PalletCode, case when rel.Quantity > 0 then @lastPalletCode else 0 end StartCodeOfPreviousPallet,
+case when rel.Quantity > 0 then 0 else @lastPalletCode end FinalCodeOfPreviousPallet, 
+0 Nomenclature, 0 Party, 0 PlanValue, 0 FactValue, 0 StartCell, 0 FinalCell
+	from dbo.GetPalletsRelations('0001-01-01', 0, @lastPalletCode) rel	
+	where @lastPalletCode > 0
+");
+            q.AddInputParameter("cell", cellId);
+            q.AddInputParameter("documentId", documentId);
+            q.AddInputTVPParameter("palets", currentCellPallets, "ListOfInt64");
+            inventoryResult = q.SelectToTable();
+
+            return writeInventoryResult(documentId, inventoryResult, false);
             }
         }
     }
