@@ -142,6 +142,11 @@ namespace WMS_client.Processes
 
         private void scanNextPalletOnBarcode(string barcode)
             {
+            if (barcode.IsCell())
+                {
+                clearCell(barcode.ToCell());
+                return;
+                }
             if (!barcode.IsSticker()) return;
 
             var barcodeData = barcode.ToBarcodeData();
@@ -160,6 +165,22 @@ namespace WMS_client.Processes
             ShowControls(palletEditControls);
 
             updateStickerData();
+            }
+
+        private void clearCell(CatalogItem emptyCell)
+            {
+            if (!string.Format(@"Комірка ""{0}"" порожня?", emptyCell.Description).Ask()) return;
+
+            if (documentId == 0 && !initDocument())
+                {
+                return;
+                }
+
+            currentCell = emptyCell;
+            currentCellPallets.Rows.Clear();
+
+            if (!finishCell()) return;
+            currentCell.Clear();
             }
 
         private void editPalletOnBarcode(string barcode)
