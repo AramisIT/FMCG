@@ -77,13 +77,6 @@ namespace AtosFMCG.HelperClasses.PDT
                         return ComplateInventory(parameters);
                     case "GetNewInventoryId":
                         return GetNewInventoryId(parameters);
-                    case "WriteInventoryResult":
-                        return new object[]
-                                {
-                                communication.WriteInventoryResult(Convert.ToInt64(parameters[0]),
-                                    parameters[1] as DataTable)
-                                };
-
                     case "GetNewMovementId":
                         return GetNewMovementId(parameters);
                     case "ComplateMovement":
@@ -94,14 +87,6 @@ namespace AtosFMCG.HelperClasses.PDT
                                 communication.WriteMovementResult(Convert.ToInt64(parameters[0]),
                                     parameters[1] as DataTable)
                                 };
-
-                    case "WritePickingResult":
-                        int sameWareNextTaskLineNumber;
-                        var writePickingResultResult =
-                            communication.WritePickingResult(Convert.ToInt64(parameters[0]),
-                                Convert.ToInt32(parameters[1]), parameters[2] as DataTable,
-                                Convert.ToInt64(parameters[3]), out sameWareNextTaskLineNumber);
-                        return new object[] { writePickingResultResult, sameWareNextTaskLineNumber };
 
                     case "GetPickingDocuments":
                         return new object[] { communication.GetPickingDocuments() };
@@ -161,7 +146,7 @@ namespace AtosFMCG.HelperClasses.PDT
                     case "CreateNewAcceptance":
                         return new object[] { true, communication.CreateNewAcceptance() };
 
-                    default: //CreateNewSticker, GetPalletBalance
+                    default: 
                         RemoteExecutionMethodCoverBuilder<PDTCommunication>.HandlePdtQueryDelegate dynamicMethod;
                         if (methodCovers.TryGetValue(procedure, out dynamicMethod))
                             {

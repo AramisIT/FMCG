@@ -261,13 +261,9 @@ namespace WMS_client.Processes
                 this.sameWareNextTaskLineNumber = _sameWareNextTaskLineNumber;
                 startPalletChoosing(0, 0);
                 }
-            else
+            else if (lastQueryIsSuccessfull)
                 {
-                if (MainProcess.ConnectionAgent.WifiEnabled
-                    && MainProcess.ConnectionAgent.OnLine)
-                    {
-                    "Нема доступу до документу".Warning();
-                    }
+                "Нема доступу до документу".Warning();
                 }
             }
 

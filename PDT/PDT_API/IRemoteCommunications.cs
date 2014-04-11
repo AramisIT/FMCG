@@ -34,12 +34,13 @@ namespace pdtExternalStorage
             out long nomenclatureId,
             out string nomenclatureDescription,
             out long trayId,
-            out long linerId, out byte linersAmount,
+            out long linerId, out int linersAmount,
             out int unitsPerBox,
             out long cellId, out string cellDescription,
             out long previousPalletCode,
             out DateTime productionDate, out long partyId,
-            out int totalUnitsQuantity);
+            out int totalUnitsQuantity,
+            out int traysCount);
 
         bool GetNewInventoryId(out long documentId);
 

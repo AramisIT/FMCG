@@ -11,6 +11,8 @@ namespace WMS_client
         {
         private void performQuery(string QueryName, params object[] parameters)
             {
+            WMSClient.Current.LastQueryIsSuccessfull = false;
+
             queryResultParameters = null;
             if (!WMSClient.Current.OnLine && WMSClient.Current.MainForm.IsMainThread)
                 {
@@ -163,12 +165,13 @@ namespace WMS_client
             out long nomenclatureId,
             out string nomenclatureDescription,
             out long trayId,
-            out long linerId, out byte linersAmount,
+            out long linerId, out int linersAmount,
             out int unitsPerBox,
             out long cellId, out string cellDescription,
             out long previousPalletCode,
             out DateTime productionDate, out long partyId,
-            out int totalUnitsQuantity)
+            out int totalUnitsQuantity,
+            out int traysCount)
             {
             performQuery("GetPalletBalance", stickerId);
 
@@ -178,7 +181,7 @@ namespace WMS_client
                 nomenclatureDescription = queryResultParameters[3] as string;
                 trayId = Convert.ToInt64(queryResultParameters[4]);
                 linerId = Convert.ToInt64(queryResultParameters[5]);
-                linersAmount = Convert.ToByte(queryResultParameters[6]);
+                linersAmount = Convert.ToInt32(queryResultParameters[6]);
                 unitsPerBox = Convert.ToInt32(queryResultParameters[7]);
                 cellId = Convert.ToInt64(queryResultParameters[8]);
                 cellDescription = queryResultParameters[9] as string;
@@ -186,7 +189,7 @@ namespace WMS_client
                 productionDate = queryResultParameters[11].ToString().ToDateTime();
                 partyId = Convert.ToInt64(queryResultParameters[12]);
                 totalUnitsQuantity = Convert.ToInt32(queryResultParameters[13]);
-
+                traysCount = Convert.ToInt32(queryResultParameters[14]);
                 return remoteFunctionBoolResult;
                 }
 
@@ -202,6 +205,7 @@ namespace WMS_client
             linersAmount = 0;
             productionDate = DateTime.MinValue;
             partyId = 0;
+            traysCount = 0;
             return false;
             }
 
@@ -222,7 +226,7 @@ namespace WMS_client
         public bool WriteInventoryResult(long documentId, DataTable resultTable)
             {
             performQuery("WriteInventoryResult", documentId, resultTable);
-            return success;
+            return success && remoteFunctionBoolResult;
             }
 
         public bool ComplateInventory(long documentId, bool forceCompletion, out string errorMessage)
@@ -324,9 +328,15 @@ namespace WMS_client
         public bool WritePickingResult(long documentId, int currentLineNumber, DataTable resultTable, long partyId, out int sameWareNextTaskLineNumber)
             {
             performQuery("WritePickingResult", documentId, currentLineNumber, resultTable, partyId);
-            sameWareNextTaskLineNumber = success ? Convert.ToInt32(queryResultParameters[1]) : 0;
 
-            return success;
+            if (success)
+                {
+                sameWareNextTaskLineNumber = Convert.ToInt32(queryResultParameters[2]);
+                return remoteFunctionBoolResult;
+                }
+
+            sameWareNextTaskLineNumber = 0;
+            return false;
             }
 
         public bool PrintStickers(DataTable result)

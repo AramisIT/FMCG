@@ -39,6 +39,7 @@ namespace FMCG.DatabaseObjects.Remainders
                 AddMotion(PreviousPallet, item.PreviousPalletCode);
                 AddMotion(Quantity, string.Empty);
 
+                SetExceptionsValues("MarkForDeleting", 1);
                 SetExceptionsValues(item.NomenclatureState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
                 SetExceptionsValues(item.PreviousPalletCode, 0);
                 SetExceptionsValues(item.IsTare, 1);
@@ -77,6 +78,7 @@ namespace FMCG.DatabaseObjects.Remainders
                 AddMotion(PreviousPallet, item.FinalCodeOfPreviousPallet);
                 AddMotion(Quantity, string.Empty);
 
+                SetExceptionsValues("MarkForDeleting", 1);
                 SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
                 SetExceptionsValues(item.FinalCodeOfPreviousPallet, 0);
 
@@ -86,6 +88,7 @@ namespace FMCG.DatabaseObjects.Remainders
                 AddMotion(PreviousPallet, item.StartCodeOfPreviousPallet);
                 AddMotion(Quantity, string.Empty, true);
 
+                SetExceptionsValues("MarkForDeleting", 1);
                 SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
                 SetExceptionsValues(item.StartCodeOfPreviousPallet, 0);
 

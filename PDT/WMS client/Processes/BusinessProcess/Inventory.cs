@@ -297,7 +297,7 @@ namespace WMS_client.Processes
 
             top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
             palletEditControls.nomenclatureLabel = MainProcess.CreateLabel("<номенклатура>", 5, top, 230,
-               MobileFontSize.Normal, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Bold);
+               MobileFontSize.Little, MobileFontPosition.Left, MobileFontColors.Default, FontStyle.Regular);
 
             top += VERTICAL_DISTANCE_BETWEEN_CONTROLS;
 
@@ -444,9 +444,9 @@ namespace WMS_client.Processes
             set { palletEditControls.UnitsCountTextBox.SetNumber(value); }
             }
 
-        public byte linersCount
+        public int linersCount
             {
-            get { return (byte)palletEditControls.LinersQuantityTextBox.GetNumber(); }
+            get { return (int)palletEditControls.LinersQuantityTextBox.GetNumber(); }
             set { palletEditControls.LinersQuantityTextBox.SetNumber(value); }
             }
 

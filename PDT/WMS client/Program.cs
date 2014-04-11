@@ -14,6 +14,7 @@ namespace WMS_client
         [MTAThread]
         static void Main(string[] parameters)
             {
+            
             if (new SystemInfo().IsExistedSameProcess()) return;
 
             if (parameters.Length > 0)

@@ -275,11 +275,12 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
         public bool GetPalletBalance(long palletId,
             out long nomenclatureId,
             out string nomenclatureDescription,
-            out long trayId, out long linerId, out byte linersAmount,
+            out long trayId, out long linerId, out int linersAmount,
             out int unitsPerBox, out long cellId, out string cellDescription, out long previousPalletCode, out DateTime productionDate, out long partyId,
-            out int totalUnitsQuantity)
+            out int totalUnitsQuantity,
+            out int traysCount)
             {
-            partyId = trayId = linerId = cellId = previousPalletCode = totalUnitsQuantity = unitsPerBox = linersAmount = 0;
+            partyId = trayId = linerId = cellId = previousPalletCode = totalUnitsQuantity = unitsPerBox = linersAmount = traysCount = 0;
             productionDate = DateTime.MinValue;
             cellDescription = string.Empty;
 
@@ -293,12 +294,13 @@ where a.MarkForDeleting = 0 and NomenclatureCode = @StickerCode");
             if (goodsRows.TrayRow != null)
                 {
                 trayId = Convert.ToInt64(goodsRows.TrayRow[GoodsRows.NOMENCLATURE]);
+                traysCount = Convert.ToInt32(goodsRows.TrayRow[GoodsRows.QUANTITY]);
                 }
 
             if (goodsRows.LinerRow != null)
                 {
                 linerId = Convert.ToInt64(goodsRows.LinerRow[GoodsRows.NOMENCLATURE]);
-                linersAmount = Convert.ToByte(goodsRows.LinerRow[GoodsRows.QUANTITY]);
+                linersAmount = Convert.ToInt32(goodsRows.LinerRow[GoodsRows.QUANTITY]);
                 }
 
             if (goodsRows.WareRow != null)
@@ -471,7 +473,7 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
 
                 newRow[inventory.StartCodeOfPreviousPallet] = Convert.ToInt64(sourceRow[inventory.StartCodeOfPreviousPallet.ColumnName]);
                 newRow[inventory.FinalCodeOfPreviousPallet] = Convert.ToInt64(sourceRow[inventory.FinalCodeOfPreviousPallet.ColumnName]);
-                
+
                 newRow[inventory.StartCell] = Convert.ToInt64(sourceRow[inventory.StartCell.ColumnName]);
                 newRow[inventory.FinalCell] = Convert.ToInt64(sourceRow[inventory.FinalCell.ColumnName]);
 

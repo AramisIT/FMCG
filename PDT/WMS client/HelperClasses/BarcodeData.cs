@@ -47,6 +47,8 @@ namespace WMS_client.HelperClasses
 
         public CatalogItem Tray { get; private set; }
 
+        public int TraysCount { get; set; }
+
         public CatalogItem Liner { get; private set; }
 
         /// <summary>
@@ -56,13 +58,13 @@ namespace WMS_client.HelperClasses
 
         public int UnitsPerBox { get; set; }
 
-        public byte LinersAmount { get; set; }
+        public int LinersAmount { get; set; }
 
         public bool HasLiners
             {
             get
                 {
-                return LinersAmount > 0 && Liner.Id > 0;
+                return LinersAmount != 0 && Liner.Id > 0;
                 }
             }
 
@@ -96,6 +98,7 @@ namespace WMS_client.HelperClasses
                     StickerId = StickerId,
                     Nomenclature = Nomenclature.GetCopy(),
                     Tray = Tray.GetCopy(),
+                    TraysCount = TraysCount,
                     TotalUnitsQuantity = TotalUnitsQuantity,
                     UnitsPerBox = UnitsPerBox,
                     Liner = Liner.GetCopy(),
@@ -140,24 +143,26 @@ namespace WMS_client.HelperClasses
             string trayDescription;
             long trayId;
             long linerId;
-            byte linersAmount;
+            int linersAmount;
             int unitsPerBox;
             string cellDescription;
             long cellId;
             long previousPalletCode;
             long partyId;
             int totalUnitsQuantity;
+            int traysCount;
             DateTime productionDate;
             if (
                 !new ServerInteraction().GetPalletBalance(StickerId,
                     out nomenclatureId, out nomenclatureDescription, out trayId, out linerId, out linersAmount,
                     out unitsPerBox, out cellId, out cellDescription, out previousPalletCode, out productionDate, out partyId,
-                    out totalUnitsQuantity))
+                    out totalUnitsQuantity, out traysCount))
                 {
                 StickerId = 0;
                 return false;
                 }
 
+            TraysCount = traysCount;
             PreviousStickerCode = previousPalletCode;
 
             TotalUnitsQuantity = totalUnitsQuantity;

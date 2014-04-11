@@ -112,7 +112,7 @@
             this.printTabPage.Controls.Add(this.simpleButton1);
             this.printTabPage.Name = "printTabPage";
             this.printTabPage.Size = new System.Drawing.Size(436, 390);
-            this.printTabPage.Text = "Роздрукувати этикетки";
+            this.printTabPage.Text = "Роздрукувати етикетки";
             // 
             // groupControl1
             // 
@@ -239,7 +239,7 @@
             this.createTabPage.Controls.Add(this.simpleButton2);
             this.createTabPage.Name = "createTabPage";
             this.createTabPage.Size = new System.Drawing.Size(436, 390);
-            this.createTabPage.Text = "Створити этикетки";
+            this.createTabPage.Text = "Створити етикетки";
             // 
             // groupControl2
             // 

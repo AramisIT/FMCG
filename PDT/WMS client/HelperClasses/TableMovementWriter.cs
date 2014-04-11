@@ -36,7 +36,7 @@ namespace WMS_client.HelperClasses
                 {
                 var startTray = startBarcodeData.Tray ?? new CatalogItem();
                 var endTray = finalBarcodeData.Tray ?? new CatalogItem();
-                appendResult(startTray.Id, endTray.Id, startTray.Id > 0 ? 1 : 0, endTray.Id > 0 ? 1 : 0, true);
+                appendResult(startTray.Id, endTray.Id, startTray.Id > 0 ? startBarcodeData.TraysCount : 0, endTray.Id > 0 ? 1 : 0, true);
                 }
             }
 

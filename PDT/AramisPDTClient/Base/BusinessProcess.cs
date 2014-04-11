@@ -20,6 +20,11 @@ namespace WMS_client
 
         protected bool isLoading;
 
+        protected bool lastQueryIsSuccessfull
+            {
+            get { return WMSClient.Current.LastQueryIsSuccessfull; }
+            }
+
         #region Constructors
 
         private const string CANT_COMPLATE_OPERATION = "Невдала спроба виконання операції, спробуйте ще раз в зоні WiFi!";
@@ -130,7 +135,7 @@ namespace WMS_client
                     }
                 return;
                 }
-            
+
             OnHotKey(key);
             }
 
