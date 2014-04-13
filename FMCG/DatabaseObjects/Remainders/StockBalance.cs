@@ -52,7 +52,7 @@ namespace FMCG.DatabaseObjects.Remainders
                 AddMotion(Quantity, item.NomenclatureFact);
 
                 SetExceptionsValues("MarkForDeleting", 1);
-                SetExceptionsValues(item.NomenclatureState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+                SetRequirementValue(item.NomenclatureState, RowsStates.Completed);
 
                 return item.NomenclatureRowDate.ColumnName;
                 }
@@ -69,7 +69,7 @@ namespace FMCG.DatabaseObjects.Remainders
 
                 SetExceptionsValues("MarkForDeleting", 1);
                 SetExceptionsValues(item.FactValue, 0);
-                SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+                SetRequirementValue(item.RowState, RowsStates.Completed);
 
 
                 StartNewMotionsCollection();
@@ -83,7 +83,7 @@ namespace FMCG.DatabaseObjects.Remainders
 
                 SetExceptionsValues("MarkForDeleting", 1);
                 SetExceptionsValues(item.PlanValue, 0);
-                SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+                SetRequirementValue(item.RowState, RowsStates.Completed);
 
                 return item.RowDate.ColumnName;
                 }
@@ -101,7 +101,7 @@ namespace FMCG.DatabaseObjects.Remainders
                 SetExceptionsValues("MarkForDeleting", 1);
                 SetExceptionsValues(item.FinalCell, Consts.RedemptionCell.Id);
                 SetExceptionsValues(item.FactValue, 0);
-                SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+                SetRequirementValue(item.RowState, RowsStates.Completed);
 
 
                 StartNewMotionsCollection();
@@ -115,7 +115,7 @@ namespace FMCG.DatabaseObjects.Remainders
 
                 SetExceptionsValues("MarkForDeleting", 1);
                 SetExceptionsValues(item.PlanValue, 0);
-                SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+                SetRequirementValue(item.RowState, RowsStates.Completed);
 
                 return item.RowDate.ColumnName;
                 }

@@ -123,6 +123,25 @@ namespace Catalogs
             }
         private int z_Position;
 
+        [DataField(Description = "Есть доступ ко всем паллетам", ShowInList = true, ShowInForm = true)]
+        public bool AccessToAllWares
+            {
+            get
+                {
+                return z_AccessToAllWares;
+                }
+            set
+                {
+                if (z_AccessToAllWares == value)
+                    {
+                    return;
+                    }
+                z_AccessToAllWares = value;
+                NotifyPropertyChanged("AccessToAllWares");
+                }
+            }
+        private bool z_AccessToAllWares;
+
         public string Barcode
             {
             get { return string.Format("C.{0};{1}", Id, Description); }

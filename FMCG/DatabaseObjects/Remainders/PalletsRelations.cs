@@ -40,7 +40,8 @@ namespace FMCG.DatabaseObjects.Remainders
                 AddMotion(Quantity, string.Empty);
 
                 SetExceptionsValues("MarkForDeleting", 1);
-                SetExceptionsValues(item.NomenclatureState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+                SetExceptionsValues("NomenclatureCell.AccessToAllWares", 1);
+                SetRequirementValue(item.NomenclatureState, RowsStates.Completed);
                 SetExceptionsValues(item.PreviousPalletCode, 0);
                 SetExceptionsValues(item.IsTare, 1);
 
@@ -54,8 +55,9 @@ namespace FMCG.DatabaseObjects.Remainders
                 AddMotion(PreviousPallet, item.FinalCodeOfPreviousPallet);
                 AddMotion(Quantity, string.Empty);
 
-                SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+                SetRequirementValue(item.RowState, RowsStates.Completed);
                 SetExceptionsValues(item.FinalCodeOfPreviousPallet, 0);
+                SetExceptionsValues("FinalCell.AccessToAllWares", 1);
                 SetExceptionsValues("MarkForDeleting", 1);
 
                 StartNewMotionsCollection();
@@ -64,8 +66,9 @@ namespace FMCG.DatabaseObjects.Remainders
                 AddMotion(PreviousPallet, item.StartCodeOfPreviousPallet);
                 AddMotion(Quantity, string.Empty, true);
 
-                SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+                SetRequirementValue(item.RowState, RowsStates.Completed);
                 SetExceptionsValues(item.StartCodeOfPreviousPallet, 0);
+                SetExceptionsValues("StartCell.AccessToAllWares", 1);
                 SetExceptionsValues("MarkForDeleting", 1);
 
                 return item.RowDate.ColumnName;
@@ -79,7 +82,8 @@ namespace FMCG.DatabaseObjects.Remainders
                 AddMotion(Quantity, string.Empty);
 
                 SetExceptionsValues("MarkForDeleting", 1);
-                SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+                SetExceptionsValues("FinalCell.AccessToAllWares", 1);
+                SetRequirementValue(item.RowState, RowsStates.Completed);
                 SetExceptionsValues(item.FinalCodeOfPreviousPallet, 0);
 
                 StartNewMotionsCollection();
@@ -89,7 +93,8 @@ namespace FMCG.DatabaseObjects.Remainders
                 AddMotion(Quantity, string.Empty, true);
 
                 SetExceptionsValues("MarkForDeleting", 1);
-                SetExceptionsValues(item.RowState, RowsStates.PlannedAcceptance, RowsStates.PlannedPicking, RowsStates.Canceled, RowsStates.Processing);
+                SetExceptionsValues("StartCell.AccessToAllWares", 1);
+                SetRequirementValue(item.RowState, RowsStates.Completed);
                 SetExceptionsValues(item.StartCodeOfPreviousPallet, 0);
 
                 return item.RowDate.ColumnName;
