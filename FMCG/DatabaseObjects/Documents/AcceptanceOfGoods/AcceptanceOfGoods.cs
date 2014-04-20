@@ -119,7 +119,7 @@ namespace Documents
 
         #region Table Nomeclature
         /// <summary>Номенклатура</summary>
-        [Table(Columns = "NomenclatureState, NomenclatureRowDate, NomenclatureCode, PreviousPalletCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureDate, NomenclaturePlan, NomenclatureFact, NomenclatureCell, IsTare", ShowLineNumberColumn = true)]
+        [Table(AllowFiltering = true, Columns = "NomenclatureState, NomenclatureRowDate, NomenclatureCode, PreviousPalletCode, Nomenclature, NomenclatureParty, NomenclatureMeasure, NomenclatureDate, NomenclaturePlan, NomenclatureFact, NomenclatureCell, IsTare", ShowLineNumberColumn = true)]
         [DataField(Description = "Номенклатура")]
         public DataTable NomenclatureInfo
             {

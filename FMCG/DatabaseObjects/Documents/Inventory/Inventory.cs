@@ -113,5 +113,24 @@ namespace Documents
                     return row.GetDocumentColor();
                 };
             }
+
+        internal void FixWrongRelations()
+            {
+            var table = DB.NewQuery("SELECT Pallet, PreviousPallet, -Quantity Quantity FROM [dbo].[GetPalletsRelations] ('0001-01-01',0,0) where Quantity<0 order by Quantity").SelectToTable();
+            foreach (DataRow row in table.Rows)
+                {
+                var rowsQuantity = Convert.ToInt32(row["Quantity"]);
+                for (int i = 0; i < rowsQuantity; i++)
+                    {
+                    var newRow = NomenclatureInfo.GetNewRow(this);
+                    newRow[PalletCode] = Convert.ToInt64(row["Pallet"]);
+                    newRow[FinalCodeOfPreviousPallet] = Convert.ToInt64(row["PreviousPallet"]);
+                    newRow[RowState] = RowsStates.Completed;
+                    newRow[FinalCell] = Consts.EmptyCell.Id;
+
+                    newRow.AddRowToTable(this);
+                    }
+                }
+            }
         }
     }

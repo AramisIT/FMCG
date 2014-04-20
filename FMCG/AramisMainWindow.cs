@@ -15,7 +15,6 @@ using Aramis.UI.InputDevices;
 using Aramis.UI.WinFormsDevXpress.Forms;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.HelperClasses.PDT;
-using AtosFMCG.HelperClasses.ViewOfServiceTables;
 using AtosFMCG.PrintForms;
 using AtosFMCG.TouchScreen;
 using AtosFMCG.TouchScreen.PalletSticker;
@@ -79,7 +78,6 @@ namespace AtosFMCG
             // updGroup.Visible = openByAdmnin;
             favGroup.Visible = openByAdmnin;
             testGroup.Visible = openByAdmnin;
-            serviceTablesGroup.Visible = openByAdmnin;
 
             //ТСД сервер
             bool isManagerOfDCT = SystemAramis.CurrentUser.Roles.Rows.Cast<DataRow>().Any(
@@ -165,33 +163,12 @@ namespace AtosFMCG
             }
         #endregion
 
-        #region Службові таблиці
-        private void openStockBalance_ItemClick(object sender, ItemClickEventArgs e)
-            {
-            ViewOfStockBalance view = new ViewOfStockBalance();
-            view.Show();
-            }
-
-        private void openGoodsMoving_ItemClick(object sender, ItemClickEventArgs e)
-            {
-            ViewOfGoodsMoving view = new ViewOfGoodsMoving();
-            view.Show();
-            }
-
-        private void openFilledCell_ItemClick(object sender, ItemClickEventArgs e)
-            {
-            ViewOfFilledCell view = new ViewOfFilledCell();
-            view.Show();
-            }
-        #endregion
-
         #endregion
 
         #region Робота з Терміналом Збіру Даних
-        /// <summary>StorekeeperManagementServer </summary>
-        private InfoForm smServer;
 
         private TouchScreenMainForm touchScreenMainForm;
+        private StorekeeperManagementServer.AramisTCPServer server;
 
         private void serverState_ItemClick(object sender, ItemClickEventArgs e)
             {
@@ -202,23 +179,25 @@ namespace AtosFMCG
             {
             try
                 {
-                if (smServer == null || !smServer.IsRun)
+                if (server == null || !server.ServerActive)
                     {
-                    smServer = new InfoForm(ReceiveMessages.ReceiveMessage, PDTSettings.AllowedIPs(), Consts.ServerIP,
-                                            Consts.UpdateFolderName);
-
-                    if (smServer.Server != null)
+                    new PackageViaWireless();
+                    try
                         {
-                        Func<List<KeyValuePair<Guid, int>>> method = smServer.Server.CatchingConnection.GetPdtSessions;
+                        server = new StorekeeperManagementServer.AramisTCPServer(ReceiveMessages.ReceiveMessage, PDTSettings.AllowedIPs(), Consts.ServerIP);
+                        }
+                    catch { }
+
+
+                    if (server.ServerActive)
+                        {
+                        Func<List<KeyValuePair<Guid, int>>> method = server.CatchingConnection.GetPdtSessions;
 
                         UIConsts.SessionUpdated += () =>
                             {
                                 method().ForEach(kvp => UIConsts.UpdateSession(kvp.Key, kvp.Value));
                             };
-                        }
 
-                    if (smServer.IsRun)
-                        {
                         showSuccessResultOfConnection();
                         }
                     else
@@ -229,13 +208,13 @@ namespace AtosFMCG
                 //Якщо сервер запущено і цю дію робить Адмін - відкрити вікно симулювання читання штрих-коду
                 else //if (SystemAramis.CurrentUser.Id == CatalogUsers.Admin.Id)
                     {
-                    SendToTCD sendForm = new SendToTCD(smServer);
+                    SendToTCD sendForm = new SendToTCD(server);
                     sendForm.Show();
                     }
                 }
             catch (Exception exc)
                 {
-                smServer = null;
+                server = null;
                 exc.Message.WarningBox();
                 showFailResultOfConnection();
                 }
@@ -483,6 +462,47 @@ namespace AtosFMCG
             int index = 0;
             parameters.ForEach(parameter => message.AppendLine(string.Format("[{0}] = \"{1}\"", index++, parameter)));
             message.ToString().AlertBox();
+            }
+
+        private void barButtonItem29_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            var q = DB.NewQuery(@"
+with rem as (
+select distinct Code from dbo.GetStockBalance('0001-01-01', 0, 0, 2, 0, 0)
+)
+
+	update s
+set s.Nomenclature = st.Nomenclature
+from SubAcceptanceOfGoodsNomenclatureInfo s
+    	join Stickers st on st.Id = s.NomenclatureCode and s.NomenclatureParty > 0 and st.Nomenclature <> s.Nomenclature 
+    	join rem on rem.Code = s.NomenclatureCode;
+    	
+
+
+with rem as (
+select distinct Code from dbo.GetStockBalance('0001-01-01', 0, 0, 2, 0, 0)
+)
+
+update s
+set s.Nomenclature = st.Nomenclature
+from SubInventoryNomenclatureInfo s
+    	join Stickers st on st.Id = s.PalletCode and s.Party > 0 and st.Nomenclature <> s.Nomenclature 
+    	join rem on rem.Code = s.PalletCode;
+    	
+with rem as (
+select distinct Code from dbo.GetStockBalance('0001-01-01', 0, 0, 2, 0, 0)
+)
+
+update s
+set s.Nomenclature = st.Nomenclature
+from SubMovingNomenclatureInfo s
+    	join Stickers st on st.Id = s.PalletCode and s.Party > 0 and st.Nomenclature <> s.Nomenclature 
+    	join rem on rem.Code = s.PalletCode;");
+            q.Execute();
+
+            var success = q.ThrowedException == null;
+
+            string.Format("Номенклатура {0}обновлена!", success ? string.Empty : "не ").NotifyToUser(success ? MessagesToUserTypes.Information : MessagesToUserTypes.Error);
             }
 
         }

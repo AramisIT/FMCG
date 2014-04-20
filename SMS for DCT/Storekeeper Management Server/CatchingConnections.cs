@@ -12,8 +12,7 @@ namespace StorekeeperManagementServer
         {
         private readonly TcpListener TCPServer;
         private readonly List<DataTerminalSession> StorekeeperSessions;
-        private readonly PrintingConnectionsInfoDelegate PrintingAddresses;
-        private readonly UpdateCompleteDelegate InformAboutUpdateComplete;
+       private readonly UpdateCompleteDelegate InformAboutUpdateComplete;
 
         public List<KeyValuePair<Guid, int>> GetPdtSessions()
             {
@@ -41,11 +40,10 @@ namespace StorekeeperManagementServer
         private string FullUpdatePath;
         private readonly ReceiveMessage receiveMessage;
 
-        public CatchingConnections(TcpListener MyTCPServer, PrintingConnectionsInfoDelegate MyPrintingDelegate, ArrayList allowIpList, ArrayList NeedToUpdateIpList, UpdateCompleteDelegate InformAboutUpdateComplete, string FullUpdatePath, string Server1CConnectionString, ReceiveMessage receiveMessage)
+        public CatchingConnections(TcpListener MyTCPServer, ArrayList allowIpList, ArrayList NeedToUpdateIpList, UpdateCompleteDelegate InformAboutUpdateComplete, string FullUpdatePath, string Server1CConnectionString, ReceiveMessage receiveMessage)
             {
 
             TCPServer = MyTCPServer;
-            PrintingAddresses = MyPrintingDelegate;
             StorekeeperSessions = new List<DataTerminalSession>();
             this.AllowIpList = new Dictionary<string, string>();
             this.NeedToUpdateIpList = NeedToUpdateIpList;
@@ -95,7 +93,7 @@ namespace StorekeeperManagementServer
                 lock (this)
                     {
                     StorekeeperSessions.Remove(Session);
-                    PrintingAddresses(StorekeeperSessions);
+                  
                     }
                 }
             catch { }
@@ -162,9 +160,7 @@ namespace StorekeeperManagementServer
             NewStorekeeperSession.IPAddress = newClientIP;
             NewStorekeeperSession.NeedToUpdate = NeedToUpdateIpList.IndexOf(newClientIP) != -1;
             NewStorekeeperSession.FullUpdatePath = FullUpdatePath;
-            // Caling delegate for drawing information for system administrator
-            PrintingAddresses(StorekeeperSessions);
-
+           
             Thread NewStorekeeperThread = new Thread(NewStorekeeperSession.Start);
             NewStorekeeperSession.StorekeeperThread = NewStorekeeperThread;
             NewStorekeeperThread.Name = AllowIpList[newClientIP];

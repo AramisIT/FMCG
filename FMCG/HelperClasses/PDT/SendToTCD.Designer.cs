@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.message = new System.Windows.Forms.TextBox();
             this.send = new System.Windows.Forms.Button();
             this.sendMe = new System.Windows.Forms.Button();
@@ -138,6 +139,11 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button7 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.button8 = new System.Windows.Forms.Button();
+            this.sendTimer = new System.Windows.Forms.Timer(this.components);
+            this.button9 = new System.Windows.Forms.Button();
+            this.pause = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // message
@@ -1432,11 +1438,57 @@
             this.textBox2.TabIndex = 117;
             this.textBox2.Text = "S21";
             // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(396, 46);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(73, 20);
+            this.textBox3.TabIndex = 119;
+            // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(396, 72);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(73, 25);
+            this.button8.TabIndex = 120;
+            this.button8.Text = "Copy";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // sendTimer
+            // 
+            this.sendTimer.Interval = 2300;
+            this.sendTimer.Tick += new System.EventHandler(this.sendTimer_Tick);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(396, 103);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(73, 25);
+            this.button9.TabIndex = 121;
+            this.button9.Text = "Paste";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // pause
+            // 
+            this.pause.AutoSize = true;
+            this.pause.Location = new System.Drawing.Point(396, 134);
+            this.pause.Name = "pause";
+            this.pause.Size = new System.Drawing.Size(56, 17);
+            this.pause.TabIndex = 122;
+            this.pause.Text = "Pause";
+            this.pause.UseVisualStyleBackColor = true;
+            // 
             // SendToTCD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(772, 563);
+            this.Controls.Add(this.pause);
+            this.Controls.Add(this.button9);
+            this.Controls.Add(this.button8);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button3);
@@ -1666,5 +1718,10 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Timer sendTimer;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.CheckBox pause;
     }
 }

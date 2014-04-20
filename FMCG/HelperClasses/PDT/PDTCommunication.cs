@@ -485,7 +485,7 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
                 {
                 // Если из-за неверных движений есть остатки в какой-нибудь ячейке еще, их нужно обнулить
                 q = DB.NewQuery(@" 
-select @palet PalletCode, 0 StartCodeOfPreviousPallet, 0 FinalCodeOfPreviousPallet, Nomenclature, Party, Quantity PlanValue, Cell StartCell 
+select @palet PalletCode, 0 StartCodeOfPreviousPallet, 0 FinalCodeOfPreviousPallet, Nomenclature, Party, Quantity PlanValue, Cell StartCell, 0 FinalCell
 	from dbo.GetStockBalance('0001-01-01', 0, 0, 2, 0, @palet) balance
 	where Cell <> @cell
 
@@ -493,7 +493,7 @@ union all
 
 select rel.Pallet PalletCode, case when rel.Quantity > 0 then rel.PreviousPallet else 0 end StartCodeOfPreviousPallet,
 case when rel.Quantity > 0 then 0 else rel.PreviousPallet end FinalCodeOfPreviousPallet, 0 Nomenclature, 0 Party, 
-0 PlanValue, 0 StartCell
+0 PlanValue, @emptyCell StartCell, @emptyCell FinalCell
 	from dbo.GetPalletsRelations('0001-01-01', @palet, 0) rel	
 	where rel.PreviousPallet <> @startPrevPalet and @palet > 0
 	
@@ -501,16 +501,18 @@ union all
 
 select rel.Pallet PalletCode, case when rel.Quantity > 0 then @finishPrevPalet else 0 end StartCodeOfPreviousPallet,
 case when rel.Quantity > 0 then 0 else @finishPrevPalet end FinalCodeOfPreviousPallet, 0 Nomenclature, 0 Party, 
-0 PlanValue, 0 StartCell
+0 PlanValue, @emptyCell StartCell, @emptyCell FinalCell
 	from dbo.GetPalletsRelations('0001-01-01', 0, @finishPrevPalet) rel	
 	where rel.Pallet <> @palet and @finishPrevPalet > 0
 ");
                 q.AddInputParameter("palet", palletCode);
+                q.AddInputParameter("emptyCell", Consts.EmptyCell.Id);
                 q.AddInputParameter("cell", firstDataRow[inventory.StartCell.ColumnName]);
                 q.AddInputParameter("startPrevPalet", startCodeOfPreviousPallet);
                 q.AddInputParameter("finishPrevPalet", finalCodeOfPreviousPallet);
                 var addTable = q.SelectToTable();
 
+                var emptyCell = Consts.EmptyCell.Id;
                 lastLineNumber = Convert.ToInt64(docTable.Rows[docTable.Rows.Count - 1][Subtable.LINE_NUMBER_COLUMN_NAME]);
                 for (int rowIndex = 0; rowIndex < addTable.Rows.Count; rowIndex++)
                     {
@@ -531,8 +533,8 @@ case when rel.Quantity > 0 then 0 else @finishPrevPalet end FinalCodeOfPreviousP
                     newRow[inventory.FinalCodeOfPreviousPallet] = Convert.ToInt64(sourceRow[inventory.FinalCodeOfPreviousPallet.ColumnName]);
 
                     newRow[inventory.StartCell] = Convert.ToInt64(sourceRow[inventory.StartCell.ColumnName]);
-                    newRow[inventory.FinalCell] = 0L;
-
+                    newRow[inventory.FinalCell] = Convert.ToInt64(sourceRow[inventory.FinalCell.ColumnName]);
+                    
                     newRow[Subtable.LINE_NUMBER_COLUMN_NAME] = lastLineNumber + rowIndex + 1;
                     newRow.AddRowToTable(inventory);
                     }

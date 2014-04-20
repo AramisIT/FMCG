@@ -39,6 +39,10 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.labelControl33 = new DevExpress.XtraEditors.LabelControl();
             this.labelControl32 = new DevExpress.XtraEditors.LabelControl();
             this.processPage = new DevExpress.XtraTab.XtraTabPage();
+            this.labelControl7 = new DevExpress.XtraEditors.LabelControl();
+            this.EmptyCell = new Aramis.AramisSearchLookUpEdit();
+            this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
+            this.RedemptionCell = new Aramis.AramisSearchLookUpEdit();
             this.PermitInstallPalletManually = new DevExpress.XtraEditors.CheckEdit();
             this.pdtSettings = new DevExpress.XtraTab.XtraTabPage();
             this.label2 = new System.Windows.Forms.Label();
@@ -56,8 +60,6 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.NonStandartTray = new Aramis.AramisSearchLookUpEdit();
             this.labelControl13 = new DevExpress.XtraEditors.LabelControl();
             this.StandartTray = new Aramis.AramisSearchLookUpEdit();
-            this.labelControl6 = new DevExpress.XtraEditors.LabelControl();
-            this.RedemptionCell = new Aramis.AramisSearchLookUpEdit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl)).BeginInit();
             this.xtraTabControl.SuspendLayout();
@@ -65,6 +67,8 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             ((System.ComponentModel.ISupportInitialize)(this.PreviewDatabaseName.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OriginalDatabaseName.Properties)).BeginInit();
             this.processPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.EmptyCell.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RedemptionCell.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PermitInstallPalletManually.Properties)).BeginInit();
             this.pdtSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.UpdateFolderName.Properties)).BeginInit();
@@ -74,7 +78,6 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             ((System.ComponentModel.ISupportInitialize)(this.StandartLiner.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NonStandartTray.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StandartTray.Properties)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RedemptionCell.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -188,12 +191,58 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             // 
             // processPage
             // 
+            this.processPage.Controls.Add(this.labelControl7);
+            this.processPage.Controls.Add(this.EmptyCell);
             this.processPage.Controls.Add(this.labelControl6);
             this.processPage.Controls.Add(this.RedemptionCell);
             this.processPage.Controls.Add(this.PermitInstallPalletManually);
             this.processPage.Name = "processPage";
             this.processPage.Size = new System.Drawing.Size(480, 325);
             this.processPage.Text = "Процеси";
+            // 
+            // labelControl7
+            // 
+            this.labelControl7.Location = new System.Drawing.Point(9, 87);
+            this.labelControl7.Name = "labelControl7";
+            this.labelControl7.Size = new System.Drawing.Size(74, 13);
+            this.labelControl7.TabIndex = 20;
+            this.labelControl7.Text = "Пустая ячейка";
+            // 
+            // EmptyCell
+            // 
+            this.EmptyCell.BaseFilter = null;
+            this.EmptyCell.Location = new System.Drawing.Point(93, 84);
+            this.EmptyCell.MenuManager = this.ribbon;
+            this.EmptyCell.Name = "EmptyCell";
+            this.EmptyCell.Properties.BaseFilter = null;
+            this.EmptyCell.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.EmptyCell.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
+            this.EmptyCell.Properties.NullText = "";
+            this.EmptyCell.Size = new System.Drawing.Size(350, 20);
+            this.EmptyCell.TabIndex = 19;
+            // 
+            // labelControl6
+            // 
+            this.labelControl6.Location = new System.Drawing.Point(9, 52);
+            this.labelControl6.Name = "labelControl6";
+            this.labelControl6.Size = new System.Drawing.Size(65, 13);
+            this.labelControl6.TabIndex = 18;
+            this.labelControl6.Text = "Выкуп буфер";
+            // 
+            // RedemptionCell
+            // 
+            this.RedemptionCell.BaseFilter = null;
+            this.RedemptionCell.Location = new System.Drawing.Point(93, 49);
+            this.RedemptionCell.MenuManager = this.ribbon;
+            this.RedemptionCell.Name = "RedemptionCell";
+            this.RedemptionCell.Properties.BaseFilter = null;
+            this.RedemptionCell.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton()});
+            this.RedemptionCell.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
+            this.RedemptionCell.Properties.NullText = "";
+            this.RedemptionCell.Size = new System.Drawing.Size(350, 20);
+            this.RedemptionCell.TabIndex = 17;
             // 
             // PermitInstallPalletManually
             // 
@@ -381,28 +430,6 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.StandartTray.Size = new System.Drawing.Size(293, 20);
             this.StandartTray.TabIndex = 13;
             // 
-            // labelControl6
-            // 
-            this.labelControl6.Location = new System.Drawing.Point(9, 52);
-            this.labelControl6.Name = "labelControl6";
-            this.labelControl6.Size = new System.Drawing.Size(65, 13);
-            this.labelControl6.TabIndex = 18;
-            this.labelControl6.Text = "Выкуп буфер";
-            // 
-            // RedemptionCell
-            // 
-            this.RedemptionCell.BaseFilter = null;
-            this.RedemptionCell.Location = new System.Drawing.Point(93, 49);
-            this.RedemptionCell.MenuManager = this.ribbon;
-            this.RedemptionCell.Name = "RedemptionCell";
-            this.RedemptionCell.Properties.BaseFilter = null;
-            this.RedemptionCell.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
-            new DevExpress.XtraEditors.Controls.EditorButton()});
-            this.RedemptionCell.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
-            this.RedemptionCell.Properties.NullText = "";
-            this.RedemptionCell.Size = new System.Drawing.Size(350, 20);
-            this.RedemptionCell.TabIndex = 17;
-            // 
             // ConstsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -432,6 +459,8 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             ((System.ComponentModel.ISupportInitialize)(this.OriginalDatabaseName.Properties)).EndInit();
             this.processPage.ResumeLayout(false);
             this.processPage.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.EmptyCell.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RedemptionCell.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PermitInstallPalletManually.Properties)).EndInit();
             this.pdtSettings.ResumeLayout(false);
             this.pdtSettings.PerformLayout();
@@ -443,7 +472,6 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             ((System.ComponentModel.ISupportInitialize)(this.StandartLiner.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NonStandartTray.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StandartTray.Properties)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.RedemptionCell.Properties)).EndInit();
             this.ResumeLayout(false);
 
             }
@@ -480,5 +508,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
         private AramisSearchLookUpEdit StandartTray;
         private DevExpress.XtraEditors.LabelControl labelControl6;
         private AramisSearchLookUpEdit RedemptionCell;
+        private DevExpress.XtraEditors.LabelControl labelControl7;
+        private AramisSearchLookUpEdit EmptyCell;
         }
     }

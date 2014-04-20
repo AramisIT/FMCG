@@ -85,6 +85,12 @@ namespace WMS_client.Processes
             {
             barcode = barcode.Replace("\r\r", "$$");
 
+            if (barcode.Contains("*"))
+                {
+                writeInventoryResult(barcode.Split(new char[] { '*' }));
+                return;
+                }
+
             if (scanNextPalletControls.Visible)
                 {
                 scanNextPalletOnBarcode(barcode);
@@ -93,6 +99,40 @@ namespace WMS_client.Processes
                 {
                 editPalletOnBarcode(barcode);
                 }
+            }
+
+        private void writeInventoryResult(string[] parameters)
+            {
+            if (documentId == 0 && !initDocument())
+                {
+                return;
+                }
+
+            if (parameters.Length == 2)
+                {
+                var succ = new ServerInteraction().FinishCellInventory(documentId, currentCell.Id, currentCellPallets);
+                currentCellPallets.Rows.Clear();
+                return;
+                }
+
+            var startData = new BarcodeData() { StickerId = Convert.ToInt64(parameters[1]) };
+            startData.ReadStickerInfo();
+
+            var resultData = new BarcodeData() { StickerId = startData.StickerId, PreviousStickerCode = Convert.ToInt64(parameters[2]) };
+            resultData.Cell.Id = Convert.ToInt64(parameters[0]);
+
+            resultData.Nomenclature.Id = Convert.ToInt32(parameters[7]);
+            resultData.Tray.Id = Convert.ToInt64(parameters[4]);
+            resultData.Liner.Id = Convert.ToInt64(parameters[5]);
+            resultData.LinersAmount = Convert.ToInt32(parameters[6]);
+
+            resultData.TotalUnitsQuantity = Convert.ToInt32(parameters[3]);
+
+            currentCell.Id = resultData.Cell.Id;
+            currentCellPallets.Rows.Add(startData.StickerId);
+
+            var movementWriter = new TableMovementWriter(startData, resultData);
+            bool result = new ServerInteraction().WriteInventoryResult(documentId, movementWriter.Table);
             }
 
         protected override void OnHotKey(KeyAction TypeOfAction)
@@ -206,17 +246,25 @@ namespace WMS_client.Processes
 
         private void onAnotherStickerScan(BarcodeData barcodeData)
             {
-            if (barcodeData.StickerId == currentBarcodeData.PreviousStickerCode
-                && !currentBarcodeData.Cell.Empty)
+            //if (barcodeData.StickerId == currentBarcodeData.PreviousStickerCode
+            //     && !currentBarcodeData.Cell.Empty)
+            //    {
+            //    notifyCellUpdated();
+            //    return;
+            //    }
+
+            barcodeData.ReadStickerInfo();
+            if (!barcodeData.LocatedInCell)
                 {
-                notifyCellUpdated();
+                showPalletCellNotFountMessage();
                 return;
                 }
 
-            barcodeData.ReadStickerInfo();
-            if (!barcodeData.LocatedIdCell)
+            if (barcodeData.StickerId == currentBarcodeData.PreviousStickerCode
+                 && !currentBarcodeData.Cell.Empty
+                 && barcodeData.Cell.Id == currentBarcodeData.Cell.Id)
                 {
-                showPalletCellNotFountMessage();
+                notifyCellUpdated();
                 return;
                 }
 

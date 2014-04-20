@@ -310,7 +310,7 @@ namespace WMS_client.Processes
                 var barcodeData = barcode.ToBarcodeData();
                 if (!barcodeData.ReadStickerInfo()) return false;
 
-                if (!barcodeData.LocatedIdCell)
+                if (!barcodeData.LocatedInCell)
                     {
                     showPalletCellNotFountMessage();
                     return false;
@@ -360,7 +360,7 @@ namespace WMS_client.Processes
                     return;
                     }
 
-                if (!barcodeData.LocatedIdCell)
+                if (!barcodeData.LocatedInCell)
                     {
                     "Паллеты нет на остатках".ShowMessage();
                     return;

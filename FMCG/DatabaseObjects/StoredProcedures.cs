@@ -46,17 +46,17 @@ select n.Cell, r.Pallet, n.OrdinalNumber+1 from PalletsRelations r
 join PalletsNumbers n on n.Pallet= r.PreviousPallet
 )
 
-select p.*, rtrim(Cells.Description) CellName, 
+select p.*, rtrim(Cells.Description) CellName, par.DateOfManufacture ProductionDate,
 	isnull(rtrim(n.Description), 'не найден товар') Nomenclature 
 	from PalletsNumbers p
 	join Cells on Cells.Id = p.Cell
 	join Stickers s on s.Id = p.pallet
+	join Parties par on par.Id = s.Party
 	left join Nomenclature n on n.Id = s.Nomenclature
+	join Remains on Remains.pallet = p.pallet and Remains.Cell = p.Cell
 
 order by p.Cell, CellName 
 END
-
-
 
 
 

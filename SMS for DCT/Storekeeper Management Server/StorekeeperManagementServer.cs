@@ -13,7 +13,7 @@ namespace StorekeeperManagementServer
 
     public delegate void UpdateCompleteDelegate(string IpAddress);
 
-    public class StorekeeperManagementServer : IDisposable
+    public class AramisTCPServer : IDisposable
         {
         #region Fields
         private const int SERVER_PORT = 8609;
@@ -25,11 +25,11 @@ namespace StorekeeperManagementServer
         private readonly Thread CatchingConnectionThread;
         private readonly CatchingConnections ClientConnector;
         private readonly TcpListener TCPServer;
-        private string UpdateFolderName;
+
         private ArrayList AllowIpList;
         private ArrayList NeedToUpdateIpList;
         private string FullUpdatePath;
-        private readonly Label InfoLabel;
+        private volatile bool serverActive;
         #endregion
 
         public CatchingConnections CatchingConnection
@@ -37,40 +37,20 @@ namespace StorekeeperManagementServer
             get { return ClientConnector; }
             }
 
-        public StorekeeperManagementServer(PrintingConnectionsInfoDelegate PrintingDelegate, Label InfoLabel,
-                                           ReceiveMessage receiveMessage, ArrayList allowedIP, string serverIP,
-                                           string updFolder, out bool success)
+        public bool ServerActive
             {
-            success = false;
-            NeedToUpdateIpList = new ArrayList();
-            this.InfoLabel = InfoLabel;
+            get { return serverActive; }
+            }
 
-            if (!SetConfiguration(allowedIP, serverIP, updFolder))
+        public AramisTCPServer(ReceiveMessage receiveMessage, ArrayList allowedIP, string serverIP)
+            {
+            serverActive = false;
+            NeedToUpdateIpList = new ArrayList();
+
+            if (!SetConfiguration(allowedIP, serverIP))
                 {
                 return;
                 }
-
-            #region Creating watcher for update folder
-
-            //FileSystemWatcher updateFolderWatcher = new FileSystemWatcher();
-            //try
-            //    {
-            //    updateFolderWatcher.Path = UpdateFolderName;
-            //    }
-            //catch (Exception ex)
-            //    {
-            //    MessageBox.Show("Ошибка при создании \"file watcher\":" + ex.Message, "Error during starting SM server",
-            //                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            //    return;
-            //    }
-            //updateFolderWatcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
-            //updateFolderWatcher.Filter = "W*";
-            //updateFolderWatcher.Created += NewUpdateDetected;
-            //updateFolderWatcher.EnableRaisingEvents = true;
-
-            #endregion
-
-            #region Creating TCP listener
 
             try
                 {
@@ -86,27 +66,21 @@ namespace StorekeeperManagementServer
                 return;
                 }
 
-            #endregion
-
             #region Creating CatchingConnection, Starting server
 
             try
                 {
-                ClientConnector = new CatchingConnections(TCPServer, PrintingDelegate, AllowIpList, NeedToUpdateIpList,
+                ClientConnector = new CatchingConnections(TCPServer, AllowIpList, NeedToUpdateIpList,
                                                           WriteToFileAboutUpdate, FullUpdatePath, StringConnection,
                                                           receiveMessage);
 
-                //UIConsts.TryEx
                 }
             catch (Exception e)
                 {
                 Console.WriteLine("Error CatchingConnections:" + e.Message);
-                Console.ReadLine();
-                Application.Exit();
                 return;
                 }
 
-            // Creating the new background thread for CatchingConnections
             CatchingConnectionThread = new Thread(ClientConnector.Start);
             CatchingConnectionThread.Name = "CatchingConnectionsThread";
             CatchingConnectionThread.IsBackground = true;
@@ -118,27 +92,25 @@ namespace StorekeeperManagementServer
             catch (Exception exp)
                 {
                 Console.WriteLine("Error during server starting: {0}.", exp.Message);
-                Console.WriteLine("Check accessibility of IP address.");
-                Console.ReadLine();
-                throw new Exception(string.Format("Error during server starting: {0}.", exp.Message));
+                return;
                 }
 
             CatchingConnectionThread.Start();
 
             #endregion
 
-            success = true;
+            serverActive = true;
             }
 
-        private bool SetConfiguration(ArrayList allowedIP, string serverIP, string updFolder)
+        private bool SetConfiguration(ArrayList allowedIP, string serverIP)
             {
             StringConnection = @"C:\Documents and Settings\D\My Documents\InfoBase3";
-            UpdateFolderName = updFolder;
+
             IpAddress = serverIP;
             AllowIpList = new ArrayList();
             AllowIpList = allowedIP;
 
-            if (UpdateFolderName == null || AllowIpList.Count == 0 || IpAddress == null || StringConnection == null)
+            if (AllowIpList.Count == 0 || IpAddress == null || StringConnection == null)
                 {
                 MessageBox.Show(
                     "Не определены обязательные поля (UpdateFolderName, AllowIpList, IpAddress, StringConnection).\r\nСервер не может быть запущен!",
@@ -146,8 +118,7 @@ namespace StorekeeperManagementServer
                 return false;
                 }
 
-            InfoLabel.Text = String.Format("Start time: {0}     1C Server's parameters: {1}", DateTime.Now.ToString(),
-                                           StringConnection);
+
             string UpdateFileName = SETTINGS_FILE_PATH + @"\update_info.txt";
             if (File.Exists(UpdateFileName))
                 {
@@ -174,34 +145,7 @@ namespace StorekeeperManagementServer
             return true;
             }
 
-        private void NewUpdateDetected(object source, FileSystemEventArgs e)
-            {
 
-            #region Checking of possibility to change file
-            bool fileNotAccessible = true;
-            while (fileNotAccessible)
-                {
-                try
-                    {
-                    FileStream FileForTransmit = File.Open(e.FullPath, FileMode.Open, FileAccess.Read);
-                    FileForTransmit.Close();
-                    fileNotAccessible = false;
-                    }
-                catch
-                    {
-                    Thread.Sleep(1000);
-                    }
-                }
-
-            #endregion
-
-            Console.WriteLine("NewUpdateDetected(). Thread #{0}", Thread.CurrentThread.GetHashCode());
-            Console.WriteLine("File {0} {1}!", e.FullPath, e.ChangeType);
-            NeedToUpdateIpList = (ArrayList)AllowIpList.Clone();
-            FullUpdatePath = e.FullPath;
-            WriteToFileAboutUpdate(null);
-            ClientConnector.RefreshUpdateStatusClients(NeedToUpdateIpList, FullUpdatePath);
-            }
 
         public void PressKeyOnTDC(int key)
             {
@@ -287,7 +231,7 @@ namespace StorekeeperManagementServer
             disposed = true;
             }
 
-        ~StorekeeperManagementServer()
+        ~AramisTCPServer()
             {
             terminateThis(false);
             }

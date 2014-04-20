@@ -188,7 +188,7 @@ namespace WMS_client.HelperClasses
             return true;
             }
 
-        public bool LocatedIdCell
+        public bool LocatedInCell
             {
             get { return Cell != null && !Cell.Empty; }
             }

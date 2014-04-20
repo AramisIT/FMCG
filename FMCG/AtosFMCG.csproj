@@ -269,30 +269,6 @@
     <Compile Include="HelperClasses\Deleted\DeleteObjectInfo.cs" />
     <Compile Include="HelperClasses\Deleted\InformationName.cs" />
     <Compile Include="HelperClasses\PalletMover.cs" />
-    <Compile Include="HelperClasses\ViewOfServiceTables\ViewBaseForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HelperClasses\ViewOfServiceTables\ViewBaseForm.Designer.cs">
-      <DependentUpon>ViewBaseForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfFilledCell.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfFilledCell.Designer.cs">
-      <DependentUpon>ViewOfFilledCell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfStockBalance.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfStockBalance.Designer.cs">
-      <DependentUpon>ViewOfStockBalance.cs</DependentUpon>
-    </Compile>
-    <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfGoodsMoving.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="HelperClasses\ViewOfServiceTables\ViewOfGoodsMoving.Designer.cs">
-      <DependentUpon>ViewOfGoodsMoving.cs</DependentUpon>
-    </Compile>
     <Compile Include="PrintForms\PalletPrintForm.xaml.cs">
       <DependentUpon>PalletPrintForm.xaml</DependentUpon>
     </Compile>
@@ -481,18 +457,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HelperClasses\PDT\SendToTCD.resx">
       <DependentUpon>SendToTCD.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HelperClasses\ViewOfServiceTables\ViewBaseForm.resx">
-      <DependentUpon>ViewBaseForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HelperClasses\ViewOfServiceTables\ViewOfFilledCell.resx">
-      <DependentUpon>ViewOfFilledCell.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HelperClasses\ViewOfServiceTables\ViewOfStockBalance.resx">
-      <DependentUpon>ViewOfStockBalance.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="HelperClasses\ViewOfServiceTables\ViewOfGoodsMoving.resx">
-      <DependentUpon>ViewOfGoodsMoving.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

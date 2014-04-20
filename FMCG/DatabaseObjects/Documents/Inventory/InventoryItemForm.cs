@@ -1,4 +1,5 @@
 using System.Windows.Forms;
+using Aramis.DatabaseConnector;
 using Aramis.UI.WinFormsDevXpress;
 using Aramis.Core;
 using Aramis.Enums;
@@ -107,6 +108,11 @@ namespace AtosFMCG.DatabaseObjects.Documents
         private void gridView1_RowStyle(object sender, DevExpress.XtraGrid.Views.Grid.RowStyleEventArgs e)
             {
             e.Appearance.BackColor = nomenclatureView.GetDataRow(e.RowHandle).GetRowColor();
+            }
+
+        private void barButtonItem5_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            Document.FixWrongRelations();
             }
 
         }

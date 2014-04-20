@@ -100,6 +100,23 @@
                 }
             }
 
+        public static Cells EmptyCell
+            {
+            get
+                {
+                lock (locker)
+                    {
+                    return (Cells)GetValueForObjectProperty("EmptyCell");
+                    }
+                }
+            set
+                {
+                lock (locker)
+                    {
+                    SetValueForObjectProperty("EmptyCell", value);
+                    }
+                }
+            }
 
         #region Tare
         
