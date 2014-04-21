@@ -45,6 +45,10 @@
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EmitCF_3_5, Version=1.0.5223.40264, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\EmitCF_3_5.dll</HintPath>
+    </Reference>
     <Reference Include="Intermec.DataCollection.CF2, Version=3.2.0.1323, Culture=neutral, PublicKeyToken=acd169b56b6148ba, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\Intermec.DataCollection.CF2.dll</HintPath>
@@ -52,6 +56,10 @@
     <Reference Include="Microsoft.Windowsce.Forms" />
     <Reference Include="Microsoft.WindowsMobile, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
     <Reference Include="Microsoft.WindowsMobile.Status, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="Mono.CecilCF, Version=0.6.8.8607, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>packages\Mono.CecilCF.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="PackageViaWireless, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -69,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\PackageConvertation.cs" />
+    <Compile Include="Base\RemoteInteractionProviderCreator.cs" />
     <Compile Include="StandartProcesses\SoftUpdater.cs" />
     <Compile Include="Utils\Extentions\DataTableEx.cs" />
     <Compile Include="Utils\Extentions\Extentions.cs" />
