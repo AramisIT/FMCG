@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Reflection;
-
-namespace WMS_client
+﻿namespace WMS_client
     {
     using SystemCF;
     using SystemCF.Reflection;
@@ -18,6 +13,8 @@ namespace WMS_client
             interfaceType = typeof(T);
             }
 
+        const string CLASS_NAME = "AramisInteractionProvider";
+
         public T CreateProvider()
             {
             var typeBuilder = createTypeBuilder();
@@ -29,6 +26,7 @@ namespace WMS_client
                 }
 
             createDefaultConstructor(typeBuilder);
+            
             var providerInstance = SystemCF.Activator.CreateInstance(typeBuilder);
 
             T result = (T)providerInstance;
@@ -49,14 +47,14 @@ namespace WMS_client
             {
             var requaredParameters = methodInfo.GetParameters();
             var methodParameters = new SystemCF.Type[requaredParameters.Length];
-            var inputParameters = new List<Type>();
-            var outputParameters = new List<Type>();
+            var inputParameters = new System.Collections.Generic.List<Type>();
+            var outputParameters = new System.Collections.Generic.List<Type>();
 
             for (int parameterIndex = 0; parameterIndex < requaredParameters.Length; parameterIndex++)
                 {
                 var requaredParameterInfo = requaredParameters[parameterIndex];
 
-                if ((requaredParameterInfo.Attributes & ParameterAttributes.Out) > 0)
+                if ((requaredParameterInfo.Attributes & System.Reflection.ParameterAttributes.Out) > 0)
                     {
                     var type = requaredParameterInfo.ParameterType.GetElementType();
                     outputParameters.Add(type);
@@ -77,18 +75,20 @@ namespace WMS_client
             typeBuilder.DefineMethodOverride(methodBuilder, methodInfo);
             }
 
-        private static readonly MethodInfo WMSClient_Current_MethodInfo = typeof(WMSClient).GetMethod("get_Current", BindingFlags.Public | BindingFlags.Static);
+        private static readonly MethodInfo WMSClient_Current_MethodInfo = typeof(WMSClient).GetMethod("get_Current", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
         private static readonly MethodInfo WMSClient_PerformQuery_MethodInfo = typeof(WMSClient).GetMethod("_PerformQueryForInteractionProvider");
-        private static readonly MethodInfo ConvertToBoolMethodInfo = typeof(Convert).GetMethod("ToBoolean", new System.Type[] { typeof(object) });
-        private static readonly MethodInfo ConvertToByteMethodInfo = typeof(Convert).GetMethod("ToByte", new System.Type[] { typeof(object) });
-        private static readonly MethodInfo ConvertToInt32MethodInfo = typeof(Convert).GetMethod("ToInt32", new System.Type[] { typeof(object) });
-        private static readonly MethodInfo ConvertToInt64MethodInfo = typeof(Convert).GetMethod("ToInt64", new System.Type[] { typeof(object) });
-        private static readonly MethodInfo ConvertToDoubleMethodInfo = typeof(Convert).GetMethod("ToDouble", new System.Type[] { typeof(object) });
-        private static readonly MethodInfo ConvertToDecimalMethodInfo = typeof(Convert).GetMethod("ToDecimal", new System.Type[] { typeof(object) });
-        private static readonly MethodInfo ConvertToStringMethodInfo = typeof(Convert).GetMethod("ToString", new System.Type[] { typeof(object) });
-        private static readonly MethodInfo ConvertToDateTimeMethodInfo = typeof(Convert).GetMethod("ToDateTime", new System.Type[] { typeof(object) });
+        private static readonly MethodInfo ConvertToBoolMethodInfo = typeof(System.Convert).GetMethod("ToBoolean", new System.Type[] { typeof(object) });
+        private static readonly MethodInfo ConvertToByteMethodInfo = typeof(System.Convert).GetMethod("ToByte", new System.Type[] { typeof(object) });
+        private static readonly MethodInfo ConvertToInt32MethodInfo = typeof(System.Convert).GetMethod("ToInt32", new System.Type[] { typeof(object) });
+        private static readonly MethodInfo ConvertToInt64MethodInfo = typeof(System.Convert).GetMethod("ToInt64", new System.Type[] { typeof(object) });
+        private static readonly MethodInfo ConvertToDoubleMethodInfo = typeof(System.Convert).GetMethod("ToDouble", new System.Type[] { typeof(object) });
+        private static readonly MethodInfo ConvertToDecimalMethodInfo = typeof(System.Convert).GetMethod("ToDecimal", new System.Type[] { typeof(object) });
+        private static readonly MethodInfo ConvertToStringMethodInfo = typeof(System.Convert).GetMethod("ToString", new System.Type[] { typeof(object) });
+        private static readonly MethodInfo ConvertToDateTimeMethodInfo = typeof(System.Convert).GetMethod("ToDateTime", new System.Type[] { typeof(object) });
 
-        private void appendMethodBody(MethodBuilder methodBuilder, List<Type> inputParameters, List<Type> outputParameters)
+        private void appendMethodBody(MethodBuilder methodBuilder, 
+            System.Collections.Generic.List<Type> inputParameters,
+            System.Collections.Generic.List<Type> outputParameters)
             {
             var generator = methodBuilder.GetILGenerator();
             generator.Emit(OpCodes.Ldc_I4, inputParameters.Count);
@@ -122,15 +122,15 @@ namespace WMS_client
 
             var notSuccessLabel = generator.DefineLabel();
             generator.Emit(OpCodes.Ldloc, success);
-            generator.Emit(OpCodes.Brfalse_S, notSuccessLabel);
+            generator.Emit(OpCodes.Brfalse, notSuccessLabel);
 
             for (int parameterIndex = 0; parameterIndex < outputParameters.Count; parameterIndex++)
                 {
                 var parameterType = outputParameters[parameterIndex];
                 const int specialValuesCount = 2; // first - is success; second - method result
-                generator.Emit(OpCodes.Ldarg, inputParameters.Count + 1 + parameterIndex);
+                generator.Emit(OpCodes.Ldarg, (short)(inputParameters.Count + 1 + parameterIndex));
                 generator.Emit(OpCodes.Ldloc, resultValues);
-                generator.Emit(OpCodes.Ldc_I4_S, specialValuesCount + parameterIndex);
+                generator.Emit(OpCodes.Ldc_I4, specialValuesCount + parameterIndex);
                 generator.Emit(OpCodes.Ldelem_Ref);
 
                 if (parameterType == typeof(string))
@@ -138,10 +138,10 @@ namespace WMS_client
                     generator.Emit(OpCodes.Call, ConvertToStringMethodInfo);
                     generator.Emit(OpCodes.Stind_Ref);
                     }
-                else if (parameterType == typeof(DateTime))
+                else if (parameterType == typeof(System.DateTime))
                     {
                     generator.Emit(OpCodes.Call, ConvertToDateTimeMethodInfo);
-                    generator.Emit(OpCodes.Stobj, typeof(DateTime));
+                    generator.Emit(OpCodes.Stobj, typeof(System.DateTime));
                     }
                 else if (parameterType == typeof(bool))
                     {
@@ -173,9 +173,9 @@ namespace WMS_client
                     generator.Emit(OpCodes.Call, ConvertToDecimalMethodInfo);
                     generator.Emit(OpCodes.Stobj, typeof(decimal));
                     }
-                else if (parameterType == typeof(DataTable))
+                else if (parameterType == typeof(System.Data.DataTable))
                     {
-                    generator.Emit(OpCodes.Isinst, typeof(DataTable));
+                    generator.Emit(OpCodes.Isinst, typeof(System.Data.DataTable));
                     generator.Emit(OpCodes.Stind_Ref);
                     }
                 }
@@ -196,10 +196,10 @@ namespace WMS_client
                     generator.Emit(OpCodes.Ldstr, string.Empty);
                     generator.Emit(OpCodes.Stind_Ref);
                     }
-                else if (parameterType == typeof(DateTime))
+                else if (parameterType == typeof(System.DateTime))
                     {
                     generator.Emit(OpCodes.Ldsfld, MinDateTimeValueFieldInfo);
-                    generator.Emit(OpCodes.Stobj, typeof(DateTime));
+                    generator.Emit(OpCodes.Stobj, typeof(System.DateTime));
                     }
                 else if (parameterType == typeof(bool) || parameterType == typeof(byte))
                     {
@@ -228,7 +228,7 @@ namespace WMS_client
                     generator.Emit(OpCodes.Newobj, decimalConstructorMethodInfo);
                     generator.Emit(OpCodes.Stobj, typeof(decimal));
                     }
-                else if (parameterType == typeof(DataTable))
+                else if (parameterType == typeof(System.Data.DataTable))
                     {
                     generator.Emit(OpCodes.Ldnull);
                     generator.Emit(OpCodes.Stind_Ref);
@@ -239,16 +239,16 @@ namespace WMS_client
             generator.Emit(OpCodes.Ret);
             }
 
-        private System.Reflection.FieldInfo MinDateTimeValueFieldInfo = typeof(DateTime).GetField("MinValue");
+        private System.Reflection.FieldInfo MinDateTimeValueFieldInfo = typeof(System.DateTime).GetField("MinValue");
         private System.Reflection.ConstructorInfo decimalConstructorMethodInfo = typeof(decimal).GetConstructor(new System.Type[] { typeof(int) });
+        private AssemblyBuilder assemBuilder;
 
         private TypeBuilder createTypeBuilder()
             {
-            const string CLASS_NAME = "AramisInteractionProvider";
             var appDomain = SystemCF.AppDomain.CurrentDomain;
             var aname = new System.Reflection.AssemblyName() { Name = CLASS_NAME };
 
-            var assemBuilder = appDomain.DefineDynamicAssembly(aname, AssemblyBuilderAccess.Run);
+            assemBuilder = appDomain.DefineDynamicAssembly(aname, AssemblyBuilderAccess.Run);
             ModuleBuilder modBuilder = assemBuilder.DefineDynamicModule(CLASS_NAME + "Module", CLASS_NAME + ".dll");
 
             var typeBuilder = modBuilder.DefineType(CLASS_NAME, System.Reflection.TypeAttributes.Public, null, new SystemCF.Type[] { typeof(T) });
