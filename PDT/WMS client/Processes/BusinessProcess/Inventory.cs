@@ -110,7 +110,7 @@ namespace WMS_client.Processes
 
             if (parameters.Length == 2)
                 {
-                var succ = new ServerInteraction().FinishCellInventory(documentId, currentCell.Id, currentCellPallets);
+                var succ = Program.AramisSystem.FinishCellInventory(documentId, currentCell.Id, currentCellPallets);
                 currentCellPallets.Rows.Clear();
                 return;
                 }
@@ -132,7 +132,7 @@ namespace WMS_client.Processes
             currentCellPallets.Rows.Add(startData.StickerId);
 
             var movementWriter = new TableMovementWriter(startData, resultData);
-            bool result = new ServerInteraction().WriteInventoryResult(documentId, movementWriter.Table);
+            bool result = Program.AramisSystem.WriteInventoryResult(documentId, movementWriter.Table);
             }
 
         protected override void OnHotKey(KeyAction TypeOfAction)
@@ -391,7 +391,7 @@ namespace WMS_client.Processes
             //if (!finishCell()) return;
 
             string errorDescription;
-            if (!new ServerInteraction().ComplateInventory(documentId, false, out errorDescription))
+            if (!Program.AramisSystem.ComplateInventory(documentId, false, out errorDescription))
                 {
                 Warning_CantComplateOperation();
                 return;
@@ -402,7 +402,7 @@ namespace WMS_client.Processes
 
         private bool finishCell()
             {
-            var result = new ServerInteraction().FinishCellInventory(documentId, currentCell.Id, currentCellPallets);
+            var result = Program.AramisSystem.FinishCellInventory(documentId, currentCell.Id, currentCellPallets);
             if (result)
                 {
                 currentCell.Clear();
@@ -455,7 +455,7 @@ namespace WMS_client.Processes
             currentBarcodeData.TotalUnitsQuantity = unitsCount + packsCount * currentBarcodeData.UnitsPerBox;
 
             var movementWriter = new TableMovementWriter(startBarcodeData, currentBarcodeData);
-            bool result = new ServerInteraction().WriteInventoryResult(documentId, movementWriter.Table);
+            bool result = Program.AramisSystem.WriteInventoryResult(documentId, movementWriter.Table);
 
             if (result)
                 {
@@ -477,7 +477,7 @@ namespace WMS_client.Processes
 
         private bool initDocument()
             {
-            return new ServerInteraction().GetNewInventoryId(out documentId);
+            return Program.AramisSystem.GetNewInventoryId(out documentId);
             }
 
         public int packsCount

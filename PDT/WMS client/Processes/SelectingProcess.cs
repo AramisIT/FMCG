@@ -132,9 +132,11 @@ namespace WMS_client.Processes
 
         private Picking tryStartPicking()
             {
-            var docs = new ServerInteraction().GetPickingDocuments();
-
-            if (docs.Rows.Count == 0) return null;
+            DataTable docs;
+            if (!Program.AramisSystem.GetPickingDocuments(out docs) || docs.Rows.Count == 0)
+                {
+                return null;
+                }
 
             CatalogItem item;
             if (!SelectFromList(docs.ToItemsList(), out item)) return null;
@@ -149,7 +151,7 @@ namespace WMS_client.Processes
             string inventoryDocCount;
             string selectionDocCount;
             string movementDocCount;
-            if (new ServerInteraction().GetCountOfDocuments(
+            if (Program.AramisSystem.GetCountOfDocuments(
                out acceptanceDocCount, out inventoryDocCount, out selectionDocCount, out movementDocCount))
                 {
                 listOfElements =
@@ -211,8 +213,11 @@ namespace WMS_client.Processes
             var userCode = barcode.ToEmployeeCode();
             if (userCode == 0) return;
 
+            string userName;
+            if (!Program.AramisSystem.GetUserName(userCode, out userName)) return;
+
             MainProcess.User = userCode;
-            MainProcess.UserName = new ServerInteraction().GetUserName(MainProcess.User);
+            MainProcess.UserName = userName;
             ToDoCommand = MainProcess.UserName;
             }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Diagnostics;
 using WMS_client.HelperClasses;
 
 namespace WMS_client.Processes
@@ -8,6 +9,7 @@ namespace WMS_client.Processes
     public class RegistrationProcess : BusinessProcess
         {
         #region Public methods
+
         /// <summary>Регистрация при входе</summary>
         public RegistrationProcess()
             : base(1)
@@ -28,7 +30,7 @@ namespace WMS_client.Processes
 
         public void createShipment()
             {
-            if (new ServerInteraction().CreatePickingDocuments())
+            if (Program.AramisSystem.CreatePickingDocuments())
                 {
                 "Всі існуючі документи заплановані!".Warning();
                 }
@@ -44,8 +46,11 @@ namespace WMS_client.Processes
             var userCode = barcode.ToEmployeeCode();
             if (userCode == 0) return;
 
+            string userName;
+            if (!Program.AramisSystem.GetUserName(userCode, out userName)) return;
+            
             MainProcess.User = userCode;
-            MainProcess.UserName = new ServerInteraction().GetUserName(MainProcess.User);
+            MainProcess.UserName = userName;
             startSelectingProcess();
             }
 
@@ -58,7 +63,7 @@ namespace WMS_client.Processes
                 Warning_CantComplateOperation();
                 return;
                 }
-            
+
             MainProcess.ClearControls();
             MainProcess.Process = new SelectingProcess();
             }
@@ -66,7 +71,7 @@ namespace WMS_client.Processes
         private bool initConsts()
             {
             DataTable constsTable;
-            if (!new ServerInteraction().ReadConsts(out constsTable))
+            if (!Program.AramisSystem.ReadConsts(out constsTable))
                 {
                 return false;
                 }

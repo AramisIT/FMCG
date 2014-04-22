@@ -534,7 +534,7 @@ case when rel.Quantity > 0 then 0 else @finishPrevPalet end FinalCodeOfPreviousP
 
                     newRow[inventory.StartCell] = Convert.ToInt64(sourceRow[inventory.StartCell.ColumnName]);
                     newRow[inventory.FinalCell] = Convert.ToInt64(sourceRow[inventory.FinalCell.ColumnName]);
-                    
+
                     newRow[Subtable.LINE_NUMBER_COLUMN_NAME] = lastLineNumber + rowIndex + 1;
                     newRow.AddRowToTable(inventory);
                     }
@@ -733,7 +733,7 @@ from @table");
                 }
             }
 
-        public DataTable GetPickingDocuments()
+        public bool GetPickingDocuments(out DataTable pickingDocuments)
             {
             var q = DB.NewQuery(@"
 Select m.Id, convert(nvarchar(max), day(p.Date), 4)+'.'+convert(nvarchar(max), month(p.Date), 4) + ' ' + convert(nvarchar(max),datepart(hour, p.Date)) + ':' + 
@@ -747,8 +747,8 @@ order by p.Date desc
             q.AddInputParameter("PlanState", (int)StatesOfDocument.Planned);
             q.AddInputParameter("ProcessingState", (int)StatesOfDocument.Processing);
 
-            var result = q.SelectToTable();
-            return result;
+            pickingDocuments = q.SelectToTable();
+            return q.ThrowedException == null;
             }
 
         public bool GetPickingTask(long documentId, long palletId, int predefinedTaskLineNumber, int currentLineNumber,
@@ -913,16 +913,17 @@ order by LineNumber");
             return result == WritingResult.Success;
             }
 
-        public string GetUserName(int userId)
+        public bool GetUserName(int userId, out string name)
             {
             var user = new Users() { ReadingId = userId };
 
             SystemMessage.InstanceMessage.Message = "descr = " + user.Description;
 
-            return user.Description;
+            name = user.Description;
+            return user.Id > 0;
             }
 
-        public DataTable GetParties(long wareId, SelectionFilters selectionFilter)
+        public bool GetParties(long wareId, SelectionFilters selectionFilter, out DataTable parties)
             {
             switch (selectionFilter)
                 {
@@ -953,14 +954,18 @@ order by p.TheDeadlineSuitability", RECENTLY_SHIPPED_DAYS_AMOUNT));
                         }
                     result.Columns.Remove(dataTimeColumn);
 
-                    return result;
+                    parties = result;
+                    break;
 
                 default:
-                    return new DataTable();
+                    parties = null;
+                    break;
                 }
+
+            return parties != null;
             }
 
-        public DataTable GetWaresInKegs(SelectionFilters selectionFilter)
+        public bool GetWaresInKegs(SelectionFilters selectionFilter, out DataTable waresInKegs)
             {
             var q = DB.NewQuery(@"
 select n.Id, rtrim(n.Description) [Description]
@@ -978,21 +983,29 @@ and MarkForDeleting = 0
             switch (selectionFilter)
                 {
                 case SelectionFilters.All:
-                    return result;
+                    waresInKegs = result;
+                    break;
 
                 case SelectionFilters.RecentlyShipped:
-                    return filterRecentlyShippedWares(result);
+                    waresInKegs = filterRecentlyShippedWares(result);
+                    break;
+
+                default:
+                    waresInKegs = null;
+                    break;
                 }
-            return result;
+
+            return waresInKegs != null;
             }
 
-        public long CreateNewSticker(long wareId, DateTime expirationDate, int unitsQuantity, int boxesCount, long linerId, int linersCount)
+        public bool CreateNewSticker(long wareId, DateTime expirationDate, int unitsQuantity, int boxesCount, long linerId, int linersCount, out long newStickerId)
             {
             var party = Parties.FindByExpirationDate(wareId, expirationDate);
 
             if (party.IsNull() || party.Empty)
                 {
-                return 0;
+                newStickerId = 0;
+                return false;
                 }
 
             var nomenclature = new Nomenclature() { ReadingId = wareId };
@@ -1014,17 +1027,20 @@ and MarkForDeleting = 0
                 ? nomenclature.UnitsQuantityPerPallet
                 : unitsQuantity;
 
-            var stickerExists = sticker.Write() == WritingResult.Success;
+            sticker.Write();
+            newStickerId = sticker.Id;
+
+            var stickerExists = newStickerId > 0;
 
             if (stickerExists)
                 {
                 printStickers(new List<Stickers>() { sticker });
                 }
 
-            return stickerExists ? sticker.Id : 0;
+            return stickerExists;
             }
 
-        public long CreateNewAcceptance()
+        public bool CreateNewAcceptance(out long newAcceptanceId)
             {
             var acceptance = new AcceptanceOfGoods()
                 {
@@ -1032,12 +1048,13 @@ and MarkForDeleting = 0
                     Date = SystemConfiguration.ServerDateTime
                 };
             acceptance.SetRef("Responsible", getUserId());
+            acceptance.Write();
 
-            var writeResult = acceptance.Write();
-            return writeResult == WritingResult.Success ? acceptance.Id : 0;
+            newAcceptanceId = acceptance.Id;
+            return newAcceptanceId > 0;
             }
 
-        public DataTable GetWares(string barcode, SelectionFilters selectionFilter)
+        public bool GetWares(string barcode, SelectionFilters selectionFilter, out DataTable wares)
             {
             var q = DB.NewQuery(@"select n.Id, rtrim(n.Description) [Description]
 from Barcodes b
@@ -1050,12 +1067,19 @@ where b.Description = @barcode");
             switch (selectionFilter)
                 {
                 case SelectionFilters.All:
-                    return result;
+                    wares = result;
+                    return q.ThrowedException == null;
 
                 case SelectionFilters.RecentlyShipped:
-                    return filterRecentlyShippedWares(result);
+                    wares = filterRecentlyShippedWares(result);
+                    break;
+
+                default:
+                    wares = null;
+                    break;
                 }
-            return result;
+
+            return wares != null;
             }
 
         private readonly int RECENTLY_SHIPPED_DAYS_AMOUNT = getRecentlyShippedDaysAmount();
@@ -1101,7 +1125,9 @@ order by rtrim(nom.Description)
             var sticker = new Stickers() { ReadingId = stickerId };
             var nomenclatureId = sticker.GetRef("Nomenclature");
 
-            foreach (DataRow row in GetWares(barcode, SelectionFilters.All).Rows)
+            DataTable allWares;
+            GetWares(barcode, SelectionFilters.All, out allWares);
+            foreach (DataRow row in allWares.Rows)
                 {
                 var barcodeAlreadyAttached = (long)row["Id"] == nomenclatureId;
                 if (barcodeAlreadyAttached)
@@ -1117,13 +1143,13 @@ order by rtrim(nom.Description)
             return recordWasAdded;
             }
 
-        public void SetPalletStatus(long stickerId, bool fullPallet)
+        public bool SetPalletStatus(long stickerId, bool fullPallet)
             {
             var sticker = new Stickers() { ReadingId = stickerId };
 
             if (sticker.StartUnitsQuantity > 0)
                 {
-                return;
+                return true;
                 }
 
             if (fullPallet)
@@ -1143,7 +1169,7 @@ order by rtrim(nom.Description)
                     }
                 }
 
-            sticker.Write();
+            return sticker.Write() == WritingResult.Success;
             }
 
         public bool FinishCellInventory(long documentId, long cellId, DataTable currentCellPallets)

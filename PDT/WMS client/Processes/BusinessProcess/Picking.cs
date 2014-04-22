@@ -133,7 +133,7 @@ namespace WMS_client.Processes
         private void ComplateOperation()
             {
             string errorDescription;
-            if (!new ServerInteraction().ComplateMovement(documentId, false, out errorDescription))
+            if (!Program.AramisSystem.ComplateMovement(documentId, false, out errorDescription))
                 {
                 Warning_CantComplateOperation();
                 }
@@ -161,7 +161,7 @@ namespace WMS_client.Processes
             int unitsToPick;
             int taskLineNumber;
 
-            if (!new ServerInteraction().GetPickingTask(documentId, palletId, predefinedTaskLineNumber, _currentLineNumber,
+            if (!Program.AramisSystem.GetPickingTask(documentId, palletId, predefinedTaskLineNumber, _currentLineNumber,
                 out stickerId,
                 out wareId, out wareDescription,
                 out cellId, out cellDescription,
@@ -254,7 +254,7 @@ namespace WMS_client.Processes
             resultWriter.SetStartCell(factPickingData.Cell);
 
             int _sameWareNextTaskLineNumber;
-            var success = new ServerInteraction().WritePickingResult(documentId, currentLineNumber, resultWriter.Table, factPickingData.Party.Id, out _sameWareNextTaskLineNumber);
+            var success = Program.AramisSystem.WritePickingResult(documentId, currentLineNumber, resultWriter.Table, factPickingData.Party.Id, out _sameWareNextTaskLineNumber);
             if (success)
                 {
                 factPickingData = null;

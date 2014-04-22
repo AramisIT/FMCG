@@ -76,7 +76,7 @@
             }
 
         private static readonly MethodInfo WMSClient_Current_MethodInfo = typeof(WMSClient).GetMethod("get_Current", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
-        private static readonly MethodInfo WMSClient_PerformQuery_MethodInfo = typeof(WMSClient).GetMethod("_PerformQueryForInteractionProvider");
+        private static readonly MethodInfo WMSClient_PerformQuery_MethodInfo = typeof(WMSClient).GetMethod("PerformQueryForInteractionProvider");
         private static readonly MethodInfo ConvertToBoolMethodInfo = typeof(System.Convert).GetMethod("ToBoolean", new System.Type[] { typeof(object) });
         private static readonly MethodInfo ConvertToByteMethodInfo = typeof(System.Convert).GetMethod("ToByte", new System.Type[] { typeof(object) });
         private static readonly MethodInfo ConvertToInt32MethodInfo = typeof(System.Convert).GetMethod("ToInt32", new System.Type[] { typeof(object) });

@@ -153,7 +153,7 @@ namespace WMS_client.HelperClasses
             int traysCount;
             DateTime productionDate;
             if (
-                !new ServerInteraction().GetPalletBalance(StickerId,
+                !Program.AramisSystem.GetPalletBalance(StickerId,
                     out nomenclatureId, out nomenclatureDescription, out trayId, out linerId, out linersAmount,
                     out unitsPerBox, out cellId, out cellDescription, out previousPalletCode, out productionDate, out partyId,
                     out totalUnitsQuantity, out traysCount))

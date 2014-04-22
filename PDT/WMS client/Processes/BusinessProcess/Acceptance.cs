@@ -88,7 +88,7 @@ namespace WMS_client.Processes
                     }
                 waitingForWareBarcode = false;
                 bool recordWasAdded;
-                new ServerInteraction().SetBarcode(barcode, currentBarcodeData.StickerId, out recordWasAdded);
+                Program.AramisSystem.SetBarcode(barcode, currentBarcodeData.StickerId, out recordWasAdded);
                 return;
                 }
             if (scanNextPalletControls.Visible)
@@ -273,7 +273,7 @@ namespace WMS_client.Processes
                 }
 
             string errorDescription;
-            if (!new ServerInteraction().ComplateAcceptance(acceptanceId, false, out errorDescription))
+            if (!Program.AramisSystem.ComplateAcceptance(acceptanceId, false, out errorDescription))
                 {
                 Warning_CantComplateOperation();
                 return;
@@ -330,7 +330,7 @@ namespace WMS_client.Processes
             palletChanged |= currentBarcodeData.FullPacksCount != packsCount;
             palletChanged |= currentBarcodeData.UnitsRemainder != unitsCount;
 
-            if (!new ServerInteraction().WriteStickerFact(acceptanceId, currentBarcodeData.StickerId, palletChanged,
+            if (!Program.AramisSystem.WriteStickerFact(acceptanceId, currentBarcodeData.StickerId, palletChanged,
                 (cell ?? new CatalogItem()).Id, previousStickerId, trayItem.Id, linerItem.Id, linersCount, packsCount, unitsCount + packsCount * currentBarcodeData.UnitsPerBox))
                 {
                 return false;
@@ -359,7 +359,7 @@ namespace WMS_client.Processes
 
         private bool initAcceptance(long stickerId)
             {
-            var result = new ServerInteraction().GetAcceptanceId(stickerId,
+            var result = Program.AramisSystem.GetAcceptanceId(stickerId,
                 out acceptanceId);
             if (!result)
                 {
@@ -404,7 +404,7 @@ namespace WMS_client.Processes
             int wareBarcodesCount;
 
             if (
-                !new ServerInteraction().GetStickerData(acceptanceId, barcodeData.StickerId,
+                !Program.AramisSystem.GetStickerData(acceptanceId, barcodeData.StickerId,
                     out nomenclatureId, out nomenclatureDescription, out trayId,
                     out totalUnitsQuantity, out unitsPerBox, out cellId, out cellDescription, out currentAcceptance, out wareBarcodesCount))
                 {

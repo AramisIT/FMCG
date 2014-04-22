@@ -274,7 +274,7 @@ namespace WMS_client.Processes
             string errorDescription;
             if (documentId > 0)
                 {
-                if (!new ServerInteraction().ComplateMovement(documentId, false, out errorDescription))
+                if (!Program.AramisSystem.ComplateMovement(documentId, false, out errorDescription))
                     {
                     Warning_CantComplateOperation();
                     return false;
@@ -294,7 +294,7 @@ namespace WMS_client.Processes
                 }
 
             var movementWriter = new TableMovementWriter(startBarcodeData, finalBarcodeData);
-            var success = new ServerInteraction().WriteMovementResult(documentId, movementWriter.Table);
+            var success = Program.AramisSystem.WriteMovementResult(documentId, movementWriter.Table);
             if (success)
                 {
                 startScanNextPallet();
@@ -305,7 +305,7 @@ namespace WMS_client.Processes
 
         private bool initDocument()
             {
-            return new ServerInteraction().GetNewMovementId(out documentId);
+            return Program.AramisSystem.GetNewMovementId(out documentId);
             }
 
         }

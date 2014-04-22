@@ -17,7 +17,7 @@ namespace WMS_client.Processes
 
             public MobileLabel ComplateTipLabel;
 
-            
+
             }
 
         private class ReturnWareControls : HideableControlsCollection
@@ -200,11 +200,17 @@ namespace WMS_client.Processes
 
         private void itIsKeg_ButtonClick()
             {
-            var table = new ServerInteraction().GetWaresInKegs(SelectionFilters.All);
-
-            if (table == null || table.Rows.Count == 0)
+            DataTable table;
+            if (!Program.AramisSystem.GetWaresInKegs(SelectionFilters.All, out table))
                 {
-                "Нет недавно отгруженных кег!".ShowMessage();
+                if (!lastQueryIsSuccessfull)
+                    {
+                    showConnectionInterraptedMessage();
+                    }
+                else
+                    {
+                    "Нет недавно отгруженных кег!".ShowMessage();
+                    }
                 return;
                 }
 
@@ -234,11 +240,15 @@ namespace WMS_client.Processes
             {
             if (!checkThatUserHasEnteredAnyData()) return;
 
-            newStickerId = new ServerInteraction().CreateNewSticker(currentWare.Id,
+            if (!Program.AramisSystem.CreateNewSticker(currentWare.Id,
                 currentParty.Description.ToDateTime(),
                 returnWareControls.UnitsCountTextBox.GetNumber(),
                 returnWareControls.PacksCountTextBox.GetNumber(),
-                currentLiner.Id, returnWareControls.LinersCountTextBox.GetNumber());
+                currentLiner.Id, returnWareControls.LinersCountTextBox.GetNumber(), out newStickerId))
+                {
+                notifyUserIfConnectionIsBroken();
+                return;
+                }
 
             if (newStickerId > 0)
                 {
@@ -368,16 +378,13 @@ namespace WMS_client.Processes
                 currentCell = barcodeData.Cell;
                 }
 
-            if (acceptanceId == 0)
+            if (acceptanceId == 0 && !Program.AramisSystem.CreateNewAcceptance(out acceptanceId))
                 {
-                acceptanceId = new ServerInteraction().CreateNewAcceptance();
-                if (acceptanceId == 0)
-                    {
-                    return;
-                    }
+                notifyUserIfConnectionIsBroken();
+                return;
                 }
 
-            if (!new ServerInteraction().WriteStickerFact(acceptanceId, barcodeData.StickerId, false,
+            if (!Program.AramisSystem.WriteStickerFact(acceptanceId, barcodeData.StickerId, false,
                             currentCell.Id, previousStickerId, 0, currentLiner.Id, returnWareControls.LinersCountTextBox.GetNumber(),
                             returnWareControls.PacksCountTextBox.GetNumber(), returnWareControls.UnitsCountTextBox.GetNumber()))
                 {
@@ -410,12 +417,22 @@ namespace WMS_client.Processes
             {
             if (!barcode.IsItEAN13()) return;
 
-            var table = new ServerInteraction().GetWares(barcode, SelectionFilters.RecentlyShipped);
-            if (table == null) return;
+            DataTable table;
+            if (!Program.AramisSystem.GetWares(barcode, SelectionFilters.RecentlyShipped, out table))
+                {
+                notifyUserIfConnectionIsBroken();
+                return;
+                }
 
             if (table == null || table.Rows.Count == 0)
                 {
-                var allBarcodes = new ServerInteraction().GetWares(barcode, SelectionFilters.All);
+                DataTable allBarcodes;
+                if (!Program.AramisSystem.GetWares(barcode, SelectionFilters.All, out allBarcodes))
+                    {
+                    notifyUserIfConnectionIsBroken();
+                    return;
+                    }
+
                 if (allBarcodes == null) return;
 
                 var databaseHasn_tBarcode = allBarcodes.Rows.Count == 0;
@@ -448,7 +465,13 @@ namespace WMS_client.Processes
             {
             if (!selectingItem(waresTable, out currentWare)) return false;
 
-            var parties = new ServerInteraction().GetParties(currentWare.Id, SelectionFilters.RecentlyShipped);
+            DataTable parties;
+            if (!Program.AramisSystem.GetParties(currentWare.Id, SelectionFilters.RecentlyShipped, out parties))
+                {
+                showConnectionInterraptedMessage();
+                return false;
+                }
+
             if (parties == null || parties.Rows.Count == 0)
                 {
                 "Не найдено ни одной партии!".ShowMessage();
@@ -514,7 +537,7 @@ namespace WMS_client.Processes
             if (acceptanceId > 0)
                 {
                 string errorMessage;
-                if (!new ServerInteraction().ComplateAcceptance(acceptanceId, true, out errorMessage))
+                if (!Program.AramisSystem.ComplateAcceptance(acceptanceId, true, out errorMessage))
                     {
                     Warning_CantComplateOperation();
                     return;

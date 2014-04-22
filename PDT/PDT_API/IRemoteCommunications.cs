@@ -5,7 +5,6 @@ namespace pdtExternalStorage
     {
     public interface IRemoteCommunications
         {
-
         bool FinishCellInventory(long documentId, long cellId, DataTable currentCellPallets);
 
         /// <summary>К-сть документів, що чекають обробки</summary>
@@ -57,8 +56,6 @@ namespace pdtExternalStorage
 
         bool ComplateMovement(long documentId, bool forceCompletion, out string errorMessage);
 
-        DataTable GetPickingDocuments();
-
         bool GetPickingTask(long documentId, long palletId, int predefinedTaskLineNumber,
             int currentLineNumber,
             out long stickerId,
@@ -74,20 +71,22 @@ namespace pdtExternalStorage
 
         bool CreatePickingDocuments();
 
-        string GetUserName(int userId);
-
-        DataTable GetWares(string barcode, SelectionFilters selectionFilter);
-
         bool SetBarcode(string barcode, long stickerId, out bool recordWasAdded);
 
-        void SetPalletStatus(long stickerId, bool fullPallet);
+        bool SetPalletStatus(long stickerId, bool fullPallet);
 
-        DataTable GetParties(long wareId, SelectionFilters selectionFilter);
+        bool GetParties(long wareId, SelectionFilters selectionFilter, out DataTable parties);
 
-        DataTable GetWaresInKegs(SelectionFilters selectionFilter);
+        bool GetWaresInKegs(SelectionFilters selectionFilter, out DataTable waresInKegs);
 
-        long CreateNewSticker(long wareId, DateTime expirationDate, int unitsQuantity, int boxesCount, long linerId, int linersCount);
+        bool CreateNewSticker(long wareId, DateTime expirationDate, int unitsQuantity, int boxesCount, long linerId, int linersCount, out long newStickerId);
 
-        long CreateNewAcceptance();
+        bool CreateNewAcceptance(out long newAcceptanceId);
+
+        bool GetUserName(int userId, out string name);
+
+        bool GetWares(string barcode, SelectionFilters selectionFilter, out DataTable wares);
+
+        bool GetPickingDocuments(out DataTable pickingDocuments);
         }
     }

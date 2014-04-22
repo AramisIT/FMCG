@@ -41,7 +41,10 @@ namespace WMS_client.Processes
 
             var fullPallet = "Палета запакована?".Ask();
 
-            new ServerInteraction().SetPalletStatus(barcode.ToBarcodeData().StickerId, fullPallet);
+            if (!Program.AramisSystem.SetPalletStatus(barcode.ToBarcodeData().StickerId, fullPallet))
+                {
+                "Нет связи с сервером".Warning();
+                }
             }
 
         protected override void OnHotKey(KeyAction TypeOfAction)

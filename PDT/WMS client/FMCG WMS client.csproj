@@ -86,12 +86,7 @@
     <Compile Include="Processes\BusinessProcess\Movement.cs" />
     <Compile Include="Processes\BusinessProcess\Picking.cs" />
     <Compile Include="Processes\BusinessProcess\Inventory.cs" />
-    <Compile Include="Processes\ProcessData\InventoryData.cs" />
-    <Compile Include="Processes\ProcessData\MovementData.cs" />
-    <Compile Include="Processes\ProcessData\PlaningData.cs" />
-    <Compile Include="Processes\ProcessData\SelectionData.cs" />
     <Compile Include="Processes\BusinessProcess\Acceptance.cs" />
-    <Compile Include="Processes\ProcessData\IProcessData.cs" />
     <Compile Include="Processes\SelectingProcess.cs" />
     <Compile Include="Processes\TempProcess\IsPalletFull.cs" />
     <Compile Include="Program.cs" />
@@ -108,7 +103,6 @@
     </Compile>
     <Compile Include="Processes\RegistrationProcess.cs" />
     <Compile Include="Repository.cs" />
-    <Compile Include="ServerInteraction.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="media_player.ico" />

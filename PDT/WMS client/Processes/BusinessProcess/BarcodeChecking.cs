@@ -82,7 +82,7 @@ namespace WMS_client.Processes
         private void handlePalletBarcode(string barcode)
             {
             bool recordWasAdded;
-            if (!new ServerInteraction().SetBarcode(wareBarcode, barcode.ToBarcodeData().StickerId, out recordWasAdded))
+            if (!Program.AramisSystem.SetBarcode(wareBarcode, barcode.ToBarcodeData().StickerId, out recordWasAdded))
                 {
                 return;
                 }
@@ -93,8 +93,8 @@ namespace WMS_client.Processes
 
         private void handleWareBarcode(string barcode)
             {
-            var table = new ServerInteraction().GetWares(barcode, SelectionFilters.All);
-            if (table == null)
+            DataTable table;
+            if (!Program.AramisSystem.GetWares(barcode, SelectionFilters.All, out table))
                 {
                 return;
                 }

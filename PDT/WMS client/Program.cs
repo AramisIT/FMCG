@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using AramisPDTClient;
+using pdtExternalStorage;
 using WMS_client.Processes;
 using WMS_client.WinProcessesManagement;
 
@@ -11,10 +12,13 @@ namespace WMS_client
     {
     static class Program
         {
+        public static IRemoteCommunications AramisSystem { get; private set; }
+
         [MTAThread]
         static void Main(string[] parameters)
             {
-            
+            AramisSystem = new RemoteInteractionProviderCreator<IRemoteCommunications>().CreateProvider();
+
             if (new SystemInfo().IsExistedSameProcess()) return;
 
             if (parameters.Length > 0)

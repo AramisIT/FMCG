@@ -55,7 +55,7 @@ namespace WMS_client
         private void initTareLists()
             {
             DataTable tareTable;
-            if (!new ServerInteraction().GetTareTable(out tareTable))
+            if (!Program.AramisSystem.GetTareTable(out tareTable))
                 {
                 return;
                 }

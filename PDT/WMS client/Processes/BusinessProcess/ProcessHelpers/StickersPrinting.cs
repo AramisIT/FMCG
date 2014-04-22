@@ -26,7 +26,7 @@ namespace WMS_client.Processes
 
         public bool Print()
             {
-            var result = new ServerInteraction().PrintStickers(printingTasks);
+            var result = Program.AramisSystem.PrintStickers(printingTasks);
             return result;
             }
         }

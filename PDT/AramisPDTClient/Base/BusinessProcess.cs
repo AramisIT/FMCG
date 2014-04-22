@@ -87,6 +87,19 @@ namespace WMS_client
                 }
             }
 
+        protected void showConnectionInterraptedMessage()
+            {
+            "Нет связи с сервером!".Warning();
+            }
+
+        protected void notifyUserIfConnectionIsBroken()
+            {
+            if (!lastQueryIsSuccessfull)
+                {
+                showConnectionInterraptedMessage();
+                }
+            }
+
         protected string ToDoCommand
             {
             get
@@ -281,15 +294,69 @@ namespace WMS_client
                 }
             }
 
+        public void TEST_AAAAAAAAAAAAAAAAAAAA()
+            {
+            int isTare;
+            int ware;
+            int zall;
+            int bb;
+            int dV;
+            int dec = 0;
+            int str = 0;
+            int time;
+            DataTable table = new DataTable();
+
+            int w1, w2, w3;
+            AAAAAAAAAAAAAAAtestEmit(54, out zall, out bb, out dV, out dec, out str, out w1, out w2, out w3, out time);
+            }
+
+        public bool AAAAAAAAAAAAAAAtestEmit(int t, out int a1, out int a2, out int a3, out int a4, out int a5, out int a6, out int a7, out int a8, out int a9)
+            {
+            bool success;
+            bool functionResult;
+            var parameters = new object[0];
+            //parameters[0] = t;
+
+            var result = WMSClient.Current._PerformQueryForInteractionProvider("FinishCellInventory",
+                out success, out functionResult, parameters);
+
+            a1 = Convert.ToInt32(result[0]);
+            a2 = Convert.ToInt32(result[0]);
+            a3 = Convert.ToInt32(result[0]);
+            a4 = Convert.ToInt32(result[0]);
+            a5 = Convert.ToInt32(result[0]);
+            a6 = Convert.ToInt32(result[0]);
+            a7 = Convert.ToInt32(result[0]);
+            a8 = Convert.ToInt32(result[0]);
+            a9 = Convert.ToInt32(result[0]);
+            //a10 = Convert.ToInt32(result[0]);
+            //a11 = Convert.ToInt32(result[0]);
+            //a12 = Convert.ToInt32(result[0]);
+            return true;
+
+            //resultB = Convert.ToBoolean(result[9]);
+
+            //trer = 0;
+            //longV = 0;
+            //byteV = 0;
+            //doubleV = 0L;
+            //decimalV = 0M;
+            //str = "";
+            //time = (DateTime)(result[9]);
+            //table = result[9] as DataTable;
+            //return false;
+            //if (success)
+            //    {
+            //    return functionResult;
+            //    }
+            //else
+            //    {
+            //    return false;
+            //    }
+            }
+
         public void PerformQuery(string QueryName, params object[] parameters)
             {
-            ResultParameters = null;
-            if (!MainProcess.OnLine && MainProcess.MainForm.IsMainThread)
-                {
-                "Нет подключения к серверу".Warning();
-                return;
-                }
-
             ResultParameters = MainProcess.PerformQuery(QueryName, parameters);
             }
 

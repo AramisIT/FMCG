@@ -455,7 +455,16 @@ namespace StorekeeperManagementServer
                     CloseChannels();
                     return;
                     }
-                TCPStream.Write(packageData, 0, packageData.Length);
+
+                try
+                    {
+                    TCPStream.Write(packageData, 0, packageData.Length);
+                    }
+                catch
+                    {
+                    CloseChannels();
+                    return;
+                    }
                 }
             waitForConfirmationReply = true;
             }
