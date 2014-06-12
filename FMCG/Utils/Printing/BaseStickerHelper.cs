@@ -20,6 +20,10 @@ namespace FMCG.Utils.Printing
     abstract class BaseStickerHelper : AramisThermalTransferStickerHelper
         {
         protected BaseStickerHelper()
-            : base(ThermoPrinters.GetCurrentPrinterName(), 390, 300) { }
+            : base(ThermoPrinters.GetCurrentPrinterName(), 390, 300)
+            {
+            PrintLandscape = true;
+            ShowPreview = false;
+            }
         }
     }
