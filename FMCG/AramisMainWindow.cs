@@ -11,7 +11,6 @@ using SystemObjects;
 using Aramis.Core.WritingUtils;
 using Aramis.DatabaseConnector;
 using Aramis.DatabaseUpdating;
-using Aramis.UI.InputDevices;
 using Aramis.UI.WinFormsDevXpress.Forms;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.HelperClasses.PDT;

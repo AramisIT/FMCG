@@ -16,7 +16,7 @@ using RepositoryOfMatrixReportData;
 
 namespace AtosFMCG.TouchScreen.PalletSticker
     {
-    class CellsPrintingHelper : ThermalTransferPrinting
+    class CellsPrintingHelper : BaseStickerHelper
         {
         private List<Cells> stickersTasks;
 

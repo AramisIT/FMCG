@@ -16,7 +16,7 @@ using RepositoryOfMatrixReportData;
 
 namespace FMCG.Utils.Printing
     {
-    class UserBarcodePrintHelper : ThermalTransferPrinting
+    class UserBarcodePrintHelper : BaseStickerHelper
         {
         private long userId;
         private string userDescription;

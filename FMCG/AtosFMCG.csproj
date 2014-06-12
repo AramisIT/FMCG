@@ -146,6 +146,7 @@
     <Compile Include="SystemObjects\CellsProcessing\CellsProcessingForm.Designer.cs">
       <DependentUpon>CellsProcessingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils\Printing\BaseStickerHelper.cs" />
     <Compile Include="Utils\Printing\StickersPrintingHelper.cs" />
     <Compile Include="DatabaseObjects\Catalogs\Cities.cs" />
     <Compile Include="DatabaseObjects\Catalogs\ClassifierUnits.cs" />
@@ -360,7 +361,6 @@
     </Compile>
     <Compile Include="UIConfigurator.cs" />
     <Compile Include="UI\StatesColors.cs" />
-    <Compile Include="Utils\Printing\ThermalTransferPrinting.cs" />
     <Compile Include="Utils\SolutionExtentions.cs" />
     <None Include="images\Touchscreen 32.png" />
     <None Include="images\AcceptancePlan 32.png" />

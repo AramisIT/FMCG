@@ -16,7 +16,7 @@ using RepositoryOfMatrixReportData;
 
 namespace FMCG.Utils.Printing
     {
-    class StickersPrintingHelper : ThermalTransferPrinting
+    class StickersPrintingHelper : BaseStickerHelper
         {
 
         public StickersPrintingHelper(List<StickerInfo> stickersTasks, string printerName = "")
