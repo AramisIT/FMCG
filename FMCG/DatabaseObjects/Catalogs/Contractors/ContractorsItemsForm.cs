@@ -12,7 +12,7 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
         {
         #region Firlds
         private CatalogTable item;
-        public DatabaseObject Item
+        public IDatabaseObject Item
             {
             get { return item; }
             set { item = (CatalogTable)value; }

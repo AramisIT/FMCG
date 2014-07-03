@@ -147,9 +147,9 @@ namespace Catalogs
             get { return string.Format("C.{0};{1}", Id, Description); }
             }
 
-        public override Dictionary<string, Action<DatabaseObject>> GetActions()
+        public override Dictionary<string, Action<IDatabaseObject>> GetActions()
             {
-            var result = new Dictionary<string, Action<DatabaseObject>>();
+            var result = new Dictionary<string, Action<IDatabaseObject>>();
 
             result.Add("Друкувати", item => new CellsPrintingHelper(new List<Cells>() { item as Cells }).Print());
 

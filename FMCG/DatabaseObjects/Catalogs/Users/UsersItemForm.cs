@@ -24,7 +24,7 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
 
         private Users item;
 
-        public DatabaseObject Item
+        public IDatabaseObject Item
             {
             get
                 {

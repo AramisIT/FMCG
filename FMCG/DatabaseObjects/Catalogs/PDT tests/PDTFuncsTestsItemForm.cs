@@ -24,7 +24,7 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
 
         private PDTFuncsTests calatog;
 
-        public DatabaseObject Item
+        public IDatabaseObject Item
             {
             get
                 {

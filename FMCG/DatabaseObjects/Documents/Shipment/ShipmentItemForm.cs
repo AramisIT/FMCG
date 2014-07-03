@@ -14,7 +14,7 @@ namespace AtosFMCG.DatabaseObjects.Documents
         {
         #region Fields
         private DocumentTable item;
-        public DatabaseObject Item
+        public IDatabaseObject Item
             {
             get { return item; }
             set { item = (DocumentTable)value; }
