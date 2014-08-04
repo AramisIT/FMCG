@@ -295,9 +295,9 @@ namespace Catalogs
                 }
             }
 
-        public void Print(IDatabaseObject item)
+        public void Print()
             {
-            printSticker(item as Stickers);
+            printSticker(this);
             }
 
         private void printSticker(Stickers sticker)
@@ -306,9 +306,9 @@ namespace Catalogs
             stickersCreator.Print();
             }
 
-        public override Dictionary<string, Action<IDatabaseObject>> GetActions()
+        public override Dictionary<string, Action> GetActions()
             {
-            var actions = new Dictionary<string, Action<IDatabaseObject>>() { { "Друк", Print } };
+            var actions = new Dictionary<string, Action>() { { "Друк", Print } };
             return actions;
             }
         }

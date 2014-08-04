@@ -33,12 +33,12 @@ namespace FMCG.DatabaseObjects.Remainders
         [Description("Количество")]
         MotionsTableField Quantity = MotionsTableField.Number;
 
-        public override DatabaseObject[] GetObjectsOfMotions()
+        public override IDatabaseObject[] GetObjectsOfMotions()
             {
             return new DatabaseObject[] { new AcceptanceOfGoods(), new Inventory(), new Moving() };
             }
 
-        public override string AddMotions(DatabaseObject databaseObject)
+        public override string AddMotions(IDatabaseObject databaseObject)
             {
             if (databaseObject is AcceptanceOfGoods)
                 {

@@ -147,13 +147,13 @@ namespace Catalogs
             get { return string.Format("C.{0};{1}", Id, Description); }
             }
 
-        public override Dictionary<string, Action<IDatabaseObject>> GetActions()
+        public override Dictionary<string, Action> GetActions()
             {
-            var result = new Dictionary<string, Action<IDatabaseObject>>();
+            var result = new Dictionary<string, Action>();
 
-            result.Add("Друкувати", item => new CellsPrintingHelper(new List<Cells>() { item as Cells }).Print());
+            result.Add("Друкувати", () => new CellsPrintingHelper(new List<Cells>() { this }).Print());
 
-            result.Add("Оновити найменування", item => (item as Cells).UpdateDescription());
+            result.Add("Оновити найменування", () => UpdateDescription());
 
             return result;
             }
