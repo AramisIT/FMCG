@@ -60,6 +60,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.NonStandartTray = new Aramis.AramisSearchLookUpEdit();
             this.labelControl13 = new DevExpress.XtraEditors.LabelControl();
             this.StandartTray = new Aramis.AramisSearchLookUpEdit();
+            this.Don_tPrintStickers = new DevExpress.XtraEditors.CheckEdit();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.xtraTabControl)).BeginInit();
             this.xtraTabControl.SuspendLayout();
@@ -78,6 +79,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             ((System.ComponentModel.ISupportInitialize)(this.StandartLiner.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NonStandartTray.Properties)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.StandartTray.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Don_tPrintStickers.Properties)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonStatusBar
@@ -145,6 +147,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             // 
             // systemPage
             // 
+            this.systemPage.Controls.Add(this.Don_tPrintStickers);
             this.systemPage.Controls.Add(this.PreviewDatabaseName);
             this.systemPage.Controls.Add(this.OriginalDatabaseName);
             this.systemPage.Controls.Add(this.labelControl33);
@@ -218,6 +221,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.EmptyCell.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
             this.EmptyCell.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
+            this.EmptyCell.Properties.FirstPopUp = null;
             this.EmptyCell.Properties.NullText = "";
             this.EmptyCell.Size = new System.Drawing.Size(350, 20);
             this.EmptyCell.TabIndex = 19;
@@ -240,6 +244,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.RedemptionCell.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
             this.RedemptionCell.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
+            this.RedemptionCell.Properties.FirstPopUp = null;
             this.RedemptionCell.Properties.NullText = "";
             this.RedemptionCell.Size = new System.Drawing.Size(350, 20);
             this.RedemptionCell.TabIndex = 17;
@@ -360,6 +365,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.NonStandartLiner.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
             this.NonStandartLiner.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
+            this.NonStandartLiner.Properties.FirstPopUp = null;
             this.NonStandartLiner.Properties.NullText = "";
             this.NonStandartLiner.Size = new System.Drawing.Size(293, 20);
             this.NonStandartLiner.TabIndex = 19;
@@ -382,6 +388,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.StandartLiner.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
             this.StandartLiner.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
+            this.StandartLiner.Properties.FirstPopUp = null;
             this.StandartLiner.Properties.NullText = "";
             this.StandartLiner.Size = new System.Drawing.Size(293, 20);
             this.StandartLiner.TabIndex = 17;
@@ -404,6 +411,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.NonStandartTray.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
             this.NonStandartTray.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
+            this.NonStandartTray.Properties.FirstPopUp = null;
             this.NonStandartTray.Properties.NullText = "";
             this.NonStandartTray.Size = new System.Drawing.Size(293, 20);
             this.NonStandartTray.TabIndex = 15;
@@ -426,9 +434,20 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             this.StandartTray.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton()});
             this.StandartTray.Properties.CloseUpKey = new DevExpress.Utils.KeyShortcut(System.Windows.Forms.Keys.None);
+            this.StandartTray.Properties.FirstPopUp = null;
             this.StandartTray.Properties.NullText = "";
             this.StandartTray.Size = new System.Drawing.Size(293, 20);
             this.StandartTray.TabIndex = 13;
+            // 
+            // Don_tPrintStickers
+            // 
+            this.Don_tPrintStickers.Location = new System.Drawing.Point(109, 77);
+            this.Don_tPrintStickers.MenuManager = this.ribbon;
+            this.Don_tPrintStickers.Name = "Don_tPrintStickers";
+            this.Don_tPrintStickers.Properties.AutoWidth = true;
+            this.Don_tPrintStickers.Properties.Caption = "Не печатать этикетки";
+            this.Don_tPrintStickers.Size = new System.Drawing.Size(137, 19);
+            this.Don_tPrintStickers.TabIndex = 9;
             // 
             // ConstsForm
             // 
@@ -472,6 +491,7 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
             ((System.ComponentModel.ISupportInitialize)(this.StandartLiner.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NonStandartTray.Properties)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.StandartTray.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.Don_tPrintStickers.Properties)).EndInit();
             this.ResumeLayout(false);
 
             }
@@ -510,5 +530,6 @@ namespace Aramis.UI.WinFormsDevXpress.Forms
         private AramisSearchLookUpEdit RedemptionCell;
         private DevExpress.XtraEditors.LabelControl labelControl7;
         private AramisSearchLookUpEdit EmptyCell;
+        private DevExpress.XtraEditors.CheckEdit Don_tPrintStickers;
         }
     }

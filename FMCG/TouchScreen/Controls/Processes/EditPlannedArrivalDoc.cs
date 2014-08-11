@@ -1015,7 +1015,10 @@ and MarkForDeleting = 0
             if (WritingDocument())
                 {
                 onFinish(true, Document);
-                Document.PrintStickers(waresList);
+                if (!Consts.Don_tPrintStickers)
+                    {
+                    Document.PrintStickers(waresList);
+                    }
                 if (isLastPlan(Document))
                     {
                     AcceptanceOfGoods.CreateNewAcceptance(Document);

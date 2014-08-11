@@ -205,5 +205,28 @@
             } 
 
         #endregion
+
+        public static bool Don_tPrintStickers
+            {
+            get
+                {
+                lock (locker)
+                    {
+                    return z_Don_tPrintStickers;
+                    }
+                }
+            set
+                {
+                lock (locker)
+                    {
+                    if (z_Don_tPrintStickers != value)
+                        {
+                        z_Don_tPrintStickers = value;
+                        NotifyPropertyChanged("Don_tPrintStickers");
+                        }
+                    }
+                }
+            }
+        private static bool z_Don_tPrintStickers;
         }
     }
