@@ -28,13 +28,15 @@
         /// </summary>
         private void InitializeComponent()
             {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AramisMainWindow));
             DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
             DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
             DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
-            this.smallImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
+            this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu();
+            this.barButtonItem30 = new DevExpress.XtraBars.BarButtonItem();
+            this.barButtonItem31 = new DevExpress.XtraBars.BarButtonItem();
+            this.smallImagesCollection = new DevExpress.Utils.ImageCollection();
             this.openCatalogs = new DevExpress.XtraBars.BarButtonItem();
             this.openDocuments = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
@@ -78,7 +80,8 @@
             this.barButtonItem26 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem27 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem28 = new DevExpress.XtraBars.BarButtonItem();
-            this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
+            this.barButtonItem29 = new DevExpress.XtraBars.BarButtonItem();
+            this.largeImagesCollection = new DevExpress.Utils.ImageCollection();
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -96,20 +99,21 @@
             this.updGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.updatePageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.testsPageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
+            this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
-            this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
+            this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel();
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.barButtonItem12 = new DevExpress.XtraBars.BarButtonItem();
-            this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
-            this.barButtonItem29 = new DevExpress.XtraBars.BarButtonItem();
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.largeImagesCollection)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbon
             // 
+            this.ribbon.ApplicationButtonDropDownControl = this.applicationMenu1;
             this.ribbon.ApplicationButtonText = null;
             this.ribbon.ApplicationIcon = global::FMCG.Properties.Resources.TrayIcon;
             this.ribbon.ExpandCollapseItem.Id = 0;
@@ -160,10 +164,12 @@
             this.barButtonItem26,
             this.barButtonItem27,
             this.barButtonItem28,
-            this.barButtonItem29});
+            this.barButtonItem29,
+            this.barButtonItem30,
+            this.barButtonItem31});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
-            this.ribbon.MaxItemId = 72;
+            this.ribbon.MaxItemId = 74;
             this.ribbon.MdiMergeStyle = DevExpress.XtraBars.Ribbon.RibbonMdiMergeStyle.Never;
             this.ribbon.Name = "ribbon";
             this.ribbon.Pages.AddRange(new DevExpress.XtraBars.Ribbon.RibbonPage[] {
@@ -174,6 +180,27 @@
             this.ribbon.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
             this.ribbon.Size = new System.Drawing.Size(1196, 144);
             this.ribbon.StatusBar = this.ribbonStatusBar;
+            // 
+            // applicationMenu1
+            // 
+            this.applicationMenu1.ItemLinks.Add(this.barButtonItem30);
+            this.applicationMenu1.ItemLinks.Add(this.barButtonItem31);
+            this.applicationMenu1.Name = "applicationMenu1";
+            this.applicationMenu1.Ribbon = this.ribbon;
+            // 
+            // barButtonItem30
+            // 
+            this.barButtonItem30.Caption = "Выход";
+            this.barButtonItem30.Id = 72;
+            this.barButtonItem30.Name = "barButtonItem30";
+            this.barButtonItem30.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem30_ItemClick);
+            // 
+            // barButtonItem31
+            // 
+            this.barButtonItem31.Caption = "Перезагрузить систему";
+            this.barButtonItem31.Id = 73;
+            this.barButtonItem31.Name = "barButtonItem31";
+            this.barButtonItem31.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem31_ItemClick);
             // 
             // smallImagesCollection
             // 
@@ -519,6 +546,13 @@
             this.barButtonItem28.Name = "barButtonItem28";
             this.barButtonItem28.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem28_ItemClick);
             // 
+            // barButtonItem29
+            // 
+            this.barButtonItem29.Caption = "Исправить номенклатуру";
+            this.barButtonItem29.Id = 71;
+            this.barButtonItem29.Name = "barButtonItem29";
+            this.barButtonItem29.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem29_ItemClick);
+            // 
             // largeImagesCollection
             // 
             this.largeImagesCollection.ImageSize = new System.Drawing.Size(32, 32);
@@ -683,6 +717,12 @@
             this.testsPageGroup.Name = "testsPageGroup";
             this.testsPageGroup.Text = "Тесты";
             // 
+            // ribbonPageGroup4
+            // 
+            this.ribbonPageGroup4.ItemLinks.Add(this.barButtonItem29);
+            this.ribbonPageGroup4.Name = "ribbonPageGroup4";
+            this.ribbonPageGroup4.Text = "Корректировки";
+            // 
             // ribbonStatusBar
             // 
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 553);
@@ -720,19 +760,6 @@
             this.barButtonItem12.LargeImageIndex = 0;
             this.barButtonItem12.Name = "barButtonItem12";
             // 
-            // ribbonPageGroup4
-            // 
-            this.ribbonPageGroup4.ItemLinks.Add(this.barButtonItem29);
-            this.ribbonPageGroup4.Name = "ribbonPageGroup4";
-            this.ribbonPageGroup4.Text = "Корректировки";
-            // 
-            // barButtonItem29
-            // 
-            this.barButtonItem29.Caption = "Исправить номенклатуру";
-            this.barButtonItem29.Id = 71;
-            this.barButtonItem29.Name = "barButtonItem29";
-            this.barButtonItem29.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem29_ItemClick);
-            // 
             // AramisMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -749,6 +776,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.AramisMainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ribbon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.applicationMenu1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.smallImagesCollection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.largeImagesCollection)).EndInit();
             this.ResumeLayout(false);
@@ -829,6 +857,9 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem28;
         private DevExpress.XtraBars.BarButtonItem barButtonItem29;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
+        private DevExpress.XtraBars.Ribbon.ApplicationMenu applicationMenu1;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem30;
+        private DevExpress.XtraBars.BarButtonItem barButtonItem31;
 
         }
     }

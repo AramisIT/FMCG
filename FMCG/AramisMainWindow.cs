@@ -504,6 +504,16 @@ from SubMovingNomenclatureInfo s
             string.Format("Номенклатура {0}обновлена!", success ? string.Empty : "не ").NotifyToUser(success ? MessagesToUserTypes.Information : MessagesToUserTypes.Error);
             }
 
+        private void barButtonItem30_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            SystemAramis.SystemStop();
+            }
+
+        private void barButtonItem31_ItemClick(object sender, ItemClickEventArgs e)
+            {
+            SystemAramis.SystemStop(true);
+            }
+
         }
 
     public class SystemMessage
