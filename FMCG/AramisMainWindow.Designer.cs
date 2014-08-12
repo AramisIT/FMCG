@@ -191,6 +191,7 @@
             // barButtonItem30
             // 
             this.barButtonItem30.Caption = "Выход";
+            this.barButtonItem30.Glyph = global::FMCG.Properties.Resources.Quit;
             this.barButtonItem30.Id = 72;
             this.barButtonItem30.Name = "barButtonItem30";
             this.barButtonItem30.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem30_ItemClick);
@@ -198,6 +199,7 @@
             // barButtonItem31
             // 
             this.barButtonItem31.Caption = "Перезагрузить систему";
+            this.barButtonItem31.Glyph = global::FMCG.Properties.Resources.Restart;
             this.barButtonItem31.Id = 73;
             this.barButtonItem31.Name = "barButtonItem31";
             this.barButtonItem31.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem31_ItemClick);

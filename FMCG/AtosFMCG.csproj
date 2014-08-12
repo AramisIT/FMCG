@@ -365,6 +365,8 @@
     <None Include="images\Touchscreen 32.png" />
     <None Include="images\AcceptancePlan 32.png" />
     <None Include="images\Acceptance 32.png" />
+    <None Include="Resources\Quit.png" />
+    <None Include="Resources\Restart.png" />
     <Content Include="XML\Adapters\CellBarcode.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
