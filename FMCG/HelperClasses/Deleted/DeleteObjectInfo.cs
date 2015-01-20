@@ -1,5 +1,6 @@
 using Aramis.Core;
 using Aramis.SystemConfigurations;
+using AramisInfostructure.Core.InfoContainers;
 
 namespace AtosFMCG
     {
@@ -30,7 +31,7 @@ namespace AtosFMCG
         /// <param name="row">Номер строки в подтаблице</param>
         public DeleteObjectInfo(string name, string subName, string field, long id, long row)
             {
-            DatabaseObjectInfo databaseObjectInfo = SystemConfiguration.DBConfigurationTree[name];
+            IDatabaseObjectInfo databaseObjectInfo = SystemConfiguration.DBConfigurationTree[name];
             string tableName = databaseObjectInfo.DBObjectType ==AramisObjectType.Catalog
                                    ? new CatalogsViewer(name, id).ToString()
                                    : new DocumentsViewer(name, id).ToString();

@@ -4,6 +4,7 @@ using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
 using Aramis.Enums;
+using AramisInfostructure.Queries;
 
 namespace Catalogs
     {
@@ -40,7 +41,7 @@ namespace Catalogs
             {
             const string IP_COLUMN = "AllowedIP";
             string command = string.Format("SELECT DISTINCT RTRIM(AllowIP) {0} FROM {1}", IP_COLUMN, typeof(PDTSettings).Name);
-            Query query = DB.NewQuery(command);
+            IQuery query = DB.NewQuery(command);
             DataTable table = query.SelectToTable();
 
             if (table == null)

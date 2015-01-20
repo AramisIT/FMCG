@@ -1,17 +1,18 @@
-using System;
+using Aramis.Attributes;
+using Aramis.Core;
 using Aramis.DatabaseConnector;
 using Aramis.Enums;
 using Aramis.Platform;
-using Aramis.SystemConfigurations;
-using Aramis.Attributes;
+using Aramis.UI;
 using Aramis.UI.WinFormsDevXpress;
+using AramisInfostructure.Queries;
 using Catalogs;
 using DevExpress.XtraBars;
 using DevExpress.XtraBars.Ribbon;
 using DevExpress.XtraEditors;
-using Aramis.Core;
-using System.Windows.Forms;
 using FMCG.Utils.Printing;
+using System;
+using System.Windows.Forms;
 
 namespace AtosFMCG.DatabaseObjects.Catalogs
     {
@@ -117,7 +118,7 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
 
         private bool phoneIsNotUnique(long longMobile)
             {
-            Query query = DB.NewQuery("select top 1 cat.Description from Users as cat where cat.MobilePhone = @Phone and cat.Id <> @CurrentUserId");
+            IQuery query = DB.NewQuery("select top 1 cat.Description from Users as cat where cat.MobilePhone = @Phone and cat.Id <> @CurrentUserId");
             query.AddInputParameter("CurrentUserId", User.Id);
             query.AddInputParameter("Phone", longMobile);
 
@@ -151,9 +152,9 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
 
         private void UsersItemForm_FormClosed(object sender, FormClosedEventArgs e)
             {
-            if (!User.IsNew && SystemAramis.CurrentUser.Ref == User.Ref)
+            if (!User.IsNew && SystemAramis.CurrentUser.Ref.Equals(User.Ref))
                 {
-                UIConsts.Skin = User.Skin;
+                UIConsts.NotifyUserSkinWasReviewed(User.Skin);
                 }
             }
 
@@ -173,12 +174,12 @@ namespace AtosFMCG.DatabaseObjects.Catalogs
 
         private void Skin_Modified(object sender, EventArgs e)
             {
-            if (!User.IsNew && SystemAramis.CurrentUser.Ref == User.Ref)
+            if (!User.IsNew && SystemAramis.CurrentUser.Ref.Equals(User.Ref))
                 {
-                UIConsts.Skin = (Skins)(Skin.SelectedIndex);
+                UIConsts.NotifyUserSkinWasReviewed((Skins)(Skin.SelectedIndex));
 
-                UIConsts.WindowsManager.GetFormsList(AramisObjectType.Catalog, true).ForEach(ItemFormTuner.ComplateFormSkinUpdating);
-                UIConsts.WindowsManager.GetFormsList(AramisObjectType.Document, true).ForEach(ItemFormTuner.ComplateFormSkinUpdating);
+                UserInterface.WindowsManager.GetFormsList(AramisObjectType.Catalog, true).ForEach(ItemFormTuner.ComplateFormSkinUpdating);
+                UserInterface.WindowsManager.GetFormsList(AramisObjectType.Document, true).ForEach(ItemFormTuner.ComplateFormSkinUpdating);
                 }
             }
 

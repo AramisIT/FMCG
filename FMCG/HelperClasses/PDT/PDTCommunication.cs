@@ -8,9 +8,12 @@ using System.Windows.Input;
 using Aramis.Core;
 using Aramis.Core.WritingUtils;
 using Aramis.DatabaseConnector;
+using Aramis.Extensions;
 using Aramis.Platform;
 using Aramis.SystemConfigurations;
+using Aramis.UI;
 using Aramis.UI.WinFormsDevXpress;
+using AramisInfostructure.Queries;
 using AramisWpfComponents.Excel;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Documents;
@@ -56,7 +59,7 @@ namespace AtosFMCG.HelperClasses.PDT
                                         out string selectionDocCount, out string movementDocCount)
             {
             //Умова відбору: Стан = "Заплановано" + Не помічений на видалення + На сьогодні
-            Query query = DB.NewQuery(@"DECLARE @Today DATETIME2=CAST(GETDATE() AS DATE);
+            IQuery query = DB.NewQuery(@"DECLARE @Today DATETIME2=CAST(GETDATE() AS DATE);
 
 WITH
 Data AS (
@@ -88,7 +91,7 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Picking])) a
             query.AddInputParameter("PlanState", (int)StatesOfDocument.Planned);
             query.AddInputParameter("ProcessingState", (int)StatesOfDocument.Processing);
 
-            QueryResult result = query.SelectRow();
+            IQueryResult result = query.SelectRow();
 
             if (result == null)
                 {
@@ -149,7 +152,7 @@ PIVOT (MAX(Count) for Type in([Acceptance],[Inventory],[Selection],[Picking])) a
                 totalUnitsQuantity = sticker.UnitsQuantity;
 
                 cellId = rowCellId;
-                cellDescription = FastInput.GetCashedData(typeof(Cells).Name).GetDescription(rowCellId);
+                cellDescription = FastInputDataCache.GetCashedData(typeof(Cells).Name).GetDescription(rowCellId);
 
                 var q = DB.NewQuery("select count(*) from Barcodes where MarkForDeleting = 0 and Nomenclature = @Ware");
                 q.AddInputParameter("Ware", nomenclatureId);
@@ -477,7 +480,7 @@ ISNULL(tareTypes.wareType, case when Stock.Party = 0 then 1 else 0 end) Nomencla
                 newRow[inventory.StartCell] = Convert.ToInt64(sourceRow[inventory.StartCell.ColumnName]);
                 newRow[inventory.FinalCell] = Convert.ToInt64(sourceRow[inventory.FinalCell.ColumnName]);
 
-                newRow[Subtable.LINE_NUMBER_COLUMN_NAME] = lastLineNumber + rowIndex + 1;
+                newRow[CONSTS.LINE_NUMBER_COLUMN_NAME] = lastLineNumber + rowIndex + 1;
                 newRow.AddRowToTable(inventory);
                 }
 
@@ -513,7 +516,7 @@ case when rel.Quantity > 0 then 0 else @finishPrevPalet end FinalCodeOfPreviousP
                 var addTable = q.SelectToTable();
 
                 var emptyCell = Consts.EmptyCell.Id;
-                lastLineNumber = Convert.ToInt64(docTable.Rows[docTable.Rows.Count - 1][Subtable.LINE_NUMBER_COLUMN_NAME]);
+                lastLineNumber = Convert.ToInt64(docTable.Rows[docTable.Rows.Count - 1][CONSTS.LINE_NUMBER_COLUMN_NAME]);
                 for (int rowIndex = 0; rowIndex < addTable.Rows.Count; rowIndex++)
                     {
                     var sourceRow = addTable.Rows[rowIndex];
@@ -535,7 +538,7 @@ case when rel.Quantity > 0 then 0 else @finishPrevPalet end FinalCodeOfPreviousP
                     newRow[inventory.StartCell] = Convert.ToInt64(sourceRow[inventory.StartCell.ColumnName]);
                     newRow[inventory.FinalCell] = Convert.ToInt64(sourceRow[inventory.FinalCell.ColumnName]);
 
-                    newRow[Subtable.LINE_NUMBER_COLUMN_NAME] = lastLineNumber + rowIndex + 1;
+                    newRow[CONSTS.LINE_NUMBER_COLUMN_NAME] = lastLineNumber + rowIndex + 1;
                     newRow.AddRowToTable(inventory);
                     }
                 }
@@ -608,7 +611,7 @@ from @table");
                 newRow[document.StartCell] = Convert.ToInt64(sourceRow[document.StartCell.ColumnName]);
                 newRow[document.FinalCell] = Convert.ToInt64(sourceRow[document.FinalCell.ColumnName]);
                 newRow[document.Employee] = userId;
-                newRow[Subtable.LINE_NUMBER_COLUMN_NAME] = lastLineNumber + rowIndex + 1;
+                newRow[CONSTS.LINE_NUMBER_COLUMN_NAME] = lastLineNumber + rowIndex + 1;
                 newRow.AddRowToTable(document);
                 }
 
@@ -722,7 +725,7 @@ from @table");
 
                     newTaskRow.AddRowToTable(document);
 
-                    sameWareNextTaskLineNumber = Convert.ToInt32(newTaskRow[Subtable.LINE_NUMBER_COLUMN_NAME]);
+                    sameWareNextTaskLineNumber = Convert.ToInt32(newTaskRow[CONSTS.LINE_NUMBER_COLUMN_NAME]);
 
 
                     wareRow[document.PlanValue] = wareRow[document.FactValue];
@@ -854,7 +857,7 @@ order by [LineNumber]";
             {
             var stickersCreator = new StickersPrintingHelper(stickers);
 
-            (UIConsts.MainWindow as Form).Invoke(new Action(() => { stickersCreator.Print(); }));
+            (UserInterface.MainWindow as Form).Invoke(new Action(() => { stickersCreator.Print(); }));
             }
 
         public bool ReadConsts(out DataTable constsTable)

@@ -5,6 +5,7 @@ using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
 using Aramis.Enums;
+using Aramis.Extensions;
 using Aramis.Platform;
 using Aramis.SystemConfigurations;
 using Aramis.UI.WinFormsDevXpress;

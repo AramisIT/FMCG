@@ -54,12 +54,15 @@
     <Reference Include="Aramis system">
       <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\Aramis system.dll</HintPath>
     </Reference>
+    <Reference Include="AramisDesktopUserInterface">
+      <HintPath>..\..\..\UTK\Aramis.NET\AramisDesktopUI\bin\Release\AramisDesktopUserInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="AramisInfostructure">
+      <HintPath>..\..\..\UTK\Aramis.NET\AramisDesktopUI\bin\Release\AramisInfostructure.dll</HintPath>
+    </Reference>
     <Reference Include="AramisWpfComponents, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\UTK\AramisWpfComponents\AramisWpfComponents\bin\Release\AramisWpfComponents.dll</HintPath>
-    </Reference>
-    <Reference Include="Attributes">
-      <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\Attributes.dll</HintPath>
     </Reference>
     <Reference Include="ConnectionCreatorInterface">
       <HintPath>..\..\..\UTK\Aramis.NET\ConnectionCreatorInterface\bin\Release\ConnectionCreatorInterface.exe</HintPath>
@@ -83,9 +86,6 @@
     </Reference>
     <Reference Include="DevExpress.XtraGrid.v12.1, Version=12.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>True</Private>
-    </Reference>
-    <Reference Include="Extensions">
-      <HintPath>..\..\..\UTK\Aramis.NET\Aramis\bin\Release\Extensions.dll</HintPath>
     </Reference>
     <Reference Include="FMCG PDT Client API, Version=1.0.5055.18104, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

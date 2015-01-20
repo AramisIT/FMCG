@@ -4,6 +4,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using Aramis.DatabaseConnector;
+using AramisInfostructure.Queries;
 using AtosFMCG.DatabaseObjects.Documents;
 using AtosFMCG.TouchScreen.Controls;
 using AtosFMCG.TouchScreen.Screens.Base;
@@ -63,7 +64,7 @@ namespace AtosFMCG.TouchScreen.Screens
 
         private static DataTable updateCarList(string enterValue)
             {
-            Query query = DB.NewQuery(
+            IQuery query = DB.NewQuery(
                     @"
 select distinct pa.Car Id, RTRIM(c.Description) Description from AcceptancePlan pa 
 join Cars c on c.Id = pa.Car
@@ -97,7 +98,7 @@ order by RTRIM(c.Description)
 
         private DataTable updateIncoiceList(string enterValue)
             {
-            Query query = DB.NewQuery(@"
+            IQuery query = DB.NewQuery(@"
 SELECT p.Id,RTRIM('№ '+CAST(p.SupplierIncomeNumber AS VARCHAR)) Description 
 FROM AcceptancePlan p 
 WHERE 

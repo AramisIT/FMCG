@@ -1,4 +1,5 @@
 using Aramis.DatabaseConnector;
+using AramisInfostructure.Queries;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using Catalogs;
 
@@ -39,7 +40,7 @@ namespace AtosFMCG.HelperClasses
         public static void MovePalletToNewPlace(long palletCode, long newPreviousPallet = 0)
             {
             //Просто оновити попередню паллету для нашої паллети
-            Query query = DB.NewQuery("UPDATE FilledCell SET PreviousCode=@PreviousCode WHERE PalletCode=@PalletCode");
+            IQuery query = DB.NewQuery("UPDATE FilledCell SET PreviousCode=@PreviousCode WHERE PalletCode=@PalletCode");
             query.AddInputParameter("PreviousCode", newPreviousPallet);
             query.AddInputParameter("PalletCode", palletCode);
             query.Execute();
@@ -50,7 +51,7 @@ namespace AtosFMCG.HelperClasses
         public static void RemovePallet(long palletCode)
             {
             //Видалити рядок (в нашому випадку елемент довідника) з таблиці
-            Query query = DB.NewQuery("DELETE FROM FilledCell PalletCode=@PalletCode");
+            IQuery query = DB.NewQuery("DELETE FROM FilledCell PalletCode=@PalletCode");
             query.AddInputParameter("PalletCode", palletCode);
             query.Execute();
             } 

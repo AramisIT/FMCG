@@ -6,8 +6,10 @@ using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
 using Aramis.Enums;
+using Aramis.Extensions;
 using Aramis.Platform;
 using Aramis.UI.WinFormsDevXpress;
+using AramisInfostructure.Queries;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
@@ -296,7 +298,7 @@ namespace Documents
 
         public static long GetNewCode()
             {
-            Query query = DB.NewQuery(@"SELECT MAX(s.NomenclatureCode)+1 
+            IQuery query = DB.NewQuery(@"SELECT MAX(s.NomenclatureCode)+1 
 FROM AcceptanceOfGoods a
 JOIN SubAcceptanceOfGoodsNomenclatureInfo s ON s.IdDoc=a.Id");
             object code = query.SelectScalar();

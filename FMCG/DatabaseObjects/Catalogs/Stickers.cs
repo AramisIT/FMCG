@@ -287,7 +287,7 @@ namespace Catalogs
             BeforeWriting += Stickers_BeforeWriting;
             }
 
-        void Stickers_BeforeWriting(DatabaseObject item, ref bool cancel)
+        void Stickers_BeforeWriting(IDatabaseObject item, ref bool cancel)
             {
             if (IsModified)
                 {

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using SystemObjects;
+using Aramis.Core;
 using Aramis.Core.WritingUtils;
 using Aramis.DatabaseConnector;
 using Aramis.DatabaseUpdating;
@@ -158,7 +159,7 @@ namespace AtosFMCG
         /// <summary>Права</summary>
         private void openRights_ItemClick(object sender, ItemClickEventArgs e)
             {
-            PlatformMethods.ObjectsPermissions();
+            UserInterface.Current.ShowPermitionsSettings();
             }
         #endregion
 
@@ -194,7 +195,7 @@ namespace AtosFMCG
 
                         UIConsts.SessionUpdated += () =>
                             {
-                                method().ForEach(kvp => UIConsts.UpdateSession(kvp.Key, kvp.Value));
+                            method().ForEach(kvp => SystemAramis.UpdateSession(kvp.Key, kvp.Value));
                             };
 
                         showSuccessResultOfConnection();

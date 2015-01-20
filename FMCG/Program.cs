@@ -1,5 +1,6 @@
-﻿using System;
-using Aramis.Platform;
+﻿using Aramis.Platform;
+using AramisDesktopUserInterface;
+using System;
 
 namespace AtosFMCG
     {
@@ -9,7 +10,7 @@ namespace AtosFMCG
         [STAThread]
         public static void Main(string[] args)
             {
-            SystemAramis.SystemStart( args, typeof( AramisMainWindow ) );
+            SystemAramis.SystemStart(args, new DesktopUserInterfaceEngine(typeof(AramisMainWindow)));
             }
         }
     }

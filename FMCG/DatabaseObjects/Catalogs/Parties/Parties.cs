@@ -4,6 +4,7 @@ using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
 using Aramis.Enums;
+using AramisInfostructure.Queries;
 using AtosFMCG.DatabaseObjects.Interfaces;
 
 namespace Catalogs
@@ -127,7 +128,7 @@ namespace Catalogs
         #region static
         public static DateTime GetDateOfManufactureById(long partyId)
             {
-            Query query = DB.NewQuery("SELECT DateOfManufacture FROM Parties WHERE Id=@Id");
+            IQuery query = DB.NewQuery("SELECT DateOfManufacture FROM Parties WHERE Id=@Id");
             query.AddInputParameter("Id", partyId);
             object date = query.SelectScalar();
 
@@ -137,7 +138,7 @@ namespace Catalogs
 
         internal static Parties Find(long nomenclatureId, DateTime productionDate, int shelfLifeDays)
             {
-            Query query = DB.NewQuery(@"SELECT Top 1 Id 
+            IQuery query = DB.NewQuery(@"SELECT Top 1 Id 
 FROM Parties 
 WHERE markForDeleting = 0 
     and Nomenclature=@Nomenclature 

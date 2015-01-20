@@ -1,6 +1,7 @@
 ﻿using System;
 using Aramis;
 using Aramis.Attributes;
+using AramisInfostructure.Core;
 using AtosFMCG.DatabaseObjects.Interfaces;
 
 namespace Catalogs
@@ -52,14 +53,14 @@ namespace Catalogs
         private const string CATALOG_NAME = "Roles";
 
         /// <summary>Менеджер ТСД</summary>
-        public static DBObjectRef ManagerOfPDT
+        public static IDBObjectRef ManagerOfPDT
             {
             get
                 {
                 return z_ManagerOfPDT ?? (z_ManagerOfPDT = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "Менеджер ТСД"));
                 }
             }
-        private static DBObjectRef z_ManagerOfPDT;
+        private static IDBObjectRef z_ManagerOfPDT;
         #endregion
         }
     }

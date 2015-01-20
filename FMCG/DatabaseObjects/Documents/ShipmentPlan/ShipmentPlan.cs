@@ -8,6 +8,7 @@ using Aramis.Enums;
 using Aramis.Platform;
 using Aramis.UI;
 using Aramis.UI.WinFormsDevXpress;
+using AramisInfostructure.Queries;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Interfaces;
 using AtosFMCG.Enums;
@@ -336,14 +337,14 @@ namespace Documents
             //            movement.SetSubtableModified(movement.NomenclatureInfo.TableName);
             }
 
-        void movement_AfterWriting(DatabaseObject item)
+        void movement_AfterWriting(IDatabaseObject item)
             {
             OnMovementDocIsAssigned();
             }
 
         private long getMovementId()
             {
-            Query query = DB.NewQuery(@"
+            IQuery query = DB.NewQuery(@"
 DECLARE @ShipmentPlanType uniqueidentifier='029B0572-E5B5-48CD-9805-1211319A5633'
 
 SELECT TOP 1 Id

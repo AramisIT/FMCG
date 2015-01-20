@@ -5,7 +5,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
+using Aramis.Extensions;
 using Aramis.UI.WinFormsDevXpress;
+using AramisInfostructure.Queries;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using AtosFMCG.DatabaseObjects.Documents;
 using AtosFMCG.TouchScreen.Events;
@@ -282,7 +284,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
         private DataTable UpdateDriver(string enterValue)
             {
-            Query query = DB.NewQuery(
+            IQuery query = DB.NewQuery(
                 "SELECT Id,RTRIM(Description)Description FROM Drivers WHERE Description like '%'+@Driver+'%' AND IsGroup=0 ORDER BY Description");
             query.AddInputParameter("Driver", enterValue);
             DataTable table = query.SelectToTable();
@@ -315,7 +317,7 @@ namespace AtosFMCG.TouchScreen.Controls
 
         private DataTable UpdateCar(string enterValue)
             {
-            Query query = DB.NewQuery(
+            IQuery query = DB.NewQuery(
                 "SELECT Id,RTRIM(Description)Description FROM Cars WHERE Description like '%'+@Car+'%' AND IsGroup=0 ORDER BY Description");
             query.AddInputParameter("Car", enterValue);
             DataTable table = query.SelectToTable();
@@ -621,7 +623,7 @@ and MarkForDeleting = 0
 
         private DataTable UpdateNomenclature(string enterValue, bool isTare)
             {
-            Query query = DB.NewQuery(
+            IQuery query = DB.NewQuery(
                 @"SELECT Id,RTRIM(Description)Description FROM Nomenclature 
                 WHERE MarkForDeleting = 0 and IsTare = @IsTare 
                 and (@IsTare = 1 or (UnitsQuantityPerPallet>0 and UnitsQuantityPerPack>0))
@@ -851,7 +853,7 @@ and MarkForDeleting = 0
                     if (isTare)
                         {
                         nomenclatureDescription =
-                            FastInput.GetCashedData(typeof(Nomenclature).Name).GetDescription(nomemclatureId);
+                            FastInputDataCache.GetCashedData(typeof(Nomenclature).Name).GetDescription(nomemclatureId);
                         }
                     else
                         {

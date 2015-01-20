@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Aramis.DatabaseConnector;
 using Aramis.SystemConfigurations;
+using AramisInfostructure.Core.InfoContainers;
+using AramisInfostructure.Queries;
 
 namespace AtosFMCG
     {
@@ -13,11 +15,12 @@ namespace AtosFMCG
 
         public static Dictionary<string, bool> Run()
             {
-            SortedDictionary<string, DatabaseObjectInfo>.ValueCollection list =
+            SortedDictionary<string, IDatabaseObjectInfo>.ValueCollection list =
                 SystemConfiguration.DBConfigurationTree.Values;
-            Dictionary<string, bool> resultDic = new Dictionary<string, bool>();
 
-            foreach (DatabaseObjectInfo info in list)
+            var resultDic = new Dictionary<string, bool>();
+
+            foreach (IDatabaseObjectInfo info in list)
                 {
                 bool result = alterColumnToTable(info);
                 resultDic.Add(string.Format("{0} ({1})", info.Type.Name, info.Description), result);
@@ -26,7 +29,7 @@ namespace AtosFMCG
             return resultDic;
             }
 
-        private static bool alterColumnToTable(DatabaseObjectInfo info)
+        private static bool alterColumnToTable(IDatabaseObjectInfo info)
             {
             if (!checkColumnForExist(info.Type.Name))
                 {
@@ -39,7 +42,7 @@ namespace AtosFMCG
         private static bool checkColumnForExist(string tableName)
             {
             string command = string.Format(CHECK_SCRIPT, COLUMN_NAME, tableName);
-            Query query = DB.NewQuery(command);
+            IQuery query = DB.NewQuery(command);
             query.Execute();
 
             return query.SuccessfulExecution;
@@ -48,7 +51,7 @@ namespace AtosFMCG
         private static bool addColumn(string tableName)
             {
             string command = string.Format(ADD_SCRIPT, tableName, COLUMN_NAME);
-            Query query = DB.NewQuery(command);
+            IQuery query = DB.NewQuery(command);
             query.Execute();
 
             return query.SuccessfulExecution;

@@ -2,6 +2,7 @@ using Aramis;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.Enums;
+using AramisInfostructure.Core;
 using Catalogs;
 
 namespace Catalogs
@@ -35,38 +36,38 @@ namespace Catalogs
         private const string CATALOG_NAME = "ClassifierUnits";
 
         /// <summary>ящик</summary>
-        public static DBObjectRef Box
+        public static IDBObjectRef Box
             {
             get
                 {
                 return z_Box ?? (z_Box = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "ящик"));
                 }
             }
-        private static DBObjectRef z_Box;
+        private static IDBObjectRef z_Box;
 
         /// <summary>
         /// Ѕутилка
         /// </summary>
-        public static DBObjectRef Bottle
+        public static IDBObjectRef Bottle
             {
             get
                 {
                 return z_Bottle ?? (z_Bottle = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "Ѕутилка"));
                 }
             }
-        private static DBObjectRef z_Bottle;
+        private static IDBObjectRef z_Bottle;
 
         /// <summary>
         ///  ѕаллета 
         /// </summary>
-        public static DBObjectRef Pallet
+        public static IDBObjectRef Pallet
             {
             get
                 {
                 return z_Pallet ?? (z_Pallet = PredefinedElements.GetPredefinedRef(CATALOG_NAME, "ѕаллета"));
                 }
             }
-        private static DBObjectRef z_Pallet;
+        private static IDBObjectRef z_Pallet;
         #endregion
         }
     }

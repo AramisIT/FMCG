@@ -2,6 +2,7 @@ using System;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.DatabaseConnector;
+using AramisInfostructure.Queries;
 using AtosFMCG.DatabaseObjects.Interfaces;
 
 namespace Catalogs
@@ -92,7 +93,7 @@ namespace Catalogs
         #region Get Box
         public static long GetBoxForPallet(long palletId)
             {
-            Query query = DB.NewQuery(@"WITH
+            IQuery query = DB.NewQuery(@"WITH
 NomenclatureTable AS (SELECT Nomenclature,MeasureUnit FROM StockBalance b WHERE b.UniqueCode=@Pallet)
 , BoxTable AS (SELECT * FROM Measures WHERE Classifier=@Box)
 	
@@ -118,7 +119,7 @@ JOIN BoxTable b ON b.Id=n.MeasureUnit");
 
         public static long GetMeasureForNomenclature(long nomenclatureId, long classifier)
             {
-            Query query = DB.NewQuery(@"SELECT Id FROM Measures m WHERE m.Nomenclature=@Nomenclature AND m.Classifier=@Classifier");
+            IQuery query = DB.NewQuery(@"SELECT Id FROM Measures m WHERE m.Nomenclature=@Nomenclature AND m.Classifier=@Classifier");
             query.AddInputParameter("Nomenclature", nomenclatureId);
             query.AddInputParameter("Classifier", classifier);
             object idObj = query.SelectScalar();

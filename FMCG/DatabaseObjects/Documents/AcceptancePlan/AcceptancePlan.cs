@@ -5,6 +5,7 @@ using System.Windows.Documents;
 using Aramis.Attributes;
 using Aramis.Core;
 using Aramis.Enums;
+using Aramis.Extensions;
 using Aramis.Platform;
 using Aramis.UI.WinFormsDevXpress;
 using AtosFMCG.DatabaseObjects.Catalogs;

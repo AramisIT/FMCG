@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Aramis;
+using Aramis.Core;
 using Aramis.DatabaseConnector;
 using Aramis.SystemConfigurations;
+using AramisInfostructure.Queries;
 
 namespace AtosFMCG.HelperClasses.Deleted
     {
@@ -178,7 +180,7 @@ left join {3} on MarkForDeletingObjects.Id = [{3}].[{2}]
                 holders.Append(holders.Length == 0 ? holder : "\r\nunion all\r\n\r\n" + holder);
                 }
 
-            Query query = DB.NewQuery(string.Format(format, links.ObjectName, holders));
+            IQuery query = DB.NewQuery(string.Format(format, links.ObjectName, holders));
             query.AddInputParameter("Id", id);
             DataTable table = query.SelectToTable();
             

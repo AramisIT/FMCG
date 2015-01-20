@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Aramis.DatabaseConnector;
+using AramisInfostructure.Queries;
 using AtosFMCG.DatabaseObjects.Catalogs;
 using Catalogs;
 
@@ -175,7 +176,7 @@ namespace AtosFMCG.HelperClasses
             if (CheckMatchingBarcodeAndType(barcode, type, out id))
                 {
                 string command = String.Format("SELECT RTRIM(Description) FROM {0} WHERE Id=@Id", type.Name);
-                Query query = DB.NewQuery(command);
+                IQuery query = DB.NewQuery(command);
                 query.AddInputParameter("Id", id);
                 object descriptionObj = query.SelectScalar();
 
