@@ -195,7 +195,7 @@ namespace AtosFMCG
 
                         UIConsts.SessionUpdated += () =>
                             {
-                            method().ForEach(kvp => SystemAramis.UpdateSession(kvp.Key, kvp.Value));
+                                method().ForEach(kvp => SystemAramis.UpdateSession(kvp.Key, kvp.Value));
                             };
 
                         showSuccessResultOfConnection();
@@ -322,11 +322,6 @@ namespace AtosFMCG
             }
         #endregion
 
-        private void starterUploadBarButtonItem_ItemClick(object sender, ItemClickEventArgs e)
-            {
-            PlatformMethods.UploadLoaderFiles(true);
-            }
-
         private void barButtonItem3_ItemClick(object sender, ItemClickEventArgs e)
             {
             UserInterface.Current.ShowList(typeof(AcceptancePlan));
@@ -335,11 +330,6 @@ namespace AtosFMCG
         private void barButtonItem5_ItemClick(object sender, ItemClickEventArgs e)
             {
             UserInterface.Current.ShowList(typeof(AcceptanceOfGoods));
-            }
-
-        private void barButtonItem6_ItemClick(object sender, ItemClickEventArgs e)
-            {
-            PlatformMethods.UploadLoaderFiles(true);
             }
 
         private void barButtonItem7_ItemClick(object sender, ItemClickEventArgs e)

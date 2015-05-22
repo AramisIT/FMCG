@@ -28,15 +28,16 @@
         /// </summary>
         private void InitializeComponent()
             {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AramisMainWindow));
             DevExpress.Utils.SuperToolTip superToolTip1 = new DevExpress.Utils.SuperToolTip();
             DevExpress.Utils.ToolTipTitleItem toolTipTitleItem1 = new DevExpress.Utils.ToolTipTitleItem();
             DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
-            this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu();
+            this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
             this.barButtonItem30 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem31 = new DevExpress.XtraBars.BarButtonItem();
-            this.smallImagesCollection = new DevExpress.Utils.ImageCollection();
+            this.smallImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.openCatalogs = new DevExpress.XtraBars.BarButtonItem();
             this.openDocuments = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
@@ -53,11 +54,9 @@
             this.loadScreen = new DevExpress.XtraBars.BarButtonItem();
             this.printPalletLabel = new DevExpress.XtraBars.BarButtonItem();
             this.tstInvoke = new DevExpress.XtraBars.BarButtonItem();
-            this.starterUploadBarButtonItem = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem1 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem6 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem8 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem9 = new DevExpress.XtraBars.BarButtonItem();
@@ -81,7 +80,7 @@
             this.barButtonItem27 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem28 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem29 = new DevExpress.XtraBars.BarButtonItem();
-            this.largeImagesCollection = new DevExpress.Utils.ImageCollection();
+            this.largeImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.ribbonPage1 = new DevExpress.XtraBars.Ribbon.RibbonPage();
             this.ribbonPageGroup2 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup3 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
@@ -101,7 +100,7 @@
             this.testsPageGroup = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonPageGroup4 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.ribbonStatusBar = new DevExpress.XtraBars.Ribbon.RibbonStatusBar();
-            this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel();
+            this.defaultLookAndFeel = new DevExpress.LookAndFeel.DefaultLookAndFeel(this.components);
             this.barButtonItem4 = new DevExpress.XtraBars.BarButtonItem();
             this.ribbonPageGroup1 = new DevExpress.XtraBars.Ribbon.RibbonPageGroup();
             this.barButtonItem12 = new DevExpress.XtraBars.BarButtonItem();
@@ -137,11 +136,9 @@
             this.loadScreen,
             this.printPalletLabel,
             this.tstInvoke,
-            this.starterUploadBarButtonItem,
             this.barButtonItem1,
             this.barButtonItem3,
             this.barButtonItem5,
-            this.barButtonItem6,
             this.barButtonItem7,
             this.barButtonItem8,
             this.barButtonItem9,
@@ -353,13 +350,6 @@
             this.tstInvoke.Name = "tstInvoke";
             this.tstInvoke.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.tstInvoke_ItemClick);
             // 
-            // starterUploadBarButtonItem
-            // 
-            this.starterUploadBarButtonItem.Caption = "Загрузка файлов стартера";
-            this.starterUploadBarButtonItem.Id = 40;
-            this.starterUploadBarButtonItem.Name = "starterUploadBarButtonItem";
-            this.starterUploadBarButtonItem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.starterUploadBarButtonItem_ItemClick);
-            // 
             // barButtonItem1
             // 
             this.barButtonItem1.Caption = "Тачскрин+";
@@ -383,13 +373,6 @@
             this.barButtonItem5.LargeGlyph = global::FMCG.Properties.Resources.Acceptance;
             this.barButtonItem5.Name = "barButtonItem5";
             this.barButtonItem5.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem5_ItemClick);
-            // 
-            // barButtonItem6
-            // 
-            this.barButtonItem6.Caption = "Загрузка стартера";
-            this.barButtonItem6.Id = 44;
-            this.barButtonItem6.Name = "barButtonItem6";
-            this.barButtonItem6.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem6_ItemClick);
             // 
             // barButtonItem7
             // 
@@ -696,7 +679,6 @@
             this.updGroup.ItemLinks.Add(this.UpdateDBStructureButton);
             this.updGroup.ItemLinks.Add(this.FastDBUpdateButton);
             this.updGroup.ItemLinks.Add(this.updateSystem);
-            this.updGroup.ItemLinks.Add(this.barButtonItem6);
             this.updGroup.ItemLinks.Add(this.barButtonItem8);
             this.updGroup.ItemLinks.Add(this._PDTUpdateButton);
             this.updGroup.Name = "updGroup";
@@ -816,7 +798,6 @@
         private DevExpress.XtraBars.BarButtonItem tstInvoke;
         private DevExpress.XtraBars.Ribbon.RibbonPage adminPropertiesPage;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup updatePageGroup;
-        private DevExpress.XtraBars.BarButtonItem starterUploadBarButtonItem;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup1;
         private DevExpress.XtraBars.Ribbon.RibbonPage ribbonPage1;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup2;
@@ -824,7 +805,6 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem1;
         private DevExpress.XtraBars.BarButtonItem barButtonItem3;
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem6;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup5;
         private DevExpress.XtraBars.BarButtonItem barButtonItem7;
        
