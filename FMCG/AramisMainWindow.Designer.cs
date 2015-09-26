@@ -35,8 +35,6 @@
             DevExpress.Utils.ToolTipItem toolTipItem1 = new DevExpress.Utils.ToolTipItem();
             this.ribbon = new DevExpress.XtraBars.Ribbon.RibbonControl();
             this.applicationMenu1 = new DevExpress.XtraBars.Ribbon.ApplicationMenu(this.components);
-            this.barButtonItem30 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem31 = new DevExpress.XtraBars.BarButtonItem();
             this.smallImagesCollection = new DevExpress.Utils.ImageCollection(this.components);
             this.openCatalogs = new DevExpress.XtraBars.BarButtonItem();
             this.openDocuments = new DevExpress.XtraBars.BarButtonItem();
@@ -149,9 +147,7 @@
             this.barButtonItem26,
             this.barButtonItem27,
             this.barButtonItem28,
-            this.barButtonItem29,
-            this.barButtonItem30,
-            this.barButtonItem31});
+            this.barButtonItem29});
             this.ribbon.LargeImages = this.largeImagesCollection;
             this.ribbon.Location = new System.Drawing.Point(0, 0);
             this.ribbon.MaxItemId = 74;
@@ -168,26 +164,8 @@
             // 
             // applicationMenu1
             // 
-            this.applicationMenu1.ItemLinks.Add(this.barButtonItem30);
-            this.applicationMenu1.ItemLinks.Add(this.barButtonItem31);
             this.applicationMenu1.Name = "applicationMenu1";
             this.applicationMenu1.Ribbon = this.ribbon;
-            // 
-            // barButtonItem30
-            // 
-            this.barButtonItem30.Caption = "Выход";
-            this.barButtonItem30.Glyph = global::FMCG.Properties.Resources.Quit;
-            this.barButtonItem30.Id = 72;
-            this.barButtonItem30.Name = "barButtonItem30";
-            this.barButtonItem30.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem30_ItemClick);
-            // 
-            // barButtonItem31
-            // 
-            this.barButtonItem31.Caption = "Перезагрузить систему";
-            this.barButtonItem31.Glyph = global::FMCG.Properties.Resources.Restart;
-            this.barButtonItem31.Id = 73;
-            this.barButtonItem31.Name = "barButtonItem31";
-            this.barButtonItem31.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem31_ItemClick);
             // 
             // smallImagesCollection
             // 
@@ -764,8 +742,6 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem29;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup4;
         private DevExpress.XtraBars.Ribbon.ApplicationMenu applicationMenu1;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem30;
-        private DevExpress.XtraBars.BarButtonItem barButtonItem31;
 
         }
     }
