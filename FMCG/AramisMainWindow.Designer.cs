@@ -41,16 +41,11 @@
             this.openCatalogs = new DevExpress.XtraBars.BarButtonItem();
             this.openDocuments = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem2 = new DevExpress.XtraBars.BarButtonItem();
-            this.UpdateDBStructureButton = new DevExpress.XtraBars.BarButtonItem();
             this.delMarked = new DevExpress.XtraBars.BarButtonItem();
-            this.updateSystem = new DevExpress.XtraBars.BarButtonItem();
-            this.FastDBUpdateButton = new DevExpress.XtraBars.BarButtonItem();
-            this.openRights = new DevExpress.XtraBars.BarButtonItem();
             this.openUsers = new DevExpress.XtraBars.BarButtonItem();
             this.openReportsSetting = new DevExpress.XtraBars.BarButtonItem();
             this.serverState = new DevExpress.XtraBars.BarButtonItem();
             this.ltlServerState = new DevExpress.XtraBars.BarButtonItem();
-            this.openConsts = new DevExpress.XtraBars.BarButtonItem();
             this.loadScreen = new DevExpress.XtraBars.BarButtonItem();
             this.printPalletLabel = new DevExpress.XtraBars.BarButtonItem();
             this.tstInvoke = new DevExpress.XtraBars.BarButtonItem();
@@ -58,7 +53,6 @@
             this.barButtonItem3 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem5 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem7 = new DevExpress.XtraBars.BarButtonItem();
-            this.barButtonItem8 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem9 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem10 = new DevExpress.XtraBars.BarButtonItem();
             this.barButtonItem11 = new DevExpress.XtraBars.BarButtonItem();
@@ -123,16 +117,11 @@
             this.openCatalogs,
             this.openDocuments,
             this.barButtonItem2,
-            this.UpdateDBStructureButton,
             this.delMarked,
-            this.updateSystem,
-            this.FastDBUpdateButton,
-            this.openRights,
             this.openUsers,
             this.openReportsSetting,
             this.serverState,
             this.ltlServerState,
-            this.openConsts,
             this.loadScreen,
             this.printPalletLabel,
             this.tstInvoke,
@@ -140,7 +129,6 @@
             this.barButtonItem3,
             this.barButtonItem5,
             this.barButtonItem7,
-            this.barButtonItem8,
             this.barButtonItem9,
             this.barButtonItem10,
             this.barButtonItem11,
@@ -175,7 +163,7 @@
             this.adminPropertiesPage});
             this.ribbon.RibbonStyle = DevExpress.XtraBars.Ribbon.RibbonControlStyle.Office2010;
             this.ribbon.ShowExpandCollapseButton = DevExpress.Utils.DefaultBoolean.False;
-            this.ribbon.Size = new System.Drawing.Size(1196, 144);
+            this.ribbon.Size = new System.Drawing.Size(1090, 144);
             this.ribbon.StatusBar = this.ribbonStatusBar;
             // 
             // applicationMenu1
@@ -238,14 +226,6 @@
             this.barButtonItem2.Id = 3;
             this.barButtonItem2.Name = "barButtonItem2";
             // 
-            // UpdateDBStructureButton
-            // 
-            this.UpdateDBStructureButton.Caption = "Оновлення БД з формою";
-            this.UpdateDBStructureButton.Id = 5;
-            this.UpdateDBStructureButton.ImageIndex = 25;
-            this.UpdateDBStructureButton.Name = "UpdateDBStructureButton";
-            this.UpdateDBStructureButton.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.UpdateDBStructureButton_ItemClick);
-            // 
             // delMarked
             // 
             this.delMarked.Caption = "Видалення помічених";
@@ -253,30 +233,6 @@
             this.delMarked.ImageIndex = 4;
             this.delMarked.Name = "delMarked";
             this.delMarked.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openDeleteMarked_ItemClick);
-            // 
-            // updateSystem
-            // 
-            this.updateSystem.Caption = "Оновлення системи";
-            this.updateSystem.Id = 10;
-            this.updateSystem.ImageIndex = 13;
-            this.updateSystem.Name = "updateSystem";
-            this.updateSystem.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openFullUpdate_ItemClick);
-            // 
-            // FastDBUpdateButton
-            // 
-            this.FastDBUpdateButton.Caption = "Оновлення БД без форми";
-            this.FastDBUpdateButton.Id = 13;
-            this.FastDBUpdateButton.ImageIndex = 26;
-            this.FastDBUpdateButton.Name = "FastDBUpdateButton";
-            this.FastDBUpdateButton.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.FastDBUpdateButton_ItemClick);
-            // 
-            // openRights
-            // 
-            this.openRights.Caption = "Обмеження доступу";
-            this.openRights.Id = 16;
-            this.openRights.ImageIndex = 34;
-            this.openRights.Name = "openRights";
-            this.openRights.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openRights_ItemClick);
             // 
             // openUsers
             // 
@@ -318,14 +274,6 @@
             this.ltlServerState.ImageIndex = 1;
             this.ltlServerState.Name = "ltlServerState";
             this.ltlServerState.Visibility = DevExpress.XtraBars.BarItemVisibility.Never;
-            // 
-            // openConsts
-            // 
-            this.openConsts.Caption = "Налаштування";
-            this.openConsts.Id = 34;
-            this.openConsts.LargeGlyph = global::FMCG.Properties.Resources._1303219717_Settings;
-            this.openConsts.Name = "openConsts";
-            this.openConsts.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.openConsts_ItemClick);
             // 
             // loadScreen
             // 
@@ -380,13 +328,6 @@
             this.barButtonItem7.Id = 45;
             this.barButtonItem7.Name = "barButtonItem7";
             this.barButtonItem7.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem7_ItemClick);
-            // 
-            // barButtonItem8
-            // 
-            this.barButtonItem8.Caption = "Update Reminders";
-            this.barButtonItem8.Id = 46;
-            this.barButtonItem8.Name = "barButtonItem8";
-            this.barButtonItem8.ItemClick += new DevExpress.XtraBars.ItemClickEventHandler(this.barButtonItem8_ItemClick);
             // 
             // barButtonItem9
             // 
@@ -676,10 +617,6 @@
             // 
             // updGroup
             // 
-            this.updGroup.ItemLinks.Add(this.UpdateDBStructureButton);
-            this.updGroup.ItemLinks.Add(this.FastDBUpdateButton);
-            this.updGroup.ItemLinks.Add(this.updateSystem);
-            this.updGroup.ItemLinks.Add(this.barButtonItem8);
             this.updGroup.ItemLinks.Add(this._PDTUpdateButton);
             this.updGroup.Name = "updGroup";
             this.updGroup.ShowCaptionButton = false;
@@ -687,9 +624,7 @@
             // 
             // updatePageGroup
             // 
-            this.updatePageGroup.ItemLinks.Add(this.openRights);
             this.updatePageGroup.ItemLinks.Add(this.delMarked);
-            this.updatePageGroup.ItemLinks.Add(this.openConsts);
             this.updatePageGroup.Name = "updatePageGroup";
             this.updatePageGroup.Text = "Настройки";
             // 
@@ -712,7 +647,7 @@
             this.ribbonStatusBar.Location = new System.Drawing.Point(0, 553);
             this.ribbonStatusBar.Name = "ribbonStatusBar";
             this.ribbonStatusBar.Ribbon = this.ribbon;
-            this.ribbonStatusBar.Size = new System.Drawing.Size(1196, 31);
+            this.ribbonStatusBar.Size = new System.Drawing.Size(1090, 31);
             // 
             // defaultLookAndFeel
             // 
@@ -728,11 +663,7 @@
             // 
             // ribbonPageGroup1
             // 
-            this.ribbonPageGroup1.ItemLinks.Add(this.UpdateDBStructureButton);
-            this.ribbonPageGroup1.ItemLinks.Add(this.FastDBUpdateButton);
-            this.ribbonPageGroup1.ItemLinks.Add(this.updateSystem);
             this.ribbonPageGroup1.ItemLinks.Add(this.delMarked);
-            this.ribbonPageGroup1.ItemLinks.Add(this.openRights);
             this.ribbonPageGroup1.Name = "ribbonPageGroup1";
             this.ribbonPageGroup1.ShowCaptionButton = false;
             this.ribbonPageGroup1.Text = "Оновлення";
@@ -748,7 +679,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1196, 584);
+            this.ClientSize = new System.Drawing.Size(1090, 584);
             this.Controls.Add(this.ribbonStatusBar);
             this.Controls.Add(this.ribbon);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -780,19 +711,14 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem4;
         private DevExpress.XtraBars.BarButtonItem openDocuments;
         private DevExpress.XtraBars.BarButtonItem barButtonItem2;
-        private DevExpress.XtraBars.BarButtonItem UpdateDBStructureButton;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup updGroup;
         private DevExpress.XtraBars.BarButtonItem delMarked;
-        private DevExpress.XtraBars.BarButtonItem updateSystem;
-        private DevExpress.XtraBars.BarButtonItem FastDBUpdateButton;
-        private DevExpress.XtraBars.BarButtonItem openRights;
         private DevExpress.XtraBars.BarButtonItem openUsers;
         private DevExpress.XtraBars.BarButtonItem openReportsSetting;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup favGroup;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup testGroup;
         private DevExpress.XtraBars.BarButtonItem serverState;
         private DevExpress.XtraBars.BarButtonItem ltlServerState;
-        private DevExpress.XtraBars.BarButtonItem openConsts;
         private DevExpress.XtraBars.BarButtonItem loadScreen;
         private DevExpress.XtraBars.BarButtonItem printPalletLabel;
         private DevExpress.XtraBars.BarButtonItem tstInvoke;
@@ -807,8 +733,6 @@
         private DevExpress.XtraBars.BarButtonItem barButtonItem5;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup ribbonPageGroup5;
         private DevExpress.XtraBars.BarButtonItem barButtonItem7;
-       
-        private DevExpress.XtraBars.BarButtonItem barButtonItem8;
         
         private DevExpress.XtraBars.BarButtonItem barButtonItem9;
         private DevExpress.XtraBars.Ribbon.RibbonPageGroup dctServerGroup;
