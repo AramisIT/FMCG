@@ -147,9 +147,9 @@ namespace Catalogs
             get { return string.Format("C.{0};{1}", Id, Description); }
             }
 
-        public override Dictionary<string, Action> GetActions()
+        public override Dictionary<string, Func<bool>> GetActions()
             {
-            var result = new Dictionary<string, Action>();
+            var result = new Dictionary<string, Func<bool>>();
 
             result.Add("Друкувати", () => new CellsPrintingHelper(new List<Cells>() { this }).Print());
 
@@ -158,13 +158,15 @@ namespace Catalogs
             return result;
             }
 
-        public void UpdateDescription(string prefix = "")
+        public bool UpdateDescription(string prefix = "")
             {
             if (string.IsNullOrEmpty(prefix) && Description.Trim().Length > 0)
                 {
                 prefix = Description.Substring(0, 1);
                 }
             Description = string.Format("{0} {1:D2}-{2:D2}", prefix.Trim(), Row, Rack);
+
+            return true;
             }
         }
     }

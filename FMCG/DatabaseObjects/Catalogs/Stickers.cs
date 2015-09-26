@@ -295,20 +295,20 @@ namespace Catalogs
                 }
             }
 
-        public void Print()
+        public bool Print()
             {
-            printSticker(this);
+            return printSticker(this);
             }
 
-        private void printSticker(Stickers sticker)
+        private bool printSticker(Stickers sticker)
             {
             var stickersCreator = new StickersPrintingHelper(new List<Stickers>() { sticker });
-            stickersCreator.Print();
+            return stickersCreator.Print();
             }
 
-        public override Dictionary<string, Action> GetActions()
+        public override Dictionary<string, Func<bool>> GetActions()
             {
-            var actions = new Dictionary<string, Action>() { { "Друк", Print } };
+            var actions = new Dictionary<string, Func<bool>>() { { "Друк", Print } };
             return actions;
             }
         }
